@@ -1,12 +1,11 @@
 // LoginAPI.js - Login Endpoint
 
+// setting up middleware and hashing
 const express = require("express");
-// const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const client = require("../db");
 const bcrypt = require("bcrypt");
-
 const router = express.Router();
 
 router.post("/api/login", async (req, res, next) => {
