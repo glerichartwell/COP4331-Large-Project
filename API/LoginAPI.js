@@ -4,7 +4,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const client = require("../db");
+const client = require("../App/db");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 
