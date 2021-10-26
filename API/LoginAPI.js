@@ -16,27 +16,27 @@ router.post("/api/login", async (req, res, next) => {
   var id = -1;
   var fn = "";
   var ln = "";
-  const { login, password } = req.body;
+  const { email, password } = req.body;
   const db = client.db();
 
   // get trainer or client from database no hash
   const trainerResults = await db
     .collection("Trainer")
-    .find({ email: login, password: password })
+    .find({ email: email, password: password })
     .toArray();
   const clientResults = await db
     .collection("Client")
-    .find({ email: login, password: password })
+    .find({ email: email, password: password })
     .toArray();
 
   // get trainer or client from database (hash)
   // const trainerResults = await db
   //   .collection("Trainer")
-  //   .find({ email: login })
+  //   .find({ email: email })
   //   .toArray();
   // const clientResults = await db
   //   .collection("Client")
-  //   .find({ email: login })
+  //   .find({ email: email })
   //   .toArray();
 
   // Determine if it is a trainer or client logging in.

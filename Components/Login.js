@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import reactDom from "react-dom";
 
 function Login() {
-  var loginName;
-  var loginPassword;
+  var email;
+  var password;
 
   const [message, setMessage] = useState("");
 
@@ -29,11 +29,12 @@ function Login() {
   const doLogin = async (event) => {
     event.preventDefault();
 
-    var obj = { login: loginName.value, password: loginPassword.value };
+    var obj = { email: email.value, password: password.value };
     var js = JSON.stringify(obj);
 
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      //              CHANGE URL               !!!!!!!!
+      const response = await fetch("http://localhost:5000/API/LoginAPI", {
         method: "POST",
         body: js,
         headers: { "Content-Type": "application/json" },
@@ -42,7 +43,7 @@ function Login() {
       var res = JSON.parse(await response.text());
 
       if (res.id <= 0) {
-        setMessage("User/Password combination incorrect");
+        setMessage("Email/Password combination incorrect");
       } else {
         var user = {
           firstName: res.firstName,
@@ -52,7 +53,7 @@ function Login() {
         localStorage.setItem("user_data", JSON.stringify(user));
 
         setMessage("");
-        window.location.href = "/cards";
+        window.location.href = "/TrainerDashboard";
       }
     } catch (e) {
       alert(e.toString());
@@ -71,19 +72,19 @@ function Login() {
         </span>
         <input
           type="text"
-          id="loginName"
+          id="email"
           style={rodando}
-          placeholder="E-mail"
-          ref={(c) => (loginName = c)}
+          placeholder="Email"
+          ref={(c) => (email = c)}
         />
         <br />
         <br />
         <input
           type="password"
-          id="loginPassword"
+          id="password"
           style={rodando}
           placeholder="Password"
-          ref={(c) => (loginPassword = c)}
+          ref={(c) => (password = c)}
         />
         <br />
         <br />
