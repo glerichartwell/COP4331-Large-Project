@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css?family=Work+Sans");
+
+.landing-top-container {
+  top: 0;
+  /* top: -50%; */
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 10vh;
+  background-color: white;
+  /* padding-top: 6.5%; */
+  /* padding-bottom: 1.5%; */
+  border-radius: 0px 0px 25px 25px;
+  transition: 2700ms;
+}
+
+.landing-bottom-container {
+  bottom: 0;
+  /* bottom: -50%; */
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 40vh;
+  background-color: white;
+  /* padding-top: 6.5%; */
+  /* padding-bottom: 1.5%; */
+  border-radius: 25px 25px 0px 0px;
+  transition: 2000ms;
+}
+
+.name {
+    float: left;
+    padding-top: 1%;
+    padding-left: 2%;
+    left: 5%;
+  /* from the left */
+  /* left: 30px; */
+  /* top: 30%; */
+}
+
+.landing-btn {
+    /* position: absolute; */
+    top: 10%;
+    
+    float: right;
+    /* right: 5%; */
+    padding-right: 2%;
+  /* transition: 2000ms; */
+}
+
+#contact-us {
+    /* padding-top: 8%; */
+    right: 50%;
+    top: 10%;
+    position: absolute;
+}
+
+#about-us {
+    /* position: absolute; */
+    /* top: 10%; */
+    /* padding-top: %; */
+    padding-top: 2%;
+    padding-left: 10%;
+    float:left;
+    left: 50%;
+}
+
+#success-stories {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    /* padding-bottom: 100px; */
+    /* left: 10%; */
+    float: right;
+}
+
+#slogan {
+  position: relative;
+  /* padding: 12%; */
+  font-family: "Work sans", sans-serif;
+  font-size: 50px;
+  color: white;
+}
+
+.landing-top-container-enter {
+  opacity: 0;
+}
+.landing-top-container-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.landing-top-container-exit {
+  opacity: 1;
+}
+.landing-top-container-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.hide-landing-top-container {
+  /* top: 0; */
+  top: -50%;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  max-height: 10vh;
+  background-color: white;
+  /* padding-top: 6.5%; */
+  /* padding-bottom: 1.5%; */
+  border-radius: 0px 0px 25px 25px;
+  transition-property: top ;
+  transition-duration: 2000ms;
+}
+
+.hide-landing-bottom-container{
+  /* bottom: 0; */
+  bottom: -50%;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 40vh;
+  background-color: white;
+  /* padding-top: 6.5%; */
+  /* padding-bottom: 1.5%; */
+  border-radius: 25px 25px 0px 0px;
+  transition: 1000ms;
+
+}
+
+
+.my-node-enter {
+    opacity: 0;
+  }
+  .my-node-enter-active {
+    opacity: 1;
+    transition: opacity 2000ms;
+  }
+  .my-node-exit {
+    opacity: 1;
+  }
+  .my-node-exit-active {
+    opacity: 0;
+    transition: opacity 2000ms;
+  }
