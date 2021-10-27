@@ -2,36 +2,41 @@ import React from 'react'
 import TextBox from '../components/TextBox';
 import Button from '../components/Button';
 import TwoEntry from '../components/TwoEntry';
+import LoginForm from '../components/LoginForm';
 import { useState } from 'react'
 import './LoginRegister.css'
 
+
 const LoginRegister = props => {
+
     const [showRegisterSection,  setShowRegistrationSection] = useState(false)
     const [showLoginSection,  setShowLoginSection] = useState(true)
     
-  
+    //show registration component and hide all others
     const activate = () => {
       setShowRegistrationSection(true);
       setShowLoginSection(false);
   
     }
     
+    //show login component and hide all others
     const original = () => {
       setShowLoginSection(true);
       setShowRegistrationSection(false);
     }
   
-  
     const LoginSection = () => {
       return (
         <div >
           <div className={showLoginSection ? 'login-container': 'hidden-left'}>
-          {/* "login-container"> */}
            <div className='login-component'>
-            <div>Login</div>
+            {/* <div>Login</div> */}
             
-            <TwoEntry placeholder1="Email" placeholder2="Password"/>
-            <Button className='logbtn' text='Login'/>
+            {/* <TwoEntry placeholder1="Email" placeholder2="Password"/> */}
+            
+            <LoginForm/>
+
+            {/* <Button className='logbtn' text='Login' onClick={doLogin}/> */}
     
             <div id='forgot'><a href=''>Forgot Password</a></div>
     
