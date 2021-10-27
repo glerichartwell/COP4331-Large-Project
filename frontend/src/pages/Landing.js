@@ -3,9 +3,13 @@ import PropTypes from 'prop-types'
 import Button from '../components/Button'
 import './Landing.css'
 import { useState } from 'react'
-import LoginRegister from '../pages/LoginRegister'
+import LoginRegister from './LoginRegister'
+import { useOktaAuth } from "@okta/okta-react"
 
 const Landing = props => {
+
+    const { authState, oktaAuth } = useOktaAuth();
+    const login = () => oktaAuth.signInWithRedirect({ originalUri: "/pages/trainerDashboard" })
 
     const [showLog, setShowLog] = useState(true)
     const activate= () =>{
@@ -19,7 +23,7 @@ const Landing = props => {
             <div className={showLog ? 'landing-top-container' : 'hide-landing-top-container'}>
                 <div className='name'><span>CourtneyGenix</span></div>
                 
-                <div className='landing-btn'><Button text='Login' onClick={activate}/></div>
+                <div className='landing-btn'><Button text='Login' onClick={login}/></div>
                 
             </div>
             {/* <div id='slogan'>
