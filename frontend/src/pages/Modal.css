@@ -1,0 +1,69 @@
+.modal {
+  font-size: 12px;
+}
+.header {
+  width: 40%;
+  border-bottom: 1px solid gray;
+  font-size: 18px;
+  text-align: center;
+  margin: auto;
+  padding: 5px 20px 5px 20px;
+  background-color: #d2c3e4;
+}
+.content {
+  width: 45.5%;
+  padding: 10px 5px;
+  margin: auto;
+  background-color: #fff;
+}
+.actions {
+  width: 40%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+.close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: 28%;
+  top: 4px;
+  font-size: 24px;
+  background: #d2c3e4;
+  border-radius: 18px;
+  border: 1px solid #cfcece;
+}
+
+.forgor {
+  font-family: "Work Sans", sans-serif;
+  color: gray;
+  text-decoration: underline;
+}
+
+/*
+<div class="actions">
+            <Popup
+              trigger={<button class="button"> Trigger </button>}
+              position="top center"
+              nested
+            >
+              <span>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae
+                magni omnis delectus nemo, maxime molestiae dolorem numquam
+                mollitia, voluptate ea, accusamus excepturi deleniti ratione
+                sapiente! Laudantium, aperiam doloribus. Odit, aut.
+              </span>
+            </Popup>
+            <button
+              class="button"
+              onClick={() => {
+                console.log("modal closed ");
+                close();
+              }}
+            >
+              close modal
+            </button>
+          </div>
+*/
