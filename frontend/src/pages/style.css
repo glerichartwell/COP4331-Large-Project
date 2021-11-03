@@ -1,0 +1,32 @@
+@import url("https://fonts.google.com/specimen/Work+Sans?query=work+sans");
+
+.radial {
+  background-image: radial-gradient(
+    circle,
+    rgb(255, 255, 255),
+    rgb(239, 241, 250)
+  );
+}
+
+.butt {
+  height: 28px;
+  margin: auto;
+  border-radius: 5px;
+  border: 2px solid rgb(85, 183, 204);
+  background-color: rgb(85, 183, 204);
+  width: 82%;
+  color: white;
+}
+body {
+  background-color: brown;
+  font-family: "Work Sans", sans-serif;
+}
+
+a:hover {
+  color: #222991;
+}
+
+a {
+  color: gray;
+  font-size: small;
+}
