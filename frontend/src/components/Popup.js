@@ -47,7 +47,9 @@ function ForgotPass() {
   const doLogin = async (event) => {
     event.preventDefault();
 
+
     var obj = { login: loginName.value };
+
     var js = JSON.stringify(obj);
 
     try {
@@ -60,7 +62,9 @@ function ForgotPass() {
       var res = JSON.parse(await response.text());
 
       if (res.id <= 0) {
+
         setMessage("Cannot recognize E-mail");
+
       } else {
         var user = {
           firstName: res.firstName,
