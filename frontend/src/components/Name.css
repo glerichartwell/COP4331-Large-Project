@@ -1,0 +1,8 @@
+.request{
+    /* background-color: gray; */
+
+    /* fix picture distortion */
+    position: fixed; 
+    display: flex;
+    align-content: center;
+}
