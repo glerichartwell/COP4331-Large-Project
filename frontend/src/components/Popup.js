@@ -21,7 +21,7 @@ function ForgotPass() {
     border: "2px solid rgb(85, 183, 204)",
     width: "80%",
     height: "25px",
-    margin: "auto",
+    margin: "0vh 5vh 0vh 2vh",
   };
 
   const rojo = {
@@ -47,7 +47,9 @@ function ForgotPass() {
   const doLogin = async (event) => {
     event.preventDefault();
 
-    var obj = { login: loginName.value, password: loginPassword.value };
+
+    var obj = { login: loginName.value };
+
     var js = JSON.stringify(obj);
 
     try {
@@ -60,7 +62,9 @@ function ForgotPass() {
       var res = JSON.parse(await response.text());
 
       if (res.id <= 0) {
-        setMessage("User/Password combination incorrect");
+
+        setMessage("Cannot recognize E-mail");
+
       } else {
         var user = {
           firstName: res.firstName,
