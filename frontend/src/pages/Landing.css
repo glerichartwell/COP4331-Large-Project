@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css?family=Work+Sans");
+
+.landing-top-container {
+  top: 0;
+  /* top: -50%; */
+  left: 0;
+  position: absolute;
+  width: 100%;
+  max-height: 20vh;
+  min-height: 50px;
+  background-color: white;
+  border-radius: 0px 0px 25px 25px;
+  transition: 2700ms;
+  box-shadow: 1px 1px 20px 1px black;
+}
+
+.landing-bottom-container {
+  bottom: 0;
+  /* bottom: -50%; */
+  left: 0;
+  position: absolute;
+  width: 100%;
+  min-height: 25px;
+  height: 25vh;
+  background-color: white;
+  /* padding-top: 6.5%; */
+  /* padding-bottom: 1.5%; */
+  border-radius: 25px 25px 0px 0px;
+  transition: 2000ms;
+  box-shadow: 1px 1px 10px 1px black;
+}
+
+.name {
+  /* float: left; */
+  float: left;
+  padding-top: 15px;
+  padding-left: 4%;
+  left: 5%;
+  /* background-color: red; */
+  /* from the left */
+  /* left: 30px; */
+  /* top: 30%; */
+}
+
+.landing-btn {
+  position: relative;
+  top: 10%;
+  float: right;
+  padding-right: 2%;
+  /* background-color: blue; */
+  /* right: 5%; */
+  /* transition: 2000ms; */
+}
+/* 
+#contact-us {
+    right: 50%;
+    top: 10%;
+    position: absolute;
+}
+
+#about-us {
+    padding-top: 2%;
+    padding-left: 10%;
+    float:left;
+    left: 50%;
+}
+
+#success-stories {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    float: right;
+} 
+*/
+.contact:hover {
+  cursor: pointer;
+}
+.about:hover {
+  cursor: pointer;
+}
+.success:hover {
+  cursor: pointer;
+}
+
+#slogan {
+  position: relative;
+  /* padding: 12%; */
+  font-family: "Work sans", sans-serif;
+  font-size: 50px;
+  color: white;
+}
+
+.landing-top-container-enter {
+  opacity: 0;
+}
+.landing-top-container-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.landing-top-container-exit {
+  opacity: 1;
+}
+.landing-top-container-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.hide-landing-top-container {
+  /* top: 0; */
+  top: -50%;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  max-height: 10vh;
+  background-color: white;
+  /* padding-top: 6.5%; */
+  /* padding-bottom: 1.5%; */
+  border-radius: 0px 0px 25px 25px;
+  transition-property: top;
+  transition-duration: 2000ms;
+}
+
+.hide-landing-bottom-container {
+  /* bottom: 0; */
+  bottom: -50%;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 40vh;
+  background-color: white;
+  /* padding-top: 6.5%; */
+  /* padding-bottom: 1.5%; */
+  border-radius: 25px 25px 0px 0px;
+  transition: 1000ms;
+}
+
+.my-node-enter {
+  opacity: 0;
+}
+.my-node-enter-active {
+  opacity: 1;
+  transition: opacity 2000ms;
+}
+.my-node-exit {
+  opacity: 1;
+}
+.my-node-exit-active {
+  opacity: 0;
+  transition: opacity 2000ms;
+}
