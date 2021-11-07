@@ -1,7 +1,7 @@
 import React from 'react'
 import Dialog from '@mui/material/Dialog'
 import { DialogContent, DialogContentText, DialogTitle } from '@mui/material'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import TwoEntry from './TwoEntry'
 import Button from './Button'
 import TextBox from './TextBox'
@@ -22,7 +22,7 @@ const DialogBox = props => {
     const navigate = useNavigate();
 
     const firstName = useRef(null);
-    // firstName.current.value
+    
     const Home = () => {
 
         // Package reference data into JSON data
@@ -87,7 +87,7 @@ const DialogBox = props => {
                         What's your First and Last name?
                     </DialogContentText>
                     {/* Change TwoEntry Boxes to inputs */}
-                    <input ref={firstName}>
+                    {/* <input ref={firstName}> */}
                     <TwoEntry placeholder1='First Name' placeholder2='Last Name'/>
                     <Button text='Next' onClick={switchToEmail}/>
                 </DialogContent>
