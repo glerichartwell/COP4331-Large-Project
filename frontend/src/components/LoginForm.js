@@ -44,7 +44,7 @@ const LoginForm = (props) => {
           placeholder="Password"
           ref={password}
         />
-        <span>{message}</span>
+        <p>{message}</p>
         <Button text='Submit' onClick={logIn}/>
       </form>
     </div>

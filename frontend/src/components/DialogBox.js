@@ -8,7 +8,6 @@ import TextBox from './TextBox'
 import { useNavigate } from 'react-router-dom';
 
 const DialogBox = props => {
-    const [ open, setOpen ] = useState(true);
     const [ name, setName ] = useState(true);
     const [ email, setEmail ] = useState(false);
     const [ number, setNumber ] = useState(false);
@@ -19,73 +18,76 @@ const DialogBox = props => {
     const [ invest, setInvest ] = useState(false);
     const [ history, setHistory ] = useState(false);
     const [ done, setDone ] = useState(false);
+    const [message, setMessage] = useState(false);
     const navigate = useNavigate();
+
+    const firstName = useRef(null);
+    // firstName.current.value
     const Home = () => {
-        // setShowRegistrationSection(true);
-        // setShowLoginSection(false);
-        let path = `/`;
-        navigate(path);
+
+        // Package reference data into JSON data
+
+        navigate(`/`);
     
     }
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const switchToEmail = () => {
-        handleClose();
-        setEmail(true);
+        // handleClose();
+        setEmail(true)
+        setName(false);
     }
+
     const switchToNumber = () => {
         setNumber(true)
         setEmail(false)
     }
+
     const switchToWork = () => {
         setWork(true)
         setNumber(false)
     }
+
     const switchToGoals = () => {
         setGoals(true)
         setWork(false)
-
     }
+
     const switchToChallanges = () => {
         setChallanges(true)
         setGoals(false)
-
     }
+
     const switchToSerious = () => {
         setSerious(true)
         setChallanges(false)
-
     }
+
     const switchToHistory = () => {
         setHistory(true)
         setSerious(false)
-
     }
+
     const switchToInvest = () => {
         setInvest(true)
         setHistory(false)
-
     }
+
     const switchToDone = () => {
         setDone(true)
         setInvest(false)
-
     }
 
 
     const Name = () => {
         return (
-            <Dialog open={open} onClose={Home}>
+            <Dialog open={name}>
                 <DialogTitle>Information</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         What's your First and Last name?
                     </DialogContentText>
+                    {/* Change TwoEntry Boxes to inputs */}
+                    <input ref={firstName}>
                     <TwoEntry placeholder1='First Name' placeholder2='Last Name'/>
                     <Button text='Next' onClick={switchToEmail}/>
                 </DialogContent>
@@ -95,7 +97,7 @@ const DialogBox = props => {
 
     const Email = () => {
         return (
-            <Dialog open={email} onClose={handleClose}>
+            <Dialog open={email}>
                 <DialogTitle>Information</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -110,7 +112,7 @@ const DialogBox = props => {
     
     const Number = () => {
         return (
-            <Dialog open={number} onClose={handleClose}>
+            <Dialog open={number}>
                 <DialogTitle>Information</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -126,7 +128,7 @@ const DialogBox = props => {
     
     const Work = () => {
         return (
-            <Dialog open={work} onClose={handleClose}>
+            <Dialog open={work}>
                 <DialogTitle>Information</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -144,7 +146,7 @@ const DialogBox = props => {
     
     const Goals = () => {
         return (
-            <Dialog open={goals} onClose={handleClose}>
+            <Dialog open={goals}>
                 <DialogTitle>Information</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -161,7 +163,7 @@ const DialogBox = props => {
     
     const Challanges = () => {
         return (
-            <Dialog open={challanges} onClose={handleClose}>
+            <Dialog open={challanges}>
                 <DialogTitle>Information</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -178,7 +180,7 @@ const DialogBox = props => {
     
     const Serious = () => {
         return (
-            <Dialog open={serious} onClose={handleClose}>
+            <Dialog open={serious}>
                 <DialogTitle>Information</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -197,7 +199,7 @@ const DialogBox = props => {
     
     const History = () => {
         return (
-            <Dialog open={history} onClose={handleClose}>
+            <Dialog open={history}>
                 <DialogTitle>Information</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -214,7 +216,7 @@ const DialogBox = props => {
     
     const Invest = () => {
         return (
-            <Dialog open={invest} onClose={handleClose}>
+            <Dialog open={invest}>
                 <DialogTitle>Information</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -237,7 +239,7 @@ const DialogBox = props => {
   
     const Done = () => {
         return (
-            <Dialog open={done} onClose={handleClose}>
+            <Dialog open={done}>
                 <DialogTitle>All Set</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
