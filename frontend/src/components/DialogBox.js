@@ -21,16 +21,9 @@ const DialogBox = (props) => {
   const [message, setMessage] = useState(false);
   const navigate = useNavigate();
 
-  const rodando = {
-    borderRadius: "5px",
-    border: "2px solid rgb(85, 183, 204)",
-    width: "80%",
-    height: "25px",
-    margin: "auto",
-  };
-
   const firstName = useRef(null);
   const lastName = useRef(null);
+  const middleName = useRef(null);
   const email = useRef(null);
   const number = useRef(null);
   const work = useRef(null);
@@ -38,6 +31,19 @@ const DialogBox = (props) => {
   const struggle = useRef(null);
   const commit = useRef(null);
   const hist = useRef(null);
+
+  const names = async (event) => {
+    event.preventDefault();
+
+    var obj = {
+      firstName: firstName.current.value,
+      middleName: middleName.current.value,
+      lname: lastName.current.value,
+      email: email.current.value,
+      phone: number.current.value,
+    };
+    var js = JSON.stringify(obj);
+  };
 
   const Home = () => {
     // Package reference data into JSON data
@@ -98,23 +104,36 @@ const DialogBox = (props) => {
         <DialogTitle>Information</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            What's your First and Last name?
+            What's your First, Middle, and Last name?
           </DialogContentText>
           {/* Change TwoEntry Boxes to inputs */}
           {/* <input ref={firstName}> */}
           <input
             type="text"
             id="loginName"
-            style={rodando}
             placeholder="First Name"
             ref={firstName}
           />
+          <br />
+          <input
+            type="text"
+            id="loginName"
+            placeholder="Middle Name"
+            ref={middleName}
+          />
+          <br />
           <input
             type="text"
             id="lastName"
-            style={rodando}
             placeholder="Last Name"
             ref={lastName}
+          />
+          <input
+            type="submit"
+            id="loginButton"
+            class="butt"
+            value="Submit"
+            onClick={names}
           />
           <Button text="Next" onClick={switchToEmail} />
         </DialogContent>
@@ -130,13 +149,7 @@ const DialogBox = (props) => {
           <DialogContentText>
             What is your preferred Email address?
           </DialogContentText>
-          <input
-            type="email"
-            id="email"
-            style={rodando}
-            placeholder="Email"
-            ref={email}
-          />
+          <input type="email" id="email" placeholder="Email" ref={email} />
           <Button text="Next" onClick={switchToNumber} />
         </DialogContent>
       </Dialog>
@@ -152,13 +165,9 @@ const DialogBox = (props) => {
             What's a good phone number to reach you at? (numbers only, enforce
             length)
           </DialogContentText>
-          <input
-            type="tel"
-            id="tel"
-            style={rodando}
-            placeholder="Ph. Number"
-            ref={number}
-          />
+          <form onSubmit={names}>
+            <input type="tel" id="tel" placeholder="Ph. Number" ref={number} />
+          </form>
           <Button text="Next" onClick={switchToWork} />
         </DialogContent>
       </Dialog>
@@ -178,7 +187,6 @@ const DialogBox = (props) => {
           <input
             type="text"
             id="text"
-            style={rodando}
             placeholder="Enter your response here..."
             ref={work}
           />
@@ -200,7 +208,6 @@ const DialogBox = (props) => {
           <input
             type="text"
             id="text"
-            style={rodando}
             placeholder="Enter your response here..."
             ref={goal}
           />
@@ -222,7 +229,6 @@ const DialogBox = (props) => {
           <input
             type="text"
             id="text"
-            style={rodando}
             placeholder="Enter your response here..."
             ref={struggle}
           />
@@ -245,7 +251,6 @@ const DialogBox = (props) => {
           <input
             type="text"
             id="text"
-            style={rodando}
             placeholder="Enter your response here..."
             ref={commit}
           />
@@ -267,7 +272,6 @@ const DialogBox = (props) => {
           <input
             type="text"
             id="text"
-            style={rodando}
             placeholder="Enter your response here..."
             ref={hist}
           />
