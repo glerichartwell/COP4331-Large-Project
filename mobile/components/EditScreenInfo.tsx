@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   },
   getStartedText: {
     fontSize: 17,
+    fontFamily: 'montserrat',
     lineHeight: 24,
     textAlign: 'center',
   },
