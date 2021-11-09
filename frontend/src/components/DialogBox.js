@@ -24,30 +24,61 @@ const DialogBox = (props) => {
   const firstName = useRef(null);
   const lastName = useRef(null);
   const middleName = useRef(null);
-  const email = useRef(null);
-  const number = useRef(null);
+  const emailref = useRef(null);
+  const phone = useRef(null);
   const work = useRef(null);
   const goal = useRef(null);
   const struggle = useRef(null);
   const commit = useRef(null);
   const hist = useRef(null);
+  const commitansRef = useRef(null);
 
-  const names = async (event) => {
+  const commitment = document.querySelector("#serious");
+  const output = document.querySelector(".serious-output");
+
+  output.textContent = commitment.value;
+
+  commitment.addEventListener("input", function () {
+    output.textContent = commitment.value;
+  });
+
+  const sendInfoRequest = async (event) => {
     event.preventDefault();
 
     var obj = {
       firstName: firstName.current.value,
       middleName: middleName.current.value,
-      lname: lastName.current.value,
-      email: email.current.value,
-      phone: number.current.value,
+      lastName: lastName.current.value,
+      email: emailref.current.value,
+      phone: phone.current.value,
+      workAnswer: work.current.value,
+      goalAnswer: goal.current.value,
+      challengeAnswer: struggle.current.value,
+      seriousness: commit.current.value,
+      prevTrainer: hist.current.value,
+      commitAnswer: commitansRef.current.value,
     };
     var js = JSON.stringify(obj);
-  };
 
-  const Home = () => {
-    // Package reference data into JSON data
-    // testing edits
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/RequestInformationAPI",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      if (res.error.length > 0) {
+        console.log(res.error);
+        setMessage("Unable to process info request");
+      }
+    } catch (e) {
+      console.log(e);
+    }
 
     navigate(`/`);
   };
@@ -64,6 +95,7 @@ const DialogBox = (props) => {
   };
 
   const switchToWork = () => {
+    packageanswers();
     setWork(true);
     setNumber(false);
   };
@@ -249,11 +281,16 @@ const DialogBox = (props) => {
             can select the number, or fill in the blank)
           </DialogContentText>
           <input
-            type="text"
-            id="text"
-            placeholder="Enter your response here..."
+            type="range"
+            name="serious"
+            id="serious"
+            min="1"
+            max="10"
+            step="1"
+            value="5"
             ref={commit}
           />
+          <output class="serious-output" for="serious"></output>
           <Button text="Next" onClick={switchToHistory} />
         </DialogContent>
       </Dialog>
@@ -269,12 +306,10 @@ const DialogBox = (props) => {
             Have you ever worked with an online coach or personal trainer in the
             past? (yes or no, MC answer)
           </DialogContentText>
-          <input
-            type="text"
-            id="text"
-            placeholder="Enter your response here..."
-            ref={hist}
-          />
+          <input type="radio" id="yes" name="yes" value="1" ref={hist} />
+          <label for="yes">Yes</label>
+          <input type="radio" id="no" name="no" value="0" ref={hist} />
+          <label for="no">No</label>
           <Button text="Next" onClick={switchToInvest} />
         </DialogContent>
       </Dialog>
@@ -294,9 +329,14 @@ const DialogBox = (props) => {
             invest in my personal growth, knowledge, and health B. I am willing
             to invest if I believe the program and accountability can deliver
             results C. I am not in a position where I can invest in my personal
-            growth, health, and physique at this time. What is your preferred
-            Email address?
+            growth, health, and physique at this time.
           </DialogContentText>
+          <input type="radio" id="A" name="A" value="0" ref={commitansRef} />
+          <label for="A">A</label>
+          <input type="radio" id="B" name="B" value="1" ref={commitansRef} />
+          <label for="B">B</label>
+          <input type="radio" id="C" name="C" value="2" ref={commitansRef} />
+          <label for="C">C</label>
           <Button text="Next" onClick={switchToDone} />
         </DialogContent>
       </Dialog>
@@ -313,7 +353,7 @@ const DialogBox = (props) => {
             in touch very shortly!
           </DialogContentText>
           {/* <TextBox placeholder='(Short paragraph)' onChange=''/> */}
-          <Button text="Done" onClick={Home} />
+          <Button text="Done" onClick={sendInfoRequest} />
         </DialogContent>
       </Dialog>
     );
