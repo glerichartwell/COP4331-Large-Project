@@ -1,41 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
-import TextBox from "./components/TextBox"
-import Button from './components/Button';
-import TwoEntry from './components/TwoEntry';
-import { useState } from 'react'
-import LoginRegister from './pages/LoginRegister';
+import { BrowserRouter, Routes , Route } from 'react-router-dom';
+
 import Landing from './pages/Landing';
+import RequestInformation from './pages/RequestInformation';
+import ForgotPass from './components/ForgotPass';
+import TrainerDashboard from './pages/TrainerDashboard'
+
+
+import './App.css';
 
 function App() {
 
 
   return (
-    <body>
-      
-      
-      <Landing />
-      {/* <LoginRegister/> */}
-
-      {/* visible by default the disappear when account is clicked */}
-      {/* {showLoginSection ? <LoginSection/> : null} */}
-      {/* once register is clicked this becomes visible */}
-      {/* --------------------------------------------- */}
-      {/* {showRegisterSection ? <RegisterSection/> : null} */}
-      {/* --------------------------------------------- */}
-      {/* <div className={showLoginSection ? 'login-section': 'hidden-left'}> */}
-      {/* <LoginSection/> */}
-      {/* </div> */}
-      {/* <div className={false ? 'register-section': 'hidden-right'}> */}
-        {/* <RegisterSection/> */}
-      {/* </div> */}
-
+    <body className='site-container'>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" exact element={<Landing/>}/>
+          <Route path="/request-info" exact element={<RequestInformation/>}/>
+          <Route path="/forgot-password" exact element={<ForgotPass/>}/>
+          <Route path="/trainer-dashboard" exact element={<TrainerDashboard/>}/>
+        </Routes>
+      </BrowserRouter>
     </body>
   );
 }
-
-
-
-
 
 export default App;

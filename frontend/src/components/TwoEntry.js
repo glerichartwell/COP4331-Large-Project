@@ -5,8 +5,8 @@ import TextBox from './TextBox'
 const TwoEntry = ({ placeholder1, placeholder2 }) => {
     return (
     <div>
-        <TextBox placeholder={placeholder1}/>
-        <TextBox placeholder={placeholder2}/>
+        <TextBox placeholder={placeholder1} />
+        <TextBox placeholder={placeholder2} />
     </div>
     )
 }

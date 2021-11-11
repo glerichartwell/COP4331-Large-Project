@@ -1,9 +1,13 @@
 .login-container {
+  display: flexbox;
+  overflow: hidden;
+  box-sizing: border-box;
   top: 0;
   float: left;
   /* left: -30%; */
   left: 0;
   position: absolute;
+  box-shadow: 1px 3px 20px 1px black;
   width: 25%;
   height: 100%;
   background-color: white;
@@ -13,6 +17,7 @@
     padding-bottom: 1%; */
   border-radius: 0px 25px 25px 0px;
   transition: 2000ms;
+  box-shadow: grey;
 }
 .login-component {
   padding: 20%;
@@ -25,6 +30,7 @@
   position: absolute;
   width: 25%;
   min-height: 100vh;
+  overflow: hidden;
   background-color: white;
   /* padding-top: 10%;
     padding-left: 5%;
@@ -51,7 +57,7 @@
 
 .hidden-right {
   float: right;
-  right: -30%;
+  right: -100%;
   position: relative;
   max-width: 350px;
   min-height: 100vh;
@@ -66,7 +72,7 @@
 
 .hidden-left {
   float: left;
-  left: -30%;
+  left: -100%;
   position: relative;
   max-width: 350px;
   min-height: 100vh;

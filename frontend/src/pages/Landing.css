@@ -6,12 +6,12 @@
   left: 0;
   position: absolute;
   width: 100%;
-  height: 10vh;
+  max-height: 20vh;
+  min-height: 50px;
   background-color: white;
-  /* padding-top: 6.5%; */
-  /* padding-bottom: 1.5%; */
   border-radius: 0px 0px 25px 25px;
   transition: 2700ms;
+  box-shadow: 1px 1px 20px 1px black;
 }
 
 .landing-bottom-container {
@@ -20,45 +20,45 @@
   left: 0;
   position: absolute;
   width: 100%;
-  height: 40vh;
+  min-height: 25px;
+  height: 25vh;
   background-color: white;
   /* padding-top: 6.5%; */
   /* padding-bottom: 1.5%; */
   border-radius: 25px 25px 0px 0px;
   transition: 2000ms;
+  box-shadow: 1px 1px 10px 1px black;
 }
 
 .name {
-    float: left;
-    padding-top: 1%;
-    padding-left: 2%;
-    left: 5%;
+  /* float: left; */
+  float: left;
+  padding-top: 15px;
+  padding-left: 4%;
+  left: 5%;
+  /* background-color: red; */
   /* from the left */
   /* left: 30px; */
   /* top: 30%; */
 }
 
 .landing-btn {
-    /* position: absolute; */
-    top: 10%;
-    
-    float: right;
-    /* right: 5%; */
-    padding-right: 2%;
+  position: relative;
+  top: 10%;
+  float: right;
+  padding-right: 2%;
+  /* background-color: blue; */
+  /* right: 5%; */
   /* transition: 2000ms; */
 }
-
+/* 
 #contact-us {
-    /* padding-top: 8%; */
     right: 50%;
     top: 10%;
     position: absolute;
 }
 
 #about-us {
-    /* position: absolute; */
-    /* top: 10%; */
-    /* padding-top: %; */
     padding-top: 2%;
     padding-left: 10%;
     float:left;
@@ -69,9 +69,17 @@
     position: absolute;
     top: 10%;
     right: 10%;
-    /* padding-bottom: 100px; */
-    /* left: 10%; */
     float: right;
+} 
+*/
+.contact:hover {
+  cursor: pointer;
+}
+.about:hover {
+  cursor: pointer;
+}
+.success:hover {
+  cursor: pointer;
 }
 
 #slogan {
@@ -108,11 +116,11 @@
   /* padding-top: 6.5%; */
   /* padding-bottom: 1.5%; */
   border-radius: 0px 0px 25px 25px;
-  transition-property: top ;
+  transition-property: top;
   transition-duration: 2000ms;
 }
 
-.hide-landing-bottom-container{
+.hide-landing-bottom-container {
   /* bottom: 0; */
   bottom: -50%;
   left: 0;
@@ -124,21 +132,19 @@
   /* padding-bottom: 1.5%; */
   border-radius: 25px 25px 0px 0px;
   transition: 1000ms;
-
 }
 
-
 .my-node-enter {
-    opacity: 0;
-  }
-  .my-node-enter-active {
-    opacity: 1;
-    transition: opacity 2000ms;
-  }
-  .my-node-exit {
-    opacity: 1;
-  }
-  .my-node-exit-active {
-    opacity: 0;
-    transition: opacity 2000ms;
-  }
+  opacity: 0;
+}
+.my-node-enter-active {
+  opacity: 1;
+  transition: opacity 2000ms;
+}
+.my-node-exit {
+  opacity: 1;
+}
+.my-node-exit-active {
+  opacity: 0;
+  transition: opacity 2000ms;
+}

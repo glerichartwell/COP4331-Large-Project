@@ -1,26 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 
-/* * {
+* {
   box-sizing: border-box;
 
-} */
+}
 
 
 body {
   font-family: 'Poppins', sans-serif;
   overflow: hidden;
-  background-repeat: no-repeat ;
+  /* background-repeat: no-repeat ; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   background-image: url('./pages/images/palette_max.jpg');
-  background-position-y: -200px;
-
+  background-position-y: -250px;
+  /* background-position-y: bottom; */
+  background-position-x: center;
+  /* min-width: 3500px; */
 }
-
-
-
 
 .header {
   display: flex;
