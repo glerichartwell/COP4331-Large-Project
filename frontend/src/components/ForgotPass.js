@@ -35,7 +35,7 @@ const ForgotPass = () => {
 
     return (
         <Dialog open={open} onBackdropClick={Home}>
-            <Grid container direction='column' alignItems='center' justify='center'><DialogTitle>Forgot Password?</DialogTitle></Grid>
+            <DialogTitle>Forgot Password?</DialogTitle>
             <DialogContent>
             <Grid container direction='column' alignItems='center' justify='center'><DialogContentText>
                     Enter the email associated with your account <br/>and we'll send you a reset password link!
