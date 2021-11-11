@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // import login api endpoint
-var loginAPI = require("../API/LoginAPI");
+var loginAPI = require("./api/api.login");
 var requestInformationAPI = require("./api/RequestInformationAPI");
 // use login api endpoint (temp accessed at http://localhost:PORT/api/login)
 app.use("/", loginAPI);

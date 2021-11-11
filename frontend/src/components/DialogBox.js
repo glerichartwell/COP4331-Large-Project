@@ -64,7 +64,7 @@ const DialogBox = () => {
     console.log(js);
     try {
       const response = await fetch(
-        "http://localhost:5000/api/RequestInformationAPI",
+        "http://localhost:5000/api/requestInformation",
         {
           method: "POST",
           body: js,
