@@ -29,6 +29,22 @@ router.post("/api/request-info", async (req, res) => {
     prevTrainer,
     commitAnswer,
   } = req.body;
+
+  // get commit answer
+  let emailCommitAnswer;
+  if (commitAnswer == 1) {
+    emailCommitAnswer =
+      "I have the finances/energy to invest in my personal growth, knowledge, and health.";
+  } else if (commitAnswer == 2) {
+    emailCommitAnswer =
+      "I am willing to invest if I believe the program and accountability can deliver results.";
+  } else {
+    emailCommitAnswer =
+      "I am not in a position where I can invest in my personal growth, health, and physique at this time.";
+  }
+  // get prevTrainer answer
+  let prevTrainerAnswer = prevTrainer === 1 ? "Yes" : "No";
+
   const db = client.db();
 
   // get trainer with lowest number of clients
@@ -100,10 +116,10 @@ router.post("/api/request-info", async (req, res) => {
       phone +
       "\n" +
       "Work: " +
-      work +
+      workAnswer +
       "\n" +
       "Goal: " +
-      goal +
+      goalAnswer +
       "\n" +
       "Challenge Answer: " +
       challengeAnswer +
@@ -111,8 +127,11 @@ router.post("/api/request-info", async (req, res) => {
       "Seriousness: " +
       seriousness +
       "\n" +
+      "Previous Trainer: " +
+      prevTrainerAnswer +
+      "\n" +
       "Commit Answer: " +
-      commitAnswer +
+      emailCommitAnswer +
       "\n" +
       "\n\nSincerely, \nAdmin",
   };
