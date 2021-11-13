@@ -14,7 +14,7 @@ router.get("/api/view-clients", async (req, res) => {
   const db = client.db();
 
   // get clients
-  const results = await db.collection("Client").find().toArray();
+  const results = await db.collection("Clients").find().toArray();
 
   if (results.length == 0) {
     error = "No Clients";

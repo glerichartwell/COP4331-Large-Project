@@ -16,15 +16,15 @@ router.post("/api/search-client", async (req, res) => {
 
   // find client
   const results = await db
-    .collection("Client")
+    .collection("Clients")
     .find({ firstName: firstName.toLowerCase() })
     .toArray();
   const results1 = await db
-    .collection("Client")
+    .collection("Clients")
     .find({ lastName: lastName.toLowerCase() })
     .toArray();
   const results2 = await db
-    .collection("Client")
+    .collection("Clients")
     .find({ email: email.toLowerCase() })
     .toArray();
 

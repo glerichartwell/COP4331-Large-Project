@@ -17,7 +17,7 @@ router.delete("/api/delete-client", async (req, res) => {
 
   // find client
   const results = await db
-    .collection("Client")
+    .collection("Clients")
     .find({ email: email.toLowerCase() })
     .toArray();
 
@@ -32,7 +32,7 @@ router.delete("/api/delete-client", async (req, res) => {
     res.status(200).json(ret);
   } else {
     var myquery = { email: email.toLowerCase() };
-    db.collection("Client").deleteOne(myquery, function (err, obj) {
+    db.collection("Clients").deleteOne(myquery, function (err, obj) {
       if (err) {
         error = "DB Error";
         console.log(err);

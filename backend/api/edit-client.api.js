@@ -31,14 +31,14 @@ router.patch("/api/edit-client", async (req, res) => {
 
   // get client from database
   const results = await db
-    .collection("Client")
+    .collection("Clients")
     .find({ email: email })
     .toArray();
 
   // if results, store data
   if (results.length > 0) {
     id = results[0]._id;
-    var collectionName = "Client";
+    var collectionName = "Clients";
     // if trainerID needs updating
     if (trainerID) {
       db.collection(collectionName).updateOne(
