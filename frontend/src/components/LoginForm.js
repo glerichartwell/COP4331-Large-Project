@@ -1,36 +1,19 @@
 import React from "react";
-import Button from "./Button";
-import { useState, useRef } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+import { TextField, Grid, Button } from "@mui/material";
 
 
 const LoginForm = (props) => {
-  const email = useRef(null);
-  const password = useRef(null);
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate();
 
-  const auth = getAuth();
-  const logIn = e => {
-    e.preventDefault();
-
-    signInWithEmailAndPassword(auth, email.current.value, password.current.value)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      navigate('trainer-dashboard');
-    })
-    .catch((error) => {
-      setMessage('Invalid email/password combination.')
-      console.log(error)
-    });
-  }
+  
 
   return (
-    <div>
-      <form onSubmit={logIn}>
+    
+      {/* <form onSubmit={logIn}>
         <p id="inner-title">Login</p>
         <input
           type="text"
@@ -43,10 +26,8 @@ const LoginForm = (props) => {
           id="password"
           placeholder="Password"
           ref={password}
-        />
-        <p>{message}</p>
-        <Button text='Submit' onClick={logIn}/>
-      </form>
+        /> */}
+      {/* </form> */}
     </div>
   );
 };

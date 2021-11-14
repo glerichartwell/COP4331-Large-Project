@@ -1,11 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import Grid from '@mui/material/Grid'
 
 const TrainerDashboard = props => {
-
-
-
+    
     return (
         <div>
             <Grid
@@ -30,10 +28,6 @@ const TrainerDashboard = props => {
             </Grid>
         </div>
     )
-}
-
-TrainerDashboard.propTypes = {
-
 }
 
 export default TrainerDashboard

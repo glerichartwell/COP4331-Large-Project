@@ -13,16 +13,16 @@ import RadioGroup from '@mui/material/RadioGroup';
 import { FormControlLabel } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const DialogBox = () => {
+const DialogBox = (props) => {
   
   const [showName, setShowName] = useState(true);
   const [showEmail, setShowEmail] = useState(false);
-  const [showNumber, showShowNumber] = useState(false);
+  const [showNumber, setShowNumber] = useState(false);
   const [showWork, setShowWork] = useState(false);
   const [showGoals, setShowGoals] = useState(false);
   const [showChallenges, setShowChallenges] = useState(false);
   const [showSerious, setShowSerious] = useState(false);
-  const [showInvest, showShowInvest] = useState(false);
+  const [showInvest, setShowInvest] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showDone, setShowDone] = useState(false);
   const [message, setMessage] = useState(false);
@@ -35,18 +35,18 @@ const DialogBox = () => {
   const [workAnswer, setWorkAnswer] = useState("");
   const [goalAnswer, setGoalAnswer] = useState("");
   const [challengeAnswer, setChallengeAnswer] = useState("");
-  const [seriousness, setSeriousness] = useState(-1);
+  const [seriousness, setSeriousness] = useState(7);
   const [hadPrevTrainer, setHadPrevTrainer] = useState(-1);
   const [commitAnswer, setCommitAnswer] = useState(-1);
 
-  const investAns1 = "I have the finances/energy to invest in my personal growth, knowledge, and health";
-  const investAns2 = "I am willing to invest if I believe the program and accountability can deliver results";
+  const investAns1 = "I have the finances/energy to invest in my personal growth, knowledge, and health.";
+  const investAns2 = "I am willing to invest if I believe the program and accountability can deliver results.";
   const investAns3 = "I am not in a position where I can invest in my personal growth, health, and physique at this time.";
   const navigate = useNavigate();
   
   const sendInfoRequest = async (e) => {
     e.preventDefault();
-    console.log()
+    
     var obj = {
       firstName: firstName,
       middleName: middleName,
@@ -61,7 +61,6 @@ const DialogBox = () => {
       commitAnswer: commitAnswer,
     };
     var js = JSON.stringify(obj);
-    console.log(js);
     try {
       const response = await fetch(
         "http://localhost:5000/api/requestInformation",
@@ -70,22 +69,24 @@ const DialogBox = () => {
           body: js,
           headers: { "Content-Type": "application/json" },
         }
-      );
-
-      var txt = await response.text();
-      var res = JSON.parse(txt);
-
-      if (res.error.length > 0) {
-        console.log(res.error);
-        setMessage("Unable to process info request");
-      }
-    } catch (error) {
+        );
+        setMessage("Your info request is being sent to our trainers!")
+        
+        var txt = await response.text();
+        var res = JSON.parse(txt);
+        
+        if (res.error.length > 0) {
+          console.log(res.error);
+          setMessage("It looks like we were unable to process your info request at this time. Please try again.");
+        }
+      } catch (error) {
+        setMessage("It looks like we were unable to process your info request at this time. Please try again.");
       console.log(error);
     }
-
-    navigate(`/`);
+    setShowDone(false);
+    props.setSetShowInfo(false);
   };
-
+  
   // From https://tomduffytech.com/how-to-format-phone-number-in-react/
   const handlePhoneChange = (e) => {
     // this is where we'll call our future formatPhoneNumber function that we haven't written yet.
@@ -129,13 +130,13 @@ const DialogBox = () => {
   };
 
   const switchToNumber = () => {
-    showShowNumber(true);
+    setShowNumber(true);
     setShowEmail(false);
   };
 
   const switchToWork = () => {
     setShowWork(true);
-    showShowNumber(false);
+    setShowNumber(false);
   };
 
   const switchToGoals = () => {
@@ -159,17 +160,17 @@ const DialogBox = () => {
   };
 
   const switchToInvest = () => {
-    showShowInvest(true);
+    setShowInvest(true);
     setShowHistory(false);
   };
 
   const switchToDone = () => {
     setShowDone(true);
-    showShowInvest(false);
+    setShowInvest(false);
   };
 
-  const Name = showName => (
-      <Dialog open={showName} fullWidth={true} maxWidth='xs'>
+  const Name = () => (
+      <Dialog open={showName} fullWidth={true} maxWidth='xs' onBackdropClick={() => {setShowName(false)}}>
           <DialogContent>
           <DialogTitle textAlign='center'>Information Request</DialogTitle>
           <DialogContentText textAlign='center' marginBottom='20px'>What is your name?</DialogContentText>
@@ -186,11 +187,11 @@ const DialogBox = () => {
       </Dialog>
     );
 
-  const Email = showEmail => (
-      <Dialog open={showEmail}>
+  const Email = () => (
+      <Dialog open={showEmail} fullWidth={true} maxWidth='xs' onBackdropClick={() => {setShowEmail(false)}}>
           <DialogTitle textAlign='center' marginBottom='10px'>Information Request</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText textAlign='center'>
               What is your preferred Email address?
             </DialogContentText>
             <Grid container direction='column' justifyContent='center' alignItems='center' marginTop='25px'>
@@ -203,8 +204,8 @@ const DialogBox = () => {
 
 
   // Write function to verify phone number, look for box to display as phone number
-  const Number = showNumber => (
-      <Dialog open={showNumber}>
+  const Number = () => (
+      <Dialog open={showNumber} onBackdropClick={() => {setShowNumber(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -215,7 +216,7 @@ const DialogBox = () => {
             </DialogContentText>
             <Grid container direction='column' justifyContent='center' alignItems='center' marginTop='25px'>
               <TextField id='phone' type='tel' placeholder='Phone Number' value={phone} onChange={handlePhoneChange}/>
-              <Button sx={{margin: '15px', background: '#28B7CB'}} variant='contained' onClick={switchToWork}>Next</Button>
+              <Button sx={{marginTop: '15px', marginBottom: '-20px', background: '#28B7CB'}} variant='contained' onClick={switchToWork}>Next</Button>
             </Grid>
             <Button text="Next" onClick={switchToWork} />
           </DialogContent>
@@ -224,8 +225,8 @@ const DialogBox = () => {
     );
 
   // Change to large box so all text can be seen
-  const Work = showWork => (
-      <Dialog open={showWork}>
+  const Work = () => (
+      <Dialog open={showWork} onBackdropClick={() => {setShowWork(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -247,7 +248,7 @@ const DialogBox = () => {
 
   // Change to large box so all text can be seen
   const Goals = () => (
-      <Dialog open={showGoals} maxWidth={250}>
+      <Dialog open={showGoals} onBackdropClick={() => {setShowGoals(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -267,8 +268,8 @@ const DialogBox = () => {
     );
 
   // Change to large box so all text can be seen
-  const Challenges = showChallenges => (
-      <Dialog open={showChallenges} maxWidth={250}>
+  const Challenges = () => (
+      <Dialog open={showChallenges} onBackdropClick={() => {setShowChallenges(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -291,7 +292,7 @@ const DialogBox = () => {
   const Serious = () => {
     
     return (
-      <Dialog open={showSerious}>
+      <Dialog open={showSerious} onBackdropClick={() => {setShowSerious(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -320,8 +321,8 @@ const DialogBox = () => {
     );
   };
 
-  const History = showHistory => (
-      <Dialog open={showHistory}>
+  const History = () => (
+      <Dialog open={showHistory} onBackdropClick={() => {setShowHistory(false)}}>
           <DialogTitle textAlign="center">Information</DialogTitle>
           <DialogContent>
             <Grid container direction='column' alignItems='center' justifyContent='center'>
@@ -341,8 +342,8 @@ const DialogBox = () => {
       </Dialog>
     );
 
-  const Invest = showInvest => (
-      <Dialog open={showInvest} maxWidth='md'>
+  const Invest = () => (
+      <Dialog open={showInvest} maxWidth='md' onBackdropClick={() => {setShowInvest(false)}}>
         <DialogTitle textAlign='center'>Information</DialogTitle>
         <DialogContent>
           <DialogContentText margin={3}>
@@ -366,7 +367,7 @@ const DialogBox = () => {
   const Done = () => {
 
     return (
-      <Dialog open={showDone} maxWidth='md'>
+      <Dialog open={showDone} maxWidth='md' onBackdropClick={() => {setShowDone(false)}}>
         <DialogTitle textAlign='center' >All Set!</DialogTitle>
         <DialogContent>
         <Grid container direction='column' alignItems='center' justifyContent='center'>
@@ -374,6 +375,7 @@ const DialogBox = () => {
             Congrats on taking the first step on your fitness journey! We will be
             in touch very shortly!
           </DialogContentText>
+          {message}
           <Button sx={{margin: '20px', background: '#28B7CB'}} variant='contained' onClick={sendInfoRequest}>Done</Button>
         </Grid>
         </DialogContent>
@@ -383,16 +385,16 @@ const DialogBox = () => {
 
   return (
     <div>
-      {Name(showName)}
-      {Email(showEmail)}
-      {Number(showNumber)}
-      {Work(showWork)}
-      {Goals(showGoals)}
-      {Challenges(showChallenges)}
-      {Serious(showSerious)}
-      {History(showHistory)}
-      {Invest(showInvest)}
-      {Done(showDone)}
+      {Name()}
+      {Email()}
+      {Number()}
+      {Work()}
+      {Goals()}
+      {Challenges()}
+      {Serious()}
+      {History()}
+      {Invest()}
+      {Done()}
     </div>
   );
 };

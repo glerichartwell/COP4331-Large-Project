@@ -1,28 +1,24 @@
 import { useNavigate } from 'react-router'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
+
 import { getAuth, sendPasswordResetEmail  } from '@firebase/auth'
-import Dialog from '@mui/material/Dialog'
-import { DialogContent, DialogContentText, DialogTitle } from '@mui/material'
-import Grid from "@mui/material/Grid";
 
-import TextBox from './TextBox'
-import Button from './Button'
+import { Dialog, DialogContent, DialogContentText, DialogTitle, Grid, Button, TextField } from '@mui/material'
 
-const ForgotPass = () => {
+
+const ForgotPass = (props) => {
+
     const [ open, setOpen ] = useState(true);
-    const [ message, setMessage] = useState('')
-    const email = useRef(null)
-
+    const [ message, setMessage] = useState('');
+    const [ email, setEmail ] = useState('');
+    
     const navigate = useNavigate();
-    const Home = () => {
-        navigate('/')
-    }
     const auth = getAuth();
-    const resetPassword = () => {
-        sendPasswordResetEmail(auth, email.current.value)
+    const resetPassword = async event => {
+        sendPasswordResetEmail(auth, email)
     .then(() => {
         setMessage('A password reset link has been sent to your email address!')
-        Home();
+        props.setSetShowForgotPass(false);
     })
     .catch((error) => {
         setMessage('Sorry, we could not find an account associated with this email.')
@@ -31,21 +27,25 @@ const ForgotPass = () => {
     
     }
     
-
+    const sxForgotPassTextField = {
+        marginBottom: '10px', 
+        marginLeft: '10px', 
+        marginRight: '10px', 
+        width: '300px'
+      }
 
     return (
-        <Dialog open={open} onBackdropClick={Home}>
+        <Dialog open={open} onBackdropClick={() => {setOpen(false)}}>
             <DialogTitle>Forgot Password?</DialogTitle>
             <DialogContent>
-            <Grid container direction='column' alignItems='center' justify='center'><DialogContentText>
+            <Grid container direction='column' alignItems='center' justify='center'>
+                <DialogContentText>
                     Enter the email associated with your account <br/>and we'll send you a reset password link!
                 </DialogContentText>
                 <br/>
-                <form onSubmit={resetPassword}>
-                    <input type="email" id="email" placeholder="Email input" ref={email}/>
-                </form>
+                <TextField sx={sxForgotPassTextField} id='email' type='email' placeholder="Email" value={email} onChange={e => {setEmail(e.target.value)}} size="large" variant='standard'/>
                 <p>{message}</p>
-                <Button text='Send Email' onClick={resetPassword}/>
+                <Button sx={{width: '200px', marginBottom: '15px', background: '#28B7CB'}} variant='contained' onClick={resetPassword}>Send Email</Button>
             </Grid>
             </DialogContent>
         </Dialog>
