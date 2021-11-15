@@ -5,6 +5,8 @@ import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 import {ImageBackground, StyleSheet, TouchableOpacity} from "react-native";
 
+
+
 export default function Login(){
     return (
         <View>
@@ -24,15 +26,15 @@ const styles = StyleSheet.create({
     welcomeContainer:{
         marginVertical: 100,
         marginLeft: 20,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
     },
     welcomeText:{
         fontSize: 48,
-        fontFamily: 'work-sans',
+        fontFamily: 'work-sans-reg',
         textAlign: 'left',
+        backgroundColor: 'rgba(0, 0, 0, 0)',
     },
-    image:{
 
-    }
     /*getStartedContainer: {
         alignItems: 'center',
         marginHorizontal: 50,
