@@ -162,11 +162,8 @@ const Landing = (props) => {
     <div>
       {/* <Landing /> */}
       <LandingGrid />
-      {console.log(showLog)}
       {showLog && <Login close={() => {setShowLog(false)}} setSetShowForgotPass={setShowForgotPass} />}
       {showInfo && <DialogBox setSetShowInfo={setSetShowInfo} />}
-      {/* {showForgotPass && <ForgotPass setSetShowForgotPass={setShowForgotPass} />} */}
-      
     </div>
   );
 };

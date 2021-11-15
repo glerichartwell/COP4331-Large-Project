@@ -85,6 +85,7 @@ const DialogBox = (props) => {
     }
     setShowDone(false);
     props.setSetShowInfo(false);
+    setShowName(true);
   };
   
   // From https://tomduffytech.com/how-to-format-phone-number-in-react/
@@ -170,7 +171,7 @@ const DialogBox = (props) => {
   };
 
   const Name = () => (
-      <Dialog open={showName} fullWidth={true} maxWidth='xs' onBackdropClick={() => {setShowName(false)}}>
+      <Dialog open={showName} fullWidth={true} maxWidth='xs' onBackdropClick={() => {props.setSetShowInfo(false)}}>
           <DialogContent>
           <DialogTitle textAlign='center'>Information Request</DialogTitle>
           <DialogContentText textAlign='center' marginBottom='20px'>What is your name?</DialogContentText>
@@ -188,7 +189,7 @@ const DialogBox = (props) => {
     );
 
   const Email = () => (
-      <Dialog open={showEmail} fullWidth={true} maxWidth='xs' onBackdropClick={() => {setShowEmail(false)}}>
+      <Dialog open={showEmail} fullWidth={true} maxWidth='xs' onBackdropClick={() => {setShowEmail(false); props.setSetShowInfo(false)}}>
           <DialogTitle textAlign='center' marginBottom='10px'>Information Request</DialogTitle>
           <DialogContent>
             <DialogContentText textAlign='center'>
@@ -205,7 +206,7 @@ const DialogBox = (props) => {
 
   // Write function to verify phone number, look for box to display as phone number
   const Number = () => (
-      <Dialog open={showNumber} onBackdropClick={() => {setShowNumber(false)}}>
+      <Dialog open={showNumber} onBackdropClick={() => {setShowNumber(false); ; props.setSetShowInfo(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -215,7 +216,7 @@ const DialogBox = (props) => {
               What's a good phone number to reach you at?
             </DialogContentText>
             <Grid container direction='column' justifyContent='center' alignItems='center' marginTop='25px'>
-              <TextField id='phone' type='tel' placeholder='Phone Number' value={phone} onChange={handlePhoneChange}/>
+              <TextField sx={{width: '200px', margin: '5px',}} id='phone' type='tel' placeholder='Phone Number' value={phone} onChange={handlePhoneChange} size="large" variant='standard'/>
               <Button sx={{marginTop: '15px', marginBottom: '-20px', background: '#28B7CB'}} variant='contained' onClick={switchToWork}>Next</Button>
             </Grid>
             <Button text="Next" onClick={switchToWork} />
@@ -226,7 +227,7 @@ const DialogBox = (props) => {
 
   // Change to large box so all text can be seen
   const Work = () => (
-      <Dialog open={showWork} onBackdropClick={() => {setShowWork(false)}}>
+      <Dialog open={showWork} onBackdropClick={() => {setShowWork(false); ; props.setSetShowInfo(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -248,7 +249,7 @@ const DialogBox = (props) => {
 
   // Change to large box so all text can be seen
   const Goals = () => (
-      <Dialog open={showGoals} onBackdropClick={() => {setShowGoals(false)}}>
+      <Dialog open={showGoals} onBackdropClick={() => {setShowGoals(false); props.setSetShowInfo(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -269,7 +270,7 @@ const DialogBox = (props) => {
 
   // Change to large box so all text can be seen
   const Challenges = () => (
-      <Dialog open={showChallenges} onBackdropClick={() => {setShowChallenges(false)}}>
+      <Dialog open={showChallenges} onBackdropClick={() => {setShowChallenges(false); props.setSetShowInfo(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -292,7 +293,7 @@ const DialogBox = (props) => {
   const Serious = () => {
     
     return (
-      <Dialog open={showSerious} onBackdropClick={() => {setShowSerious(false)}}>
+      <Dialog open={showSerious} onBackdropClick={() => {setShowSerious(false); props.setSetShowInfo(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -322,7 +323,7 @@ const DialogBox = (props) => {
   };
 
   const History = () => (
-      <Dialog open={showHistory} onBackdropClick={() => {setShowHistory(false)}}>
+      <Dialog open={showHistory} onBackdropClick={() => {setShowHistory(false); props.setSetShowInfo(false)}}>
           <DialogTitle textAlign="center">Information</DialogTitle>
           <DialogContent>
             <Grid container direction='column' alignItems='center' justifyContent='center'>
@@ -343,7 +344,7 @@ const DialogBox = (props) => {
     );
 
   const Invest = () => (
-      <Dialog open={showInvest} maxWidth='md' onBackdropClick={() => {setShowInvest(false)}}>
+      <Dialog open={showInvest} maxWidth='md' onBackdropClick={() => {setShowInvest(false); props.setSetShowInfo(false)}}>
         <DialogTitle textAlign='center'>Information</DialogTitle>
         <DialogContent>
           <DialogContentText margin={3}>
@@ -367,7 +368,7 @@ const DialogBox = (props) => {
   const Done = () => {
 
     return (
-      <Dialog open={showDone} maxWidth='md' onBackdropClick={() => {setShowDone(false)}}>
+      <Dialog open={showDone} maxWidth='md' onBackdropClick={() => {setShowDone(false); props.setSetShowInfo(false)}}>
         <DialogTitle textAlign='center' >All Set!</DialogTitle>
         <DialogContent>
         <Grid container direction='column' alignItems='center' justifyContent='center'>
