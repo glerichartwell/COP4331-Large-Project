@@ -17,6 +17,7 @@ export default function useCachedResources() {
           ...FontAwesome.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
           'montserrat': require('../assets/fonts/Montserrat-Light.ttf'),
+          'work-sans': require('../assets/fonts/WorkSans-Light.ttf')
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
