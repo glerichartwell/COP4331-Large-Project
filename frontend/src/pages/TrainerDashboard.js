@@ -1,9 +1,14 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 import Grid from '@mui/material/Grid'
+import DashboardDrawer from '../components/DashboardDrawer'
 
 const TrainerDashboard = props => {
-    
+
+
+
+
+
     return (
         <div>
             <Grid
@@ -15,19 +20,15 @@ const TrainerDashboard = props => {
               alignContent="center"
               wrap="nowrap"
             >
-                <Grid item xs={4}>
-                    Trainer Dashboard
-                </Grid>
-                <Grid item xs={4}>
-
-                </Grid>
-                <Grid item xs={4}>
-
-                </Grid>
+                  <DashboardDrawer/>  
                 
             </Grid>
         </div>
     )
+}
+
+TrainerDashboard.propTypes = {
+
 }
 
 export default TrainerDashboard

@@ -2,7 +2,6 @@ import { BrowserRouter, Routes , Route } from 'react-router-dom';
 
 import Landing from './pages/Landing';
 import RequestInformation from './pages/RequestInformation';
-import ForgotPass from './components/ForgotPass';
 import TrainerDashboard from './pages/TrainerDashboard'
 
 
