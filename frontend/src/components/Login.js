@@ -105,7 +105,7 @@ const Login = props => {
   
     return (
         <div onClick={handleClick}>
-            <LoginSection/>
+            {LoginSection()}
         </div>
     )
 }
