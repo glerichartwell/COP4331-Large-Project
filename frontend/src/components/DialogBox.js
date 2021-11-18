@@ -1,16 +1,17 @@
 import React from "react";
+import { useState, useRef } from "react";
+
 import Dialog from "@mui/material/Dialog";
+import Radio from '@mui/material/Radio';
+import Button from "@mui/material/Button";
+import { Box, Grid } from "@mui/material";
+import Slider from '@mui/material/Slider';
+import TextField from '@mui/material/TextField';
+import { FormControlLabel } from "@mui/material";
+import RadioGroup from '@mui/material/RadioGroup';
 import DialogActions from '@mui/material/DialogActions';
 import { DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { useState, useRef } from "react";
-//import Button from "./Button";
-import Button from "@mui/material/Button"
-import { Box, Grid } from "@mui/material";
-import TextField from '@mui/material/TextField';
-import Slider from '@mui/material/Slider';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import { FormControlLabel } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
 
 const DialogBox = (props) => {
