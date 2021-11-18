@@ -5,13 +5,14 @@ import theme from "./custom-properties/Themes";
 
 import MainScreen from "./screens/MainScreen";
 import TopBar from "./components/TopBar";
+import LoginScreen from "./screens/LoginScreen"
 
 export default function App() {
+
   return (
     <PaperProvider theme={theme}>
-      <TopBar />
-
-      <MainScreen />
+     {/* <MainScreen />*/}
+      <LoginScreen/>
     </PaperProvider>
   );
 }
@@ -22,5 +23,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 50
   },
 });

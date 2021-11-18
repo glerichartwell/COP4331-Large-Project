@@ -5,7 +5,7 @@ import customFonts from "./Fonts";
 const theme = {
   ...DefaultTheme,
   fonts: configureFonts(customFonts),
-  roundness: 30,
+  roundness: 20,
   colors: {
     ...DefaultTheme.colors,
     primary: "#4169E1",
@@ -13,6 +13,14 @@ const theme = {
     favorite: "#BADA55",
     cancelButton: "#a4c639",
     iconColor: "#808080",
+
+    // Custom
+    main_c: '#64104D',
+    main2_c: '#ED5E4F',
+    color1: '#B21B3F',
+    color2: '#D2C3E4',
+    color3: '#EB3248',
+    color4: '#28B7CB'
   },
 };
 
