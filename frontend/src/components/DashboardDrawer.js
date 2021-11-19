@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import "./Dashboard.css";
 import ClientDisplay from "./ClientDisplay";
+import ExerciseDisplay from "./ExerciseDisplay";
+import WorkoutDisplay from "./WorkoutDisplay";
+
 import AddClient from "./AddClient";
 
 import {
@@ -135,8 +138,10 @@ const DashboardDrawer = (props) => {
         <Toolbar />
         {/* code for contents of box area in dashboard */}
 
-        
         {showClient ? <ClientDisplay /> : null}
+        {showExercise ? <ExerciseDisplay /> : null}
+        {showWorkout ? < WorkoutDisplay/> : null}
+
       </Box>
     </Box>
   );

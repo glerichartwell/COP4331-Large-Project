@@ -59,7 +59,7 @@ function renderRow(props) {
   );
 }
 
-export default function RecipeReviewCard() {
+export default function WorkoutCard() {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {

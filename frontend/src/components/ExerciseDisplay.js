@@ -7,10 +7,10 @@ import { Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import AddClient from "./AddClient";
-import ClientCard from "./ClientCard";
+import ExerciseCard from "./ExerciseCard";
 import ClientDashboard from "./ClientDashboard";
 
-const ClientDisplay = () => {
+const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [objectArray, setObjectArray] = useState();
@@ -34,7 +34,7 @@ const ClientDisplay = () => {
   var objects = [];
   var cardNumber = 0;
 
-  const getClients = async (event) => {
+  const getExercise = async (event) => {
     const address = "http://localhost:5000/api/view-clients";
     //event.preventDefault();
 
@@ -85,7 +85,7 @@ const ClientDisplay = () => {
             md={4}
             lg={3}
           >
-            <ClientCard
+            <ExerciseCard
               prop={objects[i]}
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
@@ -104,13 +104,13 @@ const ClientDisplay = () => {
     }
   };
 
-  const DisplayClients = () => {
+  const DisplayExercise = () => {
     // console.log("render");
 
     // allow results of api to be rendered on page after loading
     useEffect(() => {
       console.log("render array changed");
-      getClients()
+      getExercise()
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
     }, []);
@@ -159,7 +159,7 @@ const ClientDisplay = () => {
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
 
         {/* loop through json of clients and create components */}
-        {DisplayClients()}
+        {DisplayExercise()}
         {arrayChange}
 
         {showClientDash ? clientDashHolder : null}
@@ -168,4 +168,4 @@ const ClientDisplay = () => {
   );
 };
 
-export default ClientDisplay;
+export default ExerciseDisplay;
