@@ -5,10 +5,11 @@ import Grid from "@mui/material/Grid";
 
 import DialogBox from "../components/DialogBox"
 import Login from "../components/Login";
-
+import RegisterPage from "../RegisterPage"
 
 import "./Landing.css";
 import ForgotPass from "../components/ForgotPass";
+import Register from "../components/Register";
 
 
 
@@ -162,11 +163,9 @@ const Landing = (props) => {
     <div>
       {/* <Landing /> */}
       <LandingGrid />
-      {console.log(showLog)}
+      {/* <RegisterPage /> */}
       {showLog && <Login close={() => {setShowLog(false)}} setSetShowForgotPass={setShowForgotPass} />}
       {showInfo && <DialogBox setSetShowInfo={setSetShowInfo} />}
-      {/* {showForgotPass && <ForgotPass setSetShowForgotPass={setShowForgotPass} />} */}
-      
     </div>
   );
 };
