@@ -1,20 +1,14 @@
-import { Grid } from "@mui/material";
-import { Box } from "@mui/system";
-import Header from "./components/Header";
-import Register from "./components/Register";
+import React from "react";
+import Background from "../components/Header";
 
-import "./style.css";
+import "../css/style.css";
 
-const RegisterPage = () => {
-
+const LoginPage = () => {
   return (
-    <Box width='100vw' height='100vh'>
-        <Header />
-        <Grid className="register-grid" container sx={{paddingLeft: '555px'}}>
-          <Register />
-        </Grid>
-    </Box>
+    <div>
+      <Background />
+    </div>
   );
 };
 
-export default RegisterPage;
+export default LoginPage;
