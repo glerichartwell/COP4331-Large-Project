@@ -1,14 +1,34 @@
-import { AppBar, Paper, Toolbar } from "@mui/material";
-import React, { useState } from "react";
+import PropTypes from 'prop-types'
+import Button from './Button'
 
-const Header = () => {
+const Header = (props) => {
+// or you can do
+//const Header = ({ title }) => {
 
-  return (
-      <AppBar sx={{background: '#37123C', justifyContent: 'center', textAlign: 'center', height: '17vh'}}>
-        <Toolbar sx={{marginBottom: '-1%', paddingTop: '1%', fontSize: 32, textAlign: 'center', justifyContent: 'center',}}>Welcome to CourtneyGenix!</Toolbar>
-        <Toolbar sx={{textAlign: 'center', justifyContent: 'center',}}>This is just the beginning!</Toolbar>
-      </AppBar>
-  );
+    const onClick = () =>{
+        console.log('click')
+    }
+
+    return (
+        <header className='header'>
+            {/* <h1 style={{ color: 'red' , backgroundColor: 'black'}}>{props.title}</h1> */}
+            <h1>{props.title}</h1>
+            <Button color='green' text='add' onClick={onClick}/>
+        </header>
+    )
 }
 
-export default Header;
+Header.defaultProps = {
+    title: "task tracker"
+}
+// force formating 
+Header.protoType ={//can do this instead to force format and then is required to require entry
+    title: PropTypes.string.isRequired,
+}
+//or use this for styling non-inline, css in js
+//<h1 style={ headingStyle }>{props.title}</h1>
+// const headingStyle = {
+//     color: 'red' , backgroundColor: 'black'
+// }
+
+export default Header

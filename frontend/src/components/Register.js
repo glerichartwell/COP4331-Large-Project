@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router"
 
 import { TextField, Grid, Button, Paper, Stack } from "@mui/material"
 
@@ -6,8 +7,8 @@ import "./Login.css"
 
 const Register = () => {
 
-  const [showClientCredentials, setShowClientCredentials] = useState(true);
   const [showBasicInfo, setShowBasicInfo] = useState(false);
+  const [showClientCredentials, setShowClientCredentials] = useState(true);
 
   // Input variables
   const [email, setEmail] = useState(null);
@@ -33,9 +34,7 @@ const Register = () => {
   const registerClient = () => {
     
     // Register Client with Firebase
-    // If Firebase -> Landing || !Mongo
-    // navigate Landing
-    // else run this function
+
   }
   
   const switchToBasicInfo = () => {
@@ -43,7 +42,6 @@ const Register = () => {
     setShowBasicInfo(true);
   }
 
-  // Disable Next Button
   useEffect(() => {
     if (email && password && confirmPassword)
         {
@@ -55,7 +53,6 @@ const Register = () => {
         }
   });
 
-  // Disable Register Button
   useEffect(() => {
     if (firstName &&
         middleName &&
@@ -92,20 +89,20 @@ const Register = () => {
   
   const paperBasicInfoStyle = {
     marginBottom: '100px', 
-    marginTop: '70px', 
-    height: '550px', 
+    marginTop: '100px', 
+    height: '600px', 
     width: '400px',
   }
 
   const paperClientCredentialsStyle = {
     marginBottom: '100px', 
-    marginTop: '130px', 
+    marginTop: '100px', 
     height: '350px', 
     width: '400px',
   }
 
   const sxBasicTextField = {
-    marginBottom: '5px', 
+    marginBottom: '10px', 
     marginLeft: '30px', 
     marginRight: '10px', 
     maxWidth: '300px'
@@ -127,7 +124,7 @@ const Register = () => {
   }
 
   const regStyle = {
-    marginTop: '-50px',
+    marginTop: '-20px',
     position: 'relative',
     left: '30px',
     fontSize: 22
@@ -140,23 +137,8 @@ const Register = () => {
     fontSize: 16
   }
 
-    const ClientCredentials = () => {
-      return showClientCredentials ? (
-      <Grid container justifyContent='center' alignItems='center'>
-          <Grid item direction='column'>
-            <Paper style={paperClientCredentialsStyle} component={Stack} direction='column' justifyContent='center' elevation={5}>
-              <p style={regStyle}>Register</p>
-              <span style={spanStyle}>Please enter your desired login info below</span>
-                <TextField sx={sxClienTextField} id='email' type='email' placeholder="Email" value={email} onChange={e => {setEmail(e.target.value)}} size="large" variant='standard'/>
-                <TextField sx={sxClienTextField} id='password' type='password' placeholder="Password" value={password} onChange={e => {setPassword(e.target.value)}} size="large" variant='standard'/>
-                <TextField sx={sxClienTextField} id='confirmPassword' error={passwordError} helperText={passwordHelperText} type='password' placeholder="Confirm Password" value={confirmPassword} onChange={e => {setConfirmPassword(e.target.value)}} size="large" variant='standard'/>
-              <Button sx={sxButton} disabled={disableRegisterButton} variant='contained' onClick={switchToBasicInfo}>Next</Button>
-            </Paper>
-          </Grid>
-        </Grid>) : null;
-    };
-  
-    const BasicInfo = () => {
+
+    const BasicInfo = showBasicInfo => {
       return showBasicInfo ? (
       <Grid container justifyContent='center' alignItems='center'>
           <Grid item direction='column'>
@@ -172,18 +154,33 @@ const Register = () => {
               <TextField sx={sxBasicTextField} id='phone' type='text' placeholder="Phone Number" value={phone} onChange={e => {setPhone(e.target.value)}} size="large" variant='standard'/>
               <TextField sx={sxBasicTextField} id='birthday' type={bdayType} placeholder="Birthday" onBlur={() => setBdayType('text')} onFocus={() => setBdayType('date')} onChange={e => {setBirthday(e.target.value)}} size="large" variant='standard'/>
               <TextField sx={sxBasicTextField} id='city' type='text' placeholder="City" value={city} onChange={e => {setCity(e.target.value)}} size="large" variant='standard'/>
-              <Button sx={sxButton} disabled={disableNextButton} variant='contained' onClick={registerClient}>Register</Button>
+              <Button sx={sxButton} disabled={disableNextButton} variant='contained' onClick={switchToClientCredentials}>Next</Button>
             </Paper>
           </Grid>
         </Grid>) : null;
     };
 
+    const ClientCredentials = showClientCredentials => {
+      return showClientCredentials ? (
+      <Grid container justifyContent='center' alignItems='center'>
+          <Grid item direction='column'>
+            <Paper style={paperClientCredentialsStyle} component={Stack} direction='column' justifyContent='center' elevation={5}>
+              <p style={regStyle}>Register</p>
+              <span style={spanStyle}>Please enter your desired login info below</span>
+                <TextField sx={sxClienTextField} id='email' type='email' placeholder="Email" value={email} onChange={e => {setEmail(e.target.value)}} size="large" variant='standard'/>
+                <TextField sx={sxClienTextField} id='password' type='password' placeholder="Password" value={password} onChange={e => {setPassword(e.target.value)}} size="large" variant='standard'/>
+                <TextField sx={sxClienTextField} id='confirmPassword' error={passwordError} helperText={passwordHelperText} type='password' placeholder="Confirm Password" value={confirmPassword} onChange={e => {setConfirmPassword(e.target.value)}} size="large" variant='standard'/>
+              <Button sx={sxButton} disabled={disableRegisterButton} variant='contained' onClick={registerClient}>Register</Button>
+            </Paper>
+          </Grid>
+        </Grid>) : null;
+    };
 
   
     return (
       <div>
-        {BasicInfo()}
-        {ClientCredentials()}
+        {BasicInfo(showBasicInfo)}
+        {ClientCredentials(showClientCredentials)}
       </div>
     )
   }
