@@ -2,8 +2,8 @@ import { BrowserRouter, Routes , Route } from 'react-router-dom';
 
 import Landing from './pages/Landing';
 import RequestInformation from './pages/RequestInformation';
-import TrainerDashboard from './pages/TrainerDashboard'
-
+import TrainerDashboard from './pages/TrainerDashboard';
+import ClientDashboard from './pages/ClientDashboard';
 
 import './App.css';
 
@@ -17,6 +17,7 @@ function App() {
           <Route path="/" exact element={<Landing/>}/>
           <Route path="/request-info" exact element={<RequestInformation/>}/>
           <Route path="/trainer-dashboard" exact element={<TrainerDashboard/>}/>
+          <Route path="/dashboard" exact element={<ClientDashboard/>}/>
         </Routes>
       </BrowserRouter>
     </body>

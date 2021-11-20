@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 import AddClient from "./AddClient";
 import ExerciseCard from "./ExerciseCard";
-import ClientDashboard from "./ClientDashboard";
+import ClientDashboard from "./ClientInfoView";
 
 const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading

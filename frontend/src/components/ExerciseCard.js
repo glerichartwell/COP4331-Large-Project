@@ -24,7 +24,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function WorkoutCard({ prop, openClientDash }) {
+export default function ExerciseCard({ prop, openClientDash }) {
  
   const cardNumber = prop.cardNumber;
   const firstName = prop.firstName;

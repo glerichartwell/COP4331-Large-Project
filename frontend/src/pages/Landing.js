@@ -8,7 +8,6 @@ import Login from "../components/Login";
 
 
 import "./Landing.css";
-import ForgotPass from "../components/ForgotPass";
 
 
 
@@ -165,7 +164,6 @@ const Landing = (props) => {
       {console.log(showLog)}
       {showLog && <Login close={() => {setShowLog(false)}} setSetShowForgotPass={setShowForgotPass} />}
       {showInfo && <DialogBox setSetShowInfo={setSetShowInfo} />}
-      {/* {showForgotPass && <ForgotPass setSetShowForgotPass={setShowForgotPass} />} */}
       
     </div>
   );

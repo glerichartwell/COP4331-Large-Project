@@ -6,9 +6,8 @@ import Grid from "@mui/material/Grid";
 import { Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import AddClient from "./AddClient";
 import WorkoutCard from "./WorkoutCard";
-import ClientDashboard from "./ClientDashboard";
+import ClientInfoView from "./ClientInfoView";
 
 const WorkoutDisplay = () => {
   // allow results of api to be rendered on page after loading
@@ -126,7 +125,7 @@ const WorkoutDisplay = () => {
     console.log(num);
     console.log(cardNumber);
     setClientDashHolder(
-      <ClientDashboard
+      <ClientInfoView
         closeClientDash={closeClientDash}
         useCardNumber={objects[num].firstName}
       />

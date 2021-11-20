@@ -38,6 +38,4 @@ const AddClient = ({ props, closeAddClient }) => {
   );
 };
 
-AddClient.propTypes = {};
-
 export default AddClient;

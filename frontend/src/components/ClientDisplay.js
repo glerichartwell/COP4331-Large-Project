@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 import AddClient from "./AddClient";
 import ClientCard from "./ClientCard";
-import ClientDashboard from "./ClientDashboard";
+import ClientInfoView from "./ClientInfoView";
 
 const ClientDisplay = () => {
   // allow results of api to be rendered on page after loading
@@ -126,7 +126,7 @@ const ClientDisplay = () => {
     console.log(num);
     console.log(cardNumber);
     setClientDashHolder(
-      <ClientDashboard
+      <ClientInfoView
         closeClientDash={closeClientDash}
         useCardNumber={objects[num].firstName}
       />

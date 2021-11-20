@@ -11,7 +11,7 @@ import {
 
 } from "@mui/material";
 
-const ClientDashboard = ({ prop, useCardNumber, closeClientDash }) => {
+const ClientInfoView = ({ prop, useCardNumber }) => {
     const [open, setOpen] = useState(true);
     const [email, setEmail] = useState("");
   
@@ -24,7 +24,7 @@ const ClientDashboard = ({ prop, useCardNumber, closeClientDash }) => {
     console.log(useCardNumber)
   
     return (
-        <Dialog open={open} fullWidth={true} maxWidth='xs' onBackdropClick={() => {closeClientDash()}}>
+        <Dialog open={open} fullWidth={true} maxWidth='xs'>
           <DialogTitle textAlign='center' marginBottom='10px'>Send Registration Invite</DialogTitle>
           <DialogContent>
             <DialogContentText textAlign='center'>
@@ -39,8 +39,8 @@ const ClientDashboard = ({ prop, useCardNumber, closeClientDash }) => {
     )
 }
 
-ClientDashboard.propTypes = {
+ClientInfoView.propTypes = {
 
 }
 
-export default ClientDashboard
+export default ClientInfoView
