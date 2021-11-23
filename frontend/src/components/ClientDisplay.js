@@ -39,7 +39,7 @@ const ClientDisplay = () => {
 
     try {
       const response = await fetch(address, {
-        method: "POST",
+        method: "GET",
         body: js,
         headers: { "Content-Type": "application/json" },
       });

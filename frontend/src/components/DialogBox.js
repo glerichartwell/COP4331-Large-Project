@@ -59,9 +59,10 @@ const DialogBox = (props) => {
       commitAnswer: commitAnswer,
     };
     var js = JSON.stringify(obj);
+    console.log(js);
     try {
       const response = await fetch(
-        "http://localhost:5000/api/requestInformation",
+        "http://localhost:5000/api/request-info",
         {
           method: "POST",
           body: js,

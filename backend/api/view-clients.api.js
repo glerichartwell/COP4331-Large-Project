@@ -6,20 +6,15 @@ const express = require("express");
 const client = require("../db");
 const router = express.Router();
 
-router.post("/api/view-clients", async (req, res) => {
-  // incoming: trainerID
+router.get("/api/view-clients", async (req, res) => {
+  // incoming:
   // outgoing: clients or error
 
   var error = "";
-  const { trainerID } = req.body;
   const db = client.db();
 
   // get clients
-  const results = await db
-    .collection("Client")
-    .find({ trainerID: trainerID})
-    .toArray();
-  // const results = await db.collection("Clients").find().toArray();
+  const results = await db.collection("Clients").find().toArray();
 
   if (results.length == 0) {
     error = "No Clients";
