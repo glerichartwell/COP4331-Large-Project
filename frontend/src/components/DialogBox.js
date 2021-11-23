@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 import Dialog from "@mui/material/Dialog";
 import Radio from '@mui/material/Radio';
@@ -9,10 +9,8 @@ import Slider from '@mui/material/Slider';
 import TextField from '@mui/material/TextField';
 import { FormControlLabel } from "@mui/material";
 import RadioGroup from '@mui/material/RadioGroup';
-import DialogActions from '@mui/material/DialogActions';
 import { DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
 
 const DialogBox = (props) => {
   
@@ -43,7 +41,6 @@ const DialogBox = (props) => {
   const investAns1 = "I have the finances/energy to invest in my personal growth, knowledge, and health.";
   const investAns2 = "I am willing to invest if I believe the program and accountability can deliver results.";
   const investAns3 = "I am not in a position where I can invest in my personal growth, health, and physique at this time.";
-  const navigate = useNavigate();
   
   const sendInfoRequest = async (e) => {
     e.preventDefault();
@@ -85,7 +82,7 @@ const DialogBox = (props) => {
       console.log(error);
     }
     setShowDone(false);
-    props.setSetShowInfo(false);
+    props.setShowInfo(false);
     setShowName(true);
   };
   
@@ -172,7 +169,7 @@ const DialogBox = (props) => {
   };
 
   const Name = () => (
-      <Dialog open={showName} fullWidth={true} maxWidth='xs' onBackdropClick={() => {props.setSetShowInfo(false)}}>
+      <Dialog open={showName} fullWidth={true} maxWidth='xs' onBackdropClick={() => {props.setShowInfo(false)}}>
           <DialogContent>
           <DialogTitle textAlign='center'>Information Request</DialogTitle>
           <DialogContentText textAlign='center' marginBottom='20px'>What is your name?</DialogContentText>
@@ -190,7 +187,7 @@ const DialogBox = (props) => {
     );
 
   const Email = () => (
-      <Dialog open={showEmail} fullWidth={true} maxWidth='xs' onBackdropClick={() => {setShowEmail(false); props.setSetShowInfo(false)}}>
+      <Dialog open={showEmail} fullWidth={true} maxWidth='xs' onBackdropClick={() => {setShowEmail(false); props.setShowInfo(false)}}>
           <DialogTitle textAlign='center' marginBottom='10px'>Information Request</DialogTitle>
           <DialogContent>
             <DialogContentText textAlign='center'>
@@ -207,7 +204,7 @@ const DialogBox = (props) => {
 
   // Write function to verify phone number, look for box to display as phone number
   const Number = () => (
-      <Dialog open={showNumber} onBackdropClick={() => {setShowNumber(false); ; props.setSetShowInfo(false)}}>
+      <Dialog open={showNumber} onBackdropClick={() => {setShowNumber(false); ; props.setShowInfo(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -228,7 +225,7 @@ const DialogBox = (props) => {
 
   // Change to large box so all text can be seen
   const Work = () => (
-      <Dialog open={showWork} onBackdropClick={() => {setShowWork(false); ; props.setSetShowInfo(false)}}>
+      <Dialog open={showWork} onBackdropClick={() => {setShowWork(false); ; props.setShowInfo(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -250,7 +247,7 @@ const DialogBox = (props) => {
 
   // Change to large box so all text can be seen
   const Goals = () => (
-      <Dialog open={showGoals} onBackdropClick={() => {setShowGoals(false); props.setSetShowInfo(false)}}>
+      <Dialog open={showGoals} onBackdropClick={() => {setShowGoals(false); props.setShowInfo(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -271,7 +268,7 @@ const DialogBox = (props) => {
 
   // Change to large box so all text can be seen
   const Challenges = () => (
-      <Dialog open={showChallenges} onBackdropClick={() => {setShowChallenges(false); props.setSetShowInfo(false)}}>
+      <Dialog open={showChallenges} onBackdropClick={() => {setShowChallenges(false); props.setShowInfo(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -294,7 +291,7 @@ const DialogBox = (props) => {
   const Serious = () => {
     
     return (
-      <Dialog open={showSerious} onBackdropClick={() => {setShowSerious(false); props.setSetShowInfo(false)}}>
+      <Dialog open={showSerious} onBackdropClick={() => {setShowSerious(false); props.setShowInfo(false)}}>
         <Box sx={{
             textAlign: 'center'
           }}>
@@ -324,7 +321,7 @@ const DialogBox = (props) => {
   };
 
   const History = () => (
-      <Dialog open={showHistory} onBackdropClick={() => {setShowHistory(false); props.setSetShowInfo(false)}}>
+      <Dialog open={showHistory} onBackdropClick={() => {setShowHistory(false); props.setShowInfo(false)}}>
           <DialogTitle textAlign="center">Information</DialogTitle>
           <DialogContent>
             <Grid container direction='column' alignItems='center' justifyContent='center'>
@@ -345,7 +342,7 @@ const DialogBox = (props) => {
     );
 
   const Invest = () => (
-      <Dialog open={showInvest} maxWidth='md' onBackdropClick={() => {setShowInvest(false); props.setSetShowInfo(false)}}>
+      <Dialog open={showInvest} maxWidth='md' onBackdropClick={() => {setShowInvest(false); props.setShowInfo(false)}}>
         <DialogTitle textAlign='center'>Information</DialogTitle>
         <DialogContent>
           <DialogContentText margin={3}>
@@ -369,7 +366,7 @@ const DialogBox = (props) => {
   const Done = () => {
 
     return (
-      <Dialog open={showDone} maxWidth='md' onBackdropClick={() => {setShowDone(false); props.setSetShowInfo(false)}}>
+      <Dialog open={showDone} maxWidth='md' onBackdropClick={() => {setShowDone(false); props.setShowInfo(false)}}>
         <DialogTitle textAlign='center' >All Set!</DialogTitle>
         <DialogContent>
         <Grid container direction='column' alignItems='center' justifyContent='center'>

@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./ClientDisplay.css";
 
+import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
 import { Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -13,16 +14,22 @@ const ClientDisplay = () => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [showAddClient, setShowAddClient] = useState(false);
+  
   const openAddClient = () => {
     setShowAddClient(true);
   };
+  
   var clients;
   var cardArray = [];
   var objects = [];
 
   //firebase component to return trainer profile info
   var trainerID = 1; //getFirebaseID()
-
+  
+  const handleClick = e => {
+    e.stopPropagation();
+  };
+  
   const getClients = async (event) => {
     const address = "http://localhost:5000/api/view-clients";
     //event.preventDefault();
@@ -109,10 +116,14 @@ const ClientDisplay = () => {
 
 
   return (
-    <div>
-      <button onClick={openAddClient} className="dashbtn" id="addbtn">
-        <AddIcon />
-      </button>
+    <div onClick={handleClick}>
+      <div>
+        <Box sx={{textAlign: 'right'}}>
+          <button onClick={openAddClient} className="add-btn" id="addbtn">
+            <AddIcon />
+          </button>
+        </Box>
+      </div>
       <Divider />
       <Grid
         container
@@ -125,7 +136,7 @@ const ClientDisplay = () => {
         alignContent="stretch"
         wrap="wrap"
       >
-        {showAddClient ? <AddClient /> : null}
+        {showAddClient ? <AddClient setShowAddClient={setShowAddClient} /> : null}
 
         {/* loop through json of clients and create components */}
         {DisplayClients()}

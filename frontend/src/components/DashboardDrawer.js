@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./Dashboard.css";
 import ClientDisplay from "./ClientDisplay";
-import AddClient from "./AddClient";
+
 
 import {
   AppBar,
@@ -118,7 +118,7 @@ const DashboardDrawer = (props) => {
           </List>
           <Divider />
         </Box>
-        <button onClick={logout} className="dashbtn">
+        <button onClick={logout} className="logout-btn">
           Logout
         </button>
       </Drawer>

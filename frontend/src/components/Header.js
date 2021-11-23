@@ -1,5 +1,4 @@
-import { AppBar, Paper, Toolbar } from "@mui/material";
-import React, { useState } from "react";
+import { AppBar, Toolbar } from "@mui/material";
 
 const Header = () => {
 

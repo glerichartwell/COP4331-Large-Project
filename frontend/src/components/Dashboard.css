@@ -1,6 +1,9 @@
-.dashbtn {
-  display: inline-block;
-  background: purple;
+.logout-btn {
+  display: flex;
+  position: fixed ;
+  bottom: 2em;
+  right: 87vw;
+  background: #6f4792;
   color: #fff;
   border: none;
   padding: 5px 45px;
@@ -12,6 +15,21 @@
   font-family: inherit;
   
 }
+
+.add-btn {
+  background: #6f4792;
+  color: #fff;
+  border: none;
+  padding: 5px 45px;
+  margin: 10px auto;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+  
+}
+
 .dashbtn:hover {
   border: black 20px;
   background: #28b7cb;

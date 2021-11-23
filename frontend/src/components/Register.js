@@ -53,7 +53,7 @@ const Register = () => {
         {
           setDisableRegisterButton(true);
         }
-  });
+  }, [email, password, confirmPassword]);
 
   // Disable Register Button
   useEffect(() => {
@@ -73,7 +73,9 @@ const Register = () => {
         {
           setDisableNextButton(true);
         }
-  });
+  }, [firstName, middleName, lastName, 
+      height, weight, phone, 
+      gender, birthday, city]);
 
   // Password Error
   useEffect(() => {
@@ -88,7 +90,7 @@ const Register = () => {
       setPasswordError(false);
       setPasswordHelperText("");
     }
-  }); 
+  }, [password, confirmPassword]); 
   
   const paperBasicInfoStyle = {
     marginBottom: '100px', 
@@ -181,10 +183,10 @@ const Register = () => {
 
   
     return (
-      <div>
+      <Grid container direction='column' alignItems='center' justifyContent='center'>
         {BasicInfo()}
         {ClientCredentials()}
-      </div>
+      </Grid>
     )
   }
 

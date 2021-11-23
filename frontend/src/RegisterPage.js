@@ -10,7 +10,7 @@ const RegisterPage = () => {
   return (
     <Box width='100vw' height='100vh'>
         <Header />
-        <Grid className="register-grid" container sx={{paddingLeft: '555px'}}>
+        <Grid className="register-grid" container>
           <Register />
         </Grid>
     </Box>
