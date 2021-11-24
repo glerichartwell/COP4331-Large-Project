@@ -9,6 +9,7 @@ var requestInformationAPI = require("./api/request-info.api");
 var addClient = require("./api/add-client.api");
 var editClient = require("./api/edit-client.api");
 var searchClient = require("./api/search-client.api");
+var searchClientByEmail = require("./api/search-client-by-email.api");
 var deleteClient = require("./api/delete-client.api");
 var viewClients = require("./api/view-clients.api");
 const app = express();
@@ -19,6 +20,7 @@ app.use("/", requestInformationAPI);
 app.use("/", addClient);
 app.use("/", editClient);
 app.use("/", searchClient);
+app.use("/", searchClientByEmail);
 app.use("/", deleteClient);
 app.use("/", viewClients);
 

@@ -142,6 +142,7 @@ router.patch("/api/edit-client", async (req, res) => {
   }
   // package data
   var ret = {
+    status: 200,
     error: "",
   };
   // send data
