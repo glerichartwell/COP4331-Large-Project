@@ -1,4 +1,4 @@
-// delete-client.api.js - Delete Client Endpoint
+// delete-exercise.api.js - Delete Exercise Endpoint
 
 // setting up middleware
 require("dotenv").config();
@@ -6,23 +6,20 @@ const express = require("express");
 const client = require("../db");
 const router = express.Router();
 
-router.delete("/api/delete-client", async (req, res) => {
-  // incoming: email
+router.delete("/api/delete-exercise", async (req, res) => {
+  // incoming: exercise id
   // outgoing: success or error
 
   var error = "";
   var results2 = "";
-  const { email } = req.body;
+  const { id } = req.body;
   const db = client.db();
 
   // find client
-  const results = await db
-    .collection("Client")
-    .find({ email: email.toLowerCase() })
-    .toArray();
+  const results = await db.collection("Exercises").find({ id: id }).toArray();
 
   if (results.length === 0) {
-    error = "Client does not exist";
+    error = "Exercise does not exist";
     // package data
     var ret = {
       results: results2,
@@ -32,12 +29,12 @@ router.delete("/api/delete-client", async (req, res) => {
     res.status(200).json(ret);
   } else {
     var myquery = { email: email.toLowerCase() };
-    db.collection("Clients").deleteOne(myquery, function (err, obj) {
+    db.collection("Exercises").deleteOne(myquery, function (err, obj) {
       if (err) {
         error = "DB Error";
         console.log(err);
       } else {
-        results2 = "Client Deleted";
+        results2 = "Exercise Deleted";
         // console.log(obj);
       }
       // package data

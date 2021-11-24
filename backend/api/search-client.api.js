@@ -1,6 +1,6 @@
 // search-client.api.js - Search Client Endpoint
 
-// setting up middleware and hashing
+// setting up middleware
 require("dotenv").config();
 const express = require("express");
 const client = require("../db");
