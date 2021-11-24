@@ -11,20 +11,15 @@ import {
 
 } from "@mui/material";
 
-const ClientInfoView = ({ prop, useCardNumber }) => {
+const ClientInfoView = ({ prop, useCardNumber, closeClientDash }) => {
     const [open, setOpen] = useState(true);
     const [email, setEmail] = useState("");
   
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-    const handleClose = () => {
-      setOpen(false);
-    };
+
     console.log(useCardNumber)
   
     return (
-        <Dialog open={open} fullWidth={true} maxWidth='xs'>
+        <Dialog open={open} fullWidth={true} maxWidth='xs' onBackdropClick={() => {closeClientDash()}}>
           <DialogTitle textAlign='center' marginBottom='10px'>Send Registration Invite</DialogTitle>
           <DialogContent>
             <DialogContentText textAlign='center'>

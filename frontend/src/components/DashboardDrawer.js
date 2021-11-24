@@ -5,8 +5,10 @@ import "./Dashboard.css";
 import ClientDisplay from "./ClientDisplay";
 import ExerciseDisplay from "./ExerciseDisplay";
 import WorkoutDisplay from "./WorkoutDisplay";
-
 import AddClient from "./AddClient";
+import SearchBar from "./SearchBar";
+
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   AppBar,
@@ -22,9 +24,12 @@ import {
   Button,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import EventIcon from "@mui/icons-material/Event";
 import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 
 const DashboardDrawer = (props) => {
@@ -32,6 +37,8 @@ const DashboardDrawer = (props) => {
   const [showClient, setShowClient] = useState(false);
   const [showWorkout, setShowWorkout] = useState(false);
   const [showExercise, setShowExercise] = useState(false);
+  const [showAddClient, setShowAddClient] = useState(false);
+
   // const handleDrawerOpen = () => {
   //   setOpen(true);
   // };
@@ -42,6 +49,13 @@ const DashboardDrawer = (props) => {
 
   const logout = () => {
     navigate(`/`);
+  };
+
+  const openAddClient = () => {
+    setShowAddClient(true);
+  };
+  const closeAddClient = () => {
+    setShowAddClient(false);
   };
 
   const ClientOn = () => {
@@ -62,6 +76,15 @@ const DashboardDrawer = (props) => {
     setShowExercise(true);
   };
 
+  const addFunctionality = () => {
+    if (showClient) {
+      setShowAddClient(true);
+    }
+  };
+
+  const editFunctionality = () => {};
+
+  const deleteFunctionality = () => {};
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -76,6 +99,19 @@ const DashboardDrawer = (props) => {
           <Typography variant="h6" noWrap component="div">
             <ArrowBackIosIcon /> My Dashboard
           </Typography>
+
+          <button onClick={addFunctionality} id="addbtn">
+            <AddIcon />
+          </button>
+          <button onClick={editFunctionality} id="editbtn">
+            <EditIcon />
+          </button>
+          <button onClick={deleteFunctionality} id="delbtn">
+            <DeleteForeverIcon />
+          </button>
+
+          {/* imported search bar */}
+          <SearchBar />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -98,7 +134,7 @@ const DashboardDrawer = (props) => {
         <Box sx={{ overflow: "auto" }}>
           <List>
             {/* Buttons on the drawer to change displays */}
-            <ListItem button key="Clients" onClick={ClientOn}>
+            <ListItem button key="Clients" onClick={ClientOn} className="items">
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
@@ -139,9 +175,9 @@ const DashboardDrawer = (props) => {
         {/* code for contents of box area in dashboard */}
 
         {showClient ? <ClientDisplay /> : null}
+        {showWorkout ? <WorkoutDisplay /> : null}
         {showExercise ? <ExerciseDisplay /> : null}
-        {showWorkout ? < WorkoutDisplay/> : null}
-
+        {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
       </Box>
     </Box>
   );

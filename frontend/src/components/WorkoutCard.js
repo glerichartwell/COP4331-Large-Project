@@ -51,7 +51,6 @@ function renderRow(props) {
     <ListItem style={style} key={index} component="div" disablePadding>
       <ListItemButton
         sx={{ pl: 4 }}
-        onClick={console.log("The on click works!")}
       >
         <ListItemText primary={exercises[index]} />
       </ListItemButton>

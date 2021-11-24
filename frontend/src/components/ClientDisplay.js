@@ -105,7 +105,6 @@ const ClientDisplay = () => {
   };
 
   const DisplayClients = () => {
-    // console.log("render");
 
     // allow results of api to be rendered on page after loading
     useEffect(() => {
@@ -141,9 +140,6 @@ const ClientDisplay = () => {
 
   return (
     <div>
-      <button onClick={openAddClient} className="dashbtn" id="addbtn">
-        <AddIcon />
-      </button>
       <Divider />
       <Grid
         container

@@ -9,22 +9,24 @@ import AddIcon from "@mui/icons-material/Add";
 import AddClient from "./AddClient";
 import ExerciseCard from "./ExerciseCard";
 import ClientDashboard from "./ClientInfoView";
+import EditBox from "./EditBox";
 
 const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [objectArray, setObjectArray] = useState();
   const [showAddClient, setShowAddClient] = useState(false);
-  const [showClientDash, setShowClientDash] = useState(false);
+  const [showEditBox, setShowEditBox] = useState(false);
   const [clientDashHolder, setClientDashHolder] = useState();
+  const [showEdit, setShowEdit] = useState(false);
+  const [Edit, setEdit] = useState();
+
   // const [cardNumber, setCardNumber] = useState(0);
 
-  const openAddClient = () => {
-    setShowAddClient(true);
+  const openEditBox = () => {
+    setShowEditBox(true);
   };
-  const closeAddClient = () => {
-    setShowAddClient(false);
-  };
+
 
   //firebase component to return trainer profile info
   var trainerID = 1; //getFirebaseID()
@@ -85,11 +87,7 @@ const ExerciseDisplay = () => {
             md={4}
             lg={3}
           >
-            <ExerciseCard
-              prop={objects[i]}
-              openClientDash={openClientDash}
-              closeClientDash={closeClientDash}
-            />
+            <ExerciseCard edit={edit} closeEditBox={closeEditBox}/>
           </Grid>
         );
       }
@@ -119,32 +117,24 @@ const ExerciseDisplay = () => {
     // var trainerID = 1; //getFirebaseID()
   };
 
-  const openClientDash = (num) => {
-    console.log("opening dashboard for card number: " + num);
-    console.log("opening dashboard for card name: " + objects[num].firstName);
-    cardNumber = num;
-    console.log(num);
-    console.log(cardNumber);
-    setClientDashHolder(
-      <ClientDashboard
-        closeClientDash={closeClientDash}
-        useCardNumber={objects[num].firstName}
-      />
-    );
-    setShowClientDash(true);
+  const edit = (info) => {
+
+    // pass information from relavent card to editbox
+    setEdit(<EditBox 
+      closeEditBox={closeEditBox}
+      info={info}
+      />);
+    setShowEdit(true);
+
   };
 
-  const closeClientDash = () => {
-    setShowClientDash(false);
-    console.log("closing dash");
-  };
+  const closeEditBox = () => {
+    setShowEdit(false);
+  }
+
 
   return (
     <div>
-      <button onClick={openAddClient} className="dashbtn" id="addbtn">
-        <AddIcon />
-      </button>
-      <Divider />
       <Grid
         container
         className="outerContainer"
@@ -156,13 +146,11 @@ const ExerciseDisplay = () => {
         alignContent="stretch"
         wrap="wrap"
       >
-        {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
-
         {/* loop through json of clients and create components */}
         {DisplayExercise()}
         {arrayChange}
 
-        {showClientDash ? clientDashHolder : null}
+        {showEdit ? Edit : null}
       </Grid>
     </div>
   );

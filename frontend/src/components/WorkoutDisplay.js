@@ -140,9 +140,6 @@ const WorkoutDisplay = () => {
 
   return (
     <div>
-      <button onClick={openAddWorkout} className="dashbtn" id="addbtn">
-        <AddIcon />
-      </button>
       <Divider />
       <Grid
         container

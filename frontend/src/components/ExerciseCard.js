@@ -1,17 +1,23 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import Avatar from "@mui/material/Avatar";
-import { red } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
-import Collapse from "@mui/material/Collapse";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import EditIcon from "@mui/icons-material/Edit";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DeleteIcon from "@mui/icons-material/Delete";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Rating from "@mui/material/Rating";
+import Popover from "@mui/material/Popover";
+import ListItemIcon from "@mui/material/ListItemIcon";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -24,70 +30,119 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function ExerciseCard({ prop, openClientDash }) {
- 
-  const cardNumber = prop.cardNumber;
-  const firstName = prop.firstName;
-  const middleName = prop.middleName;
-  const lastName = prop.lastName;
-  const email = prop.email;
-  const sumtext = "Date Joined: ";
-  const dateJoined = prop.startDate;
-  const concatname = firstName + " " + middleName + " " + lastName;
-  const concatdate = sumtext + dateJoined;
+// Show on surface
+var ident = 123314;
+var name = "Crabwalking";
+var sets = 8;
+var reps = 5;
+const rating = "3";
+const comment =
+  "I feel like I've done this so many times that I can't stand upright anymore. And now I can only pinch with my hands";
+var time = 20;
+var weight = 14.5;
+var rest = 45;
 
-  const workouts = "Crab Dance";
-  const height = "69";
-  const weight = "420";
-  const gender = "Apache Attack Helicopter";
-  const age = "5";
-  const phone = "(123) 451-1337";
-  const birthday = "1945/09/02";
-  const city = "Bronx";
-  const lastLoggedIn = "2020/11/12";
-
+export default function RecipeReviewCard({ edit }) {
   const [expanded, setExpanded] = React.useState(false);
+  const [rating, setValue] = React.useState(2);
+  const [open, setOpen] = React.useState(true);
+
+  var info = new Object();
+  info.id = ident;
+  info.type = "Editing Exercise";
+  info.name = name;
+  info.sets = sets;
+  info.reps = reps;
+  info.time = time;
+  info.weight = weight;
+  info.rest = rest;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const openDashboard = () => {
-    console.log("got to open dashboard function");
-    openClientDash(cardNumber);
 
+  const handleClick = () => {
+    setOpen(!open);
   };
+
+  // stuff
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClickii = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const sendEdit = () => {
+    edit(info);
+  };
+
+  const openi = Boolean(anchorEl);
+  const id = openi ? "simple-popover" : undefined;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
-        sx={{
-          '&:hover': {
-          cursor: 'pointer',
-          textDecoration: 'bold'
-        }}}
-        avatar={
-          <div onClick={openClientDash, openDashboard}>
-          <Avatar 
-            sx={{ bgcolor: red[500] }} aria-label="recipe" >
-            {prop.firstName[0]}
-          </Avatar>
-          </div>
-        }
         action={
-          <IconButton aria-label="settings">
+          <IconButton aria-label="settings" onClick={handleClickii}>
             <MoreVertIcon />
           </IconButton>
         }
-        title={<div onClick={openClientDash, openDashboard}>{concatname}</div>}
+        title={info.name}
       />
+      <Popover
+        id={id}
+        open={openi}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton onClick={sendEdit}>
+              <ListItemIcon>
+                <EditIcon />
+              </ListItemIcon>
+              <ListItemText primary="Edit" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component="a" href="#simple-list">
+              <ListItemIcon>
+                <DeleteIcon />
+              </ListItemIcon>
+              <ListItemText primary="Delete" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Popover>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {concatdate}
+          <Rating
+            name="simple-controlled"
+            value={rating}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
+          />
           <br />
-          Last Logged In: {lastLoggedIn}
           <br />
-          <Divider />
-          {email}
+          Sets: {info.sets}
+          <br />
+          Reps: {info.reps}
+          <br />
+          Estimated Time: {info.time} seconds;
+          <br />
+          Weight: {info.weight} lb(s)
+          <br />
+          Resting Period: {info.rest} seconds;
+          <br />
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -103,23 +158,8 @@ export default function ExerciseCard({ prop, openClientDash }) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            Date Joined: {dateJoined}
-            <br />
-            Workout: {workouts}
-            <br />
-            Height: {height} in
-            <br />
-            Weight: {weight} lb
-            <br />
-            Gender: {gender}
-            <br />
-            Age: {age}
-            <br />
-            Ph. Num: {phone}
-            <br />
-            DOB: {birthday}
-            <br />
-            City: {city}
+            User Comment: <br />
+            {info.comment}
           </Typography>
         </CardContent>
       </Collapse>

@@ -1,5 +1,5 @@
 .dashbtn {
-  display: inline-block;
+  /* display: inline-block; */
   background: purple;
   color: #fff;
   border: none;
@@ -10,14 +10,81 @@
   text-decoration: none;
   font-size: 15px;
   font-family: inherit;
+  position: absolute;
+  top: 90vh;
+  left: 20%;
   
 }
 .dashbtn:hover {
+  background: #28b7cb;
+}
+
+#addbtn {
+  background: purple;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  /* margin: 10px auto; */
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+  position: absolute;
+  float: right;
+  /* position: relative; */
+  left: 65vw;
+}
+#addbtn:hover {
+  border: black 20px;
+  background: #28b7cb;
+}
+#editbtn {
+  background: purple;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  /* margin: 10px auto; */
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+  position: absolute;
+  float: right;
+  /* position: relative; */
+  left: 70vw;
+}
+#editbtn:hover {
+  border: black 20px;
+  background: #28b7cb;
+}
+#delbtn {
+  background: purple;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  /* margin: 10px auto; */
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+  position: absolute;
+  float: right;
+  /* position: relative; */
+  left: 75vw;
+}
+#delbtn:hover {
   border: black 20px;
   background: #28b7cb;
 }
 
-/* #addbtn{
-  position: inherit;
-  float: right;
-} */
+#search {
+  position: absolute;
+  left: 80vw;
+}
+
+.items:active {
+  color: blue;
+}
