@@ -28,7 +28,7 @@ const Screen = () => {
                     style={styles.textInput}
                     mode="outlined"
                     label="Email"
-                    right={<TextInput.Icon name="check" />}
+                    /*right={<TextInput.Icon name="check" />}*/
 
                     value={login}
                     onChangeText={login => setLogin(login)}
@@ -37,7 +37,7 @@ const Screen = () => {
                     style={styles.textInput}
                     mode="outlined"
                     label="Password"
-                    right={<TextInput.Icon name={passwordIcon} onPress={() => changeIcon()}/>}
+                    /*right={<TextInput.Icon name={passwordIcon} onPress={() => changeIcon()}/>}*/
 
                     secureTextEntry={!showPassword}
                     value={password}
@@ -46,7 +46,7 @@ const Screen = () => {
                 <Button mode="contained" style={styles.submitButton}>
                     Submit
                 </Button>
-                <Text
+                {/*<Text
                     style={styles.forgotPasswordText}
                     onPress={() => Linking.openURL('https://google.com')}>
                     Forgot password
@@ -57,7 +57,7 @@ const Screen = () => {
                         onPress={() => Linking.openURL('https://google.com')}>
                         Sign up
                     </Text>
-                </Text>
+                </Text>*/}
             </Surface>
         </ImageBackground>
     );
