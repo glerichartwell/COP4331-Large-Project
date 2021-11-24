@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ImageBackground, Platform, StyleSheet, Text} from 'react-native';
+import {ImageBackground, Linking, Platform, StyleSheet, Text} from 'react-native';
 import {Button, Subheading, Surface, TextInput, Title} from 'react-native-paper';
 import theme from '../custom-properties/Themes'
 
@@ -27,8 +27,8 @@ const Screen = () => {
                 <TextInput
                     style={styles.textInput}
                     mode="outlined"
-                    label="E-mail"
-                    /*right={<TextInput.Icon name="check" />}*/
+                    label="Email"
+                    right={<TextInput.Icon name="check" />}
 
                     value={login}
                     onChangeText={login => setLogin(login)}
@@ -36,8 +36,8 @@ const Screen = () => {
                 <TextInput
                     style={styles.textInput}
                     mode="outlined"
-                    label="Pass-word"
-                    /*right={<TextInput.Icon name={passwordIcon} onPress={() => changeIcon()}/>}*/
+                    label="Password"
+                    right={<TextInput.Icon name={passwordIcon} onPress={() => changeIcon()}/>}
 
                     secureTextEntry={!showPassword}
                     value={password}
@@ -46,6 +46,18 @@ const Screen = () => {
                 <Button mode="contained" style={styles.submitButton}>
                     Submit
                 </Button>
+                <Text
+                    style={styles.forgotPasswordText}
+                    onPress={() => Linking.openURL('https://google.com')}>
+                    Forgot password
+                </Text>
+                <Text style={styles.signUpText}>
+                    Don't have an account? <Text
+                        style={{color: theme.colors.color4}}
+                        onPress={() => Linking.openURL('https://google.com')}>
+                        Sign up
+                    </Text>
+                </Text>
             </Surface>
         </ImageBackground>
     );
@@ -82,11 +94,20 @@ const styles = StyleSheet.create({
         },
         textInput: {
             width: "100%",
-            paddingBottom: 30
+            paddingBottom: 40,
+            height: 45,
         },
         submitButton: {
             borderRadius: 10,
             backgroundColor: theme.colors.color4
         },
+        forgotPasswordText: {
+            paddingTop: 10,
+            color: theme.colors.color4,
+            paddingBottom: 30,
+        },
+        signUpText: {
+            alignSelf: "center",
+        }
     }
 );
