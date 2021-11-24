@@ -1,22 +1,24 @@
 import * as React from 'react';
 import {ImageBackground, Linking, Platform, StyleSheet, Text} from 'react-native';
 import {Button, Subheading, Surface, TextInput, Title} from 'react-native-paper';
-import theme from '../custom-properties/Themes'
+import theme from '../custom-properties/Themes';
 
 const Screen = () => {
     const [login, setLogin] = React.useState('');
     const [password, setPassword] = React.useState('');
-    /*let state = {
-        icon: "eye",
-        password: true
-    };*/
-    let passwordIcon = "eye";
-    let showPassword = false;
+    const [passwordVisibility, setPasswordVisibility] = React.useState(false);
+    const [eyeCon, setEyeCon] = React.useState('eye');
 
-    function changeIcon() {
-        passwordIcon = (passwordIcon = "eye") ? "eye-off" : "eye";
-        showPassword = !showPassword;
-    }
+    const handlePasswordVisibility = () => {
+        if (eyeCon === 'eye') {
+            setEyeCon('eye-off');
+            setPasswordVisibility(!passwordVisibility);
+        } else if (eyeCon === 'eye-off') {
+            setEyeCon('eye');
+            setPasswordVisibility(!passwordVisibility);
+        }
+    };
+
 
     return (
         <ImageBackground source={require('../assets/images/palette_max.jpg')} style={styles.backgroundImage}>
@@ -37,9 +39,9 @@ const Screen = () => {
                     style={styles.textInput}
                     mode="outlined"
                     label="Password"
-                    /*right={<TextInput.Icon name={passwordIcon} onPress={() => changeIcon()}/>}*/
+                    right={<TextInput.Icon name={eyeCon} onPress={() => handlePasswordVisibility()}/>}
 
-                    secureTextEntry={!showPassword}
+                    secureTextEntry={!passwordVisibility}
                     value={password}
                     onChangeText={password => setPassword(password)}
                 />
