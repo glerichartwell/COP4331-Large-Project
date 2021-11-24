@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {ImageBackground, Linking, Platform, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Button, Subheading, Surface, TextInput, Title} from 'react-native-paper';
+import {Button, HelperText, Subheading, Surface, TextInput, Title} from 'react-native-paper';
 import theme from '../custom-properties/Themes';
 import {auth} from "../custom-properties/firebase";
 
@@ -9,6 +9,7 @@ const Screen = () => {
     const [password, setPassword] = React.useState('');
     const [passwordVisibility, setPasswordVisibility] = React.useState(false);
     const [eyeCon, setEyeCon] = React.useState('eye');
+    const [invalid, setInvalid] = React.useState(false);
 
     const handlePasswordVisibility = () => {
         console.log(eyeCon);
@@ -26,9 +27,11 @@ const Screen = () => {
             .signInWithEmailAndPassword(login, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
+                setInvalid(false);
                 console.log(user.email);
             })
-            .catch(error => alert(error.message))
+            /*.catch(error => alert(error.message))*/
+            .catch(error => setInvalid(true))
     }
 
     return (
@@ -44,6 +47,7 @@ const Screen = () => {
                     /*right={<TextInput.Icon name="check" />}*/
 
                     value={login}
+                    error={invalid}
                     onChangeText={text => setLogin(text)}
                 />
                 <TextInput
@@ -54,8 +58,16 @@ const Screen = () => {
 
                     secureTextEntry={!passwordVisibility}
                     value={password}
+                    error={invalid}
                     onChangeText={text => setPassword(text)}
                 />
+                <HelperText
+                    type="error"
+                    style={styles.invalidText}
+                    visible={invalid}
+                >
+                    Invalid Email/Password
+                </HelperText>
                 <Button mode="contained" style={styles.submitButton} onPress={() => {handleLogin()}}>
                     Submit
                 </Button>
@@ -118,6 +130,9 @@ const styles = StyleSheet.create({
             marginBottom: 20,
             height: 45,
             lineHeight: 45,
+        },
+        invalidText:{
+            fontSize: 14
         },
         submitButton: {
             marginBottom: 80,
