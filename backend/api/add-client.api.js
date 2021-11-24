@@ -50,7 +50,7 @@ router.post("/api/add-client", async (req, res) => {
       startDate: "",
       lastLoggedIn: "",
     };
-    db.collection("Client").insertOne(newUser);
+    db.collection("Clients").insertOne(newUser);
 
     // send email to trainer
     var transporter = nodemailer.createTransport({
