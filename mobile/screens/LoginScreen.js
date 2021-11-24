@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ImageBackground, Linking, Platform, StyleSheet, Text} from 'react-native';
+import {ImageBackground, Linking, Platform, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Button, Subheading, Surface, TextInput, Title} from 'react-native-paper';
 import theme from '../custom-properties/Themes';
 import {auth} from "../custom-properties/firebase";
@@ -11,6 +11,7 @@ const Screen = () => {
     const [eyeCon, setEyeCon] = React.useState('eye');
 
     const handlePasswordVisibility = () => {
+        console.log(eyeCon);
         if (eyeCon === 'eye') {
             setEyeCon('eye-off');
             setPasswordVisibility(!passwordVisibility);
@@ -55,7 +56,7 @@ const Screen = () => {
                     value={password}
                     onChangeText={text => setPassword(text)}
                 />
-                <Button mode="contained" style={styles.submitButton} onPress={() => console.log('Pressed')}>
+                <Button mode="contained" style={styles.submitButton} onPress={() => {handleLogin()}}>
                     Submit
                 </Button>
                 {/*<Text
@@ -78,41 +79,50 @@ const Screen = () => {
 export default Screen;
 
 const styles = StyleSheet.create({
-        backgroundImage: {},
+        backgroundImage: {
+            height: '100%',
+            justifyContent: 'flex-end',
+            marginBottom: 36
+        },
+        bottom: {
+
+        },
         title1: {
             paddingTop: 100,
-            paddingLeft: 20,
+            marginLeft: 20,
             fontSize: 48,
             color: "white",
         },
         title2: {
             paddingTop: 20,
             paddingLeft: 20,
+            marginBottom: "65%",
             fontSize: 48,
             color: "white",
         },
         surface: {
             backgroundColor: "white",
-            borderRadius: 20,
-            top: "30%",
-            height: "50%",
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
             paddingLeft: 50,
             paddingRight: 50,
             paddingTop: 70
         },
         loginText: {
             fontSize: 24,
-            paddingBottom: 10
+            marginTop: -25,
+            marginBottom: 10
         },
         textInput: {
             width: "100%",
-            paddingBottom: 40,
+            marginBottom: 20,
             height: 45,
             lineHeight: 45,
         },
         submitButton: {
+            marginBottom: 80,
             borderRadius: 10,
-            backgroundColor: theme.colors.color4
+            backgroundColor: theme.colors.color4,
         },
         forgotPasswordText: {
             paddingTop: 10,
