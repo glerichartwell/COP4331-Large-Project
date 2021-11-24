@@ -1,6 +1,6 @@
 // search-client.api.js - Search Client Endpoint
 
-// setting up middleware and hashing
+// setting up middleware
 require("dotenv").config();
 const express = require("express");
 const client = require("../db");
@@ -11,29 +11,33 @@ router.post("/api/search-client", async (req, res) => {
   // outgoing: success or error
 
   var error = "";
-  const { firstName, lastName, email } = req.body;
+  const { search } = req.body;
   const db = client.db();
 
+  var results, results1, results2;
+  var loopLength = 0;
   // find client
-  const results = await db
+  results = await db
     .collection("Clients")
-    .find({ firstName: firstName.toLowerCase() })
+    .find({
+      $expr: {
+        $regexMatch: {
+          input: {
+            $concat: ["$firstName", " ", "$lastName", " ", "$email"],
+          },
+          regex: search,
+          options: "i",
+        },
+      },
+    })
     .toArray();
-  const results1 = await db
-    .collection("Clients")
-    .find({ lastName: lastName.toLowerCase() })
-    .toArray();
-  const results2 = await db
-    .collection("Clients")
-    .find({ email: email.toLowerCase() })
-    .toArray();
+  loopLength += results.length;
 
-  var loopLength = results.length + results1.length + results2.length;
   var _ret = [];
   for (var i = 0; i < loopLength; i++) {
-    if (results[i]) _ret.push(results[i]);
-    if (results1[i]) _ret.push(results1[i]);
-    if (results2[i]) _ret.push(results2[i]);
+    if (results && results[i]) _ret.push(results[i]);
+    if (results1 && results1[i]) _ret.push(results1[i]);
+    if (results2 && results2[i]) _ret.push(results2[i]);
   }
 
   // package data

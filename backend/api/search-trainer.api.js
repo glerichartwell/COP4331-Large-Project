@@ -1,13 +1,12 @@
-// search-client-by-email.api.js - Search Client By Email Endpoint
+// search-trainer.api.js - Search Trainer Endpoint
 
 // setting up middleware
-
 require("dotenv").config();
 const express = require("express");
 const client = require("../db");
 const router = express.Router();
 
-router.post("/api/search-client-by-email", async (req, res) => {
+router.post("/api/search-trainer", async (req, res) => {
   // incoming: email
   // outgoing: success or error
 
@@ -15,30 +14,15 @@ router.post("/api/search-client-by-email", async (req, res) => {
   const { email } = req.body;
   const db = client.db();
 
-  if (email == null)
-  {
-    ret = {
-        error: "You do not have access to this page."
-    }
-    res.status(500).json(ret);
-    return;
-  }
-
-  // find client
+  // find trainer
   const results = await db
-    .collection("Clients")
+    .collection("Trainers")
     .find({ email: email.toLowerCase() })
     .toArray();
 
-  var loopLength = results.length;
-  var _ret = [];
-  for (var i = 0; i < loopLength; i++) {
-    if (results[i]) _ret.push(results[i]);
-  }
-
   // package data
   var ret = {
-    results: _ret,
+    results: results,
     error: error,
   };
   // send data

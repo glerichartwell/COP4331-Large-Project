@@ -1,6 +1,6 @@
 // request-info.js - Request Information Endpoint
 
-// setting up middleware and hashing
+// setting up middleware
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
