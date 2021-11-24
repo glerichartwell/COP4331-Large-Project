@@ -1,4 +1,4 @@
-// view-client-workouts.api.js - View Client Workouts Endpoint
+// search-client-by-email.api.js - Search Client By Email Endpoint
 
 // setting up middleware
 require("dotenv").config();
@@ -6,29 +6,20 @@ const express = require("express");
 const client = require("../db");
 const router = express.Router();
 
-router.post("/api/view-client-workouts", async (req, res) => {
-  // incoming: client's email
-  // outgoing: clients or error
+router.post("/api/search-client-by-email", async (req, res) => {
+  // incoming: email
+  // outgoing: success or error
 
   var error = "";
   const { email } = req.body;
   const db = client.db();
 
-  // get clients
-  const client = await db
+  // find client
+  const results = await db
     .collection("Clients")
     .find({ email: email.toLowerCase() })
     .toArray();
 
-  if (client.length == 0) {
-    error = "No clients";
-  } else {
-    if (client[0].workouts.length == 0) {
-      error = "No workouts for this client";
-    } else {
-      results = client[0].workouts;
-    }
-  }
   // package data
   var ret = {
     results: results,

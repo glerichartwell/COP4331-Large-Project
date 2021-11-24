@@ -17,7 +17,7 @@ router.delete("/api/delete-client", async (req, res) => {
 
   // find client
   const results = await db
-    .collection("Client")
+    .collection("Clients")
     .find({ email: email.toLowerCase() })
     .toArray();
 
