@@ -47,6 +47,7 @@ app.use(express.json());
 app.use("/", addClient);
 app.use("/", editClient);
 app.use("/", searchClient);
+app.use("/", searchClientByEmail);
 app.use("/", deleteClient);
 app.use("/", searchClientByEmail);
 app.use("/", viewAllClients);

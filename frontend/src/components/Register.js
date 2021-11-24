@@ -1,27 +1,36 @@
 import { useEffect, useState } from "react";
 
+import { getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+
 import { TextField, Grid, Button, Paper, Stack } from "@mui/material"
 
 import "./Login.css"
 
-const Register = () => {
+import RegisterSuccess from "./RegisterSuccess";
+import { useNavigate } from "react-router";
+
+
+const Register = props => {
+
+  const navigate = useNavigate();
 
   const [showClientCredentials, setShowClientCredentials] = useState(true);
   const [showBasicInfo, setShowBasicInfo] = useState(false);
+  const [registerSuccess, setRegisterSuccess] = useState(false)
 
   // Input variables
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
-  const [firstName, setFirstName] = useState(null);
-  const [middleName, setMiddleName] = useState(null);
-  const [lastName, setLastName] = useState(null);
-  const [height, setHeight] = useState(null);
-  const [weight, setWeight] = useState(null);
-  const [phone, setPhone] = useState(null);
-  const [gender, setGender] = useState(null);
+  const [email, setEmail] = useState(props.placeholder);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [middleName, setMiddleName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
+  const [phone, setPhone] = useState('');
+  const [gender, setGender] = useState('');
   const [birthday, setBirthday] = useState(null);
-  const [city, setCity] = useState(null);
+  const [city, setCity] = useState('');
 
   // Track input states
   const [bdayType, setBdayType] = useState("text")
@@ -30,12 +39,78 @@ const Register = () => {
   const [disableNextButton, setDisableNextButton] = useState(true);
   const [disableRegisterButton, setDisableRegisterButton] = useState(true);
 
-  const registerClient = () => {
+  const registerClient = async event => {
     
-    // Register Client with Firebase
-    // If Firebase -> Landing || !Mongo
-    // navigate Landing
-    // else run this function
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log("User: ", user);
+        signOut(auth);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("Error code: ", errorCode, " ", errorMessage);
+        // ..
+      });
+
+      const today = new Date()
+      const startMonth = today.getMonth() + 1;
+      const startDay = today.getDate();
+      const startYear = today.getFullYear();
+
+      const startDate = startMonth + '/' + startDay + '/' + startYear;
+      // Make EDIT CLIENT API CALL WITH INFO
+      const obj = {
+        email: email,
+        firstName: firstName,
+        middleName: middleName,
+        lastName: lastName,
+        height: height,
+        weight: weight,
+        phone: phone,
+        gender: gender,
+        birthday: birthday,
+        city: city,
+        startDate: startDate,
+      };
+      const js = JSON.stringify(obj);
+      console.log(js)
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/edit-client",
+          {
+            method: "PATCH",
+            body: js,
+            headers: { "Content-Type": "application/json" },
+          }
+          );
+          
+          var txt = await response.text();
+          var res = JSON.parse(txt);
+  
+          if (res['status'] === 200) {
+            console.log("Client updated.")
+          }
+          else
+          {
+            console.log("Edit unsucessful");
+            console.log("Redirecting...");
+            navigate('/access-denied');
+          }
+
+          
+        } catch (error) {
+          console.log("Edit unsucessful");
+          console.log("Redirecting...");
+          navigate('/access-denied');
+        }
+
+
+      switchToRegisterSuccess();
   }
   
   const switchToBasicInfo = () => {
@@ -43,15 +118,20 @@ const Register = () => {
     setShowBasicInfo(true);
   }
 
+  const switchToRegisterSuccess = () => {
+    setShowBasicInfo(false);
+    setRegisterSuccess(true);
+  }
+
   // Disable Next Button
   useEffect(() => {
-    if (email && password && confirmPassword)
+    if (email && password && confirmPassword && password === confirmPassword)
         {
-          setDisableRegisterButton(false);
+          setDisableNextButton(false);
         }
         else
         {
-          setDisableRegisterButton(true);
+          setDisableNextButton(true);
         }
   }, [email, password, confirmPassword]);
 
@@ -67,11 +147,11 @@ const Register = () => {
         birthday &&
         city)
         {
-          setDisableNextButton(false);
+          setDisableRegisterButton(false);
         }
         else
         {
-          setDisableNextButton(true);
+          setDisableRegisterButton(true);
         }
   }, [firstName, middleName, lastName, 
       height, weight, phone, 
@@ -152,7 +232,7 @@ const Register = () => {
                 <TextField sx={sxClienTextField} id='email' type='email' placeholder="Email" value={email} onChange={e => {setEmail(e.target.value)}} size="large" variant='standard'/>
                 <TextField sx={sxClienTextField} id='password' type='password' placeholder="Password" value={password} onChange={e => {setPassword(e.target.value)}} size="large" variant='standard'/>
                 <TextField sx={sxClienTextField} id='confirmPassword' error={passwordError} helperText={passwordHelperText} type='password' placeholder="Confirm Password" value={confirmPassword} onChange={e => {setConfirmPassword(e.target.value)}} size="large" variant='standard'/>
-              <Button sx={sxButton} disabled={disableRegisterButton} variant='contained' onClick={switchToBasicInfo}>Next</Button>
+              <Button sx={sxButton} disabled={disableNextButton} variant='contained' onClick={switchToBasicInfo}>Next</Button>
             </Paper>
           </Grid>
         </Grid>) : null;
@@ -174,10 +254,14 @@ const Register = () => {
               <TextField sx={sxBasicTextField} id='phone' type='text' placeholder="Phone Number" value={phone} onChange={e => {setPhone(e.target.value)}} size="large" variant='standard'/>
               <TextField sx={sxBasicTextField} id='birthday' type={bdayType} placeholder="Birthday" onBlur={() => setBdayType('text')} onFocus={() => setBdayType('date')} onChange={e => {setBirthday(e.target.value)}} size="large" variant='standard'/>
               <TextField sx={sxBasicTextField} id='city' type='text' placeholder="City" value={city} onChange={e => {setCity(e.target.value)}} size="large" variant='standard'/>
-              <Button sx={sxButton} disabled={disableNextButton} variant='contained' onClick={registerClient}>Register</Button>
+              <Button sx={sxButton} disabled={disableRegisterButton} variant='contained' onClick={registerClient}>Register</Button>
             </Paper>
           </Grid>
         </Grid>) : null;
+    };
+
+    const RegSuccess = () => {
+      return registerSuccess ? <RegisterSuccess open={registerSuccess} setRegisterSuccess={setRegisterSuccess} /> : null;
     };
 
 
@@ -186,6 +270,7 @@ const Register = () => {
       <Grid container direction='column' alignItems='center' justifyContent='center'>
         {BasicInfo()}
         {ClientCredentials()}
+        {RegSuccess()}
       </Grid>
     )
   }

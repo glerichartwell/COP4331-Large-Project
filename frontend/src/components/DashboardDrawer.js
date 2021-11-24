@@ -23,6 +23,7 @@ import EventIcon from "@mui/icons-material/Event";
 import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import { getAuth, signOut } from "@firebase/auth";
 
 const DashboardDrawer = (props) => {
   const navigate = useNavigate();
@@ -36,8 +37,9 @@ const DashboardDrawer = (props) => {
   // const handleDrawerClose = () => {
   //   setOpen(false);
   // };
-
+  const auth = getAuth();
   const logout = () => {
+    signOut(auth);
     navigate(`/`);
   };
 

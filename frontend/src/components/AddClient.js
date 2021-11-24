@@ -13,7 +13,7 @@ import {
   TextField, 
 
 } from "@mui/material";
-import { Navigate } from "react-router";
+
 
 
 
@@ -27,20 +27,17 @@ const AddClient = (props) => {
   var trainerID = null;
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    trainerID = user.uid;
-    console.log("TrainerID: ", trainerID)
-    // ...
-  } else {
-    navigate('/')
-  }
-});
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      trainerID = user.uid;
+      console.log("TrainerID: ", trainerID)
+      // ...
+    } else {
+      navigate('/access-denied')
+    }
+  });
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     props.setShowAddClient(false)

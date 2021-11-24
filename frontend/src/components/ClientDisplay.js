@@ -24,33 +24,37 @@ const ClientDisplay = () => {
   var objects = [];
 
   //firebase component to return trainer profile info
-  var trainerID = 1; //getFirebaseID()
+  var trainerID = 'g.erichartwell@gmail.com'; //getFirebaseID()
   
   const handleClick = e => {
     e.stopPropagation();
   };
   
   const getClients = async (event) => {
-    const address = "http://localhost:5000/api/view-clients";
+    
     //event.preventDefault();
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
-
+    console.log(js)
     try {
-      const response = await fetch(address, {
-        method: "GET",
-        body: js,
-        headers: { "Content-Type": "application/json" },
-      });
-
+      const response = await fetch(
+        "http://localhost:5000/api/view-clients", 
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       var txt = await response.text();
+      console.log(txt)
       var res = JSON.parse(txt);
       clients = res;
 
       // save number of clients
       const numClients = clients.results.length;
 
+      // Convert to obj literal {}, current is causing error
       for (var i = 0; i < numClients; i++) {
         var obj = new Object();
         obj["firstName"] = clients.results[i].firstName;
@@ -68,7 +72,7 @@ const ClientDisplay = () => {
         objects.push(obj);
       }
       //can access numclients from trainer database
-      for (var i = 0; i < numClients; i++) {
+      for (i = 0; i < numClients; i++) {
         cardArray.push(
           <Grid
             className="custom-cards"

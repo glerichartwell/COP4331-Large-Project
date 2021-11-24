@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from "react-router";
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
 
 import { TextField, Grid, Button} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
@@ -17,27 +17,83 @@ const Login = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  
+  const isTrainer = 1;
+
   const handleClose = () => {
     props.close();
   }
 
   const navigate = useNavigate();
   const auth = getAuth();
-  const logIn = e => {
+  const logIn = async e => {
     e.preventDefault();
 
+    var userEmail = null;
+    var lastLoggedIn = null;
+
+    setPersistence(auth, browserLocalPersistence );
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then((user) => {
       // Signed in 
-      // const user = userCredential.user;
-      props.close();
-      navigate('/trainer-dashboard');
+      userEmail = user['email'];
+      const today = new Date()
+      const startMonth = today.getMonth() + 1;
+      const startDay = today.getDate();
+      const startYear = today.getFullYear();
+
+      lastLoggedIn = startMonth + '/' + startDay + '/' + startYear;
     })
     .catch((error) => {
       setMessage('Invalid email/password combination.')
       console.log(error)
     });
+
+    if (isTrainer)
+    {
+        handleClose();
+        navigate('/trainer-dashboard');
+    }
+    else
+    {
+      const obj = {
+        email: userEmail,
+        lastLoggedIn: lastLoggedIn,
+      }
+      const js = JSON.stringify(obj);
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/edit-client",
+          {
+            method: "PATCH",
+            body: js,
+            headers: { "Content-Type": "application/json" },
+          }
+          );
+          
+          var txt = await response.text();
+          var res = JSON.parse(txt);
+
+          if (res['status'] === 200) {
+            console.log("Client updated.")
+            handleClose();
+            navigate('/client-dashboard');
+          }
+          else
+          {
+            console.log("Edit unsucessful");
+            console.log("Redirecting...");
+            handleClose();
+            navigate('/access-denied');
+          }
+        } catch (error) {
+          console.log("Edit unsucessful");
+          console.log("Redirecting...");
+          handleClose();
+          navigate('/access-denied');
+        }
+      
+    }
+
   };
 
   const LoginSection = () => {
