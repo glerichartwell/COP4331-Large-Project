@@ -10,6 +10,9 @@ mobile/*.key
 mobile/*.mobileprovision
 mobile/*.orig.*
 mobile/web-build/
+backend/node_modules
+frontend/node_modules
+backend/.env
 
 # macOS
 mobile/.DS_Store

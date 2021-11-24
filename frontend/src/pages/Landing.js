@@ -1,35 +1,28 @@
-import React from "react";
-import Button from "../components/Button";
-import "./Landing.css";
-import { useState } from "react";
-import Login from "../components/Login";
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+
+import { Button, Card, CardContent } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { Card, CardContent, CardHeader } from "@mui/material";
+
+import DialogBox from "../components/DialogBox"
+import Login from "../components/Login";
+
+
+import "./Landing.css";
+
+
+
 
 const Landing = (props) => {
-  const [buttonText, setButtonText] = useState("Login")
+ 
   const [showLog, setShowLog] = useState(false);
-  const [showInfo, setShowInfo] = useState(true);
-  const navigate = useNavigate();
-
-
-
+  const [showInfo, setShowInfo] = useState(false);
+  
   const activateLog = () => {
-    setShowLog((showLog) => !showLog)
-    if (buttonText == "Login")
-    {
-      setButtonText("Cancel")
-    }
-    else
-    {
-      setButtonText("Login")
-    }
+    setShowLog(true);
   }
   
   const getInfo = () => {
-    let path = `/request-info`;
-    navigate(path);
+    setShowInfo(true);
   };
 
   const LandingGrid = () => {
@@ -63,14 +56,13 @@ const Landing = (props) => {
               item
               className="landing-btn"
               textAlign="center"
-              item
               xs={6}
               sm={6}
               md={6}
               lg={6}
             >
               <div className="landing-btn">
-                <Button text={buttonText} onClick={activateLog} />
+              <Button sx={{width: '100px', margin: '15px', background: '#28B7CB'}} variant='contained' onClick={activateLog}>Login</Button>
               </div>
             </Grid>
           </Grid>
@@ -96,15 +88,15 @@ const Landing = (props) => {
               md={4}
               lg={4}
             >
-              <Card className='contact'>
+              <Card className='contact' onClick={getInfo}>
                 <CardContent>
-                  <a id="contact-us" onClick={getInfo}>
+                  <div id="contact-us">
                     <span>
                       Contact Us
                       <br /> Pressure free communication, where we get to know
                       you and your needs.
                     </span>
-                  </a>
+                  </div>
                 </CardContent>
               </Card>
             </Grid>
@@ -117,16 +109,17 @@ const Landing = (props) => {
               md={4}
               lg={4}
             >
+              {/* add to Card to make clickable onClick={getAboutUs} */}
               <Card className='about'>
                 <CardContent>
-                  <a id="about-us">
+                  <div id="about-us">
                     <span>
                       About Us
                       <br />
                       Meet the team, our amazing trainers, leaders, diatitions,
                       and all accessible to you.
                     </span>
-                  </a>
+                  </div>
                 </CardContent>
               </Card>
             </Grid>
@@ -140,16 +133,17 @@ const Landing = (props) => {
               md={4}
               lg={4}
             >
-              <Card className='success'>
+              {/* add to Card to make clickable onClick={getSuccessStories} */}
+              <Card className='success' >
                 <CardContent>
-                <a id="success-stories">
+                <div id="success-stories">
                   <span>
                     Success Stories
                     <br />
                     See how our program works first hand and get to know the
                     amazing people we've helped.
                   </span>
-                </a>
+                </div>
                 </CardContent>
               </Card>
             </Grid>
@@ -163,8 +157,10 @@ const Landing = (props) => {
     <div>
       {/* <Landing /> */}
       <LandingGrid />
-      {showLog ? <Login /> : null}
-      {/* {showInfo ? null : <DialogBox />} */}
+      {/* <RegisterPage /> */}
+      {console.log(showLog)}
+      {showLog && <Login showLog={showLog} close={() => {setShowLog(false);}} />}
+      {showInfo && <DialogBox setShowInfo={setShowInfo} />}
     </div>
   );
 };

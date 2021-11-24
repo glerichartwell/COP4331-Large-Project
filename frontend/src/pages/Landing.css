@@ -51,6 +51,11 @@
   /* right: 5%; */
   /* transition: 2000ms; */
 }
+
+.success {
+  box-shadow: 0px;
+  text-shadow: 10px;
+}
 /* 
 #contact-us {
     right: 50%;

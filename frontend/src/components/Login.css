@@ -1,5 +1,6 @@
 .login-container {
   display: flexbox;
+  position: relative;
   overflow: hidden;
   box-sizing: border-box;
   top: 0;
@@ -21,6 +22,11 @@
 }
 .login-component {
   padding: 20%;
+}
+.closeButton {
+  float: right;
+  margin-top: 10px;
+  color: blueviolet;
 }
 
 .register-container {
