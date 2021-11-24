@@ -2,6 +2,7 @@ import * as React from 'react';
 import {ImageBackground, Linking, Platform, StyleSheet, Text} from 'react-native';
 import {Button, Subheading, Surface, TextInput, Title} from 'react-native-paper';
 import theme from '../custom-properties/Themes';
+import {auth} from "../custom-properties/firebase";
 
 const Screen = () => {
     const [login, setLogin] = React.useState('');
@@ -19,6 +20,15 @@ const Screen = () => {
         }
     };
 
+    const handleLogin = () => {
+        auth
+            .signInWithEmailAndPassword(login, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log(user.email);
+            })
+            .catch(error => alert(error.message))
+    }
 
     return (
         <ImageBackground source={require('../assets/images/palette_max.jpg')} style={styles.backgroundImage}>
@@ -33,7 +43,7 @@ const Screen = () => {
                     /*right={<TextInput.Icon name="check" />}*/
 
                     value={login}
-                    onChangeText={login => setLogin(login)}
+                    onChangeText={text => setLogin(text)}
                 />
                 <TextInput
                     style={styles.textInput}
@@ -43,9 +53,9 @@ const Screen = () => {
 
                     secureTextEntry={!passwordVisibility}
                     value={password}
-                    onChangeText={password => setPassword(password)}
+                    onChangeText={text => setPassword(text)}
                 />
-                <Button mode="contained" style={styles.submitButton}>
+                <Button mode="contained" style={styles.submitButton} onPress={() => console.log('Pressed')}>
                     Submit
                 </Button>
                 {/*<Text
@@ -98,6 +108,7 @@ const styles = StyleSheet.create({
             width: "100%",
             paddingBottom: 40,
             height: 45,
+            lineHeight: 45,
         },
         submitButton: {
             borderRadius: 10,
