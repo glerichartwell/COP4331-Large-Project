@@ -3,7 +3,7 @@ import {ImageBackground, StyleSheet, Text} from 'react-native';
 import {Button, HelperText, Modal, Portal, Subheading, Surface, TextInput, Title} from 'react-native-paper';
 import theme from '../custom-properties/Themes';
 import {auth} from "../custom-properties/firebase";
-import {onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword} from "firebase/auth";
+import {onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import {useNavigation} from "@react-navigation/core";
 
 const Screen = () => {
@@ -62,6 +62,16 @@ const Screen = () => {
                 }
             })
     }
+
+    // TEMPORARY:
+    const handleSignOut = () => {
+        signOut(auth)
+            .then(() => {
+                console.log("Navigating to Login")
+            })
+            .catch(error => console.log(error.message))
+    }
+
 
     const showPasswordModal = () => {
         setForgotEmail('');
