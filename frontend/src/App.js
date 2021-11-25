@@ -3,13 +3,13 @@ import { BrowserRouter, Routes , Route } from 'react-router-dom';
 import { useState } from 'react';
 
 import Landing from './pages/Landing';
-import RegisterPage from './RegisterPage';
+import RegisterPage from './pages/RegisterPage';
 import RequestInformation from './pages/RequestInformation';
 import TrainerDashboard from './pages/TrainerDashboard';
 import ClientDashboard from './pages/ClientDashboard';
-
-import './App.css';
 import AccessDenied from './pages/AccessDenied';
+
+import './css/App.css';
 
 function App() {
   

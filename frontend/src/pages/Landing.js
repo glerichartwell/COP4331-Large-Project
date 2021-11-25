@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, CardContent } from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-import DialogBox from "../components/DialogBox"
-import Login from "../components/Login";
+import DialogBox from "../components/landing/DialogBox"
+import Login from "../components/landing/Login";
 
 
 import "./Landing.css";
