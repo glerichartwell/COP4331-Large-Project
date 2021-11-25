@@ -30,15 +30,17 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-// Show on surface
-const firstName = "Anit ";
-const middleName = " A ";
-const lastName = " Bath ";
-const email = "bootnob@aol.com";
-const sumtext = "Date Joined: ";
-const dateJoined = "09/23/1945";
-const concatname = firstName + " " + middleName + " " + lastName;
-const concatdate = sumtext + dateJoined;
+export default function RecipeReviewCard({ prop, openClientDash }) {
+ 
+  const cardNumber = prop.cardNumber;
+  const firstName = prop.firstName;
+  const middleName = prop.middleName;
+  const lastName = prop.lastName;
+  const concatname = firstName + " " + middleName + " " + lastName;
+  const email = prop.email;
+  const dateJoined = prop.startDate;
+  const sumtext = "Date Joined: ";
+  const concatdate = sumtext + dateJoined;
 
 const workouts = "Crab Dance";
 const height = "69";
@@ -46,15 +48,19 @@ const weight = "420";
 const gender = "Apache Attack Helicopter";
 const age = "5";
 const phone = "(123) 451-1337";
-const birthday = "1945/09/02";
+const birthday = "09/02/1945";
 const city = "Bronx";
 const lastLoggedIn = "11/12/2020";
 
-export default function RecipeReviewCard() {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+  const openDashboard = () => {
+    console.log("got to open dashboard function");
+    openClientDash(cardNumber);
+
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -78,7 +84,7 @@ export default function RecipeReviewCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title={concatname}
+        title={<div onClick={openClientDash, openDashboard}>{concatname}</div>}
       />
       <Popover
         id={id}
@@ -131,11 +137,7 @@ export default function RecipeReviewCard() {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            Date Joined: {dateJoined}
-            <br />
-            Workout: {workouts}
-            <br />
+          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left'}}>
             Height: {height} in
             <br />
             Weight: {weight} lb

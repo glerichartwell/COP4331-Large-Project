@@ -4,7 +4,6 @@ import Grid from "@mui/material/Grid";
 import DialogBox from "../components/DialogBox";
 
 const RequestInformation = () => {
-  // const handleName = () => {};
 
   return (
     <div>
