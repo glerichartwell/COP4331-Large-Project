@@ -29,7 +29,7 @@ var viewClientWorkoutsByWeek = require("./api/view-client-workouts-by-week.api")
 // exercise controllers
 var addExercise = require("./api/add-exercise.api");
 var editExercise = require("./api/edit-exercise.api");
-var searchExercise = require("./api/search-exercise.api");
+//var searchExercise = require("./api/search-exercise.api");
 var deleteExercise = require("./api/delete-exercise.api");
 var viewAllExercises = require("./api/view-all-exercises.api");
 
@@ -68,7 +68,7 @@ app.use("/", viewClientWorkoutsByWeek);
 // exercise routes
 app.use("/", addExercise);
 app.use("/", editExercise);
-app.use("/", searchExercise);
+//app.use("/", searchExercise);
 app.use("/", deleteExercise);
 app.use("/", viewAllExercises);
 

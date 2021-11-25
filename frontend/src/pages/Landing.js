@@ -27,10 +27,10 @@ const Landing = (props) => {
     setShowInfo(true);
   };
 
-  const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      signOut(auth);
-    })
+  // const auth = getAuth();
+  //   onAuthStateChanged(auth, (user) => {
+  //     signOut(auth);
+  //   })
     
 
 

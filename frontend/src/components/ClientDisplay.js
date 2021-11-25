@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./ClientDisplay.css";
 
+import { getAuth, onAuthStateChanged } from "@firebase/auth";
+
 import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
 import { Divider } from "@mui/material";
@@ -30,16 +32,31 @@ const ClientDisplay = () => {
     e.stopPropagation();
   };
   
+  var trainerID = null;
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    console.log(user);
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      trainerID = user['email'];
+      console.log("TrainerID: ", trainerID)
+      // ...
+    } else {
+      
+      //navigate('/access-denied')
+    }
+  });
+
   const getClients = async (event) => {
     
     //event.preventDefault();
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
-    console.log(js)
     try {
       const response = await fetch(
-        "http://localhost:5000/api/view-clients", 
+        "http://localhost:5000/api/view-clients-by-trainer", 
         {
           method: "POST",
           body: js,
@@ -47,7 +64,6 @@ const ClientDisplay = () => {
         }
       );
       var txt = await response.text();
-      console.log(txt)
       var res = JSON.parse(txt);
       clients = res;
 

@@ -27,6 +27,7 @@ const RegisterPage = props => {
     if (queryJSON['email'] == null || queryJSON == null)
     {
       console.log("No email in query or no query force navigate");
+      window.removeEventListener('load', checkValidRegister);
       navigate('/access-denied');
     }
 
@@ -53,11 +54,13 @@ const RegisterPage = props => {
         if (res['results'].length === 0)
         {
           console.log("No emails match query string force navigate");
+          window.removeEventListener('load', checkValidRegister);
           navigate('/access-denied');
         }
       } catch (error) {
         console.log(error);
         console.log("Error force navigate");
+        window.removeEventListener('load', checkValidRegister);
         navigate('/access-denied')
       }
 
@@ -80,7 +83,8 @@ const RegisterPage = props => {
         else
         {
           console.log("Firebase force navigate");
-          navigate('/access-denied')
+          window.removeEventListener('load', checkValidRegister);
+          navigate('/trainer-dashboard')
         }
       }
     });
@@ -96,7 +100,7 @@ const RegisterPage = props => {
         query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
     }
     return query;
-}
+  }
   
   useEffect(() => {
     window.addEventListener('load', checkValidRegister);
@@ -110,7 +114,7 @@ const RegisterPage = props => {
     <Box width='100vw' height='100vh'>
         <Header />
         <Grid className="register-grid" container marginTop='-5vh'>
-          <Register placeholder={queryJSON['email']}/>
+          <Register placeholder={queryJSON['email']} handleEventListener={() => {window.removeEventListener('load', checkValidRegister)}} />
         </Grid>        
     </Box>
   );

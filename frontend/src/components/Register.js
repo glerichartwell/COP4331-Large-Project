@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 
 import { getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
-import { TextField, Grid, Button, Paper, Stack } from "@mui/material"
+import { TextField, Grid, Button, Paper, Stack, InputAdornment } from "@mui/material"
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+
 
 import "./Login.css"
 
@@ -94,11 +97,13 @@ const Register = props => {
   
           if (res['status'] === 200) {
             console.log("Client updated.")
+            props.handleEventListener();
           }
           else
           {
             console.log("Edit unsucessful");
             console.log("Redirecting...");
+            props.handleEventListener();
             navigate('/access-denied');
           }
 
@@ -106,6 +111,7 @@ const Register = props => {
         } catch (error) {
           console.log("Edit unsucessful");
           console.log("Redirecting...");
+          props.handleEventListener();
           navigate('/access-denied');
         }
 
@@ -123,6 +129,43 @@ const Register = props => {
     setRegisterSuccess(true);
   }
 
+  // From https://tomduffytech.com/how-to-format-phone-number-in-react/
+  const handlePhoneChange = (e) => {
+    // this is where we'll call our future formatPhoneNumber function that we haven't written yet.
+    const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+    // we'll set the input value using our setInputValue
+    setPhone(formattedPhoneNumber);
+  }
+
+  function formatPhoneNumber(value) {
+    // if input value is falsy eg if the user deletes the input, then just return
+    if (!value) return value;
+  
+    // clean the input for any non-digit values.
+    const phoneNumber = value.replace(/[^\d]/g, "");
+  
+    // phoneNumberLength is used to know when to apply our formatting for the phone number
+    const phoneNumberLength = phoneNumber.length;
+  
+    // we need to return the value with no formatting if its less then four digits
+    // this is to avoid weird behavior that occurs if you  format the area code to early
+  
+    if (phoneNumberLength < 4) return phoneNumber;
+  
+    // if phoneNumberLength is greater than 4 and less the 7 we start to return
+    // the formatted number
+    if (phoneNumberLength < 7) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    }
+  
+    // finally, if the phoneNumberLength is greater then seven, we add the last
+    // bit of formatting and return it.
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+      3,
+      6
+    )}-${phoneNumber.slice(6, 10)}`;
+  }
+  
   // Disable Next Button
   useEffect(() => {
     if (email && password && confirmPassword && password === confirmPassword)
@@ -138,7 +181,6 @@ const Register = props => {
   // Disable Register Button
   useEffect(() => {
     if (firstName &&
-        middleName &&
         lastName &&
         height &&
         weight &&
@@ -248,11 +290,11 @@ const Register = props => {
               <TextField sx={sxBasicTextField} id='firstName' type='text' placeholder="First Name" value={firstName} onChange={e => {setFirstName(e.target.value)}} size="large" variant='standard'/>
               <TextField sx={sxBasicTextField} id='middleName' type='text' placeholder="Middle Name (optional)" value={middleName} onChange={e => {setMiddleName(e.target.value)}} size="large" variant='standard'/>
               <TextField sx={sxBasicTextField} id='lastName' type='text' placeholder="Last Name" value={lastName} onChange={e => {setLastName(e.target.value)}} size="large" variant='standard'/>
-              <TextField sx={sxBasicTextField} id='height' type='number' placeholder="Height (in inches change to Adornment)" value={height} onChange={e => {setHeight(e.target.value)}} size="large" variant='standard'/>
-              <TextField sx={sxBasicTextField} id='weight' type='number' placeholder="Weight (in lbs change to Adornment)" value={weight} onChange={e => {setWeight(e.target.value)}} size="large" variant='standard'/>
+              <TextField sx={sxBasicTextField} id='height' type='number' placeholder="Height" InputProps={{endAdornment: <InputAdornment position="start">inches</InputAdornment>,}} value={height} onChange={e => {setHeight(e.target.value)}} size="large" variant='standard'/>
+              <TextField sx={sxBasicTextField} id='weight' type='number' placeholder="Weight" InputProps={{endAdornment: <InputAdornment position="start">lbs</InputAdornment>,}} value={weight} onChange={e => {setWeight(e.target.value)}} size="large" variant='standard'/>
               <TextField sx={sxBasicTextField} id='gender' type='text' placeholder="Preferred Gender" value={gender} onChange={e => {setGender(e.target.value)}} size="large" variant='standard'/>
-              <TextField sx={sxBasicTextField} id='phone' type='text' placeholder="Phone Number" value={phone} onChange={e => {setPhone(e.target.value)}} size="large" variant='standard'/>
-              <TextField sx={sxBasicTextField} id='birthday' type={bdayType} placeholder="Birthday" onBlur={() => setBdayType('text')} onFocus={() => setBdayType('date')} onChange={e => {setBirthday(e.target.value)}} size="large" variant='standard'/>
+              <TextField sx={sxBasicTextField} id='phone' type='text' placeholder="Phone Number" value={phone} onChange={handlePhoneChange} size="large" variant='standard'/>
+              <TextField sx={sxBasicTextField} id='birthday' type={bdayType} placeholder="Birthday" value={birthday} onBlur={() => setBdayType('text')} onFocus={() => setBdayType('date')} onChange={e => {setBirthday(e.target.value)}} size="large" variant='standard'/>
               <TextField sx={sxBasicTextField} id='city' type='text' placeholder="City" value={city} onChange={e => {setCity(e.target.value)}} size="large" variant='standard'/>
               <Button sx={sxButton} disabled={disableRegisterButton} variant='contained' onClick={registerClient}>Register</Button>
             </Paper>
