@@ -104,7 +104,7 @@ export default function RecipeReviewCard() {
               <ListItemIcon>
                 <DeleteIcon />
               </ListItemIcon>
-              <ListItemText primary="Deyeet" />
+              <ListItemText primary="Delete" />
             </ListItemButton>
           </ListItem>
         </List>

@@ -2,19 +2,22 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
+import Popover from "@mui/material/Popover";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Divider from "@material-ui/core/Divider";
-import Grid from "@material-ui/core/Grid";
-import Item from "@material-ui/core/ListItem";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -45,7 +48,7 @@ const age = "5";
 const phone = "(123) 451-1337";
 const birthday = "1945/09/02";
 const city = "Bronx";
-const lastLoggedIn = "2020/11/12";
+const lastLoggedIn = "11/12/2020";
 
 export default function RecipeReviewCard() {
   const [expanded, setExpanded] = React.useState(false);
@@ -54,21 +57,58 @@ export default function RecipeReviewCard() {
     setExpanded(!expanded);
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClickii = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const openi = Boolean(anchorEl);
+  const id = openi ? "simple-popover" : undefined;
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            A
-          </Avatar>
-        }
         action={
-          <IconButton aria-label="settings">
+          <IconButton aria-label="settings" onClick={handleClickii}>
             <MoreVertIcon />
           </IconButton>
         }
         title={concatname}
       />
+      <Popover
+        id={id}
+        open={openi}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <EditIcon />
+              </ListItemIcon>
+              <ListItemText primary="Edit" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component="a" href="#simple-list">
+              <ListItemIcon>
+                <DeleteIcon />
+              </ListItemIcon>
+              <ListItemText primary="Delete" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Popover>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {concatdate}
