@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid'
 
-import DashboardDrawer from '../components/DashboardDrawer'
+import DashboardDrawer from '../components/trainer/DashboardDrawer'
 
 const TrainerDashboard = props => {
 

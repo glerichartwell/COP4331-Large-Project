@@ -1,6 +1,6 @@
 import React from 'react'
 import Grid from '@mui/material/Grid'
-import ClientDrawer from '../components/ClientDrawer'
+import ClientDrawer from '../components/client/ClientDrawer'
 
 const ClientDashboard = props => {
 
