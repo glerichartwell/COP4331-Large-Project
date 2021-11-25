@@ -2,14 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Dashboard.css";
-import ClientDisplay from "./ClientDisplay";
-import ExerciseDisplay from "./ExerciseDisplay";
-import WorkoutDisplay from "./WorkoutDisplay";
-import AddClient from "./AddClient";
-import SearchBar from "./SearchBar";
-
-import { makeStyles } from "@material-ui/core/styles";
-
 
 import {
   AppBar,
@@ -22,46 +14,26 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-  Button,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
 import EventIcon from "@mui/icons-material/Event";
 import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import { getAuth, signOut } from "@firebase/auth";
 
-const DashboardDrawer = (props) => {
+const ClientDrawer = (props) => {
   const navigate = useNavigate();
-  const [showClient, setShowClient] = useState(false);
+  const user = "Delroy"
+  const [showClient, setShowClient] = useState(true);
   const [showWorkout, setShowWorkout] = useState(false);
   const [showExercise, setShowExercise] = useState(false);
-  const [showAddClient, setShowAddClient] = useState(false);
 
-  // const handleDrawerOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleDrawerClose = () => {
-  //   setOpen(false);
-  // };
-  const auth = getAuth();
+  //change to actual logout function
   const logout = () => {
-    signOut(auth);
     navigate(`/`);
   };
 
-  const openAddClient = () => {
-    setShowAddClient(true);
-  };
-  const closeAddClient = () => {
-    setShowAddClient(false);
-  };
-
-  const ClientOn = () => {
+  const DashOn = () => {
     setShowClient(true);
     setShowWorkout(false);
     setShowExercise(false);
@@ -79,15 +51,6 @@ const DashboardDrawer = (props) => {
     setShowExercise(true);
   };
 
-  const addFunctionality = () => {
-    if (showClient) {
-      setShowAddClient(true);
-    }
-  };
-
-  const editFunctionality = () => {};
-
-  const deleteFunctionality = () => {};
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -100,28 +63,15 @@ const DashboardDrawer = (props) => {
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            <ArrowBackIosIcon /> My Dashboard
+            <ArrowBackIosIcon /> Welcome {user}
           </Typography>
-
-          <button onClick={addFunctionality} id="addbtn">
-            <AddIcon />
-          </button>
-          <button onClick={editFunctionality} id="editbtn">
-            <EditIcon />
-          </button>
-          <button onClick={deleteFunctionality} id="delbtn">
-            <DeleteForeverIcon />
-          </button>
-
-          {/* imported search bar */}
-          <SearchBar />
         </Toolbar>
       </AppBar>
       <Drawer
         sx={{
           width: "20vw",
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
+          [`& .MuiDrawer-paper`]: { 
             width: "20vw",
             boxSizing: "border-box",
             backgroundColor: "#f8f4fd",
@@ -137,30 +87,30 @@ const DashboardDrawer = (props) => {
         <Box sx={{ overflow: "auto" }}>
           <List>
             {/* Buttons on the drawer to change displays */}
-            <ListItem button key="Clients" onClick={ClientOn} className="items">
+            <ListItem button key="Personal Dashboard" onClick={DashOn}>
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary="Clients" />
+              <ListItemText primary="Personal Dashboard" />
             </ListItem>
 
             <ListItem button key="Exercise">
               <ListItemIcon>
-                <EventIcon />
+                <FitnessCenterIcon />
               </ListItemIcon>
               <ListItemText primary="Exercise" onClick={ExerciseOn} />
             </ListItem>
 
             <ListItem button key="Workouts">
               <ListItemIcon>
-                <FitnessCenterIcon />
+                <EventIcon />
               </ListItemIcon>
               <ListItemText primary="Workouts" onClick={WorkoutOn} />
             </ListItem>
           </List>
           <Divider />
         </Box>
-        <button onClick={logout} className="logout-btn">
+        <button onClick={logout} className="dashbtn">
           Logout
         </button>
       </Drawer>
@@ -168,7 +118,7 @@ const DashboardDrawer = (props) => {
         component="main"
         bottom="0px"
         right="0px"
-        width="80vw" //"80vw"
+        width="80vw"
         height="100vh" //"95vh"
         position="absolute"
         overflow="scroll"
@@ -177,13 +127,13 @@ const DashboardDrawer = (props) => {
         <Toolbar />
         {/* code for contents of box area in dashboard */}
 
-        {showClient ? <ClientDisplay /> : null}
-        {showWorkout ? <WorkoutDisplay /> : null}
+        {/* {showClient ? <ClientDisplay /> : null}
         {showExercise ? <ExerciseDisplay /> : null}
-        {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
+        {showWorkout ? < WorkoutDisplay/> : null} */}
+
       </Box>
     </Box>
   );
 };
 
-export default DashboardDrawer;
+export default ClientDrawer;

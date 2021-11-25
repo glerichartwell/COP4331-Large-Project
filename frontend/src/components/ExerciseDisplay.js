@@ -2,77 +2,54 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./ClientDisplay.css";
 
-import { getAuth, onAuthStateChanged } from "@firebase/auth";
-
-import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
 import { Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import AddClient from "./AddClient";
-import ClientCard from "./ClientCard";
-import ClientInfoView from "./ClientInfoView";
+import ExerciseCard from "./ExerciseCard";
+import ClientDashboard from "./ClientInfoView";
+import EditBox from "./EditBox";
 
-const ClientDisplay = () => {
+const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [objectArray, setObjectArray] = useState();
   const [showAddClient, setShowAddClient] = useState(false);
-  const [showClientDash, setShowClientDash] = useState(false);
+  const [showEditBox, setShowEditBox] = useState(false);
   const [clientDashHolder, setClientDashHolder] = useState();
+  const [showEdit, setShowEdit] = useState(false);
+  const [Edit, setEdit] = useState();
+
   // const [cardNumber, setCardNumber] = useState(0);
 
-  const openAddClient = () => {
-    setShowAddClient(true);
-  };
-  const closeAddClient = () => {
-    setShowAddClient(false);
+  const openEditBox = () => {
+    setShowEditBox(true);
   };
 
 
   //firebase component to return trainer profile info
-  var trainerID = 'g.erichartwell@gmail.com'; //getFirebaseID()
-  
-  const handleClick = e => {
-    e.stopPropagation();
-  };
-  
-  var trainerID = null;
-  const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    console.log(user);
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      trainerID = user['email'];
-      console.log("TrainerID: ", trainerID)
-      // ...
-    } else {
-      
-      //navigate('/access-denied')
-    }
-  });
+  var trainerID = 1; //getFirebaseID()
 
   var clients;
   var cardArray = [];
   var objects = [];
   var cardNumber = 0;
 
-  const getClients = async (event) => {
-    
+  const getExercise = async (event) => {
+    const address = "http://localhost:5000/api/view-clients";
     //event.preventDefault();
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
+
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/view-clients-by-trainer", 
-        {
-          method: "POST",
-          body: js,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const response = await fetch(address, {
+        method: "POST",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+
       var txt = await response.text();
       var res = JSON.parse(txt);
       clients = res;
@@ -80,7 +57,6 @@ const ClientDisplay = () => {
       // save number of clients
       const numClients = clients.results.length;
 
-      // Convert to obj literal {}, current is causing error
       for (var i = 0; i < numClients; i++) {
         var obj = new Object();
         obj["cardNumber"] = i;
@@ -99,7 +75,7 @@ const ClientDisplay = () => {
         objects.push(obj);
       }
       //can access numclients from trainer database
-      for (i = 0; i < numClients; i++) {
+      for (var i = 0; i < numClients; i++) {
         cardArray.push(
           <Grid
             className="custom-cards"
@@ -111,11 +87,7 @@ const ClientDisplay = () => {
             md={4}
             lg={3}
           >
-            <ClientCard
-              prop={objects[i]}
-              openClientDash={openClientDash}
-              closeClientDash={closeClientDash}
-            />
+            <ExerciseCard edit={edit} closeEditBox={closeEditBox}/>
           </Grid>
         );
       }
@@ -130,12 +102,13 @@ const ClientDisplay = () => {
     }
   };
 
-  const DisplayClients = () => {
+  const DisplayExercise = () => {
+    // console.log("render");
 
     // allow results of api to be rendered on page after loading
     useEffect(() => {
       console.log("render array changed");
-      getClients()
+      getExercise()
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
     }, []);
@@ -144,29 +117,24 @@ const ClientDisplay = () => {
     // var trainerID = 1; //getFirebaseID()
   };
 
-  const openClientDash = (num) => {
-    console.log("opening dashboard for card number: " + num);
-    console.log("opening dashboard for card name: " + objects[num].firstName);
-    cardNumber = num;
-    console.log(num);
-    console.log(cardNumber);
-    setClientDashHolder(
-      <ClientInfoView
-        closeClientDash={closeClientDash}
-        useCardNumber={objects[num].firstName}
-      />
-    );
-    setShowClientDash(true);
+  const edit = (info) => {
+
+    // pass information from relavent card to editbox
+    setEdit(<EditBox 
+      closeEditBox={closeEditBox}
+      info={info}
+      />);
+    setShowEdit(true);
+
   };
 
-  const closeClientDash = () => {
-    setShowClientDash(false);
-    console.log("closing dash");
-  };
+  const closeEditBox = () => {
+    setShowEdit(false);
+  }
+
 
   return (
     <div>
-      <Divider />
       <Grid
         container
         className="outerContainer"
@@ -178,18 +146,14 @@ const ClientDisplay = () => {
         alignContent="stretch"
         wrap="wrap"
       >
-
-        {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
-
-
         {/* loop through json of clients and create components */}
-        {DisplayClients()}
+        {DisplayExercise()}
         {arrayChange}
 
-        {showClientDash ? clientDashHolder : null}
+        {showEdit ? Edit : null}
       </Grid>
     </div>
   );
 };
 
-export default ClientDisplay;
+export default ExerciseDisplay;

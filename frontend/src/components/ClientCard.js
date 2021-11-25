@@ -24,8 +24,9 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function RecipeReviewCard({ prop }) {
+export default function RecipeReviewCard({ prop, openClientDash }) {
  
+  const cardNumber = prop.cardNumber;
   const firstName = prop.firstName;
   const middleName = prop.middleName;
   const lastName = prop.lastName;
@@ -50,21 +51,34 @@ export default function RecipeReviewCard({ prop }) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const openDashboard = () => {
+    console.log("got to open dashboard function");
+    openClientDash(cardNumber);
+
+  };
 
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
+        sx={{
+          '&:hover': {
+          cursor: 'pointer',
+          textDecoration: 'bold'
+        }}}
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <div onClick={openClientDash, openDashboard}>
+          <Avatar 
+            sx={{ bgcolor: red[500] }} aria-label="recipe" >
             {prop.firstName[0]}
           </Avatar>
+          </div>
         }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title={concatname}
+        title={<div onClick={openClientDash, openDashboard}>{concatname}</div>}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">

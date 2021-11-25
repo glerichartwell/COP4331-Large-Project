@@ -51,7 +51,6 @@ function renderRow(props) {
     <ListItem style={style} key={index} component="div" disablePadding>
       <ListItemButton
         sx={{ pl: 4 }}
-        onClick={console.log("The on click works!")}
       >
         <ListItemText primary={exercises[index]} />
       </ListItemButton>
@@ -59,7 +58,7 @@ function renderRow(props) {
   );
 }
 
-export default function RecipeReviewCard() {
+export default function WorkoutCard() {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
