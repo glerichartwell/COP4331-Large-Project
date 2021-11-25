@@ -7,7 +7,7 @@ import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import ListSubheader from "@mui/material/ListSubheader";
+import Popover from "@mui/material/Popover";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -17,6 +17,9 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Rating from "@mui/material/Rating";
 import { FixedSizeList } from "react-window";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import ListItemIcon from "@mui/material/ListItemIcon";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -65,6 +68,18 @@ export default function WorkoutCard() {
     setExpanded(!expanded);
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClickii = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const openi = Boolean(anchorEl);
+  const id = openi ? "simple-popover" : undefined;
+
   const [rating, setValue] = React.useState(2);
 
   const [open, setOpen] = React.useState(true);
@@ -77,13 +92,41 @@ export default function WorkoutCard() {
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         action={
-          <IconButton aria-label="settings">
+          <IconButton aria-label="settings" onClick={handleClickii}>
             <MoreVertIcon />
           </IconButton>
         }
         title={name}
-        subheader={concatdate}
       />
+      <Popover
+        id={id}
+        open={openi}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <EditIcon />
+              </ListItemIcon>
+              <ListItemText primary="Edit" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component="a" href="#simple-list">
+              <ListItemIcon>
+                <DeleteIcon />
+              </ListItemIcon>
+              <ListItemText primary="Delete" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Popover>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           <Rating

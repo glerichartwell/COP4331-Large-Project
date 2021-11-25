@@ -31,35 +31,26 @@ const ExpandMore = styled((props) => {
 }));
 
 // Show on surface
-var ident = 123314;
-var name = "Crabwalking";
-var sets = 8;
-var reps = 5;
+const name = "Crabwalking";
+const sets = 8;
+const reps = 5;
 const rating = "3";
 const comment =
   "I feel like I've done this so many times that I can't stand upright anymore. And now I can only pinch with my hands";
-var time = 20;
-var weight = 14.5;
-var rest = 45;
+const time = 20;
+const weight = 14.5;
+const rest = 45;
 
-export default function RecipeReviewCard({ edit }) {
+export default function RecipeReviewCard() {
   const [expanded, setExpanded] = React.useState(false);
-  const [rating, setValue] = React.useState(2);
-  const [open, setOpen] = React.useState(true);
-
-  var info = new Object();
-  info.id = ident;
-  info.type = "Editing Exercise";
-  info.name = name;
-  info.sets = sets;
-  info.reps = reps;
-  info.time = time;
-  info.weight = weight;
-  info.rest = rest;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const [rating, setValue] = React.useState(2);
+
+  const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
     setOpen(!open);
@@ -76,10 +67,6 @@ export default function RecipeReviewCard({ edit }) {
     setAnchorEl(null);
   };
 
-  const sendEdit = () => {
-    edit(info);
-  };
-
   const openi = Boolean(anchorEl);
   const id = openi ? "simple-popover" : undefined;
 
@@ -91,7 +78,7 @@ export default function RecipeReviewCard({ edit }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={info.name}
+        title={name}
       />
       <Popover
         id={id}
@@ -105,7 +92,7 @@ export default function RecipeReviewCard({ edit }) {
       >
         <List>
           <ListItem disablePadding>
-            <ListItemButton onClick={sendEdit}>
+            <ListItemButton>
               <ListItemIcon>
                 <EditIcon />
               </ListItemIcon>
@@ -133,15 +120,15 @@ export default function RecipeReviewCard({ edit }) {
           />
           <br />
           <br />
-          Sets: {info.sets}
+          Sets: {sets}
           <br />
-          Reps: {info.reps}
+          Reps: {reps}
           <br />
-          Estimated Time: {info.time} seconds;
+          Estimated Time: {time} seconds;
           <br />
-          Weight: {info.weight} lb(s)
+          Weight: {weight} lb(s)
           <br />
-          Resting Period: {info.rest} seconds;
+          Resting Period: {rest} seconds;
           <br />
         </Typography>
       </CardContent>
@@ -159,7 +146,7 @@ export default function RecipeReviewCard({ edit }) {
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             User Comment: <br />
-            {info.comment}
+            {comment}
           </Typography>
         </CardContent>
       </Collapse>
