@@ -1,28 +1,24 @@
 @import url("https://fonts.google.com/specimen/Work+Sans?query=work+sans");
 
-.radial {
-  background-color: white;
-  border-radius: 0px 0px 25px 25px;
-}
 
-.butt {
-  height: 28px;
-  margin: auto;
-  border-radius: 5px;
-  border: 2px solid rgb(85, 183, 204);
-  background-color: rgb(85, 183, 204);
-  width: 82%;
-  color: white;
-}
-body {
-  background-image: url("assets/purdy.png");
-  background-color: brown;
-  height: 500px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
+/* body {
+  background-image: url("./pages/images/kelly-sikkema-IZOAOjvwhaM-unsplash\ \(1\).jpg");
   font-family: "Work Sans", sans-serif;
+} */
+
+body {
+  float:left;
+  width:100%;
+  background: url("./pages/images/palette_max.jpg") no-repeat center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.register-grid {
+  padding-top: 7%;
+  margin-left: -20px;
 }
 
 a:hover {

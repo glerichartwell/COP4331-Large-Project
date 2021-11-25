@@ -10,6 +10,7 @@ import SearchBar from "./SearchBar";
 
 import { makeStyles } from "@material-ui/core/styles";
 
+
 import {
   AppBar,
   CssBaseline,
@@ -31,6 +32,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import { getAuth, signOut } from "@firebase/auth";
 
 const DashboardDrawer = (props) => {
   const navigate = useNavigate();
@@ -46,8 +48,9 @@ const DashboardDrawer = (props) => {
   // const handleDrawerClose = () => {
   //   setOpen(false);
   // };
-
+  const auth = getAuth();
   const logout = () => {
+    signOut(auth);
     navigate(`/`);
   };
 
@@ -157,7 +160,7 @@ const DashboardDrawer = (props) => {
           </List>
           <Divider />
         </Box>
-        <button onClick={logout} className="dashbtn">
+        <button onClick={logout} className="logout-btn">
           Logout
         </button>
       </Drawer>

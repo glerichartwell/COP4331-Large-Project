@@ -15,6 +15,21 @@
   left: 20%;
   
 }
+
+.add-btn {
+  background: #6f4792;
+  color: #fff;
+  border: none;
+  padding: 5px 45px;
+  margin: 10px auto;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+  
+}
+
 .dashbtn:hover {
   background: #28b7cb;
 }

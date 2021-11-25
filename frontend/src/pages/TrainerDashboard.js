@@ -1,5 +1,5 @@
-import React from 'react'
 import Grid from '@mui/material/Grid'
+
 import DashboardDrawer from '../components/DashboardDrawer'
 
 const TrainerDashboard = props => {

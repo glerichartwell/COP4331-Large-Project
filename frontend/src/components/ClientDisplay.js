@@ -2,6 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./ClientDisplay.css";
 
+import { getAuth, onAuthStateChanged } from "@firebase/auth";
+
+import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
 import { Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -26,8 +29,29 @@ const ClientDisplay = () => {
     setShowAddClient(false);
   };
 
+
   //firebase component to return trainer profile info
-  var trainerID = 1; //getFirebaseID()
+  var trainerID = 'g.erichartwell@gmail.com'; //getFirebaseID()
+  
+  const handleClick = e => {
+    e.stopPropagation();
+  };
+  
+  var trainerID = null;
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    console.log(user);
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      trainerID = user['email'];
+      console.log("TrainerID: ", trainerID)
+      // ...
+    } else {
+      
+      //navigate('/access-denied')
+    }
+  });
 
   var clients;
   var cardArray = [];
@@ -35,19 +59,20 @@ const ClientDisplay = () => {
   var cardNumber = 0;
 
   const getClients = async (event) => {
-    const address = "http://localhost:5000/api/view-clients";
+    
     //event.preventDefault();
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
-
     try {
-      const response = await fetch(address, {
-        method: "POST",
-        body: js,
-        headers: { "Content-Type": "application/json" },
-      });
-
+      const response = await fetch(
+        "http://localhost:5000/api/view-clients-by-trainer", 
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       var txt = await response.text();
       var res = JSON.parse(txt);
       clients = res;
@@ -55,6 +80,7 @@ const ClientDisplay = () => {
       // save number of clients
       const numClients = clients.results.length;
 
+      // Convert to obj literal {}, current is causing error
       for (var i = 0; i < numClients; i++) {
         var obj = new Object();
         obj["cardNumber"] = i;
@@ -73,7 +99,7 @@ const ClientDisplay = () => {
         objects.push(obj);
       }
       //can access numclients from trainer database
-      for (var i = 0; i < numClients; i++) {
+      for (i = 0; i < numClients; i++) {
         cardArray.push(
           <Grid
             className="custom-cards"
@@ -152,7 +178,9 @@ const ClientDisplay = () => {
         alignContent="stretch"
         wrap="wrap"
       >
+
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
+
 
         {/* loop through json of clients and create components */}
         {DisplayClients()}

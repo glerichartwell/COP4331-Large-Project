@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Card, CardContent } from "@mui/material";
 import Grid from "@mui/material/Grid";
@@ -8,6 +8,9 @@ import Login from "../components/Login";
 
 
 import "./Landing.css";
+import { getAuth, onAuthStateChanged, signOut } from "@firebase/auth";
+
+
 
 
 
@@ -15,19 +18,21 @@ const Landing = (props) => {
  
   const [showLog, setShowLog] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
-  const [showForgotPass, setShowForgotPass] = useState(false);
   
   const activateLog = () => {
     setShowLog(true);
   }
   
-  const setSetShowInfo = (value) => {
-    setShowInfo(value);
-  }
-
   const getInfo = () => {
     setShowInfo(true);
   };
+
+  // const auth = getAuth();
+  //   onAuthStateChanged(auth, (user) => {
+  //     signOut(auth);
+  //   })
+    
+
 
   const LandingGrid = () => {
     return (
@@ -159,12 +164,9 @@ const Landing = (props) => {
 
   return (
     <div>
-      {/* <Landing /> */}
       <LandingGrid />
-      {console.log(showLog)}
-      {showLog && <Login close={() => {setShowLog(false)}} setSetShowForgotPass={setShowForgotPass} />}
-      {showInfo && <DialogBox setSetShowInfo={setSetShowInfo} />}
-      
+      {showLog && <Login showLog={showLog} close={() => {setShowLog(false);}} />}
+      {showInfo && <DialogBox setShowInfo={setShowInfo} />}
     </div>
   );
 };

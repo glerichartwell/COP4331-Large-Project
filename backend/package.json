@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "In this folder, we will store the JS files that render the actual pages and the server JS file.",
-  "main": "server.js",
+  "main": "db.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "dev": "nodemon server.js"
   },
   "author": "",

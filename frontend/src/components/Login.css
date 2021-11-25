@@ -23,6 +23,11 @@
 .login-component {
   padding: 20%;
 }
+.closeButton {
+  float: right;
+  margin-top: 10px;
+  color: blueviolet;
+}
 
 .register-container {
   top: 0;

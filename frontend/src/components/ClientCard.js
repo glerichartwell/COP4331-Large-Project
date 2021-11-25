@@ -30,10 +30,10 @@ export default function RecipeReviewCard({ prop, openClientDash }) {
   const firstName = prop.firstName;
   const middleName = prop.middleName;
   const lastName = prop.lastName;
-  const email = prop.email;
-  const sumtext = "Date Joined: ";
-  const dateJoined = prop.startDate;
   const concatname = firstName + " " + middleName + " " + lastName;
+  const email = prop.email;
+  const dateJoined = prop.startDate;
+  const sumtext = "Date Joined: ";
   const concatdate = sumtext + dateJoined;
 
   const workouts = "Crab Dance";
@@ -102,11 +102,7 @@ export default function RecipeReviewCard({ prop, openClientDash }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            Date Joined: {dateJoined}
-            <br />
-            Workout: {workouts}
-            <br />
+          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left'}}>
             Height: {height} in
             <br />
             Weight: {weight} lb
