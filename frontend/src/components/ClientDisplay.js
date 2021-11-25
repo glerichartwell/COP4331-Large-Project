@@ -10,7 +10,7 @@ import { Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import AddClient from "./AddClient";
-import ClientCard from "./ClientCard";
+import ClientCard from "./ClientCard2";
 import ClientInfoView from "./ClientInfoView";
 
 const ClientDisplay = () => {

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes , Route } from 'react-router-dom';
 import { useState } from 'react';
 
 import Landing from './pages/Landing';
+import RegisterPage from './RegisterPage';
 import RequestInformation from './pages/RequestInformation';
 import TrainerDashboard from './pages/TrainerDashboard';
 import ClientDashboard from './pages/ClientDashboard';
@@ -16,9 +17,6 @@ function App() {
     <body className='site-container'>
       <BrowserRouter>
         <Routes>
-          <Route path="/" exact element={<Landing/>}/>
-          <Route path="/request-info" exact element={<RequestInformation/>}/>
-          <Route path="/trainer-dashboard" exact element={<TrainerDashboard/>}/>
           <Route path="/" exact element={<Landing />}/>
           <Route path="/request-info" exact element={<RequestInformation/>} />
           <Route path="/trainer-dashboard" exact element={<TrainerDashboard/>} />

@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid";
 import { Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import WorkoutCard from "./WorkoutCard";
+import WorkoutCard from "./WorkoutCard2";
 import ClientInfoView from "./ClientInfoView";
 
 const WorkoutDisplay = () => {

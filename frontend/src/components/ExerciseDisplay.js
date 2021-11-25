@@ -7,7 +7,7 @@ import { Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import AddClient from "./AddClient";
-import ExerciseCard from "./ExerciseCard";
+import ExerciseCard from "./ExerciseCard2";
 import ClientDashboard from "./ClientInfoView";
 import EditBox from "./EditBox";
 

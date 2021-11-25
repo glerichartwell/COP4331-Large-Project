@@ -23,6 +23,7 @@ import {
   Toolbar,
   Typography,
   Button,
+  Grid,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import AddIcon from "@mui/icons-material/Add";
@@ -106,15 +107,9 @@ const DashboardDrawer = (props) => {
           <button onClick={addFunctionality} id="addbtn">
             <AddIcon />
           </button>
-          <button onClick={editFunctionality} id="editbtn">
-            <EditIcon />
-          </button>
-          <button onClick={deleteFunctionality} id="delbtn">
-            <DeleteForeverIcon />
-          </button>
 
           {/* imported search bar */}
-          <SearchBar />
+          <SearchBar/>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -144,11 +139,11 @@ const DashboardDrawer = (props) => {
               <ListItemText primary="Clients" />
             </ListItem>
 
-            <ListItem button key="Exercise">
+            <ListItem button key="Exercises">
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
-              <ListItemText primary="Exercise" onClick={ExerciseOn} />
+              <ListItemText primary="Exercises" onClick={ExerciseOn} />
             </ListItem>
 
             <ListItem button key="Workouts">

@@ -40,7 +40,7 @@ const AddClient = (props) => {
   });
 
   const handleClose = () => {
-    props.setShowAddClient(false)
+    props.closeAddClient()
   };
 
   const sendRegisterInvite = async event => {
