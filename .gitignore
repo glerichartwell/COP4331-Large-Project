@@ -10,11 +10,13 @@ mobile/*.key
 mobile/*.mobileprovision
 mobile/*.orig.*
 mobile/web-build/
+
 backend/node_modules
-frontend/node_modules
 backend/.env
 mobile/custom-properties/firebase.js
 
+frontend/node_modules
+frontend/src/utils/firebase.js
 # macOS
 mobile/.DS_Store
 .DS_Store

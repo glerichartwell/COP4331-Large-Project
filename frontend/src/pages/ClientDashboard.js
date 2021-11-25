@@ -1,8 +1,8 @@
+import React from 'react'
 import Grid from '@mui/material/Grid'
+import ClientDrawer from '../components/client/ClientDrawer'
 
-import DashboardDrawer from '../components/trainer/DashboardDrawer'
-
-const TrainerDashboard = props => {
+const ClientDashboard = props => {
 
     return (
         <div>
@@ -15,11 +15,11 @@ const TrainerDashboard = props => {
               alignContent="center"
               wrap="nowrap"
             >
-                  <DashboardDrawer/>  
+                  <ClientDrawer/>  
                 
             </Grid>
         </div>
     )
 }
 
-export default TrainerDashboard
+export default ClientDashboard

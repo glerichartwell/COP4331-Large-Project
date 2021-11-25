@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Card, CardContent } from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-import DialogBox from "../components/DialogBox"
-import Login from "../components/Login";
+import DialogBox from "../components/landing/DialogBox"
+import Login from "../components/landing/Login";
 
 
 import "./Landing.css";
+import { getAuth, onAuthStateChanged, signOut } from "@firebase/auth";
+
 
 
 
@@ -24,6 +26,13 @@ const Landing = (props) => {
   const getInfo = () => {
     setShowInfo(true);
   };
+
+  // const auth = getAuth();
+  //   onAuthStateChanged(auth, (user) => {
+  //     signOut(auth);
+  //   })
+    
+
 
   const LandingGrid = () => {
     return (
@@ -155,10 +164,7 @@ const Landing = (props) => {
 
   return (
     <div>
-      {/* <Landing /> */}
       <LandingGrid />
-      {/* <RegisterPage /> */}
-      {console.log(showLog)}
       {showLog && <Login showLog={showLog} close={() => {setShowLog(false);}} />}
       {showInfo && <DialogBox setShowInfo={setShowInfo} />}
     </div>

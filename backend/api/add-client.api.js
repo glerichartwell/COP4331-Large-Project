@@ -1,6 +1,6 @@
 // add-client.api.js - Add Client Endpoint
 
-// setting up middleware and hashing
+// setting up middleware
 require("dotenv").config();
 const express = require("express");
 const client = require("../db");
@@ -21,7 +21,7 @@ router.post("/api/add-client", async (req, res) => {
     .find({ email: email })
     .toArray();
   const clientResults = await db
-    .collection("Client")
+    .collection("Clients")
     .find({ email: email })
     .toArray();
 
@@ -49,6 +49,10 @@ router.post("/api/add-client", async (req, res) => {
       city: "",
       startDate: "",
       lastLoggedIn: "",
+      workouts: [],
+      ratings: [],
+      mood: [],
+      sleep: [],
     };
     db.collection("Clients").insertOne(newUser);
 

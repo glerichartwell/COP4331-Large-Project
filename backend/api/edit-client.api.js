@@ -1,6 +1,6 @@
 // editclient.api.js - Edit Client Endpoint
 
-// setting up middleware and hashing
+// setting up middleware
 const express = require("express");
 require("dotenv").config();
 const client = require("../db");
@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.patch("/api/edit-client", async (req, res) => {
   // incoming: email (required), trainerID, firstName, middleName, lastName,
-  // height, weight, gender, age, phone, birthday, city, startDate, lastLoggedIn,
+  // height, weight, gender, age, phone, birthday, city, startDate, lastLoggedIn, workouts
   // outgoing: error
   var error = "";
   const {
@@ -26,6 +26,10 @@ router.patch("/api/edit-client", async (req, res) => {
     city,
     startDate,
     lastLoggedIn,
+    workouts,
+    ratings,
+    sleep,
+    mood,
   } = req.body;
   const db = client.db();
 
@@ -137,11 +141,40 @@ router.patch("/api/edit-client", async (req, res) => {
         { $set: { lastLoggedIn: lastLoggedIn } }
       );
     }
+    // if workouts needs updating
+    if (workouts) {
+      db.collection(collectionName).updateOne(
+        { _id: id },
+        { $set: { workouts: workouts } }
+      );
+    }
+    // if ratings needs updating
+    if (ratings) {
+      db.collection(collectionName).updateOne(
+        { _id: id },
+        { $set: { ratings: ratings } }
+      );
+    }
+    // if mood needs updating
+    if (mood) {
+      db.collection(collectionName).updateOne(
+        { _id: id },
+        { $set: { mood: mood } }
+      );
+    }
+    // if sleep needs updating
+    if (sleep) {
+      db.collection(collectionName).updateOne(
+        { _id: id },
+        { $set: { sleep: sleep } }
+      );
+    }
   } else {
     error = "Client does not exist";
   }
   // package data
   var ret = {
+    status: 200,
     error: "",
   };
   // send data

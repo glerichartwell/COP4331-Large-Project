@@ -1,10 +1,9 @@
 import React from "react";
 import "./RequestInformation.css";
 import Grid from "@mui/material/Grid";
-import DialogBox from "../components/DialogBox";
+import DialogBox from "../components/landing/DialogBox";
 
 const RequestInformation = () => {
-  // const handleName = () => {};
 
   return (
     <div>
