@@ -1,8 +1,10 @@
 import * as React from 'react';
-import {ImageBackground, Linking, Platform, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Button, HelperText, Subheading, Surface, TextInput, Title} from 'react-native-paper';
+import {ImageBackground, StyleSheet, Text} from 'react-native';
+import {Button, HelperText, Modal, Portal, Subheading, Surface, TextInput, Title} from 'react-native-paper';
 import theme from '../custom-properties/Themes';
 import {auth} from "../custom-properties/firebase";
+import {onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword} from "firebase/auth";
+import {useNavigation} from "@react-navigation/core";
 
 const Screen = () => {
     const [login, setLogin] = React.useState('');
@@ -10,9 +12,22 @@ const Screen = () => {
     const [passwordVisibility, setPasswordVisibility] = React.useState(false);
     const [eyeCon, setEyeCon] = React.useState('eye');
     const [invalid, setInvalid] = React.useState(false);
+    const [forgotPassword, setForgotPassword] = React.useState(false);
+    const [forgotEmail, setForgotEmail] = React.useState('');
+    const [invalidForgot, setInvalidForgot] = React.useState(false);
+
+    const navigation = useNavigation()
+
+    React.useEffect(() => {
+        return onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("Navigating to Dashboard");
+                /*navigation.navigate("Dashboard")*/
+            }
+        });
+    }, [])
 
     const handlePasswordVisibility = () => {
-        console.log(eyeCon);
         if (eyeCon === 'eye') {
             setEyeCon('eye-off');
             setPasswordVisibility(!passwordVisibility);
@@ -23,19 +38,80 @@ const Screen = () => {
     };
 
     const handleLogin = () => {
-        auth
-            .signInWithEmailAndPassword(login, password)
+        signInWithEmailAndPassword(auth, login, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
+                console.log(user.email)
                 setInvalid(false);
-                console.log(user.email);
             })
             /*.catch(error => alert(error.message))*/
             .catch(error => setInvalid(true))
     }
 
+    const handleForgotPassword = () => {
+        sendPasswordResetEmail(auth, forgotEmail)
+            .then(user => {
+                hidePasswordModal();
+            })
+            .catch(error => {
+                /*console.log(error.code)*/
+                if (error.code === "auth/invalid-email") {
+                    setInvalidForgot(true);
+                } else {
+                    hidePasswordModal();
+                }
+            })
+    }
+
+    const showPasswordModal = () => {
+        setForgotEmail('');
+        setForgotPassword(true);
+        setInvalidForgot(false);
+    }
+
+    const hidePasswordModal = () => {
+        setForgotEmail('');
+        setForgotPassword(false);
+        setInvalidForgot(false);
+    }
+
     return (
         <ImageBackground source={require('../assets/images/palette_max.jpg')} style={styles.backgroundImage}>
+            <Portal>
+                <Modal
+                    visible={forgotPassword}
+                    onDismiss={() => hidePasswordModal()}
+                    contentContainerStyle={styles.forgotPasswordPopUp}
+                >
+                    <Title style={styles.forgotPasswordTitle}>
+                        Forgot password?
+                    </Title>
+                    <TextInput
+                        style={styles.textInput}
+                        mode="outlined"
+                        label="Email"
+                        /*right={<TextInput.Icon name="check" />}*/
+
+                        value={forgotEmail}
+                        onChangeText={text => setForgotEmail(text)}
+                        error={invalidForgot}
+                    />
+                    <Text styles={styles.forgotPasswordPopUpText}>
+                        Enter the email associated with your account and we'll send you a reset password link!
+                    </Text>
+                    <HelperText
+                        type="error"
+                        style={styles.invalidText}
+                        visible={invalidForgot}>
+                        Invalid Email.
+                    </HelperText>
+                    <Button mode="contained" style={styles.submitButton} onPress={() => {
+                        handleForgotPassword()
+                    }}>
+                        Submit
+                    </Button>
+                </Modal>
+            </Portal>
             <Title style={styles.title1}>Hello again!</Title>
             <Title style={styles.title2}>Welcome back</Title>
             <Surface style={styles.surface}>
@@ -66,17 +142,20 @@ const Screen = () => {
                     style={styles.invalidText}
                     visible={invalid}
                 >
-                    Invalid Email/Password
+                    Invalid Email/Password.
                 </HelperText>
-                <Button mode="contained" style={styles.submitButton} onPress={() => {handleLogin()}}>
+                <Button mode="contained" style={styles.submitButton} onPress={() => {
+                    handleLogin()
+                }}>
                     Submit
                 </Button>
-                {/*<Text
+                <Text
                     style={styles.forgotPasswordText}
-                    onPress={() => Linking.openURL('https://google.com')}>
-                    Forgot password
+                    onPress={() => showPasswordModal()}
+                >
+                    Forgot password?
                 </Text>
-                <Text style={styles.signUpText}>
+                {/*<Text style={styles.signUpText}>
                     Don't have an account? <Text
                         style={{color: theme.colors.color4}}
                         onPress={() => Linking.openURL('https://google.com')}>
@@ -96,9 +175,16 @@ const styles = StyleSheet.create({
             justifyContent: 'flex-end',
             marginBottom: 36
         },
-        bottom: {
-
+        forgotPasswordPopUp: {
+            backgroundColor: "white",
+            margin: 30,
+            padding: 20,
         },
+        forgotPasswordTitle: {
+            marginBottom: 20
+        },
+        forgotPasswordPopUpText: {},
+        bottom: {},
         title1: {
             paddingTop: 100,
             marginLeft: 20,
@@ -131,18 +217,18 @@ const styles = StyleSheet.create({
             height: 45,
             lineHeight: 45,
         },
-        invalidText:{
+        invalidText: {
             fontSize: 14
         },
         submitButton: {
-            marginBottom: 80,
+            marginBottom: 10,
             borderRadius: 10,
             backgroundColor: theme.colors.color4,
         },
         forgotPasswordText: {
             paddingTop: 10,
             color: theme.colors.color4,
-            paddingBottom: 30,
+            marginBottom: 10,
         },
         signUpText: {
             alignSelf: "center",
