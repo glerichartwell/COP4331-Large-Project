@@ -14,9 +14,6 @@ import {
 
 } from "@mui/material";
 
-
-
-
 const AddClient = (props) => {
   const [open, setOpen] = useState(true);
   const [email, setEmail] = useState(null);
@@ -54,7 +51,7 @@ const AddClient = (props) => {
   });
 
   const handleClose = () => {
-    props.closeAddClient()
+    props.closeAddClient();
   };
 
   const sendRegisterInvite = async event => {
