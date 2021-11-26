@@ -20,24 +20,28 @@ const ExerciseDisplay = () => {
   const [clientDashHolder, setClientDashHolder] = useState();
   const [showEdit, setShowEdit] = useState(false);
   const [Edit, setEdit] = useState();
+  const [update, setUpdate] = useState(false);
 
   // const [cardNumber, setCardNumber] = useState(0);
 
   const openEditBox = () => {
     setShowEditBox(true);
   };
-
+  const refresh = () => {
+    setUpdate((update) => !update);
+    console.log(update);
+  }
 
   //firebase component to return trainer profile info
-  var trainerID = 1; //getFirebaseID()
+  var trainerID = "g.erichartwell@gmail.com"; //getFirebaseID()
 
-  var clients;
+  var exercises;
   var cardArray = [];
   var objects = [];
   var cardNumber = 0;
 
   const getExercise = async (event) => {
-    const address = "http://localhost:5000/api/view-clients";
+    const address = "http://localhost:5000/api/view-all-exercises";
     //event.preventDefault();
 
     var obj1 = { trainerID: trainerID };
@@ -45,39 +49,36 @@ const ExerciseDisplay = () => {
 
     try {
       const response = await fetch(address, {
-        method: "POST",
-        body: js,
+        method: "GET",
+        // body: js,
         headers: { "Content-Type": "application/json" },
       });
 
       var txt = await response.text();
       var res = JSON.parse(txt);
-      clients = res;
+      exercises = res;
 
-      // save number of clients
-      const numClients = clients.results.length;
+      // save number of exercises
+      const numexercises = exercises.results.length;
 
-      for (var i = 0; i < numClients; i++) {
+      for (var i = 0; i < numexercises; i++) {
+
         var obj = new Object();
         obj["cardNumber"] = i;
-        obj["firstName"] = clients.results[i].firstName;
-        obj["middleName"] = clients.results[i].middleName;
-        obj["lastName"] = clients.results[i].lastName;
-        obj["height"] = clients.results[i].height;
-        obj["weight"] = clients.results[i].weight;
-        obj["gender"] = clients.results[i].gender;
-        obj["age"] = clients.results[i].age;
-        obj["phone"] = clients.results[i].phone;
-        obj["birthday"] = clients.results[i].birthday;
-        obj["city"] = clients.results[i].city;
-        obj["startDate"] = clients.results[i].startDate;
-        obj["lastLoggedIn"] = clients.results[i].lastLoggedIn;
+        obj["id"] = exercises.results[i]._id;
+        obj["exerciseName"] = exercises.results[i].exerciseName;
+        obj["sets"] = exercises.results[i].sets;
+        obj["reps"] = exercises.results[i].reps;
+        obj["time"] = exercises.results[i].time;
+        obj["weight"] = exercises.results[i].weight;
+        obj["rest"] = exercises.results[i].rest;
         objects.push(obj);
       }
-      //can access numclients from trainer database
-      for (var i = 0; i < numClients; i++) {
+      //can access numexercises from trainer database
+      for (var i = 0; i < numexercises; i++) {
         cardArray.push(
           <Grid
+            key={objects[i].id}
             className="custom-cards"
             textAlign="center"
             item
@@ -87,7 +88,12 @@ const ExerciseDisplay = () => {
             md={4}
             lg={3}
           >
-            <ExerciseCard edit={edit} closeEditBox={closeEditBox}/>
+            <ExerciseCard
+              dbInfo={objects[i]}
+              // opens edit box
+              edit={edit}
+              closeEditBox={closeEditBox}
+            />
           </Grid>
         );
       }
@@ -95,7 +101,7 @@ const ExerciseDisplay = () => {
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
-        console.log("Clients returned");
+        console.log("exercises returned");
       }
     } catch (error) {
       console.log(error.toString());
@@ -118,20 +124,15 @@ const ExerciseDisplay = () => {
   };
 
   const edit = (info) => {
-
     // pass information from relavent card to editbox
-    setEdit(<ExerciseEditBox 
-      closeEditBox={closeEditBox}
-      info={info}
-      />);
+    setEdit(<ExerciseEditBox closeEditBox={closeEditBox} info={info} />);
     setShowEdit(true);
-
   };
 
   const closeEditBox = () => {
     setShowEdit(false);
-  }
-
+    refresh();
+  };
 
   return (
     <div>
@@ -146,7 +147,7 @@ const ExerciseDisplay = () => {
         alignContent="stretch"
         wrap="wrap"
       >
-        {/* loop through json of clients and create components */}
+        {/* loop through json of exercises and create components */}
         {DisplayExercise()}
         {arrayChange}
 

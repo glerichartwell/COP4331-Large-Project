@@ -7,6 +7,7 @@ import ExerciseDisplay from "./ExerciseDisplay";
 import WorkoutDisplay from "./WorkoutDisplay";
 import AddClient from "./AddClient";
 import SearchBar from "../reuseable/SearchBar";
+import AddExercise from "./AddExercise";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -41,6 +42,7 @@ const DashboardDrawer = (props) => {
   const [showWorkout, setShowWorkout] = useState(false);
   const [showExercise, setShowExercise] = useState(false);
   const [showAddClient, setShowAddClient] = useState(false);
+  const [showAddExercise, setShowAddExercise] = useState(false);
 
   // const handleDrawerOpen = () => {
   //   setOpen(true);
@@ -61,6 +63,13 @@ const DashboardDrawer = (props) => {
   const closeAddClient = () => {
     setShowAddClient(false);
   };
+  const openAddExercise = () => {
+    setShowAddExercise(true);
+  };
+  const closeAddExercise = () => {
+    setShowAddExercise(false);
+  };
+
 
   const ClientOn = () => {
     setShowClient(true);
@@ -84,9 +93,14 @@ const DashboardDrawer = (props) => {
     if (showClient) {
       setShowAddClient(true);
     }
+    else if(showExercise) {
+      setShowAddExercise(true);
+    }
   };
 
-  const editFunctionality = () => {};
+  const editFunctionality = () => {
+    
+  };
 
   const deleteFunctionality = () => {};
 
@@ -176,6 +190,8 @@ const DashboardDrawer = (props) => {
         {showWorkout ? <WorkoutDisplay /> : null}
         {showExercise ? <ExerciseDisplay /> : null}
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
+        {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
+
       </Box>
     </Box>
   );

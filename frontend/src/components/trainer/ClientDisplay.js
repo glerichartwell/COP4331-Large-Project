@@ -79,6 +79,7 @@ const ClientDisplay = () => {
 
       // save number of clients
       const numClients = clients.results.length;
+      console.log("here now");
 
       // Convert to obj literal {}, current is causing error
       for (var i = 0; i < numClients; i++) {
@@ -119,6 +120,7 @@ const ClientDisplay = () => {
           </Grid>
         );
       }
+      console.log(cardArray);
 
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);

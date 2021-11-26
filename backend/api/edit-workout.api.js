@@ -25,7 +25,7 @@ router.patch("/api/edit-workout", async (req, res) => {
   const db = client.db();
 
   // get client from database
-  const results = await db.collection("Workouts").find({ id: id }).toArray();
+  const results = await db.collection("Workouts").find({ _id: id }).toArray();
   // if results, store data
   if (results.length > 0) {
     // id = results[0]._id;
