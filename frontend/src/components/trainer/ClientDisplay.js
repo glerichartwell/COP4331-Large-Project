@@ -64,6 +64,7 @@ const ClientDisplay = () => {
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
+
     try {
       const response = await fetch(
         "http://localhost:5000/api/view-clients-by-trainer", 
@@ -75,6 +76,7 @@ const ClientDisplay = () => {
       );
       var txt = await response.text();
       var res = JSON.parse(txt);
+  
       clients = res;
 
       // save number of clients
@@ -82,7 +84,7 @@ const ClientDisplay = () => {
 
       // Convert to obj literal {}, current is causing error
       for (var i = 0; i < numClients; i++) {
-        var obj = new Object();
+        var obj = new Object(); 
         obj["cardNumber"] = i;
         obj["firstName"] = clients.results[i].firstName;
         obj["middleName"] = clients.results[i].middleName;

@@ -12,7 +12,7 @@ router.get("/api/view-clients", async (req, res) => {
 
   var error = "";
   const db = client.db();
-
+  
   // get clients
   const results = await db.collection("Clients").find().toArray();
 

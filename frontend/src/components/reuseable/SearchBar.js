@@ -1,63 +1,27 @@
-import React from "react";
+import React, { useRef } from "react";
 import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
-import { styled, alpha } from '@mui/material/styles';
+import './css/SearchBar.css'
+import Search from "./Search";
+import SearchIconWrapper from "./SearchIconWrapper";
+import StyledInputBase from "./StyledInputBase";
 
-const SearchBar = () => {
-  const Search = styled("div")(({ theme }) => ({
-    position: "absolute",
-    right: 15,
-    left: 10,
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 10,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
-    },
-  }));
-
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
-
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        width: "15vw",
-        "&:focus": {
-          width: "20ch",
-        },
-      },
-    },
-  }));
+const SearchBar = props => {
+  
+  const ref = useRef(null)
 
   return (
+    <form id='search-bar' onSubmit={ (e) =>{e.preventDefault(); props.getQueryRef(ref.current.value)}}>
     <Search id="search">
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
+        inputRef={ref}
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
       />
     </Search>
+    </form>
   );
 };
 

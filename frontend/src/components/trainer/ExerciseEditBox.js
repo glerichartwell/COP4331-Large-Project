@@ -15,6 +15,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
   const [buttonName, setButtonName] = useState("Change");
   const [buttonFunction, setButtonFunction] = useState();
   const [clicks, setClicks] = useState(0);
+
   const confirm = () => {
     closeEditBox(info);
   };
@@ -50,10 +51,8 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
             // justifyContent="center"
             // alignItems="center"
           >
-            Name:
-            <TextField placeholder={info.name} />
-            Reps:
-            <TextField type="number" placeholder={info.reps} />
+            <TextField label="Name" placeholder={info.name} sx={{marginBottom: '10px'}} />
+            <TextField label='Reps' type="number" placeholder={info.reps} />
             Sets:
             <TextField type="number" placeholder={info.sets} />
             Duration (sec):

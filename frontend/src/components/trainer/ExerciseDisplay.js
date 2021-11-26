@@ -29,7 +29,7 @@ const ExerciseDisplay = () => {
 
 
   //firebase component to return trainer profile info
-  var trainerID = 1; //getFirebaseID()
+  var trainerID = 'g.erichartwell@gmail.com'; //getFirebaseID()
 
   var clients;
   var cardArray = [];
@@ -37,16 +37,18 @@ const ExerciseDisplay = () => {
   var cardNumber = 0;
 
   const getExercise = async (event) => {
-    const address = "http://localhost:5000/api/view-clients";
+    const address = "http://localhost:5000/api/view-all-exercises";
     //event.preventDefault();
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
 
     try {
-      const response = await fetch(address, {
-        method: "POST",
-        body: js,
+      const response = await fetch(
+      address,
+       {
+        method: "GET",
+        // body: js,
         headers: { "Content-Type": "application/json" },
       });
 

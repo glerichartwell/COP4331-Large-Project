@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -43,9 +43,9 @@ var weight = 14.5;
 var rest = 45;
 
 export default function RecipeReviewCard({ edit }) {
-  const [expanded, setExpanded] = React.useState(false);
-  const [rating, setValue] = React.useState(2);
-  const [open, setOpen] = React.useState(true);
+  const [expanded, setExpanded] = useState(false);
+  const [rating, setValue] = useState(2);
+  const [open, setOpen] = useState(true);
 
   var info = new Object();
   info.id = ident;
@@ -66,7 +66,7 @@ export default function RecipeReviewCard({ edit }) {
   };
 
   // stuff
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClickii = (event) => {
     setAnchorEl(event.currentTarget);
@@ -80,8 +80,8 @@ export default function RecipeReviewCard({ edit }) {
     edit(info);
   };
 
-  const openi = Boolean(anchorEl);
-  const id = openi ? "simple-popover" : undefined;
+  const openPopoverMenu = Boolean(anchorEl);
+  // const id = openPopoverMenu ? "simple-popover" : undefined;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -94,8 +94,8 @@ export default function RecipeReviewCard({ edit }) {
         title={info.name}
       />
       <Popover
-        id={id}
-        open={openi}
+        id="simple-popover" 
+        open={openPopoverMenu}
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
@@ -123,7 +123,7 @@ export default function RecipeReviewCard({ edit }) {
         </List>
       </Popover>
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
           <Rating
             name="simple-controlled"
             value={rating}
@@ -157,7 +157,7 @@ export default function RecipeReviewCard({ edit }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
             User Comment: <br />
             {info.comment}
           </Typography>

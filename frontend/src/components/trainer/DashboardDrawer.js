@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import "./css/Dashboard.css";
+import "./css/DashboardDrawer.css";
 import ClientDisplay from "./ClientDisplay";
 import ExerciseDisplay from "./ExerciseDisplay";
 import WorkoutDisplay from "./WorkoutDisplay";
@@ -90,6 +90,12 @@ const DashboardDrawer = (props) => {
 
   const deleteFunctionality = () => {};
 
+  const [query, setQuery] = useState(null);
+
+  const getQueryRef = (value) => {
+    setQuery(value);
+  }
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -109,7 +115,8 @@ const DashboardDrawer = (props) => {
           <Button onClick={addFunctionality} variant='outlined' sx={{position: 'absolute', right: "20vw", height: '40px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#ac99be', borderColor: '#6f4792', color: '#6f4792'},}}>
             <AddIcon />
           </Button>
-          <SearchBar/>
+          <SearchBar getQueryRef={getQueryRef}/>
+          {console.log(query)}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -155,9 +162,9 @@ const DashboardDrawer = (props) => {
           </List>
           <Divider />
         </Box>
-        <button onClick={logout} className="logout-btn">
+        <Button onClick={logout} id="trainer-logout-btn" variant='outlined'>
           Logout
-        </button>
+        </Button>
       </Drawer>
       <Box
         component="main"

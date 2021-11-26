@@ -4,6 +4,7 @@
   align-self: center;
   bottom: 2em;
   background: #6f4792;
+  border-color: #6f4792;
   color: #fff;
   border: none;
   padding: 5px 45px;
@@ -17,8 +18,9 @@
 }
 
 .logout-btn:hover {
-  border: black 20px;
-  background: #28b7cb;
+  background: #ac99be; 
+  border-color: #6f4792; 
+  color: #6f4792
 }
 
 /* #addbtn{

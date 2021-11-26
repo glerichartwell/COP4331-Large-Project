@@ -80,7 +80,7 @@ export default function RecipeReviewCard({ prop, openClientDash }) {
         }
         title={<div onClick={openClientDash, openDashboard}>{concatname}</div>}
       />
-      <CardContent>
+      <CardContent onClick={openClientDash, openDashboard}>
         <Typography variant="body2" color="text.secondary">
           {concatdate}
           <br />
@@ -102,10 +102,10 @@ export default function RecipeReviewCard({ prop, openClientDash }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left'}}>
+          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
             Height: {height} in
             <br />
-            Weight: {weight} lb
+            Weight: {weight} lb 
             <br />
             Gender: {gender}
             <br />
