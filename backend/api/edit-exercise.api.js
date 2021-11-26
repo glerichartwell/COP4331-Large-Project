@@ -5,68 +5,69 @@ require("dotenv").config();
 const express = require("express");
 const client = require("../db");
 const router = express.Router();
+const ObjectId = require('mongodb').ObjectId;
 
 router.patch("/api/edit-exercise", async (req, res) => {
   // incoming: exerciseID, name, sets, reps, time, weight, rest
   // outgoing: success or error
 
   var error = "";
-  const { id, name, sets, reps, time, weight, rest } = req.body;
-
+  const { id, exerciseName, sets, reps, time, weight, rest } = req.body;
   const db = client.db();
 
   // get client from database
-  const results = await db.collection("Exercises").find({ id: id }).toArray();
+  const results = await db.collection("Exercises").find({ _id : ObjectId(id) }).toArray();
+
   // if results, store data
   if (results.length > 0) {
     // id = results[0]._id;
     var collectionName = "Exercises";
     // if trainerID needs updating
-    if (name) {
+    if (exerciseName) {
       db.collection(collectionName).updateOne(
-        { _id: id },
-        { $set: { name: name } }
+        { _id : ObjectId(id) },
+        { $set: { exerciseName: exerciseName } }
       );
     }
     // if sets needs updating
     if (sets) {
       db.collection(collectionName).updateOne(
-        { _id: id },
+        { _id: ObjectId(id) },
         { $set: { sets: sets } }
       );
     }
     // if reps needs updating
     if (reps) {
       db.collection(collectionName).updateOne(
-        { _id: id },
+        { _id: ObjectId(id) },
         { $set: { reps: reps } }
       );
     }
     // if time needs updating
     if (time) {
       db.collection(collectionName).updateOne(
-        { _id: id },
+        { _id: ObjectId(id) },
         { $set: { time: time } }
       );
     }
     // if weight needs updating
     if (weight) {
       db.collection(collectionName).updateOne(
-        { _id: id },
+        { _id: ObjectId(id) },
         { $set: { weight: weight } }
       );
     }
     // if height needs updating
     if (height) {
       db.collection(collectionName).updateOne(
-        { _id: id },
+        { _id: ObjectId(id) },
         { $set: { height: height } }
       );
     }
     // if rest needs updating
     if (rest) {
       db.collection(collectionName).updateOne(
-        { _id: id },
+        { _id: ObjectId(id) },
         { $set: { rest: rest } }
       );
     }

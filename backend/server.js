@@ -92,3 +92,4 @@ app.use((req, res, next) => {
 });
 
 app.listen(5000); // start Node + Express server on port 4000
+console.log("listening")
