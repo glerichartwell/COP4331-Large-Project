@@ -1,4 +1,4 @@
-// add-workout-to-client.api.js - Add Workout To Client API endpoint
+// add-exercise-to-workout.api.api.js - Add Exercise To Workout API endpoint
 
 // setting up middleware
 const express = require("express");
@@ -7,38 +7,37 @@ const client = require("../db");
 const router = express.Router();
 const ObjectId = require("mongodb").ObjectId;
 
-router.post("/api/add-workout-to-client", async (req, res) => {
-  // incoming: email (required),
-  // workoutID, date
+router.post("/api/add-exercise-to-workout.api", async (req, res) => {
+  // incoming: workoutID, exerciseID
   // outgoing: error
   var error = "";
-  const { email, date, workoutID } = req.body;
+  const { workoutID, exerciseID } = req.body;
   const db = client.db();
 
-  // get client from database
+  // get workout from database
   const results = await db
-    .collection("Clients")
-    .find({ email: email })
+    .collection("Workouts")
+    .find({ _id: ObjectId(workoutID) })
     .toArray();
 
   // if results, store data
   if (results.length > 0) {
     id = results[0]._id;
-    var collectionName = "Clients";
-    // push to workout
+
+    var collectionName = "Workouts";
+    // push to exercises
     db.collection(collectionName).updateOne(
       { _id: id },
       {
         $push: {
-          workout: {
-            date: date,
-            workoutID: ObjectId(workoutID),
+          exercise: {
+            exerciseID: ObjectId(exerciseID),
           },
         },
       }
     );
   } else {
-    error = "Client does not exist";
+    error = "Workout does not exist";
   }
   // package data
   var ret = {
