@@ -1,28 +1,28 @@
-import * as React from 'react';
+import React, {useState, useEffect} from "react";
 import {ImageBackground, StyleSheet, Text} from 'react-native';
 import {Button, HelperText, Modal, Portal, Subheading, Surface, TextInput, Title} from 'react-native-paper';
 import theme from '../custom-properties/Themes';
-import {auth} from "../custom-properties/firebase";
-import {onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from "firebase/auth";
+import {getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import {useNavigation} from "@react-navigation/core";
+import {SafeAreaView} from "react-native-safe-area-context";
 
-const Screen = () => {
-    const [login, setLogin] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [passwordVisibility, setPasswordVisibility] = React.useState(false);
-    const [eyeCon, setEyeCon] = React.useState('eye');
-    const [invalid, setInvalid] = React.useState(false);
-    const [forgotPassword, setForgotPassword] = React.useState(false);
-    const [forgotEmail, setForgotEmail] = React.useState('');
-    const [invalidForgot, setInvalidForgot] = React.useState(false);
+const LoginScreen = () => {
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordVisibility, setPasswordVisibility] = useState(false);
+    const [eyeCon, setEyeCon] = useState('eye');
+    const [invalid, setInvalid] = useState(false);
+    const [forgotPassword, setForgotPassword] = useState(false);
+    const [forgotEmail, setForgotEmail] = useState('');
+    const [invalidForgot, setInvalidForgot] = useState(false);
 
-    const navigation = useNavigation()
+    const auth = getAuth();
+    const navigation = useNavigation();
 
-    React.useEffect(() => {
+    useEffect(() => {
         return onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log("Navigating to Dashboard");
-                /*navigation.navigate("Dashboard")*/
+                navigation.navigate("Dashboard");
             }
         });
     }, [])
@@ -41,12 +41,45 @@ const Screen = () => {
         signInWithEmailAndPassword(auth, login, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
-                console.log(user.email)
                 setInvalid(false);
             })
             /*.catch(error => alert(error.message))*/
             .catch(error => setInvalid(true))
     }
+
+    // TEMPORARY API TEST:
+    const getClients = async (event) => {
+
+        //event.preventDefault();
+
+        var trainerID = 'g.erichartwell@gmail.com'; //getFirebaseID()
+        var obj1 = {trainerID: trainerID};
+        var js = JSON.stringify(obj1);
+
+        try {
+            const response = await fetch(
+                "http://192.168.208.1:5000/api/view-clients-by-trainer",
+                {
+                    method: "POST",
+                    body: js,
+                    headers: {"Content-Type": "application/json"},
+                }
+            );
+            console.log("error");
+            var txt = await response.text();
+            var res = JSON.parse(txt);
+
+            console.log(res);
+
+            if (res.error.length > 0) {
+                console.log("API Error: " + res.error);
+            } else {
+                console.log("Clients returned");
+            }
+        } catch (error) {
+            console.log(error.toString());
+        }
+    };
 
     const handleForgotPassword = () => {
         sendPasswordResetEmail(auth, forgotEmail)
@@ -63,16 +96,6 @@ const Screen = () => {
             })
     }
 
-    // TEMPORARY:
-    const handleSignOut = () => {
-        signOut(auth)
-            .then(() => {
-                console.log("Navigating to Login")
-            })
-            .catch(error => console.log(error.message))
-    }
-
-
     const showPasswordModal = () => {
         setForgotEmail('');
         setForgotPassword(true);
@@ -87,97 +110,97 @@ const Screen = () => {
 
     return (
         <ImageBackground source={require('../assets/images/palette_max.jpg')} style={styles.backgroundImage}>
-            <Portal>
-                <Modal
-                    visible={forgotPassword}
-                    onDismiss={() => hidePasswordModal()}
-                    contentContainerStyle={styles.forgotPasswordPopUp}
-                >
-                    <Title style={styles.forgotPasswordTitle}>
-                        Forgot password?
-                    </Title>
+            <SafeAreaView>
+                <Portal>
+                    <Modal
+                        visible={forgotPassword}
+                        onDismiss={() => hidePasswordModal()}
+                        contentContainerStyle={styles.forgotPasswordPopUp}
+                    >
+                        <Title style={styles.forgotPasswordTitle}>
+                            Forgot password?
+                        </Title>
+                        <TextInput
+                            style={styles.textInput}
+                            mode="outlined"
+                            label="Email"
+                            /*right={<TextInput.Icon name="check" />}*/
+
+                            value={forgotEmail}
+                            onChangeText={text => setForgotEmail(text)}
+                            error={invalidForgot}
+                        />
+                        <Text styles={styles.forgotPasswordPopUpText}>
+                            Enter the email associated with your account and we'll send you a reset password link!
+                        </Text>
+                        <HelperText
+                            type="error"
+                            style={styles.invalidText}
+                            visible={invalidForgot}>
+                            Invalid Email.
+                        </HelperText>
+                        <Button mode="contained" style={styles.submitButton} onPress={() => {
+                            handleForgotPassword()
+                        }}>
+                            Submit
+                        </Button>
+                    </Modal>
+                </Portal>
+                <Title style={styles.title1}>Hello again!</Title>
+                <Title style={styles.title2}>Welcome back</Title>
+                <Surface style={styles.surface}>
+                    <Subheading style={styles.loginText}>Login</Subheading>
                     <TextInput
                         style={styles.textInput}
                         mode="outlined"
                         label="Email"
                         /*right={<TextInput.Icon name="check" />}*/
 
-                        value={forgotEmail}
-                        onChangeText={text => setForgotEmail(text)}
-                        error={invalidForgot}
+                        value={login}
+                        error={invalid}
+                        onChangeText={text => setLogin(text)}
                     />
-                    <Text styles={styles.forgotPasswordPopUpText}>
-                        Enter the email associated with your account and we'll send you a reset password link!
-                    </Text>
+                    <TextInput
+                        style={styles.textInput}
+                        mode="outlined"
+                        label="Password"
+                        right={<TextInput.Icon name={eyeCon} onPress={() => handlePasswordVisibility()}/>}
+
+                        secureTextEntry={!passwordVisibility}
+                        value={password}
+                        error={invalid}
+                        onChangeText={text => setPassword(text)}
+                    />
                     <HelperText
                         type="error"
                         style={styles.invalidText}
-                        visible={invalidForgot}>
-                        Invalid Email.
+                        visible={invalid}
+                    >
+                        Invalid Email/Password.
                     </HelperText>
                     <Button mode="contained" style={styles.submitButton} onPress={() => {
-                        handleForgotPassword()
+                        handleLogin()
                     }}>
                         Submit
                     </Button>
-                </Modal>
-            </Portal>
-            <Title style={styles.title1}>Hello again!</Title>
-            <Title style={styles.title2}>Welcome back</Title>
-            <Surface style={styles.surface}>
-                <Subheading style={styles.loginText}>Login</Subheading>
-                <TextInput
-                    style={styles.textInput}
-                    mode="outlined"
-                    label="Email"
-                    /*right={<TextInput.Icon name="check" />}*/
-
-                    value={login}
-                    error={invalid}
-                    onChangeText={text => setLogin(text)}
-                />
-                <TextInput
-                    style={styles.textInput}
-                    mode="outlined"
-                    label="Password"
-                    right={<TextInput.Icon name={eyeCon} onPress={() => handlePasswordVisibility()}/>}
-
-                    secureTextEntry={!passwordVisibility}
-                    value={password}
-                    error={invalid}
-                    onChangeText={text => setPassword(text)}
-                />
-                <HelperText
-                    type="error"
-                    style={styles.invalidText}
-                    visible={invalid}
-                >
-                    Invalid Email/Password.
-                </HelperText>
-                <Button mode="contained" style={styles.submitButton} onPress={() => {
-                    handleLogin()
-                }}>
-                    Submit
-                </Button>
-                <Text
-                    style={styles.forgotPasswordText}
-                    onPress={() => showPasswordModal()}
-                >
-                    Forgot password?
-                </Text>
-                {/*<Text style={styles.signUpText}>
+                    <Text
+                        style={styles.forgotPasswordText}
+                        onPress={() => showPasswordModal()}
+                    >
+                        Forgot password?
+                    </Text>
+                    {/*<Text style={styles.signUpText}>
                     Don't have an account? <Text
                         style={{color: theme.colors.color4}}
                         onPress={() => Linking.openURL('https://google.com')}>
                         Sign up
                     </Text>
                 </Text>*/}
-            </Surface>
+                </Surface>
+            </SafeAreaView>
         </ImageBackground>
     );
 }
-
-export default Screen;
 
 const styles = StyleSheet.create({
         backgroundImage: {
@@ -187,6 +210,7 @@ const styles = StyleSheet.create({
         },
         forgotPasswordPopUp: {
             backgroundColor: "white",
+            borderRadius: 20,
             margin: 30,
             padding: 20,
         },
@@ -245,3 +269,5 @@ const styles = StyleSheet.create({
         }
     }
 );
+
+export default LoginScreen;
