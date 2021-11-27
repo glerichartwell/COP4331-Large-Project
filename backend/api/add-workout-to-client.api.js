@@ -7,7 +7,7 @@ const client = require("../db");
 const router = express.Router();
 const ObjectId = require("mongodb").ObjectId;
 
-router.patch("/api/add-workout-to-client", async (req, res) => {
+router.post("/api/add-workout-to-client", async (req, res) => {
   // incoming: email (required),
   // workout, date
   // outgoing: error
