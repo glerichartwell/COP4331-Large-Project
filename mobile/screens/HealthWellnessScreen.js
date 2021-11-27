@@ -1,3 +1,4 @@
+import React from "react";
 import {Text} from "react-native-paper";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {View} from "react-native";

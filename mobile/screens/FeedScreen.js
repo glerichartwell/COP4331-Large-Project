@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import CustomCard from "../components/Card";
 import SearchBar from "../components/SearchBar";
 import elements from "../custom-properties/elements";

@@ -1,3 +1,4 @@
+import React from "react";
 import {LogBox} from "react-native";
 import {Provider as PaperProvider} from "react-native-paper";
 import theme from "./custom-properties/Themes";

@@ -1,3 +1,4 @@
+import React from "react";
 import ProfileScreen from "../screens/ProfileScreen";
 import CalendarScreen from "../screens/CalendarScreen";
 import WorkoutsScreen from "../screens/WorkoutsScreen";

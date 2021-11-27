@@ -1,3 +1,4 @@
+import React from "react";
 import {Surface, Title} from "react-native-paper";
 import {StyleSheet} from "react-native";
 import theme from "../custom-properties/Themes";
