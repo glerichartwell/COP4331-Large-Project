@@ -1,4 +1,4 @@
-// add-exercise-to-workout.api.api.js - Add Exercise To Workout API endpoint
+// delete-exercise-from-workout.api.js - Delete Exercise From Workout API endpoint
 
 // setting up middleware
 const express = require("express");
@@ -7,7 +7,7 @@ const client = require("../db");
 const router = express.Router();
 const ObjectId = require("mongodb").ObjectId;
 
-router.post("/api/add-exercise-to-workout", async (req, res) => {
+router.post("/api/delete-exercise-from-workout", async (req, res) => {
   // incoming: workoutID, exerciseID
   // outgoing: error
   var error = "";
@@ -28,18 +28,12 @@ router.post("/api/add-exercise-to-workout", async (req, res) => {
     // push to exercises
     db.collection(collectionName).updateOne(
       { _id: id },
-      {
-        $push: {
-          exercises: {
-            exerciseID: ObjectId(exerciseID),
-          },
-        },
-      }
+      { $pull: { exercises: { exerciseID: ObjectId(exerciseID) } } }
     );
     db.collection(collectionName).updateOne(
       { _id: id },
       {
-        $set: { numExercises: results[0].exercises.length + 1 },
+        $set: { numExercises: results[0].exercises.length - 1 },
       }
     );
   } else {
