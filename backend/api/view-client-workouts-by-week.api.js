@@ -17,7 +17,7 @@ router.post("/api/view-client-workouts-by-week", async (req, res) => {
 
   // get clients
   const clients = await db
-    .collection("Client")
+    .collection("Clients")
     .find({ email: email.toLowerCase() })
     .toArray();
 
@@ -36,7 +36,7 @@ router.post("/api/view-client-workouts-by-week", async (req, res) => {
     } else {
       // get workouts within date range
       const clients = await db
-        .collection("Client")
+        .collection("Clients")
         .find({ email: email.toLowerCase() })
         .toArray();
       for (var i = 0; i < clients[0].workout.length; i++) {
