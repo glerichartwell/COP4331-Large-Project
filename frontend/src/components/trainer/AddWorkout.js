@@ -12,21 +12,21 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import { InputAdornment } from "@mui/material";
 
-const AddExercise = (props) => {
+const AddWorkout = (props) => {
   const [open, setOpen] = useState(true);
   const [message, setMessage] = useState("");
-  const [workoutID, setWorkoutID] = useState(0);
-  const [exerciseName, setExerciseName] = useState();
-  const [sets, setSets] = useState();
-  const [reps, setReps] = useState();
-  const [time, setTime] = useState();
-  const [weight, setWeight] = useState();
-  const [rest, setRest] = useState();
+  const [clientID, setClientID] = useState(0);
+  const [exercises, setExercises] = useState([]);
+  const [workoutName, setWorkoutName] = useState();
+  const [date, setDate] = useState();
+  const [numExercises, setNumExercises] = useState();
+  const [timeToComplete, setTimeToComplete] = useState();
   const [statButton, setStatButton] = useState(true);
 
   const navigate = useNavigate();
-  //workoutID, exerciseName, sets, reps, time, weight, rest
+  //clientID, Exercise, workoutName, date, reps, time, weight, rest
 
   var trainerID = null;
   const auth = getAuth();
@@ -44,29 +44,30 @@ const AddExercise = (props) => {
   });
 
   const handleClose = () => {
-    props.closeAddExercise();
+    props.closeAddWorkout();
   };
 
-  const addExercise = async (event) => {
-    //workoutID, name, sets, reps, time, weight, rest
+  const addWorkout = async (event) => {
+    //workoutID, name, sets, reps, timeToComplete, weight, rest
     var obj = {
-      trainerID: trainerID,
-      workoutID: workoutID,
-      exerciseName: exerciseName,
-      sets: sets,
-      reps: reps,
-      time: time,
-      weight: weight,
-      rest: rest,
+      clientID: clientID,
+      trainerEmail: trainerID,
+      workoutName: workoutName,
+      exercises: exercises,
+      date: date,
+      timeToComplete: timeToComplete,
+      numExercises: numExercises,
+      comment: "",
+      rating: "0",
     };
     var js = JSON.stringify(obj);
     try {
-      const response = await fetch("http://localhost:5000/api/add-exercise", {
+      const response = await fetch("http://localhost:5000/api/add-workout", {
         method: "POST",
         body: js,
         headers: { "Content-Type": "application/json" },
       });
-      setMessage("Exercise Created");
+      setMessage("workout Created");
 
       var txt = await response.text();
       var res = JSON.parse(txt);
@@ -79,15 +80,18 @@ const AddExercise = (props) => {
       setMessage(error);
       console.log(error);
     }
+
+    handleClose();
+
   };
 
   useEffect(() => {
-    if (exerciseName && sets && reps && time && weight && rest) {
+    if (workoutName && date && timeToComplete && numExercises) {
       setStatButton(false);
-    }else {
+    } else {
       setStatButton(true);
     }
-  }, [exerciseName, sets, reps, time, weight, rest]);
+  }, [workoutName, date, timeToComplete, numExercises]);
 
   return (
     <div>
@@ -98,11 +102,11 @@ const AddExercise = (props) => {
         onBackdropClick={handleClose}
       >
         <DialogTitle textAlign="center" marginBottom="10px">
-          Add Exercise
+          Add workout
         </DialogTitle>
         <DialogContent>
           <DialogContentText textAlign="center">
-            Enter Exercise Information
+            Enter workout Information
           </DialogContentText>
           <Grid
             container
@@ -116,10 +120,10 @@ const AddExercise = (props) => {
             <TextField
               sx={{ width: "250px", margin: "5px" }}
               id="email"
-              placeholder="Name of Exercise"
-              value={exerciseName}
+              placeholder="Name of workout"
+              value={workoutName}
               onChange={(e) => {
-                setExerciseName(e.target.value);
+                setWorkoutName(e.target.value);
               }}
               size="large"
               variant="standard"
@@ -127,23 +131,11 @@ const AddExercise = (props) => {
             <TextField
               sx={{ width: "250px", margin: "5px" }}
               id="email"
-              type="number"
-              placeholder="Sets"
-              value={sets}
+              type="date"
+              placeholder="Date"
+              value={date}
               onChange={(e) => {
-                setSets(e.target.value);
-              }}
-              size="large"
-              variant="standard"
-            />
-            <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
-              type="number"
-              placeholder="Reps"
-              value={reps}
-              onChange={(e) => {
-                setReps(e.target.value);
+                setDate(e.target.value);
               }}
               size="large"
               variant="standard"
@@ -153,42 +145,37 @@ const AddExercise = (props) => {
               id="email"
               type="number"
               placeholder="Time to Complete"
-              value={time}
+              value={timeToComplete}
               onChange={(e) => {
-                setTime(e.target.value);
+                setTimeToComplete(e.target.value);
               }}
               size="large"
               variant="standard"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">minutes</InputAdornment>
+                ),
+              }}
             />
+
             <TextField
               sx={{ width: "250px", margin: "5px" }}
               id="email"
               type="number"
-              placeholder="Weight"
-              value={weight}
+              placeholder="Number of Exercises"
+              value={numExercises}
               onChange={(e) => {
-                setWeight(e.target.value);
+                setNumExercises(e.target.value);
               }}
               size="large"
               variant="standard"
             />
-            <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
-              type="number"
-              placeholder="Rest"
-              value={rest}
-              onChange={(e) => {
-                setRest(e.target.value);
-              }}
-              size="large"
-              variant="standard"
-            />
+
             {message}
             <Button
               sx={{ margin: "15px", background: "#28B7CB" }}
               variant="contained"
-              onClick={addExercise}
+              onClick={addWorkout}
               disabled={statButton}
             >
               Add
@@ -200,4 +187,4 @@ const AddExercise = (props) => {
   );
 };
 
-export default AddExercise;
+export default AddWorkout;

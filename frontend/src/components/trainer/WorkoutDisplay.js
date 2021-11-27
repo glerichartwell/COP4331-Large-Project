@@ -1,40 +1,44 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import "./css/ClientDisplay.css";
 
 import Grid from "@mui/material/Grid";
 import { Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
+import AddWorkout from "./AddWorkout";
 import WorkoutCard from "./WorkoutCard2";
-import ClientInfoView from "../client/ClientInfoView";
+import WorkoutEditBox from "./WorkoutEditBox";
 
 const WorkoutDisplay = () => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [objectArray, setObjectArray] = useState();
   const [showAddWorkout, setShowAddWorkout] = useState(false);
-  const [showClientDash, setShowClientDash] = useState(false);
-  const [clientDashHolder, setClientDashHolder] = useState();
+  const [showEditBox, setShowEditBox] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [Edit, setEdit] = useState();
+  const [update, setUpdate] = useState(false);
+
   // const [cardNumber, setCardNumber] = useState(0);
 
-  const openAddWorkout = () => {
-    setShowAddWorkout(true);
+  const openEditBox = () => {
+    setShowEditBox(true);
   };
-  const closeAddWorkout = () => {
-    setShowAddWorkout(false);
-  };
+  const refresh = () => {
+    setUpdate((update) => !update);
+    console.log(update);
+  }
 
   //firebase component to return trainer profile info
-  var trainerID = 1; //getFirebaseID()
+  var trainerID = "g.erichartwell@gmail.com"; //getFirebaseID()
 
-  var clients;
+  var Workouts;
   var cardArray = [];
   var objects = [];
   var cardNumber = 0;
 
   const getWorkout = async (event) => {
-    const address = "http://localhost:5000/api/view-clients";
+    const address = "http://localhost:5000/api/view-all-Workouts";
     //event.preventDefault();
 
     var obj1 = { trainerID: trainerID };
@@ -42,39 +46,39 @@ const WorkoutDisplay = () => {
 
     try {
       const response = await fetch(address, {
-        method: "POST",
-        body: js,
+        method: "GET",
+        // body: js,
         headers: { "Content-Type": "application/json" },
       });
 
       var txt = await response.text();
       var res = JSON.parse(txt);
-      clients = res;
+      Workouts = res;
 
-      // save number of clients
-      const numClients = clients.results.length;
+      // save number of Workouts
+      const numWorkouts = Workouts.results.length;
 
-      for (var i = 0; i < numClients; i++) {
+      for (var i = 0; i < numWorkouts; i++) {
+
         var obj = new Object();
         obj["cardNumber"] = i;
-        obj["firstName"] = clients.results[i].firstName;
-        obj["middleName"] = clients.results[i].middleName;
-        obj["lastName"] = clients.results[i].lastName;
-        obj["height"] = clients.results[i].height;
-        obj["weight"] = clients.results[i].weight;
-        obj["gender"] = clients.results[i].gender;
-        obj["age"] = clients.results[i].age;
-        obj["phone"] = clients.results[i].phone;
-        obj["birthday"] = clients.results[i].birthday;
-        obj["city"] = clients.results[i].city;
-        obj["startDate"] = clients.results[i].startDate;
-        obj["lastLoggedIn"] = clients.results[i].lastLoggedIn;
+        obj["id"] = Workouts.results[i]._id;
+        obj["workoutName"] = Workouts.results[i].workoutName;
+        obj["clientID"] = Workouts.results[i].clientID;
+        obj["trainerEmail"] = Workouts.results[i].trainerID;
+        obj["exercises"] = Workouts.results[i].exercises;
+        obj["date"] = Workouts.results[i].date;
+        obj["timeToComplete"] = Workouts.results[i].timeToComplete;
+        obj["numExercises"] = Workouts.results[i].numExercises;
+        obj["comment"] = Workouts.results[i].comment;
+        obj["rating"] = Workouts.results[i].rating;
         objects.push(obj);
       }
-      //can access numclients from trainer database
-      for (var i = 0; i < numClients; i++) {
+      //can access numWorkouts from trainer database
+      for (var i = 0; i < numWorkouts; i++) {
         cardArray.push(
           <Grid
+            key={objects[i].id}
             className="custom-cards"
             textAlign="center"
             item
@@ -85,9 +89,10 @@ const WorkoutDisplay = () => {
             lg={3}
           >
             <WorkoutCard
-              prop={objects[i]}
-              openClientDash={openClientDash}
-              closeClientDash={closeClientDash}
+              dbInfo={objects[i]}
+              // opens edit box
+              edit={edit}
+              closeEditBox={closeEditBox}
             />
           </Grid>
         );
@@ -96,7 +101,7 @@ const WorkoutDisplay = () => {
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
-        console.log("Clients returned");
+        console.log("Workouts returned");
       }
     } catch (error) {
       console.log(error.toString());
@@ -118,29 +123,19 @@ const WorkoutDisplay = () => {
     // var trainerID = 1; //getFirebaseID()
   };
 
-  const openClientDash = (num) => {
-    console.log("opening dashboard for card number: " + num);
-    console.log("opening dashboard for card name: " + objects[num].firstName);
-    cardNumber = num;
-    console.log(num);
-    console.log(cardNumber);
-    setClientDashHolder(
-      <ClientInfoView
-        closeClientDash={closeClientDash}
-        useCardNumber={objects[num].firstName}
-      />
-    );
-    setShowClientDash(true);
+  const edit = (info) => {
+    // pass information from relavent card to editbox
+    setEdit(<WorkoutEditBox closeEditBox={closeEditBox} info={info} />);
+    setShowEdit(true);
   };
 
-  const closeClientDash = () => {
-    setShowClientDash(false);
-    console.log("closing dash");
+  const closeEditBox = () => {
+    setShowEdit(false);
+    refresh();
   };
 
   return (
     <div>
-      <Divider />
       <Grid
         container
         className="outerContainer"
@@ -152,13 +147,11 @@ const WorkoutDisplay = () => {
         alignContent="stretch"
         wrap="wrap"
       >
-        {/* {showAddWorkout ? <AddClient closeAddClient={closeAddClient} /> : null} */}
-
-        {/* loop through json of clients and create components */}
+        {/* loop through json of Workouts and create components */}
         {DisplayWorkout()}
         {arrayChange}
 
-        {showClientDash ? clientDashHolder : null}
+        {showEdit ? Edit : null}
       </Grid>
     </div>
   );

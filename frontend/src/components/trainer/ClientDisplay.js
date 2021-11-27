@@ -29,14 +29,13 @@ const ClientDisplay = () => {
     setShowAddClient(false);
   };
 
-
   //firebase component to return trainer profile info
-  var trainerID = 'g.erichartwell@gmail.com'; //getFirebaseID()
-  
-  const handleClick = e => {
+  var trainerID = "g.erichartwell@gmail.com"; //getFirebaseID()
+
+  const handleClick = (e) => {
     e.stopPropagation();
   };
-  
+
   var trainerID = null;
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
@@ -44,11 +43,10 @@ const ClientDisplay = () => {
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
-      trainerID = user['email'];
-      console.log("TrainerID: ", trainerID)
+      trainerID = user["email"];
+      console.log("TrainerID: ", trainerID);
       // ...
     } else {
-      
       //navigate('/access-denied')
     }
   });
@@ -59,14 +57,13 @@ const ClientDisplay = () => {
   var cardNumber = 0;
 
   const getClients = async (event) => {
-    
     //event.preventDefault();
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
     try {
       const response = await fetch(
-        "http://localhost:5000/api/view-clients-by-trainer", 
+        "http://localhost:5000/api/view-clients-by-trainer",
         {
           method: "POST",
           body: js,
@@ -113,9 +110,10 @@ const ClientDisplay = () => {
             lg={3}
           >
             <ClientCard
-              prop={objects[i]}
+              info={objects[i]}
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
+              // deleting={Deleting}
             />
           </Grid>
         );
@@ -133,7 +131,6 @@ const ClientDisplay = () => {
   };
 
   const DisplayClients = () => {
-
     // allow results of api to be rendered on page after loading
     useEffect(() => {
       console.log("render array changed");
@@ -166,6 +163,20 @@ const ClientDisplay = () => {
     console.log("closing dash");
   };
 
+  // const Deleting = (info) => {
+  //   // allow results of api to be rendered on page after loading
+  //   useEffect(() => {
+  //     console.log("render array changed");
+  //     deleteClient()
+  //       .then(getClients())
+  //       .then((result) => setArrayChange(cardArray))
+  //       .then((result) => setObjectArray(objects));
+  //   }, []);
+
+  //   //firebase component to return trainer profile info
+  //   // var trainerID = 1; //getFirebaseID()
+  // };
+
   return (
     <div>
       <Divider />
@@ -180,9 +191,7 @@ const ClientDisplay = () => {
         alignContent="stretch"
         wrap="wrap"
       >
-
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
-
 
         {/* loop through json of clients and create components */}
         {DisplayClients()}

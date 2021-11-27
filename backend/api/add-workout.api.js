@@ -7,29 +7,33 @@ const client = require("../db");
 const router = express.Router();
 
 router.post("/api/add-workout", async (req, res) => {
-  // incoming: name, date, comment, rating, timeToComplete, trainerEmail, exercises
+  // incoming: workoutName, date, comment, rating, timeToComplete, trainerEmail, exercises
   // outgoing: success or error
 
   var error = "";
   const {
-    name,
+    workoutName,
     date,
     comment,
     rating,
     timeToComplete,
     trainerEmail,
     exercises,
+    numExercises,
+
   } = req.body;
   const db = client.db();
 
   var newWorkout = {
-    name: name,
+    workoutName: workoutName,
     date: date,
     comment: comment,
     rating: rating,
     timeToComplete: timeToComplete,
     trainerEmail: trainerEmail,
     exercises: exercises,
+    numExercises: numExercises,
+
   };
 
   db.collection("Workouts").insertOne(newWorkout);
