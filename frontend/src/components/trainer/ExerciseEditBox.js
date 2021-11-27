@@ -31,7 +31,6 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
     closeEditBox(info);
   };
 
-
   const EditExercise = async (event) => {
     //workoutID, name, sets, reps, time, weight, rest
     var obj = {

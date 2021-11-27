@@ -43,11 +43,11 @@ const ExpandMore = styled((props) => {
 // var rest = 45;
 
 
+
 export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
   const [expanded, setExpanded] = useState(false);
   const [rating, setValue] = useState(2);
   const [open, setOpen] = useState(true);
-
 
   var info = new Object();
   info.id = dbInfo.id;
@@ -85,6 +85,7 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
 
   const openPopoverMenu = Boolean(anchorEl);
   // const id = openPopoverMenu ? "simple-popover" : undefined;
+
 
   return (
     <Card sx={{ maxWidth: 345 }}>
