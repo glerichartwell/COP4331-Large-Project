@@ -7,7 +7,7 @@ const client = require("../db");
 const router = express.Router();
 
 router.post("/api/view-clients-by-trainer", async (req, res) => {
-  // incoming: trainerID
+  // incoming: trainerID (trainer's email)
   // outgoing: clients or error
 
   var error = "";
@@ -19,7 +19,6 @@ router.post("/api/view-clients-by-trainer", async (req, res) => {
     .collection("Clients")
     .find({ trainerID: trainerID.toLowerCase() })
     .toArray();
-  // const results = await db.collection("Clients").find().toArray();
 
   if (results.length == 0) {
     error = "No Clients";

@@ -14,9 +14,9 @@ router.post("/api/search-client", async (req, res) => {
   const { search } = req.body;
   const db = client.db();
 
-  var results, results1, results2;
-  var loopLength = 0;
-  // find client
+  var results;
+
+  // find clients
   results = await db
     .collection("Clients")
     .find({
@@ -31,18 +31,10 @@ router.post("/api/search-client", async (req, res) => {
       },
     })
     .toArray();
-  loopLength += results.length;
-
-  var _ret = [];
-  for (var i = 0; i < loopLength; i++) {
-    if (results && results[i]) _ret.push(results[i]);
-    if (results1 && results1[i]) _ret.push(results1[i]);
-    if (results2 && results2[i]) _ret.push(results2[i]);
-  }
 
   // package data
   var ret = {
-    results: _ret,
+    results: results,
     error: error,
   };
   // send data

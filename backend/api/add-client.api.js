@@ -8,7 +8,7 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 
 router.post("/api/add-client", async (req, res) => {
-  // incoming: trainerID, email
+  // incoming: trainerID (trainer's email), email
   // outgoing: email, success or error
 
   var error = "";

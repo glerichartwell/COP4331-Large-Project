@@ -6,13 +6,13 @@ const express = require("express");
 const client = require("../db");
 const router = express.Router();
 
-router.get("/api/view-clients", async (req, res) => {
+router.get("/api/view-all-clients", async (req, res) => {
   // incoming:
   // outgoing: clients or error
 
   var error = "";
   const db = client.db();
-  
+
   // get clients
   const results = await db.collection("Clients").find().toArray();
 

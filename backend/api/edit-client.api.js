@@ -7,7 +7,7 @@ const client = require("../db");
 const router = express.Router();
 
 router.patch("/api/edit-client", async (req, res) => {
-  // incoming: email (required), trainerID, firstName, middleName, lastName,
+  // incoming: email (required), trainerID (trainer's email), firstName, middleName, lastName,
   // height, weight, gender, age, phone, birthday, city, startDate, lastLoggedIn, workouts
   // outgoing: error
   var error = "";

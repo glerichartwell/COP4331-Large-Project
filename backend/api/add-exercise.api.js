@@ -7,7 +7,7 @@ const client = require("../db");
 const router = express.Router();
 
 router.post("/api/add-exercise", async (req, res) => {
-  // incoming: workoutID, name, sets, reps, time, weight, rest
+  // incoming: exerciseName, sets, reps, time, weight, rest
   // outgoing: success or error
 
   var error = "";

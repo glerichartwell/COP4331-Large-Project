@@ -1,23 +1,24 @@
-// search-workout.api.js - Search Workouts Endpoint
+// get-workout.api.js - Get Workout Endpoint
 
 // setting up middleware
 require("dotenv").config();
 const express = require("express");
 const client = require("../db");
 const router = express.Router();
+const ObjectId = require("mongodb").ObjectId;
 
-router.post("/api/search-workout", async (req, res) => {
-  // incoming: name
+router.post("/api/get-workout", async (req, res) => {
+  // incoming: workoutID
   // outgoing: success or error
 
   var error = "";
-  const { name } = req.body;
+  const { workoutID } = req.body;
   const db = client.db();
 
-  // find workouts
+  // find workout
   const results = await db
     .collection("Workouts")
-    .find({ name: { $regex: name + ".*", $options: "r" } })
+    .find({ _id: ObjectId(workoutID) })
     .toArray();
 
   // package data
