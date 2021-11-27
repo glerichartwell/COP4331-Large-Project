@@ -1,4 +1,4 @@
-// view-client-mood.api.js - View Client Mood Endpoint
+// view-trainer-workouts.api.js - View Trainer Workouts Endpoint
 
 // setting up middleware
 require("dotenv").config();
@@ -6,8 +6,8 @@ const express = require("express");
 const client = require("../db");
 const router = express.Router();
 
-router.post("/api/view-client-mood", async (req, res) => {
-  // incoming: client's email
+router.post("/api/view-trainer-workouts", async (req, res) => {
+  // incoming: trainer's email
   // outgoing: clients or error
 
   var error = "";
@@ -15,19 +15,13 @@ router.post("/api/view-client-mood", async (req, res) => {
   const db = client.db();
 
   // get clients
-  const clients = await db
-    .collection("Clients")
-    .find({ email: email.toLowerCase() })
+  const results = await db
+    .collection("Workouts")
+    .find({ trainerEmail: email.toLowerCase() })
     .toArray();
 
-  if (clients.length == 0) {
-    error = "No client";
-  } else {
-    if (clients[0].mood.length == 0) {
-      error = "No moods for this client";
-    } else {
-      results = clients[0].mood;
-    }
+  if (results.length == 0) {
+    error = "No Workouts";
   }
   // package data
   var ret = {

@@ -15,18 +15,18 @@ router.post("/api/view-client-sleep", async (req, res) => {
   const db = client.db();
 
   // get clients
-  const client = await db
+  const clients = await db
     .collection("Clients")
     .find({ email: email.toLowerCase() })
     .toArray();
 
-  if (client.length == 0) {
+  if (clients.length == 0) {
     error = "No client";
   } else {
-    if (client[0].sleep.length == 0) {
+    if (clients[0].sleep.length == 0) {
       error = "No sleep ratings for this client";
     } else {
-      results = client[0].sleep;
+      results = clients[0].sleep;
     }
   }
   // package data
