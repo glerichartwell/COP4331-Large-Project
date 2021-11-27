@@ -11,6 +11,8 @@ import DialogActions from "@mui/material/DialogActions";
 import { DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { InputAdornment } from "@mui/material";
 
+import "./css/EditBox.css"
+
 const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
   const [showEdit, setShowEdit] = useState(true);
   const [buttonName, setButtonName] = useState("Change");
@@ -48,7 +50,6 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
         body: js,
         headers: { "Content-Type": "application/json" },
       });
-      setMessage("Exercise Edited");
 
       var txt = await response.text();
       var res = JSON.parse(txt);
@@ -71,6 +72,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
       EditExercise();
       closeEditBox();
     }
+    setMessage('Click "Confirm" to save these changes.')
     setConfirmClick(true);
   };
 
@@ -86,32 +88,30 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
         }}
       >
         <DialogContent>
-          <DialogTitle textAlign="center">
-            {info.type}: {info.name}
+          <DialogTitle textAlign="center" marginBottom='10px'>
+            {info.type}: {info.exerciseName}
           </DialogTitle>
-          <DialogContentText textAlign="center" marginBottom="20px">
-            Click "Change" then "Confirm" when finished
-          </DialogContentText>
           <Grid
             container
             direction="column"
             // justifyContent="center"
             // alignItems="center"
           >
-            <TextField placeholder={info.exerciseName} label='Name' sx={{ paddingBottom:'10px'}} onChange={e => {setExerciseName(e.target.value)}}/>
-            <TextField type="number" placeholder={info.reps} label='Reps' sx={{ paddingBottom:'10px'}} onChange={e => {setReps(e.target.value)}}/>
-            <TextField type="number" placeholder={info.sets} label='Sets' sx={{ paddingBottom:'10px'}} onChange={e => {setSets(e.target.value)}}/>
+            <TextField placeholder={info.exerciseName} label='Name' sx={{ paddingBottom:'10px'}} onChange={e => {setExerciseName(e.target.value)}} />
+            <TextField type="number" placeholder={info.reps} label='Reps' sx={{ paddingBottom:'10px'}} onChange={e => {setReps(e.target.value)}} />
+            <TextField type="number" placeholder={info.sets} label='Sets' sx={{ paddingBottom:'10px'}} onChange={e => {setSets(e.target.value)}} />
             <TextField type="number" placeholder={info.time} label='Duration' sx={{ paddingBottom:'10px'}} onChange={e => {setTime(e.target.value)}}
-              InputProps={{endAdornment: <InputAdornment position="start">seconds</InputAdornment>,}}/>
+              InputProps={{endAdornment: <InputAdornment position="start">seconds</InputAdornment>}}/>
             <TextField type="number" placeholder={info.weight} label='Weight' sx={{ paddingBottom:'10px'}} onChange={e => {setWeight(e.target.value)}}
-              InputProps={{endAdornment: <InputAdornment position="start">lbs</InputAdornment>,}}/>
+              InputProps={{endAdornment: <InputAdornment position="start">lbs</InputAdornment>}}/>
             <TextField type="number" placeholder={info.rest} label="Rest" onChange={e => {setRest(e.target.value)}}
-              InputProps={{endAdornment: <InputAdornment position="start">seconds</InputAdornment>,}}/>
+              InputProps={{endAdornment: <InputAdornment position="start">seconds</InputAdornment>}}/>
             
             {/* changing buttons and functionality */}
+            <div style={{textAlign: 'center', marginTop: '15px'}}>{message}</div>
             <Button
-              sx={{ margin: "15px", background: "#28B7CB" }}
-              variant="contained"
+              className='edit-box-button'
+              variant="outlined"
               onClick={changingFunction}
             >
               {buttonName}

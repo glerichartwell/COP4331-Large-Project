@@ -67,8 +67,7 @@ export default function RecipeReviewCard({ prop, openClientDash }) {
         }}}
         avatar={
           <div onClick={openClientDash, openDashboard}>
-          <Avatar 
-            sx={{ bgcolor: red[500] }} aria-label="recipe" >
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" >
             {prop.firstName[0]}
           </Avatar>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./css/DashboardDrawer.css";
@@ -11,7 +11,7 @@ import AddExercise from "./AddExercise";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-
+import SearchIcon from '@mui/icons-material/Search';
 import {
   AppBar,
   CssBaseline,
@@ -24,7 +24,8 @@ import {
   Toolbar,
   Typography,
   Button,
-  Grid,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import AddIcon from "@mui/icons-material/Add";
@@ -43,6 +44,10 @@ const DashboardDrawer = (props) => {
   const [showExercise, setShowExercise] = useState(false);
   const [showAddClient, setShowAddClient] = useState(false);
   const [showAddExercise, setShowAddExercise] = useState(false);
+  const [searchClient, setSearchClient] = useState(false);
+  const [searchWorkout, setSearchWorkout] = useState(false);
+  const [searchExercise, setSearchExercise] = useState(false);
+  const [hideAdd, setHideAdd] = useState(true);
 
   // const handleDrawerOpen = () => {
   //   setOpen(true);
@@ -72,24 +77,39 @@ const DashboardDrawer = (props) => {
 
 
   const ClientOn = () => {
-    setShowClient(true);
     setShowWorkout(false);
     setShowExercise(false);
+    setSearchWorkout(false);
+    setSearchExercise(false);
+    setHideAdd(false);
+    
+    setSearchClient(true);
+    setShowClient(true);
   };
 
   const WorkoutOn = () => {
     setShowClient(false);
-    setShowWorkout(true);
     setShowExercise(false);
+    setSearchExercise(false);
+    setSearchClient(false);
+    setHideAdd(false);
+    
+    setShowWorkout(true);
+    setSearchWorkout(true);
   };
 
   const ExerciseOn = () => {
     setShowClient(false);
     setShowWorkout(false);
+    setSearchClient(false);
+    setSearchWorkout(false);
+    setHideAdd(false);
+
+    setSearchExercise(true);
     setShowExercise(true);
   };
 
-  const addFunctionality = () => {
+  const addItem = () => {
     if (showClient) {
       setShowAddClient(true);
     }
@@ -98,17 +118,74 @@ const DashboardDrawer = (props) => {
     }
   };
 
-  const editFunctionality = () => {
+  var res= null;
+  const searchItem = async (value) => {
+
+    if (value == null)
+      return;
+
+    if (searchClient)
+    {
+      // Search Client
+      console.log("Searching client...")
+
+      const obj = {
+        firstName: value,
+        lastName: value,
+        email: value,
+      }
+      const js = JSON.stringify(obj);
+
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/search-client",
+          {
+            method: "POST",
+            body: js,
+            headers: { "Content-Type": "application/json" },
+          }
+          );
+          console.log("Fetch successful")
+          var txt = await response.text();
+          res = JSON.parse(txt);
+          console.log("Response successful")
+          if (res.error.length > 0) 
+          {
+            console.log(res.error);
+          }
+        } 
+        catch (error) 
+        {
+        console.log(error);
+        }
+
+
+    }
+    else if (searchWorkout)
+    {
+      // Search Workout
+      console.log("Searching workout...")
+    }
+    else
+    {
+      // Search Exercise
+      console.log("Searching exercise...")
+    }
+  }
+
+  const editItem = () => {
     
   };
 
-  const deleteFunctionality = () => {};
+  const deleteItem = () => {
+
+  };
 
   const [query, setQuery] = useState(null);
 
-  const getQueryRef = (value) => {
-    setQuery(value);
-  }
+  // useEffect(() => {
+  //   searchItem(query)
+  // }, [query])
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -126,10 +203,10 @@ const DashboardDrawer = (props) => {
 
 
           {/* imported search bar */}
-          <Button onClick={addFunctionality} variant='outlined' sx={{position: 'absolute', right: "20vw", height: '40px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#ac99be', borderColor: '#6f4792', color: '#6f4792'},}}>
+          {hideAdd ? null : <Button onClick={addItem} variant='outlined' sx={{position: 'absolute', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
             <AddIcon />
-          </Button>
-          <SearchBar getQueryRef={getQueryRef}/>
+          </Button>}
+          
           {console.log(query)}
         </Toolbar>
       </AppBar>
@@ -160,6 +237,13 @@ const DashboardDrawer = (props) => {
               <ListItemText primary="Clients" />
             </ListItem>
 
+            <ListItem button key="Workouts">
+              <ListItemIcon>
+                <FitnessCenterIcon />
+              </ListItemIcon>
+              <ListItemText primary="Workouts" onClick={WorkoutOn} />
+            </ListItem>
+
             <ListItem button key="Exercises">
               <ListItemIcon>
                 <EventIcon />
@@ -167,12 +251,6 @@ const DashboardDrawer = (props) => {
               <ListItemText primary="Exercises" onClick={ExerciseOn} />
             </ListItem>
 
-            <ListItem button key="Workouts">
-              <ListItemIcon>
-                <FitnessCenterIcon />
-              </ListItemIcon>
-              <ListItemText primary="Workouts" onClick={WorkoutOn} />
-            </ListItem>
           </List>
           <Divider />
         </Box>
@@ -193,9 +271,9 @@ const DashboardDrawer = (props) => {
         <Toolbar />
         {/* code for contents of box area in dashboard */}
 
-        {showClient ? <ClientDisplay /> : null}
-        {showWorkout ? <WorkoutDisplay /> : null}
-        {showExercise ? <ExerciseDisplay /> : null}
+        {showClient ? <ClientDisplay res={res} /> : null}
+        {showWorkout ? <WorkoutDisplay query={query} /> : null}
+        {showExercise ? <ExerciseDisplay query={query} /> : null}
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
         {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
 

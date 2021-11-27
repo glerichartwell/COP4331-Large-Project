@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { InputAdornment } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import SelectInput from "@mui/material/Select/SelectInput";
-
 import "./css/ClientDrawer.css";
 
 import {
@@ -19,6 +19,9 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  Button,
+  Grid,
+  TextField,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import EventIcon from "@mui/icons-material/Event";
@@ -77,11 +80,46 @@ const ClientDrawer = (props) => {
           <Typography variant="h6" noWrap component="div">
             <ArrowBackIosIcon /> Welcome {user}
           </Typography>
-
-          {/* <form onSubmit={(e) => {e.preventDefault();console.log(query)}}> */}
-            <SearchBar getQueryRef={getQueryRef}/>
-          {/* </form> */}
           
+          {/* <form onSubmit={(e) => {e.preventDefault();console.log(query)}}> */}
+            {/* <SearchBar getQueryRef={getQueryRef}/> */}
+          {/* </form> */}
+          {/* <SearchBar variant='standard' /> */}
+          <TextField 
+          className='search-bar' 
+          type="search" 
+          variant='outlined' 
+          size='small'
+          InputProps={{startAdornment: <InputAdornment><SearchIcon/></InputAdornment>,}}
+          sx={{
+              position: 'absolute',
+              opacity: 0.3,
+              right: '1vw',
+              maxWidth: '30%',
+              minWidth: '20%',
+              '& .MuiInputBase-root': {
+                color: '#300130',
+                background: 'white',
+              },
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: 'yellow',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white',
+                  opacity: 0.3
+                },
+                '&:hover fieldset': {
+                  borderColor: 'white',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#3d013d',
+                },
+              },
+            }} />
 
           {console.log(query)}
         </Toolbar>
@@ -129,9 +167,9 @@ const ClientDrawer = (props) => {
           </List>
           <Divider />
         </Box>
-        <button onClick={logout} className="logout-btn">
+        <Button onClick={logout} id="logout-btn" variant='outlined'>
           Logout
-        </button>
+        </Button>
       </Drawer>
       <Box
         component="main"

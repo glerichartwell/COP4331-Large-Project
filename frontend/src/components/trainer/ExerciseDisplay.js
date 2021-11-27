@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import "./css/ClientDisplay.css";
 
 import Grid from "@mui/material/Grid";
-import { Divider } from "@mui/material";
+import { Divider, TextField, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from '@mui/icons-material/Search'; 
+
 
 import AddClient from "./AddClient";
 import ExerciseCard from "./ExerciseCard2";
@@ -137,8 +139,50 @@ const ExerciseDisplay = () => {
     refresh();
   };
 
+  const [query, setQuery] = useState(null);
   return (
     <div>
+      <TextField 
+          className='search-bar' 
+          type="search" 
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          variant='outlined' 
+          size='small'
+          InputProps={{startAdornment: <InputAdornment><SearchIcon sx={{color: 'white'}}/></InputAdornment>,}}
+          sx={{
+              position: 'fixed',
+              marginLeft: '1px',
+              opacity: 0.4,
+              right: '1vw',
+              marginTop:'-44px',
+              zIndex: 5000,
+              maxWidth: '30%',
+              minWidth: '20%',
+              '& .MuiInputBase-root': {
+                color: '#300130',
+                background: '#ac99be',
+              },
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: 'white',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#6f4792',
+                  opacity: 0.3
+                },
+                '&:hover fieldset': {
+                  background: 'white',
+                  borderColor: 'white',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#3d013d',
+                },
+              },
+            }} />
       <Grid
         container
         className="outerContainer"

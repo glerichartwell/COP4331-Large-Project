@@ -6,14 +6,15 @@ import { getAuth, onAuthStateChanged } from "@firebase/auth";
 
 import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
-import { Divider } from "@mui/material";
+import { Divider, TextField, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from '@mui/icons-material/Search'; 
 
 import AddClient from "./AddClient";
 import ClientCard from "./ClientCard2";
 import ClientInfoView from "../client/ClientInfoView";
 
-const ClientDisplay = () => {
+const ClientDisplay = props => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [objectArray, setObjectArray] = useState();
@@ -40,12 +41,12 @@ const ClientDisplay = () => {
   var trainerID = null;
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
-    console.log(user);
+    // console.log(user);
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       trainerID = user['email'];
-      console.log("TrainerID: ", trainerID)
+      // console.log("TrainerID: ", trainerID)
       // ...
     } else {
       
@@ -64,6 +65,8 @@ const ClientDisplay = () => {
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
+    
+    console.log("That booty ", props.res)
 
     try {
       const response = await fetch(
@@ -81,7 +84,6 @@ const ClientDisplay = () => {
 
       // save number of clients
       const numClients = clients.results.length;
-      console.log("here now");
 
       // Convert to obj literal {}, current is causing error
       for (var i = 0; i < numClients; i++) {
@@ -122,7 +124,7 @@ const ClientDisplay = () => {
           </Grid>
         );
       }
-      console.log(cardArray);
+      // console.log(cardArray);
 
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
@@ -143,6 +145,18 @@ const ClientDisplay = () => {
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
     }, []);
+
+    useEffect(() => {
+      if (query)
+      {
+        console.log("Query: ", query)
+      }
+      else
+      {
+        console.log("No query: ", query)
+      }
+    }, [query])
+
 
     //firebase component to return trainer profile info
     // var trainerID = 1; //getFirebaseID()
@@ -168,9 +182,50 @@ const ClientDisplay = () => {
     console.log("closing dash");
   };
 
+  const [query, setQuery] = useState(null);
   return (
     <div>
-      <Divider />
+      <TextField 
+          className='search-bar' 
+          type="search" 
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          variant='outlined' 
+          size='small'
+          InputProps={{startAdornment: <InputAdornment><SearchIcon sx={{color: 'white'}}/></InputAdornment>,}}
+          sx={{
+              position: 'fixed',
+              marginLeft: '1px',
+              opacity: 0.4,
+              right: '1vw',
+              marginTop:'-44px',
+              zIndex: 5000,
+              maxWidth: '30%',
+              minWidth: '20%',
+              '& .MuiInputBase-root': {
+                color: '#300130',
+                background: '#ac99be',
+              },
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: 'white',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#6f4792',
+                  opacity: 0.3
+                },
+                '&:hover fieldset': {
+                  background: 'white',
+                  borderColor: 'white',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#3d013d',
+                },
+              },
+            }} />
       <Grid
         container
         className="outerContainer"

@@ -82,6 +82,7 @@ const AddClient = (props) => {
         setMessage(error);
       console.log(error);
     }
+    
   }
 
   const sxAddClientButton = {

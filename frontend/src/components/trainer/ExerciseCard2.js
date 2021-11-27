@@ -44,9 +44,9 @@ const ExpandMore = styled((props) => {
 
 
 export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
-  const [expanded, setExpanded] = React.useState(false);
-  const [rating, setValue] = React.useState(2);
-  const [open, setOpen] = React.useState(true);
+  const [expanded, setExpanded] = useState(false);
+  const [rating, setValue] = useState(2);
+  const [open, setOpen] = useState(true);
 
 
   var info = new Object();
