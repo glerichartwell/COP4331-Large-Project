@@ -12,7 +12,7 @@ router.patch("/api/edit-exercise", async (req, res) => {
   // outgoing: success or error
 
   var error = "";
-  const { id, exerciseName, sets, reps, time, weight, rest } = req.body;
+  const { id, exerciseName, sets, reps, time, weight, height, rest } = req.body;
   const db = client.db();
 
   // get client from database

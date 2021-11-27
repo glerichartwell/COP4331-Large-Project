@@ -1,0 +1,17 @@
+.edit-box-button {
+    display: flex;
+    align-self: center;
+    background: #6f4792;
+    color: #fff;
+    border-color: #6f4792;
+    padding: 5px 45px;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-box-button:hover {
+    background: #ac99be; 
+    border-color: #6f4792; 
+    color: #6f4792;
+}

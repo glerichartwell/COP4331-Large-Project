@@ -141,6 +141,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
         </List>
       </Popover>
       <CardContent>
+
         <Typography variant="body2" color="text.secondary">
           {concatdate}
           <br />
@@ -169,7 +170,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
           >
             Height: {height} in
             <br />
-            Weight: {weight} lb
+            Weight: {weight} lb 
             <br />
             Gender: {gender}
             <br />
