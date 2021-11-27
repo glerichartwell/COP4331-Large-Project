@@ -30,7 +30,7 @@ router.post("/api/add-exercise-to-workout.api", async (req, res) => {
       { _id: id },
       {
         $push: {
-          exercise: {
+          exercises: {
             exerciseID: ObjectId(exerciseID),
           },
         },
