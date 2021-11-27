@@ -1,4 +1,4 @@
-// search-workout.api.js - Search Workouts Endpoint
+// search-exercise.api.js - Search Exercises Endpoint
 
 // setting up middleware
 require("dotenv").config();
@@ -6,7 +6,7 @@ const express = require("express");
 const client = require("../db");
 const router = express.Router();
 
-router.post("/api/search-workout", async (req, res) => {
+router.post("/api/search-exercise", async (req, res) => {
   // incoming: name
   // outgoing: success or error
 
@@ -14,9 +14,9 @@ router.post("/api/search-workout", async (req, res) => {
   const { name } = req.body;
   const db = client.db();
 
-  // find workouts
+  // find exercises
   const results = await db
-    .collection("Workouts")
+    .collection("Exercises")
     .find({ name: { $regex: name + ".*", $options: "r" } })
     .toArray();
 

@@ -5,6 +5,7 @@ require("dotenv").config();
 const express = require("express");
 const client = require("../db");
 const router = express.Router();
+const ObjectId = require("mongodb").ObjectId;
 
 router.delete("/api/delete-exercise", async (req, res) => {
   // incoming: exercise id
@@ -16,7 +17,10 @@ router.delete("/api/delete-exercise", async (req, res) => {
   const db = client.db();
 
   // find client
-  const results = await db.collection("Exercises").find({ id: id }).toArray();
+  const results = await db
+    .collection("Exercises")
+    .find({ _id: ObjectId(id) })
+    .toArray();
 
   if (results.length === 0) {
     error = "Exercise does not exist";
@@ -28,7 +32,7 @@ router.delete("/api/delete-exercise", async (req, res) => {
     // send data
     res.status(200).json(ret);
   } else {
-    var myquery = { email: email.toLowerCase() };
+    var myquery = { _id: ObjectId(id) };
     db.collection("Exercises").deleteOne(myquery, function (err, obj) {
       if (err) {
         error = "DB Error";
