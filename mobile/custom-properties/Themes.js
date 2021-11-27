@@ -20,7 +20,7 @@ const theme = {
     color1: '#B21B3F',
     color2: '#D2C3E4',
     color3: '#EB3248',
-    color4: '#28B7CB',
+    lightBlue: '#28B7CB',
     purple: '#6f4792',
   },
 };

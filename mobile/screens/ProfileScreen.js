@@ -1,23 +1,17 @@
-import React from "react";
-import {Button} from "react-native-paper";
+import React, {useEffect, useState} from "react";
+import {Button, Text, Avatar} from "react-native-paper";
 import {StyleSheet} from "react-native";
 import {getAuth, onAuthStateChanged, signOut} from "firebase/auth";
 import {useNavigation} from "@react-navigation/core";
 import {View} from "react-native";
 import TopBar from "../components/TopBar";
+import theme from "../custom-properties/Themes";
 
-const ProfileScreen = () => {
+const ProfileScreen = (prop) => {
     const auth = getAuth();
     const navigation = useNavigation();
     let email;
 
-    onAuthStateChanged(auth, (user) => {
-        if (user != null) {
-            email = user.email;
-        } else {
-            email = "";
-        }
-    });
 
     const handleSignOut = () => {
         signOut(auth)
@@ -30,6 +24,11 @@ const ProfileScreen = () => {
     return (
         <View>
             <TopBar title="Profile"/>
+            <Avatar.Text
+                size={100}
+                /*label={props.clientInfo.firstName[0]}*/
+            />
+            <Text>{/*{props.clientInfo.weight}*/}</Text>
             <Button onPress={() => handleSignOut()}>Sign Out</Button>
         </View>
     );
