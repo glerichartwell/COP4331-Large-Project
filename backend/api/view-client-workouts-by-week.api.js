@@ -7,48 +7,52 @@ const client = require("../db");
 const router = express.Router();
 
 router.post("/api/view-client-workouts-by-week", async (req, res) => {
-  // incoming: client's email and startDate
+  // incoming: client's email (required), startDate (ISOString)
   // outgoing: clients or error
 
-  // store array of workout objects in client
-  // var newWorkout = {
-  //   name: name,
-  //   date: date,
-  //   comment: comment,
-  //   rating: rating,
-  //   timeToComplete: timeToComplete,
-  //   trainerEmail: trainerEmail,
-  //   exercises: exercises,
-  // };
-
   var error = "";
+  var weeklyWorkouts = [];
   const { email, startDate } = req.body;
   const db = client.db();
 
   // get clients
-  const client = await db
-    .collection("Clients")
+  const clients = await db
+    .collection("Client")
     .find({ email: email.toLowerCase() })
     .toArray();
 
-  if (client.length == 0) {
+  // receive iso startDate string and get date range
+  var getDateBounds = new Date(startDate);
+  console.log(getDateBounds.toISOString());
+  var endDate = getDateBounds.setDate(getDateBounds.getDate() + 6);
+  endDate = new Date(endDate).toISOString();
+  console.log(endDate);
+
+  if (clients && clients.length == 0) {
     error = "No clients";
   } else {
-    if (client[0].workouts.length == 0) {
+    if (clients[0].workout.length == 0) {
       error = "No workouts for this client";
     } else {
-      results = client[0].workouts;
+      // get workouts within date range
+      const clients = await db
+        .collection("Client")
+        .find({ email: email.toLowerCase() })
+        .toArray();
+      for (var i = 0; i < clients[0].workout.length; i++) {
+        var dateToCheck = clients[0].workout[i].date;
+        if (dateToCheck <= endDate && dateToCheck >= startDate) {
+          weeklyWorkouts.push(clients[0].workout[i]);
+        }
+      }
     }
   }
   // package data
   var ret = {
-    results: results,
+    results: weeklyWorkouts,
     error: error,
   };
 
-  workouts: {
-    date: workoutID;
-  }
   // send data
   res.status(200).json(ret);
 });
