@@ -63,11 +63,14 @@ const DashboardDrawer = (props) => {
     
   })
 
-   const auth = getAuth();
-  // const user = auth.currentUser;
-  // console.log(user);
-  // const trainerID = user.email;
-  const trainerID = 'g.ericahrtwell@gmail.com'
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const trainerID = "g.erichartwell@gmail.com";
+  if (user != null)
+  {
+    console.log(user)
+  }
+
 
   const logout = () => {
     signOut(auth);

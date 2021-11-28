@@ -201,6 +201,7 @@ const ClientDisplay = props => {
       for (i = 0; i < numClients; i++) {
         cardArray.push(
           <Grid
+            key={objects[i].key}
             className="custom-cards"
             textAlign="center"
             item
@@ -300,7 +301,7 @@ const ClientDisplay = props => {
   // };
 
 
-  const [query, setQuery] = useState(null);
+  const [query, setQuery] = useState(undefined);
   return (
     <div>
       <TextField 
@@ -310,7 +311,7 @@ const ClientDisplay = props => {
           onChange={e => setQuery(e.target.value)}
           variant='outlined' 
           size='small'
-          InputProps={{startAdornment: <InputAdornment><SearchIcon sx={{color: 'white'}}/></InputAdornment>,}}
+          InputProps={{startAdornment: <InputAdornment position='start'><SearchIcon sx={{color: 'white'}}/></InputAdornment>,}}
           sx={{
               position: 'fixed',
               marginLeft: '1px',

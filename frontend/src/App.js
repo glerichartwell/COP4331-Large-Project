@@ -14,7 +14,7 @@ import './css/App.css';
 function App() {
   
   return (
-    <body className='site-container'>
+    <div className='site-container'>
       <BrowserRouter>
         <Routes>
           <Route path="/" exact element={<Landing />}/>
@@ -25,7 +25,7 @@ function App() {
           <Route path="/access-denied" exact element={<AccessDenied />} />
         </Routes>
       </BrowserRouter>
-    </body>
+    </div>
   );
 }
 

@@ -121,8 +121,8 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
           horizontal: "left",
         }}
       >
-        <List>
-          {/* <ListItem disablePadding>
+        <List key='list'>
+          {/* <ListItem key="edit" disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <EditIcon />
@@ -130,12 +130,12 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
               <ListItemText primary="Edit" />
             </ListItemButton>
           </ListItem> */}
-          <ListItem disablePadding>
-            <ListItemButton onClick={deleteFunction}>
-              <ListItemIcon>
-                <DeleteIcon />
+          <ListItem key="delete" disablePadding>
+            <ListItemButton key='delete-button' onClick={deleteFunction}>
+              <ListItemIcon key='delete-icon-item'>
+                <DeleteIcon key='delete-icon'/>
               </ListItemIcon>
-              <ListItemText primary="Delete" />
+              <ListItemText key='delete-text' primary="Delete" />
             </ListItemButton>
           </ListItem>
         </List>
@@ -147,7 +147,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
           <br />
           Last Logged In: {lastLoggedIn}
           <br />
-          <Divider />
+          {/* <Divider /> */}
           {email}
         </Typography>
       </CardContent>
