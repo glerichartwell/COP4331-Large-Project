@@ -32,7 +32,7 @@ var viewAllClientSleep = require("./api/sleep-api/view-all-client-sleep.api");
 var addMacroToClient = require("./api/macro-api/add-macro-to-client.api");
 var editClientMacro = require("./api/macro-api/edit-client-macro.api");
 var searchClientMacro = require("./api/macro-api/search-client-macro.api");
-// var viewAllClientMacros = require("./api/macro-api/view-all-client-macro.api");
+var viewAllClientMacros = require("./api/macro-api/view-all-client-macros.api");
 
 // workout controllers
 var addWorkoutToClient = require("./api/workout-api/add-workout-to-client.api");
@@ -99,7 +99,7 @@ app.use("/", viewAllClientSleep);
 app.use("/", addMacroToClient);
 app.use("/", editClientMacro);
 app.use("/", searchClientMacro);
-//app.use("/", viewAllClientMacros);
+app.use("/", viewAllClientMacros);
 
 // workout routes
 app.use("/", addWorkoutToClient);
