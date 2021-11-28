@@ -85,7 +85,6 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
 
   const openi = Boolean(anchorEl);
   const id = openi ? "simple-popover" : undefined;
-  console.log(openi);
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -142,7 +141,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
       </Popover>
       <CardContent>
 
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left'}}>
           {concatdate}
           <br />
           Last Logged In: {lastLoggedIn}

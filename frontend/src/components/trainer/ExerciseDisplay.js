@@ -43,9 +43,9 @@ const ExerciseDisplay = () => {
   var objects = [];
   var cardNumber = 0;
 
-  const getExercise = async (event) => {
+  const getExercises = async (event) => {
+
     const address = "http://localhost:5000/api/view-all-exercises";
-    //event.preventDefault();
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
@@ -71,7 +71,78 @@ const ExerciseDisplay = () => {
         var obj = new Object();
         obj["cardNumber"] = i;
         obj["id"] = exercises.results[i]._id;
-        obj["exerciseName"] = exercises.results[i].exerciseName;
+        obj["name"] = exercises.results[i].name;
+        obj["sets"] = exercises.results[i].sets;
+        obj["reps"] = exercises.results[i].reps;
+        obj["time"] = exercises.results[i].time;
+        obj["weight"] = exercises.results[i].weight;
+        obj["rest"] = exercises.results[i].rest;
+        objects.push(obj);
+      }
+      //can access numexercises from trainer database
+      for (var i = 0; i < numexercises; i++) {
+        cardArray.push(
+          <Grid
+            key={objects[i].id}
+            className="custom-cards"
+            textAlign="center"
+            item
+            width="3px"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+          >
+            <ExerciseCard
+              dbInfo={objects[i]}
+              // opens edit box
+              edit={edit}
+              closeEditBox={closeEditBox}
+            />
+          </Grid>
+        );
+      }
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("exercises returned");
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
+
+  const searchExercises = async (event) => {
+
+    const address = "http://localhost:5000/api/search-exercise";
+
+    var obj1 = { name: query };
+    var js = JSON.stringify(obj1);
+
+    try {
+      const response = await fetch(
+        address,
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      exercises = res;
+
+      // save number of exercises
+      const numexercises = exercises.results.length;
+
+      for (var i = 0; i < numexercises; i++) {
+
+        var obj = new Object();
+        obj["cardNumber"] = i;
+        obj["id"] = exercises.results[i]._id;
+        obj["name"] = exercises.results[i].name;
         obj["sets"] = exercises.results[i].sets;
         obj["reps"] = exercises.results[i].reps;
         obj["time"] = exercises.results[i].time;
@@ -115,17 +186,24 @@ const ExerciseDisplay = () => {
 
   const DisplayExercise = () => {
     // console.log("render");
-
-    // allow results of api to be rendered on page after loading
     useEffect(() => {
-      console.log("render array changed");
-      getExercise()
+      if (query)
+      {
+        console.log("Query: ", query)
+        // Call search api
+        searchExercises()
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
-    }, []);
 
-    //firebase component to return trainer profile info
-    // var trainerID = 1; //getFirebaseID()
+      }
+      else
+      {
+        console.log("No query: ", query)
+        getExercises()
+        .then((result) => setArrayChange(cardArray))
+        .then((result) => setObjectArray(objects));
+      }
+    }, [query])
   };
 
   const edit = (info) => {

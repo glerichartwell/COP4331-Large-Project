@@ -12,7 +12,7 @@ router.patch("/api/edit-exercise", async (req, res) => {
   // outgoing: success or error
 
   var error = "";
-  const { id, exerciseName, sets, reps, time, weight, height, rest } = req.body;
+  const { id, name, sets, reps, time, weight, height, rest } = req.body;
   const db = client.db();
 
   // get client from database
@@ -23,10 +23,10 @@ router.patch("/api/edit-exercise", async (req, res) => {
     // id = results[0]._id;
     var collectionName = "Exercises";
     // if trainerID needs updating
-    if (exerciseName) {
+    if (name) {
       db.collection(collectionName).updateOne(
         { _id : ObjectId(id) },
-        { $set: { exerciseName: exerciseName } }
+        { $set: { name: name } }
       );
     }
     // if sets needs updating

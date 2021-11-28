@@ -18,7 +18,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
   const [buttonName, setButtonName] = useState("Change");
   const [confirmClick, setConfirmClick] = useState(0);
   const [message, setMessage] = useState("");
-  const [exerciseName, setExerciseName] = useState();
+  const [name, setName] = useState();
   const [sets, setSets] = useState();
   const [reps, setReps] = useState();
   const [time, setTime] = useState();
@@ -35,7 +35,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
     //workoutID, name, sets, reps, time, weight, rest
     var obj = {
       id: id,
-      exerciseName: exerciseName,
+      name: name,
       sets: sets,
       reps: reps,
       time: time,
@@ -55,10 +55,8 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
 
       if (res.error.length > 0) {
         console.log(res.error);
-        setMessage(res.error);
       }
     } catch (error) {
-      setMessage(error);
       console.log(error);
     }
   };
@@ -88,7 +86,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
       >
         <DialogContent>
           <DialogTitle textAlign="center" marginBottom='10px'>
-            {info.type}: {info.exerciseName}
+            {info.type}: {info.name}
           </DialogTitle>
           <Grid
             container
@@ -96,7 +94,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
             // justifyContent="center"
             // alignItems="center"
           >
-            <TextField placeholder={info.exerciseName} label='Name' sx={{ paddingBottom:'10px'}} onChange={e => {setExerciseName(e.target.value)}} />
+            <TextField placeholder={info.name} label='Name' sx={{ paddingBottom:'10px'}} onChange={e => {setName(e.target.value)}} />
             <TextField type="number" placeholder={info.reps} label='Reps' sx={{ paddingBottom:'10px'}} onChange={e => {setReps(e.target.value)}} />
             <TextField type="number" placeholder={info.sets} label='Sets' sx={{ paddingBottom:'10px'}} onChange={e => {setSets(e.target.value)}} />
             <TextField type="number" placeholder={info.time} label='Duration' sx={{ paddingBottom:'10px'}} onChange={e => {setTime(e.target.value)}}

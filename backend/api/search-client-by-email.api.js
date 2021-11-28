@@ -18,6 +18,7 @@ router.post("/api/search-client-by-email", async (req, res) => {
   if (email == null)
   {
     ret = {
+        results: "",
         error: "You do not have access to this page."
     }
     res.status(500).json(ret);

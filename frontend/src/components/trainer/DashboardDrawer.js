@@ -66,9 +66,13 @@ const DashboardDrawer = (props) => {
   const auth = getAuth();
   const user = auth.currentUser;
   const trainerID = "g.erichartwell@gmail.com";
-  if (user != null)
+  if (user !== null)
   {
     console.log(user)
+  }
+  else
+  {
+    console.log("Where's the chapstick?")
   }
 
 
@@ -240,7 +244,7 @@ const DashboardDrawer = (props) => {
       >
         <Toolbar />
         {/* code for contents of box area in dashboard */}
-        {showClient ? <ClientDisplay trainerID={trainerID} /> : null}
+        {showClient ? <ClientDisplay trainerID={trainerID} user={user} /> : null}
         {showWorkout ? <WorkoutDisplay query={query} /> : null}
         {showExercise ? <ExerciseDisplay query={query} /> : null}
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}

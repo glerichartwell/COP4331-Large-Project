@@ -17,7 +17,7 @@ router.post("/api/search-exercise", async (req, res) => {
   // find exercises
   const results = await db
     .collection("Exercises")
-    .find({ name: { $regex: name + ".*", $options: "r" } })
+    .find({ name: { $regex: name + ".*", $options: "i" } })
     .toArray();
 
   // package data

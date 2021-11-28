@@ -52,7 +52,7 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
   var info = new Object();
   info.id = dbInfo.id;
   info.type = "Editing Exercise";
-  info.exerciseName = dbInfo.exerciseName;
+  info.name = dbInfo.name;
   info.sets = dbInfo.sets;
   info.reps = dbInfo.reps;
   info.time = dbInfo.time;
@@ -95,7 +95,7 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={info.exerciseName}
+        title={info.name}
       />
       <Popover
         id="simple-popover" 
@@ -107,6 +107,10 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
           horizontal: "left",
         }}
       >
+        {/* Add exercise category later */}
+        {/* <Typography variant='body2' color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
+          {workoutName}
+        </Typography> */}
         <List>
           <ListItem disablePadding>
             <ListItemButton onClick={sendEdit}>
@@ -128,15 +132,6 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
       </Popover>
       <CardContent>
         <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
-          <Rating
-            name="simple-controlled"
-            value={rating}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
-          />
-          <br />
-          <br />
           Sets: {info.sets}
           <br />
           Reps: {info.reps}
@@ -146,7 +141,6 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
           Weight: {info.weight} lb(s)
           <br />
           Resting Period: {info.rest} seconds;
-          <br />
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

@@ -14,7 +14,7 @@ router.patch("/api/edit-workout", async (req, res) => {
   var error = "";
   const {
     id,
-    workoutName,
+    name,
     date,
     comment,
     rating,
@@ -32,10 +32,10 @@ router.patch("/api/edit-workout", async (req, res) => {
     // id = results[0]._id;
     var collectionName = "Workouts";
     // if trainerID needs updating
-    if (workoutName) {
+    if (name) {
       db.collection(collectionName).updateOne(
         { _id: ObjectId(id)  },
-        { $set: { workoutName: workoutName } }
+        { $set: { name: name } }
       );
     }
     // if email needs updating

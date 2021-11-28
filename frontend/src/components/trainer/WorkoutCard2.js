@@ -54,7 +54,7 @@ const exercises = [];
 export default function WorkoutCard({ edit, closeEditBox, dbInfo }) {
   const [expanded, setExpanded] = React.useState(false);
   // Show on surface
-  const sumtext = "Date to Complete: ";
+  const sumtext = "Date: ";
   // Don't change this, if you really need to, don't make it lower than 45
   const itemsize = 45;
 
@@ -92,7 +92,8 @@ export default function WorkoutCard({ edit, closeEditBox, dbInfo }) {
   var info = new Object();
   info.id = dbInfo.id;
   info.type = "Editing Workout";
-  info.workoutName = dbInfo.workoutName;
+  info.name = dbInfo.name;
+  console.log(dbInfo)
   info.clientID = dbInfo.clientID;
   info.trainerEmail = dbInfo.trainerEmail;
   info.exercises = dbInfo.exercises;
@@ -126,9 +127,11 @@ export default function WorkoutCard({ edit, closeEditBox, dbInfo }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={info.workoutName}
-        subheader={concatdate}
+        title={info.name}
       />
+      <Typography variant='body2' color="text.secondary" sx={{textAlign: 'left', marginLeft: '25px', fontSize: 17}}>
+        {concatdate}
+      </Typography>
       <Popover
         id={id}
         open={openi}
@@ -175,7 +178,7 @@ export default function WorkoutCard({ edit, closeEditBox, dbInfo }) {
         </List>
       </Popover>
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
           {/* <Rating
             name="simple-controlled"
             value={rating}
@@ -186,13 +189,13 @@ export default function WorkoutCard({ edit, closeEditBox, dbInfo }) {
           <br />
           <br /> */}
           <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+            sx={{marginLeft: '-18px'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
           >
             <ListItemButton onClick={handleClick}>
-              <ListItemText primary="Exercises to Do" />
-              {open ? <ExpandLess /> : <ExpandMore />}
+              <ListItemText primary="Exercise List" />
+              {open ? <ExpandLess /> : <ExpandMoreIcon />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <FixedSizeList
@@ -224,7 +227,7 @@ export default function WorkoutCard({ edit, closeEditBox, dbInfo }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
             User Comment: <br />
             {info.comment}
           </Typography>

@@ -19,6 +19,7 @@ const WorkoutDisplay = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [Edit, setEdit] = useState();
   const [update, setUpdate] = useState(false);
+  const [query, setQuery] = useState('');
 
   // const [cardNumber, setCardNumber] = useState(0);
 
@@ -38,7 +39,7 @@ const WorkoutDisplay = () => {
   var objects = [];
   var cardNumber = 0;
 
-  const getWorkout = async (event) => {
+  const getWorkouts = async (event) => {
 
     const address = "http://localhost:5000/api/view-all-workouts";
     //event.preventDefault();
@@ -65,7 +66,7 @@ const WorkoutDisplay = () => {
         var obj = new Object();
         obj["cardNumber"] = i;
         obj["id"] = Workouts.results[i]._id;
-        obj["workoutName"] = Workouts.results[i].workoutName;
+        obj["name"] = Workouts.results[i].name;
         obj["clientID"] = Workouts.results[i].clientID;
         obj["trainerEmail"] = Workouts.results[i].trainerID;
         obj["exercises"] = Workouts.results[i].exercises;
@@ -110,16 +111,101 @@ const WorkoutDisplay = () => {
     }
   };
 
-  const DisplayWorkout = () => {
-    // console.log("render");
+  const searchWorkouts = async (event) => {
 
-    // allow results of api to be rendered on page after loading
+    const address = "http://localhost:5000/api/search-workout";
+
+    var obj1 = { name: query };
+    var js = JSON.stringify(obj1);
+
+    try {
+      const response = await fetch(
+        address, 
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      Workouts = res;
+
+      // save number of Workouts
+      const numWorkouts = Workouts.results.length;
+
+      for (var i = 0; i < numWorkouts; i++) {
+
+        var obj = new Object();
+        obj["cardNumber"] = i;
+        obj["id"] = Workouts.results[i]._id;
+        obj["name"] = Workouts.results[i].name;
+        obj["clientID"] = Workouts.results[i].clientID;
+        obj["trainerEmail"] = Workouts.results[i].trainerID;
+        obj["exercises"] = Workouts.results[i].exercises;
+        obj["date"] = Workouts.results[i].date;
+        obj["timeToComplete"] = Workouts.results[i].timeToComplete;
+        obj["numExercises"] = Workouts.results[i].numExercises;
+        obj["comment"] = Workouts.results[i].comment;
+        obj["rating"] = Workouts.results[i].rating;
+        objects.push(obj);
+      }
+      //can access numWorkouts from trainer database
+      for (var i = 0; i < numWorkouts; i++) {
+        cardArray.push(
+          <Grid
+            key={objects[i].id}
+            className="custom-cards"
+            textAlign="center"
+            item
+            width="3px"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+          >
+            <WorkoutCard
+              dbInfo={objects[i]}
+              // opens edit box
+              edit={edit}
+              closeEditBox={closeEditBox}
+            />
+          </Grid>
+        );
+      }
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Workouts returned");
+        console.log(Workouts)
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
+
+  const DisplayWorkout = () => {
+
     useEffect(() => {
-      console.log("render array changed");
-      getWorkout()
+      if (query)
+      {
+        console.log("Query: ", query)
+        // Call search api
+        searchWorkouts()
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
-    }, []);
+
+      }
+      else
+      {
+        console.log("No query: ", query)
+        getWorkouts()
+        .then((result) => setArrayChange(cardArray))
+        .then((result) => setObjectArray(objects));
+      }
+    }, [query])
 
     //firebase component to return trainer profile info
     // var trainerID = 1; //getFirebaseID()
@@ -136,7 +222,6 @@ const WorkoutDisplay = () => {
     refresh();
   };
 
-  const [query, setQuery] = useState(null);
   return (
     <div>
       <TextField 
