@@ -110,94 +110,92 @@ const LoginScreen = () => {
 
     return (
         <ImageBackground source={require('../assets/images/palette_max.jpg')} style={styles.backgroundImage}>
-            <SafeAreaView>
-                <Portal>
-                    <Modal
-                        visible={forgotPassword}
-                        onDismiss={() => hidePasswordModal()}
-                        contentContainerStyle={styles.forgotPasswordPopUp}
-                    >
-                        <Title style={styles.forgotPasswordTitle}>
-                            Forgot password?
-                        </Title>
-                        <TextInput
-                            style={styles.textInput}
-                            mode="outlined"
-                            label="Email"
-                            /*right={<TextInput.Icon name="check" />}*/
-
-                            value={forgotEmail}
-                            onChangeText={text => setForgotEmail(text)}
-                            error={invalidForgot}
-                        />
-                        <Text styles={styles.forgotPasswordPopUpText}>
-                            Enter the email associated with your account and we'll send you a reset password link!
-                        </Text>
-                        <HelperText
-                            type="error"
-                            style={styles.invalidText}
-                            visible={invalidForgot}>
-                            Invalid Email.
-                        </HelperText>
-                        <Button mode="contained" style={styles.submitButton} onPress={() => {
-                            handleForgotPassword()
-                        }}>
-                            Submit
-                        </Button>
-                    </Modal>
-                </Portal>
-                <Title style={styles.title1}>Hello again!</Title>
-                <Title style={styles.title2}>Welcome back</Title>
-                <Surface style={styles.surface}>
-                    <Subheading style={styles.loginText}>Login</Subheading>
+            <Portal>
+                <Modal
+                    visible={forgotPassword}
+                    onDismiss={() => hidePasswordModal()}
+                    contentContainerStyle={styles.forgotPasswordPopUp}
+                >
+                    <Title style={styles.forgotPasswordTitle}>
+                        Forgot password?
+                    </Title>
                     <TextInput
                         style={styles.textInput}
                         mode="outlined"
                         label="Email"
                         /*right={<TextInput.Icon name="check" />}*/
 
-                        value={login}
-                        error={invalid}
-                        onChangeText={text => setLogin(text)}
+                        value={forgotEmail}
+                        onChangeText={text => setForgotEmail(text)}
+                        error={invalidForgot}
                     />
-                    <TextInput
-                        style={styles.textInput}
-                        mode="outlined"
-                        label="Password"
-                        right={<TextInput.Icon name={eyeCon} onPress={() => handlePasswordVisibility()}/>}
-
-                        secureTextEntry={!passwordVisibility}
-                        value={password}
-                        error={invalid}
-                        onChangeText={text => setPassword(text)}
-                    />
+                    <Text styles={styles.forgotPasswordPopUpText}>
+                        Enter the email associated with your account and we'll send you a reset password link!
+                    </Text>
                     <HelperText
                         type="error"
                         style={styles.invalidText}
-                        visible={invalid}
-                    >
-                        Invalid Email/Password.
+                        visible={invalidForgot}>
+                        Invalid Email.
                     </HelperText>
                     <Button mode="contained" style={styles.submitButton} onPress={() => {
-                        handleLogin()
+                        handleForgotPassword()
                     }}>
                         Submit
                     </Button>
-                    <Text
-                        style={styles.forgotPasswordText}
-                        onPress={() => showPasswordModal()}
-                    >
-                        Forgot password?
-                    </Text>
-                    {/*<Text style={styles.signUpText}>
+                </Modal>
+            </Portal>
+            <Title style={styles.title1}>Hello again!</Title>
+            <Title style={styles.title2}>Welcome back</Title>
+            <Surface style={styles.surface}>
+                <Subheading style={styles.loginText}>Login</Subheading>
+                <TextInput
+                    style={styles.textInput}
+                    mode="outlined"
+                    label="Email"
+                    /*right={<TextInput.Icon name="check" />}*/
+
+                    value={login}
+                    error={invalid}
+                    onChangeText={text => setLogin(text)}
+                />
+                <TextInput
+                    style={styles.textInput}
+                    mode="outlined"
+                    label="Password"
+                    right={<TextInput.Icon name={eyeCon} onPress={() => handlePasswordVisibility()}/>}
+
+                    secureTextEntry={!passwordVisibility}
+                    value={password}
+                    error={invalid}
+                    onChangeText={text => setPassword(text)}
+                />
+                <HelperText
+                    type="error"
+                    style={styles.invalidText}
+                    visible={invalid}
+                >
+                    Invalid Email/Password.
+                </HelperText>
+                <Button mode="contained" style={styles.submitButton} onPress={() => {
+                    handleLogin()
+                }}>
+                    Submit
+                </Button>
+                <Text
+                    style={styles.forgotPasswordText}
+                    onPress={() => showPasswordModal()}
+                >
+                    Forgot password?
+                </Text>
+                {/*<Text style={styles.signUpText}>
                     Don't have an account? <Text
                         style={{color: theme.colors.color4}}
                         onPress={() => Linking.openURL('https://google.com')}>
                         Sign up
                     </Text>
                 </Text>*/}
-                </Surface>
-            </SafeAreaView>
+            </Surface>
         </ImageBackground>
     );
 }
@@ -257,11 +255,11 @@ const styles = StyleSheet.create({
         submitButton: {
             marginBottom: 10,
             borderRadius: 10,
-            backgroundColor: theme.colors.color4,
+            backgroundColor: theme.colors.lightBlue,
         },
         forgotPasswordText: {
             paddingTop: 10,
-            color: theme.colors.color4,
+            color: theme.colors.lightBlue,
             marginBottom: 10,
         },
         signUpText: {

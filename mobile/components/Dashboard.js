@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ProfileScreen from "../screens/ProfileScreen";
 import CalendarScreen from "../screens/CalendarScreen";
 import WorkoutsScreen from "../screens/WorkoutsScreen";
@@ -12,48 +12,39 @@ const Tab = createMaterialBottomTabNavigator();
 
 const Dashboard = () => {
     const auth = getAuth();
-    const [clientInfo, setClientInfo] = useState(null);
-    let email;
+    const [email, setEmail] = useState("");
 
-    onAuthStateChanged(auth, (user) => {
+    /*onAuthStateChanged(auth, (user) => {
         if (user != null) {
-            /*email = user["email"];*/
-            console.log("THIS IS GOOD")
-            email = "glerichartwell@gmail.com";
+            /!*setEmail(user["email"]);*!/
+            setEmail("glerichartwell@gmail.com");
+            console.log("Dashboard Email: " + email);
         } else {
-            console.log("THIS IS BAD")
-            email = "";
+            setEmail("");
+            console.log("No more dashboard email");
         }
-    });
+    });*/
 
-    const getClientInfo = () => {
-        console.log("EMAIL:" + email);
-        let js = JSON.stringify({search: email});
-        fetch("http://192.168.208.1:5000/api/search-client",
-            {
-                method: "POST",
-                body: js,
-                headers: {"Content-Type": "application/json"},
-            })
-            .then(response => response.json())
-            .then((responseJson) => {
-                console.log(responseJson);
-                setClientInfo(responseJson.results[0]);
-                console.log(clientInfo);
-            })
-            .catch(error => console.log("ERROR: " + error))
-    }
+    /*let user = auth.currentUser;
+    /!*setEmail(user.email);*!/
+    setEmail("glerichartwell@gmail.com");*/
+
+    useEffect(() => {
+        let user = auth.currentUser;
+        /*setEmail(user.email);*/
+        setEmail("glerichartwell@gmail.com");
+        /*console.log("Setting email");*/
+    }, [email])
 
     return (
         <Tab.Navigator
             initialRouteName="Calendar"
             barStyle={{backgroundColor: theme.colors.purple}}
         >
-            {getClientInfo()}
             <Tab.Screen
                 name="Profile"
                 /*component={ProfileScreen}*/
-                children={() => <ProfileScreen clientInfo={clientInfo}/>}
+                children={() => <ProfileScreen email={email}/>}
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({color}) => (
