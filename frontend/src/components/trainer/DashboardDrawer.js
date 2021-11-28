@@ -36,7 +36,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import { getAuth, signOut } from "@firebase/auth";
+import { getAuth, signOut, onAuthStateChanged } from "@firebase/auth";
 
 const DashboardDrawer = (props) => {
   const navigate = useNavigate();
@@ -59,7 +59,16 @@ const DashboardDrawer = (props) => {
   //   setOpen(false);
   // };
 
-  const auth = getAuth();
+  useEffect(() => {
+    
+  })
+
+   const auth = getAuth();
+  // const user = auth.currentUser;
+  // console.log(user);
+  // const trainerID = user.email;
+  const trainerID = 'g.ericahrtwell@gmail.com'
+
   const logout = () => {
     signOut(auth);
     navigate(`/`);
@@ -130,60 +139,6 @@ const DashboardDrawer = (props) => {
     }
   };
 
-  var res= null;
-  const searchItem = async (value) => {
-
-    if (value == null)
-      return;
-
-    if (searchClient)
-    {
-      // Search Client
-      console.log("Searching client...")
-
-      const obj = {
-        firstName: value,
-        lastName: value,
-        email: value,
-      }
-      const js = JSON.stringify(obj);
-
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/search-client",
-          {
-            method: "POST",
-            body: js,
-            headers: { "Content-Type": "application/json" },
-          }
-          );
-          console.log("Fetch successful")
-          var txt = await response.text();
-          res = JSON.parse(txt);
-          console.log("Response successful")
-          if (res.error.length > 0) 
-          {
-            console.log(res.error);
-          }
-        } 
-        catch (error) 
-        {
-        console.log(error);
-        }
-
-
-    }
-    else if (searchWorkout)
-    {
-      // Search Workout
-      console.log("Searching workout...")
-    }
-    else
-    {
-      // Search Exercise
-      console.log("Searching exercise...")
-    }
-  }
 
   const editItem = () => {
     
@@ -282,8 +237,7 @@ const DashboardDrawer = (props) => {
       >
         <Toolbar />
         {/* code for contents of box area in dashboard */}
-
-        {showClient ? <ClientDisplay res={res} /> : null}
+        {showClient ? <ClientDisplay trainerID={trainerID} /> : null}
         {showWorkout ? <WorkoutDisplay query={query} /> : null}
         {showExercise ? <ExerciseDisplay query={query} /> : null}
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from "react-router";
 
-import { getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
 
 import { TextField, Grid, Button} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
@@ -32,7 +32,7 @@ const Login = props => {
     var userEmail = null;
     var lastLoggedIn = null;
 
-    // setPersistence(auth, browserLocalPersistence );
+    //setPersistence(auth, browserLocalPersistence );
     signInWithEmailAndPassword(auth, email, password)
     .then((user) => {
       // Signed in 
