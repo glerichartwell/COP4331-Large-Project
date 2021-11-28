@@ -9,10 +9,10 @@ const ObjectId = require("mongodb").ObjectId;
 
 router.patch("/api/edit-workout-exercise", async (req, res) => {
   // incoming: workoutID (required),
-  // originalExerciseID (required), newExerciseID (required)
+  // originalExerciseID (required), newExerciseID (required), name
   // outgoing: error
   var error = "";
-  const { workoutID, originalExerciseID, newExerciseID } = req.body;
+  const { workoutID, originalExerciseID, newExerciseID, name } = req.body;
 
   try {
     const db = client.db();
@@ -27,6 +27,17 @@ router.patch("/api/edit-workout-exercise", async (req, res) => {
       id = results[0]._id;
       var collectionName = "Workouts";
       // update workout
+      // if new name
+      if (name) {
+        db.collection(collectionName).updateOne(
+          { _id: id, "exercises.exerciseID": originalExerciseID },
+          {
+            $set: {
+              "exercises.$.name": name,
+            },
+          }
+        );
+      }
       // if new exerciseID
       if (newExerciseID) {
         db.collection(collectionName).updateOne(

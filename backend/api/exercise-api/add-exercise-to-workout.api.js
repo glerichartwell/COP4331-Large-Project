@@ -1,4 +1,4 @@
-// add-exercise-to-workout.api.api.js - Add Exercise To Workout API endpoint
+// add-exercise-to-workout.api.js - Add Exercise To Workout API endpoint
 
 // setting up middleware
 const express = require("express");
@@ -8,10 +8,10 @@ const router = express.Router();
 const ObjectId = require("mongodb").ObjectId;
 
 router.post("/api/add-exercise-to-workout", async (req, res) => {
-  // incoming: workoutID, exerciseID
+  // incoming: workoutID, exerciseID, name (name of exercise)
   // outgoing: error
   var error = "";
-  const { workoutID, exerciseID } = req.body;
+  const { workoutID, exerciseID, name } = req.body;
 
   try {
     const db = client.db();
@@ -33,6 +33,7 @@ router.post("/api/add-exercise-to-workout", async (req, res) => {
           $push: {
             exercises: {
               exerciseID: ObjectId(exerciseID),
+              name: name,
             },
           },
         }
