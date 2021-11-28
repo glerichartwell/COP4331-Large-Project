@@ -1,1 +1,22 @@
-/App/.env
+/.idea/
+mobile/node_modules/
+mobile/.expo/
+mobile/dist/
+mobile/npm-debug.*
+mobile/*.jks
+mobile/*.p8
+mobile/*.p12
+mobile/*.key
+mobile/*.mobileprovision
+mobile/*.orig.*
+mobile/web-build/
+
+backend/node_modules
+backend/.env
+mobile/custom-properties/firebase.js
+
+frontend/node_modules
+frontend/src/utils/firebase.js
+# macOS
+mobile/.DS_Store
+.DS_Store
