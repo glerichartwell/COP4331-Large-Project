@@ -3,35 +3,36 @@ import { useState, useEffect } from "react";
 
 import Grid from "@mui/material/Grid";
 import { Divider, TextField, InputAdornment } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from '@mui/icons-material/Search'; 
 import AssignBox from "./AssignBox";
-
+import AddWorkout from "./AddWorkout";
 import WorkoutCard from "./WorkoutCard2";
 import WorkoutEditBox from "./WorkoutEditBox";
-import AddWorkout from "./AddWorkout";
-
-import { Button } from "@mui/material";
 
 
 const WorkoutDisplay = () => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [objectArray, setObjectArray] = useState();
+  const [showAddWorkout, setShowAddWorkout] = useState(false);
   const [showEditBox, setShowEditBox] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [Edit, setEdit] = useState();
   const [showAssign, setShowAssign] = useState(false);
   const [Assign, setAssign] = useState();
   const [update, setUpdate] = useState(false);
-  const [query, setQuery] = useState("");
-  const [refresh, setRefresh] = useState(false);
-  const [showAddWorkout, setShowAddWorkout] = useState(false);
+  const [query, setQuery] = useState('');
 
+  // const [cardNumber, setCardNumber] = useState(0);
 
-  const refreshComponent = () => {
-    setRefresh(!refresh);
+  const openEditBox = () => {
+    setShowEditBox(true);
   };
+  const refresh = () => {
+    setUpdate((update) => !update);
+    console.log(update);
+  }
 
   //firebase component to return trainer profile info
   var trainerID = "g.erichartwell@gmail.com"; //getFirebaseID()
@@ -41,36 +42,8 @@ const WorkoutDisplay = () => {
   var objects = [];
   var cardNumber = 0;
 
-  const deleteWorkout = async (info) => {
-    const address = "http://localhost:5000/api/delete-workout";
-
-    var obj1 = { id: info.id };
-    var js = JSON.stringify(obj1);
-
-    try {
-      const response = await fetch(address, {
-        method: "DELETE",
-        body: js,
-        headers: { "Content-Type": "application/json" },
-      });
-
-      var txt = await response.text();
-      var res = JSON.parse(txt);
-
-      // after deleting, refresh component
-      setRefresh(!refresh);
-
-      if (res.error.length > 0) {
-        console.log("API Error: " + res.error);
-      } else {
-        console.log(info.name + " workout deleted.");
-      }
-    } catch (error) {
-      console.log(error.toString());
-    }
-  };
-
   const getWorkouts = async (event) => {
+
     const address = "http://localhost:5000/api/view-all-workouts";
     //event.preventDefault();
 
@@ -125,14 +98,14 @@ const WorkoutDisplay = () => {
             <WorkoutCard
               dbInfo={objects[i]}
               // opens edit box
+              assign={assign}
               edit={edit}
-              deleteCard={deleteCard}
-              assignWorkout={assignWorkout}
               closeEditBox={closeEditBox}
             />
           </Grid>
         );
       }
+
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
@@ -160,7 +133,6 @@ const WorkoutDisplay = () => {
         }
       );
 
-
       var txt = await response.text();
       var res = JSON.parse(txt);
       Workouts = res;
@@ -169,6 +141,7 @@ const WorkoutDisplay = () => {
       const numWorkouts = Workouts.results.length;
 
       for (var i = 0; i < numWorkouts; i++) {
+
         var obj = new Object();
         obj["cardNumber"] = i;
         obj["id"] = Workouts.results[i]._id;
@@ -201,8 +174,6 @@ const WorkoutDisplay = () => {
               dbInfo={objects[i]}
               // opens edit box
               edit={edit}
-              deleteCard={deleteCard}
-              assignWorkout={assignWorkout}
               closeEditBox={closeEditBox}
             />
           </Grid>
@@ -213,8 +184,7 @@ const WorkoutDisplay = () => {
         console.log("API Error: " + res.error);
       } else {
         console.log("Workouts returned");
-        console.log(Workouts);
-
+        console.log(Workouts)
       }
     } catch (error) {
       console.log(error.toString());
@@ -259,117 +229,57 @@ const WorkoutDisplay = () => {
 
   const closeEditBox = () => {
     setShowEdit(false);
-    setRefresh(!refresh);
+    refresh();
   };
-  
-const closeAssignBox = () => {
+
+  const closeAssignBox = () => {
     setShowAssign(false);
-    setRefresh(!refresh);
+    refresh();
   }
-
-  const deleteCard = (info) => {
-    // pass information from relavent card to editbox
-    if (
-      window.confirm(
-        "Are you sure you would like to permanently delete " + info.name + "?"
-      )
-    ) {
-      deleteWorkout(info);
-    }
-    // alert("Are you sure you would like to delete " + info.name + "?");
-    // // setShowEdit(true);
-  };
-
-  // present component to add clients
-  const assignWorkout = (info) => {
-    console.log("add client adding component dummy");
-  }
-
-  const closeAddWorkout = () => {
-    setShowAddWorkout(false);
-    setRefresh(!refresh);
-  };
-
-  const addItem = () => {
-    setShowAddWorkout(true);
-  };
-
 
   return (
     <div>
-      
-      {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null}
-
-      <Button
-        onClick={addItem}
-        variant="outlined"
-        sx={{
-          position: "fixed",
-          right: "21.5vw",
-          height: "42px",
-          background: "#866d9c",
-          borderColor: "#6f4792",
-          color: "#ffffff",
-          marginLeft: "1px",
-          marginTop: "-44px",
-          zIndex: 5000,
-          "&:hover": {
-            background: "#b19cbe",
-            borderColor: "#6f4792",
-            color: "#6f4792",
-          },
-        }}
-      >
-        <AddIcon />
-      </Button>
-      <TextField
-        className="search-bar"
-        type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        variant="outlined"
-        size="small"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment>
-              <SearchIcon sx={{ color: "white" }} />
-            </InputAdornment>
-          ),
-        }}
-        sx={{
-          position: "fixed",
-          marginLeft: "1px",
-          opacity: 0.4,
-          right: "1vw",
-          marginTop: "-44px",
-          zIndex: 5000,
-          maxWidth: "30%",
-          minWidth: "20%",
-          "& .MuiInputBase-root": {
-            color: "#300130",
-            background: "#ac99be",
-          },
-          "& label.Mui-focused": {
-            color: "white",
-          },
-          "& .MuiInput-underline:after": {
-            borderBottomColor: "white",
-          },
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderColor: "#6f4792",
-              opacity: 0.3,
-            },
-            "&:hover fieldset": {
-              background: "white",
-              borderColor: "white",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: "#3d013d",
-            },
-          },
-        }}
-      />
+      <TextField 
+          className='search-bar' 
+          type="search" 
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          variant='outlined' 
+          size='small'
+          InputProps={{startAdornment: <InputAdornment position='start'><SearchIcon sx={{color: 'white'}}/></InputAdornment>,}}
+          sx={{
+              position: 'fixed',
+              marginLeft: '1px',
+              opacity: 0.4,
+              right: '1vw',
+              marginTop:'-44px',
+              zIndex: 5000,
+              maxWidth: '30%',
+              minWidth: '20%',
+              '& .MuiInputBase-root': {
+                color: '#300130',
+                background: '#ac99be',
+              },
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: 'white',
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#6f4792',
+                  opacity: 0.3
+                },
+                '&:hover fieldset': {
+                  background: 'white',
+                  borderColor: 'white',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#3d013d',
+                },
+              },
+            }} />
       <Grid
         container
         className="outerContainer"

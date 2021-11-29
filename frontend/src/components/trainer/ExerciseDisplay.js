@@ -3,15 +3,15 @@ import { useState, useEffect } from "react";
 import "./css/ClientDisplay.css";
 
 import Grid from "@mui/material/Grid";
-import { TextField, InputAdornment } from "@mui/material";
+import { Divider, TextField, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from '@mui/icons-material/Search'; 
 
+
+import AddClient from "./AddClient";
 import ExerciseCard from "./ExerciseCard2";
 import ClientDashboard from "../client/ClientInfoView";
 import ExerciseEditBox from "./ExerciseEditBox";
-import AddExercise from "./AddExercise";
-import { Button } from "@mui/material";
 
 const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading
@@ -23,13 +23,16 @@ const ExerciseDisplay = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [Edit, setEdit] = useState();
   const [update, setUpdate] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const [showAddExercise, setShowAddExercise] = useState(false);
 
+  // const [cardNumber, setCardNumber] = useState(0);
 
   const openEditBox = () => {
     setShowEditBox(true);
   };
+  const refresh = () => {
+    setUpdate((update) => !update);
+    console.log(update);
+  }
 
   //firebase component to return trainer profile info
 
@@ -39,38 +42,6 @@ const ExerciseDisplay = () => {
   var cardArray = [];
   var objects = [];
   var cardNumber = 0;
-
-  const deleteExercise = async (info) => {
-
-    const address = "http://localhost:5000/api/delete-exercise";
-
-    var obj1 = { id: info.id  };
-    var js = JSON.stringify(obj1);
-
-    try {
-      const response = await fetch(
-      address,
-       {
-        method: "DELETE",
-        body: js,
-        headers: { "Content-Type": "application/json" },
-      });
-
-      var txt = await response.text();
-      var res = JSON.parse(txt);
-
-      // after deleting, refresh component
-      setRefresh(!refresh);
-
-      if (res.error.length > 0) {
-        console.log("API Error: " + res.error);
-      } else {
-        console.log(info.name + " exercise deleted");
-      }
-    } catch (error) {
-      console.log(error.toString());
-    }
-  };
 
   const getExercises = async (event) => {
 
@@ -101,7 +72,6 @@ const ExerciseDisplay = () => {
         obj["cardNumber"] = i;
         obj["id"] = exercises.results[i]._id;
         obj["name"] = exercises.results[i].name;
-
         obj["sets"] = exercises.results[i].sets;
         obj["reps"] = exercises.results[i].reps;
         obj["time"] = exercises.results[i].time;
@@ -142,7 +112,6 @@ const ExerciseDisplay = () => {
       console.log(error.toString());
     }
   };
-
 
   const searchExercises = async (event) => {
 
@@ -199,7 +168,6 @@ const ExerciseDisplay = () => {
               dbInfo={objects[i]}
               // opens edit box
               edit={edit}
-              deleteCard={DeleteCard}
               closeEditBox={closeEditBox}
             />
           </Grid>
@@ -218,9 +186,6 @@ const ExerciseDisplay = () => {
 
   const DisplayExercise = () => {
     // console.log("render");
-    //render cards after information is loaded to array.
-    //overcome await timelapse
-
     useEffect(() => {
       if (query)
       {
@@ -238,7 +203,7 @@ const ExerciseDisplay = () => {
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
       }
-    }, [query, refresh])
+    }, [query])
   };
 
   const edit = (info) => {
@@ -249,56 +214,12 @@ const ExerciseDisplay = () => {
 
   const closeEditBox = () => {
     setShowEdit(false);
-    //refresh();
-  };
-
-  const DeleteCard = (info) => {
-    // pass information from relavent card to editbox
-    if(window.confirm("Are you sure you would like to permanently delete " + info.name + "?")){
-      deleteExercise(info);
-    }
+    refresh();
   };
 
   const [query, setQuery] = useState(null);
-
-  
-  const closeAddExercise = () => {
-    setShowAddExercise(false);
-    setRefresh(!refresh);
-  };
-
-  const addItem = () => {
-    setShowAddExercise(true);
-  };
-
-
   return (
     <div>
-      
-      {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
-
-      <Button
-        onClick={addItem}
-        variant="outlined"
-        sx={{
-          position: "fixed",
-          right: "21.5vw",
-          height: "42px",
-          background: "#866d9c",
-          borderColor: "#6f4792",
-          color: "#ffffff",
-          marginLeft: "1px",
-          marginTop: "-44px",
-          zIndex: 5000,
-          "&:hover": {
-            background: "#b19cbe",
-            borderColor: "#6f4792",
-            color: "#6f4792",
-          },
-        }}
-      >
-        <AddIcon />
-      </Button>
       <TextField 
           className='search-bar' 
           type="search" 

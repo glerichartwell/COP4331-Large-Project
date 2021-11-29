@@ -55,7 +55,6 @@ const AddClient = (props) => {
   };
 
   const sendRegisterInvite = async event => {
-    
     var obj = {
       email: email,
       trainerID: trainerID
@@ -83,7 +82,7 @@ const AddClient = (props) => {
         setMessage(error);
       console.log(error);
     }
-    handleClose();
+    
   }
 
   const sxAddClientButton = {

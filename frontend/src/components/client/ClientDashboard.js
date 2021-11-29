@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 const ClientDashboard = ({ prop, useCardNumber, closeClientDash }) => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [email, setEmail] = useState("");
   
     const handleClickOpen = () => {

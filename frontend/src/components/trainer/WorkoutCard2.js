@@ -36,11 +36,22 @@ const ExpandMore = styled((props) => {
 }));
 
 // Show on surface
-// preset array to be empty if no exercises are entered on creation
+// const name = "Crabification";
+// const sumtext = "Date Started: ";
+// const date = "09/32/2014";
+// const concatdate = sumtext + date;
+// const rating = "3";
+// const comment =
+//   "Y'know the crab walking really isn't working out for me. When I first did it, I noticed my skin got harder. The more I did it, the more I was stuck walking like a crab and then...";
 const exercises = [];
+// const time = "20";
+// // Changing the number of exercises here increases the count of how many will be displayed
+// const numExercises = 4;
+// // Don't change this, if you really need to, don't make it lower than 45
+// const itemsize = 45;
+// const listheight = itemsize * numExercises;
 
-
-export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, closeEditBox, dbInfo }) {
+export default function WorkoutCard({ edit, assign, dbInfo }) {
   const [expanded, setExpanded] = useState(false);
   const [elevation, setElevation] = useState(5)
   // Show on surface
@@ -68,24 +79,10 @@ export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, c
     setAnchorEl(null);
   };
   
-  //send information from card to be edited in edit box
   const sendEdit = () => {
     edit(info);
     setAnchorEl(false);
   };
-
-
-  //send information from card to be deleted from database then close popout
-  const sendDelete = () => {
-    deleteCard(info);
-    setAnchorEl(false);
-  }
-
-  //send information to assign workouts to clients
-  const assignToClient = () => {
-    assignWorkout(info);
-    setAnchorEl(false);
-  }
 
   const sendAssign = () => {
     assign(info);
@@ -99,8 +96,6 @@ export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, c
   info.id = dbInfo.id;
   info.type = "Editing Workout";
   info.name = dbInfo.name;
-  console.log(dbInfo)
-
   info.clientID = dbInfo.clientID;
   info.trainerEmail = dbInfo.trainerEmail;
   info.exercises = dbInfo.exercises;
@@ -137,11 +132,8 @@ export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, c
           horizontal: "left",
         }}
       >
-        {/* options for popout tab including add, edit, and delete*/}
-
         <List>
-
-          <ListItem disablePadding>
+        <ListItem disablePadding>
             <ListItemButton onClick={sendEdit}>
               <ListItemIcon>
                 <EditIcon />
@@ -149,31 +141,26 @@ export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, c
               <ListItemText primary="Edit" />
             </ListItemButton>
           </ListItem>
-          
           <ListItem disablePadding>
-            <ListItemButton onClick={assignToClient}>
+            <ListItemButton onClick={sendAssign}>
               <ListItemIcon>
-
-                <FitnessCenterIcon />
+                <AddIcon/>
               </ListItemIcon>
-              <ListItemText primary="Assign to Client" />
+              <ListItemText primary="Assign" />
             </ListItemButton>
           </ListItem>
-
           <ListItem disablePadding>
-            <ListItemButton onClick={sendDelete}>
+            <ListItemButton>
               <ListItemIcon>
                 <DeleteIcon />
               </ListItemIcon>
               <ListItemText primary="Delete" />
             </ListItemButton>
           </ListItem>
-
-      </List>
+        </List>
       </Popover>
       <CardContent>
         <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
-
           <Typography variant="body2" color="text.secondary" sx={{marginBottom: '15px'}}>
             Estimated Time to Complete: {info.timeToComplete} minutes
           </Typography>
@@ -187,11 +174,11 @@ export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, c
             sx={{marginLeft: '-18px'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
-            sx={{background: '#e9e3ee', marginLeft: '-20px', width: '110%', marginBottom: '-24px'}}
+            sx={{background: '#e9e3ee', marginLeft: '-20px', width: '250px', marginBottom: '-24px'}}
             >
-            <ListItemButton onClick={handleClick} sx={{width: '100%', marginRight: '0px'}}>
+            <ListItemButton onClick={handleClick} sx={{marginRight: '-45px'}}>
               <ListItemText primary="Exercise List" sx={{background: '#e9e3ee'}}/>
-              <div style={{marginBottom: '-5px'}}>{open ? <ExpandLess /> : <ExpandMoreIcon />}</div>
+              <div style={{marginRight: '-45px', marginBottom: '-5px'}}>{open ? <ExpandLess /> : <ExpandMoreIcon />}</div>
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit sx={{background: '#e9e3ee'}}>
               <List>
