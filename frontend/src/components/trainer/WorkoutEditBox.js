@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
-import Radio from "@mui/material/Radio";
 import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import { Autocomplete, Box, Grid, List, ListItem } from "@mui/material";
-import Slider from "@mui/material/Slider";
+import { Autocomplete, Grid, List, ListItem } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { FormControlLabel } from "@mui/material";
-import RadioGroup from "@mui/material/RadioGroup";
-import DialogActions from "@mui/material/DialogActions";
-import { DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { DialogContent, DialogTitle } from "@mui/material";
 import { InputAdornment } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search'
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import './css/EditBox.css'
@@ -152,7 +145,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
   };
 
   const deleteExercise = (name) => {
-    var index = chosenExercises.findIndex(exercise => exercise.name == name);
+    var index = chosenExercises.findIndex(exercise => exercise.name === name);
     setChosenExercises(chosenExercises.slice(0, index).concat(chosenExercises.slice(index+1, chosenExercises.length)))
   }
 
@@ -162,7 +155,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
     {
       setAddError("Please choose an exercise.")
     }
-    else if (chosenExercises.find(item => item.name == exercise.name))
+    else if (chosenExercises.find(item => item.name === exercise.name))
     {
       setAddError("This exercise is already in the workout!")
     }

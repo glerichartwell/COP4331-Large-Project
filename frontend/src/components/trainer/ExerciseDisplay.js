@@ -23,16 +23,13 @@ const ExerciseDisplay = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [Edit, setEdit] = useState();
   const [update, setUpdate] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   // const [cardNumber, setCardNumber] = useState(0);
 
   const openEditBox = () => {
     setShowEditBox(true);
   };
-  const refresh = () => {
-    setUpdate((update) => !update);
-    console.log(update);
-  }
 
   //firebase component to return trainer profile info
 
@@ -42,6 +39,39 @@ const ExerciseDisplay = () => {
   var cardArray = [];
   var objects = [];
   var cardNumber = 0;
+
+
+  const deleteExercise = async (info) => {
+
+    const address = "http://localhost:5000/api/delete-exercise";
+
+    var obj1 = { id: info.id  };
+    var js = JSON.stringify(obj1);
+
+    try {
+      const response = await fetch(
+      address,
+       {
+        method: "DELETE",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+
+      // after deleting, refresh component
+      setRefresh(!refresh);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log(info.name + " exercise deleted");
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
 
   const getExercises = async (event) => {
 

@@ -6,7 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 // client admin controllers
-var searchClient = require("./api/client-api/admin/search-client.api");
+// var searchClient = require("./api/client-api/admin/search-client.api");
 var deleteClient = require("./api/client-api/admin/delete-client.api");
 var viewAllClients = require("./api/client-api/admin/view-all-clients.api");
 
@@ -73,7 +73,7 @@ app.use(cors());
 app.use(express.json());
 
 // client admin routes
-app.use("/", searchClient);
+// app.use("/", searchClient);
 app.use("/", deleteClient);
 app.use("/", viewAllClients);
 
