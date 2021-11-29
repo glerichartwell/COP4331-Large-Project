@@ -26,6 +26,13 @@ const ClientDisplay = props => {
 
   //hold card number being deleted
   var holdingNumber;
+  // const [cardNumber, setCardNumber] = useState(0);
+  const openAddClient = () => {
+    setShowAddClient(true);
+  };
+  const closeAddClient = () => {
+    setShowAddClient(false);
+  };
 
   //firebase component to return trainer profile info
 
@@ -117,6 +124,7 @@ const ClientDisplay = props => {
         obj["firstName"] = clients.results[i].firstName;
         obj["middleName"] = clients.results[i].middleName;
         obj["lastName"] = clients.results[i].lastName;
+        obj["email"] = clients.results[i].email;
         obj["height"] = clients.results[i].height;
         obj["weight"] = clients.results[i].weight;
         obj["gender"] = clients.results[i].gender;
@@ -300,6 +308,7 @@ const ClientDisplay = props => {
   const addItem = () => {
     setShowAddClient(true);
   };
+
   
   return (
     <div>

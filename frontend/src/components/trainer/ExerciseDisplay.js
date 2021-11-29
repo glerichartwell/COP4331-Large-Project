@@ -101,6 +101,78 @@ const ExerciseDisplay = () => {
         obj["cardNumber"] = i;
         obj["id"] = exercises.results[i]._id;
         obj["name"] = exercises.results[i].name;
+
+        obj["sets"] = exercises.results[i].sets;
+        obj["reps"] = exercises.results[i].reps;
+        obj["time"] = exercises.results[i].time;
+        obj["weight"] = exercises.results[i].weight;
+        obj["rest"] = exercises.results[i].rest;
+        objects.push(obj);
+      }
+      //can access numexercises from trainer database
+      for (var i = 0; i < numexercises; i++) {
+        cardArray.push(
+          <Grid
+            key={objects[i].id}
+            className="custom-cards"
+            textAlign="center"
+            item
+            width="3px"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+          >
+            <ExerciseCard
+              dbInfo={objects[i]}
+              // opens edit box
+              edit={edit}
+              closeEditBox={closeEditBox}
+            />
+          </Grid>
+        );
+      }
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("exercises returned");
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
+
+  const searchExercises = async (event) => {
+
+    const address = "http://localhost:5000/api/search-exercise";
+
+    var obj1 = { name: query };
+    var js = JSON.stringify(obj1);
+
+    try {
+      const response = await fetch(
+        address,
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      exercises = res;
+
+      // save number of exercises
+      const numexercises = exercises.results.length;
+
+      for (var i = 0; i < numexercises; i++) {
+
+        var obj = new Object();
+        obj["cardNumber"] = i;
+        obj["id"] = exercises.results[i]._id;
+        obj["name"] = exercises.results[i].name;
         obj["sets"] = exercises.results[i].sets;
         obj["reps"] = exercises.results[i].reps;
         obj["time"] = exercises.results[i].time;
@@ -219,6 +291,7 @@ const ExerciseDisplay = () => {
     // console.log("render");
     //render cards after information is loaded to array.
     //overcome await timelapse
+
     useEffect(() => {
       if (query)
       {
