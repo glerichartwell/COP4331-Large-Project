@@ -40,8 +40,9 @@ const ExpandMore = styled((props) => {
 const exercises = [];
 
 
-export default function WorkoutCard({ edit, deleteCard, assignWorkout, closeEditBox, dbInfo }) {
-  const [expanded, setExpanded] = React.useState(false);
+export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, closeEditBox, dbInfo }) {
+  const [expanded, setExpanded] = useState(false);
+  const [elevation, setElevation] = useState(5)
   // Show on surface
   const sumtext = "Date: ";
   // Don't change this, if you really need to, don't make it lower than 45
@@ -193,7 +194,7 @@ export default function WorkoutCard({ edit, deleteCard, assignWorkout, closeEdit
             aria-labelledby="nested-list-subheader"
             sx={{background: '#e9e3ee', marginLeft: '-20px', width: '250px', marginBottom: '-24px'}}
             >
-            <ListItemButton onClick={handleClick} sx={{marginRight: '-45px'}}>
+            <ListItemButton onClick={handleClick} sx={{marginRight: '0px'}}>
               <ListItemText primary="Exercise List" sx={{background: '#e9e3ee'}}/>
               <div style={{marginRight: '-45px', marginBottom: '-5px'}}>{open ? <ExpandLess /> : <ExpandMoreIcon />}</div>
             </ListItemButton>

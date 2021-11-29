@@ -5,15 +5,12 @@ import Grid from "@mui/material/Grid";
 import { Divider, TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from '@mui/icons-material/Search'; 
 import AssignBox from "./AssignBox";
-import AddWorkout from "./AddWorkout";
 
 import WorkoutCard from "./WorkoutCard2";
 import WorkoutEditBox from "./WorkoutEditBox";
 import AddWorkout from "./AddWorkout";
 
-import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
 
 

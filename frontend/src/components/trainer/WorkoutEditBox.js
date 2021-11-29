@@ -183,18 +183,18 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
           <Grid container direction='row'>
           <Grid container direction='column' sm={6}>
             <Grid item>
-                <TextField placeholder={info.name} label='Name' sx={{ width: '90%', margin:'8px', marginBottom: '3px'}} onChange={e => {setName(e.target.value)}}/>
-              </Grid>
-              <Grid item>
-                <TextField type="date" placeholder={info.date} sx={{ width: '90%', margin:'8px'}} onChange={e => {setDate(e.target.value)}}/>
-              </Grid>
-              <Grid item>
-                <TextField type="number" placeholder={info.timeToComplete} label='Estimated Time to Complete' sx={{ width: '90%', margin:'8px'}} onChange={e => {setTimeToComplete(e.target.value)}}
-                            InputProps={{endAdornment: <InputAdornment position="start">minutes</InputAdornment>,}}
-                />
-              </Grid>
-              <Grid item>
-                <TextField type='textarea' multiline rows={3} label="Comments" sx={{ width: '90%', margin:'8px'}} onChange={e => {setComment(e.target.value)}}/>
+              <TextField placeholder={info.name} label='Name' sx={{ width: '90%', margin:'8px', marginBottom: '3px'}} onChange={e => {setName(e.target.value)}}/>
+            </Grid>
+            <Grid item>
+              <TextField type="date" placeholder={info.date} sx={{ width: '90%', margin:'8px'}} onChange={e => {setDate(e.target.value)}}/>
+            </Grid>
+            <Grid item>
+              <TextField type="number" placeholder={info.timeToComplete} label='Estimated Time to Complete' sx={{ width: '90%', margin:'8px'}} onChange={e => {setTimeToComplete(e.target.value)}}
+                          InputProps={{endAdornment: <InputAdornment position="start">minutes</InputAdornment>,}}
+              />
+            </Grid>
+            <Grid item>
+              <TextField type='textarea' multiline rows={3} label="Comments" sx={{ width: '90%', margin:'8px'}} onChange={e => {setComment(e.target.value)}}/>
             </Grid>
           </Grid>
           <Grid container direction='column' sm={6}>
@@ -232,7 +232,6 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
                 ))}
                 </List>
               </Grid>  
-          </Grid>
           </Grid>
           <Grid container direction='column' sx={{textAlign: 'center'}} >
               <div style={{textAlign: 'center', marginTop: '15px'}}>{message}</div>

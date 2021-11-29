@@ -24,36 +24,6 @@ const ClientDisplay = props => {
   const [query, setQuery] = useState('');
   const [refresh, setRefresh] = useState(false);
 
-  //hold card number being deleted
-  var holdingNumber;
-  // const [cardNumber, setCardNumber] = useState(0);
-  const openAddClient = () => {
-    setShowAddClient(true);
-  };
-  const closeAddClient = () => {
-    setShowAddClient(false);
-  };
-
-  //firebase component to return trainer profile info
-
-  const handleClick = (e) => {
-    e.stopPropagation();
-  };
-
-  // var trainerID = "";
-  // const auth = getAuth();
-  // onAuthStateChanged(auth, (user) => {
-  //   // console.log(user);
-  //   if (user) {
-  //     // User is signed in, see docs for a list of available properties
-  //     // https://firebase.google.com/docs/reference/js/firebase.User
-  //     trainerID = user["email"];
-  //     console.log("Auth TrainerID: ", trainerID);
-  //     // ...
-  //   } else {
-  //     //navigate('/access-denied')
-  //   }
-  // });
 
   var clients;
   var cardArray = [];
