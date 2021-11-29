@@ -32,7 +32,7 @@ const WorkoutDisplay = () => {
   };
 
   //firebase component to return trainer profile info
-  var email = "delroyjordan@knights.ucf.edu"; //getFirebaseID()
+  var email = "scooby@gmail.com"; //getFirebaseID()
 
   var Workouts;
   var cardArray = [];
@@ -88,7 +88,8 @@ const WorkoutDisplay = () => {
       var txt1 = await response.text();
       var res1 = JSON.parse(txt1);
       console.log(res1.results);
-
+      
+      // loop through results and search for orther workout info in db
       for (var i = 0; i < res1.results.length; i++) {
         //second api call using object id from first api call
         const address2 = "http://localhost:5000/api/get-workout";

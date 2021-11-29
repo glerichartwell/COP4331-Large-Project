@@ -47,15 +47,15 @@ const ClientDrawer = (props) => {
   };
 
   const DashOn = () => {
-    setShowClient(true);
     setShowWorkout(false);
     setShowExercise(false);
+    setShowClient(true);
   };
 
   const WorkoutOn = () => {
     setShowClient(false);
-    setShowWorkout(true);
     setShowExercise(false);
+    setShowWorkout(true);
   };
 
   const ExerciseOn = () => {
@@ -120,18 +120,18 @@ const ClientDrawer = (props) => {
               <ListItemText primary="Personal Dashboard"/>
             </ListItem>
 
-            <ListItem button key="Exercise">
+            <ListItem button key="Exercise" onClick={ExerciseOn}>
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
-              <ListItemText primary="Exercise" onClick={ExerciseOn} />
+              <ListItemText primary="Exercise" />
             </ListItem>
 
-            <ListItem button key="Workouts">
+            <ListItem button key="Workouts" onClick={WorkoutOn}>
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
-              <ListItemText primary="Workouts" onClick={WorkoutOn} />
+              <ListItemText primary="Workouts"/>
             </ListItem>
           </List>
           <Divider />

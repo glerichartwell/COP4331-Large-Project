@@ -185,18 +185,18 @@ const DashboardDrawer = (props) => {
               <ListItemText primary="Clients" />
             </ListItem>
 
-            <ListItem button key="Workouts">
+            <ListItem button key="Workouts" onClick={WorkoutOn} >
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
-              <ListItemText primary="Workouts" onClick={WorkoutOn} />
+              <ListItemText primary="Workouts"/>
             </ListItem>
 
-            <ListItem button key="Exercises">
+            <ListItem button key="Exercises" onClick={ExerciseOn} >
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
-              <ListItemText primary="Exercises" onClick={ExerciseOn} />
+              <ListItemText primary="Exercises"/>
             </ListItem>
 
           </List>
