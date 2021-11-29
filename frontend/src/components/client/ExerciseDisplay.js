@@ -30,6 +30,7 @@ const ExerciseDisplay = () => {
   var objects = [];
   var cardNumber = 0;
 
+  
   const getExercises = async (event) => {
 
     const address = "http://localhost:5000/api/view-all-exercises";
