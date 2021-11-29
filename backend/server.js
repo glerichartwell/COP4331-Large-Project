@@ -34,7 +34,6 @@ var editClientMacro = require("./api/macro-api/edit-client-macro.api");
 var searchClientMacro = require("./api/macro-api/search-client-macro.api");
 var viewAllClientMacros = require("./api/macro-api/view-all-client-macros.api");
 
-
 // workout controllers
 var addWorkoutToClient = require("./api/workout-api/add-workout-to-client.api");
 var addWorkout = require("./api/workout-api/add-workout.api");
@@ -101,7 +100,6 @@ app.use("/", addMacroToClient);
 app.use("/", editClientMacro);
 app.use("/", searchClientMacro);
 app.use("/", viewAllClientMacros);
-
 
 // workout routes
 app.use("/", addWorkoutToClient);
