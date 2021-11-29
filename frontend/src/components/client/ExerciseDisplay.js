@@ -21,10 +21,6 @@ const ExerciseDisplay = () => {
   const [update, setUpdate] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
-  // const openEditBox = () => {
-  //   setShowEditBox(true);
-  // };
-
   //firebase component to return trainer profile info
 
   var trainerID = "g.erichartwell@gmail.com"; //getFirebaseID()
