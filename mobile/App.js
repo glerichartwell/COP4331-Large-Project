@@ -9,6 +9,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {initializeApp} from "firebase/app";
 import firebaseConfig from "./custom-properties/firebase";
 
+
 const app = initializeApp(firebaseConfig);
 const Stack = createNativeStackNavigator();
 
