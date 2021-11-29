@@ -45,7 +45,7 @@ const ExpandMore = styled((props) => {
 
 
 
-export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
+export default function RecipeReviewCard({ edit, closeEditBox, dbInfo, deleteCard }) {
   const [expanded, setExpanded] = useState(false);
   const [rating, setValue] = useState(2);
   const [open, setOpen] = useState(true);
@@ -85,12 +85,17 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
     setAnchorEl(false);
   };
 
+  const sendDelete = () => {
+    deleteCard(info);
+    setAnchorEl(false);
+  }
+
   const openPopoverMenu = Boolean(anchorEl);
   // const id = openPopoverMenu ? "simple-popover" : undefined;
 
 
   return (
-    <Card sx={{overflow: 'visible', height: '220px', maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
+    <Card sx={{overflow: 'inherit', height: '15%', maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
       <CardHeader
         action={
           <IconButton aria-label="settings" onClick={handleClickii}>
@@ -98,7 +103,7 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
           </IconButton>
         }
         title={info.name}
-        sx={{marginTop: '15px', marginBottom: '-10px'}}
+        sx={{marginTop: '15px', marginBottom: '0px'}}
       />
       <Popover
         id="simple-popover" 
@@ -124,7 +129,7 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
+            <ListItemButton onClick={sendDelete}>
               <ListItemIcon>
                 <DeleteIcon />
               </ListItemIcon>
@@ -134,7 +139,7 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
         </List>
       </Popover>
       <CardContent>
-        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px',}}>
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '5vh'}}>
           Sets: {info.sets}
           <br />
           Reps: {info.reps}

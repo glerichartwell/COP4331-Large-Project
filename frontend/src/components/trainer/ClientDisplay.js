@@ -22,7 +22,9 @@ const ClientDisplay = props => {
   const [showClientDash, setShowClientDash] = useState(false);
   const [clientDashHolder, setClientDashHolder] = useState();
   const [query, setQuery] = useState('');
-  // const [cardNumber, setCardNumber] = useState(0);
+  const [refresh, setRefresh] = useState(false);
+  
+
   const openAddClient = () => {
     setShowAddClient(true);
   };
@@ -115,7 +117,7 @@ const ClientDisplay = props => {
               info={objects[i]}
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
-              // deleting={Deleting}
+              deleteCard={deleteCard}
             />
           </Grid>
         );
@@ -190,7 +192,7 @@ const ClientDisplay = props => {
               info={objects[i]}
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
-              // deleting={Deleting}
+              deleteCard={deleteCard}
             />
           </Grid>
         );
@@ -205,6 +207,42 @@ const ClientDisplay = props => {
       console.log(error.toString());
     }
   }
+
+  const deleteClient = async (info) => {
+
+    const address = "http://localhost:5000/api/delete-client";
+
+    var obj1 = { id: info.id  };
+    var js = JSON.stringify(obj1);
+    console.log(info.id)
+
+    try {
+      const response = await fetch(
+      address,
+       {
+        method: "DELETE",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+
+
+      
+      // after deleting, refresh component
+      setRefresh(!refresh);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Client " + info.name + " deleted");
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
+
+  };
 
   const DisplayClients = () => {
 
@@ -248,6 +286,15 @@ const ClientDisplay = props => {
   const closeClientDash = () => {
     setShowClientDash(false);
     console.log("closing dash");
+  };
+
+  const deleteCard = (info) => {
+    // pass information from relavent card to editbox
+    if(window.confirm("Are you sure you would like to permanently delete " + info.name + "?")){
+      deleteClient(info);
+    }
+    // alert("Are you sure you would like to delete " + info.name + "?");
+    // // setShowEdit(true);
   };
 
 

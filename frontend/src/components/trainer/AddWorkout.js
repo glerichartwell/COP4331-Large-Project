@@ -114,7 +114,7 @@ const AddWorkout = (props) => {
     } catch (error) {
       console.log(error.toString());
     }
-
+    
   
   };
   
@@ -227,8 +227,7 @@ const AddWorkout = (props) => {
                   <Autocomplete 
                     id="exercise-autocomplete"
                     options={exercises}
-                    value={exercise}
-                    isOptionEqualToValue={(option, value) => {console.log("value.name: ",value.name); return (option.name === value.name)}}
+                    getOptionLabel={(option) => {return option.label}}
                     onChange={(e, value) => {console.log("subset: ", value); setExercise(value)}}
                     renderInput={(params) => <TextField {...params} label="Exercises" />}
                     sx={{ width: '330px', margin:'8px', marginLeft: '30px', marginBottom: '-15px'}}
@@ -294,7 +293,6 @@ const AddWorkout = (props) => {
             marginTop="25px"
           >
             workoutID, name, sets, reps, time, weight, rest 
-
             <TextField
               sx={{ width: "250px", margin: "5px" }}
               id="email"
@@ -335,7 +333,6 @@ const AddWorkout = (props) => {
                 ),
               }}
             />
-
             <TextField
               sx={{ width: "250px", margin: "5px" }}
               id="email"
@@ -348,7 +345,6 @@ const AddWorkout = (props) => {
               size="large"
               variant="standard"
             />
-
             {message}
             <Button
               sx={{ margin: "15px", background: "#28B7CB" }}

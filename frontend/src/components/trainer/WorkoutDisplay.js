@@ -77,6 +77,7 @@ const WorkoutDisplay = () => {
               assign={assign}
               edit={edit}
               closeEditBox={closeEditBox}
+              deleteCard={deleteCard}
             />
           </Grid>
         );
@@ -152,6 +153,7 @@ const WorkoutDisplay = () => {
               // opens edit box
               edit={edit}
               closeEditBox={closeEditBox}
+              deleteCard={deleteCard}
             />
           </Grid>
         );
@@ -167,6 +169,50 @@ const WorkoutDisplay = () => {
       console.log(error.toString());
     }
   };
+
+  const deleteWorkout = async (info) => {
+    const address = "http://localhost:5000/api/delete-workout";
+
+    var obj1 = { id: info.id };
+    var js = JSON.stringify(obj1);
+
+    try {
+      const response = await fetch(address, {
+        method: "DELETE",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+
+      // after deleting, refresh component
+      setRefresh(!refresh);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log(info.name + " workout deleted.");
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
+
+  const deleteCard = (info) => {
+    // pass information from relavent card to editbox
+    if (
+      window.confirm(
+        "Are you sure you would like to permanently delete " + info.name + "?"
+      )
+    ) {
+      deleteWorkout(info);
+    }
+    // alert("Are you sure you would like to delete " + info.name + "?");
+    // // setShowEdit(true);
+  };
+
+
 
   const DisplayWorkout = () => {
 

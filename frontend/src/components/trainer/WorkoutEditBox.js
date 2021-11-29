@@ -203,8 +203,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
                   <Autocomplete 
                     id="exercise-autocomplete"
                     options={exercises}
-                    value={exercise}
-                    isOptionEqualToValue={(option, value) => {return (option.name === value.name)}}
+                    getOptionLabel={(option) => {return option.label}}
                     onChange={(e, value) => {setExercise(value)}}
                     renderInput={(params) => <TextField {...params} label="Exercises" />}
                     sx={{ width: '330px', margin:'8px', marginLeft: '30px', marginBottom: '-15px'}}

@@ -51,7 +51,7 @@ const exercises = [];
 // const itemsize = 45;
 // const listheight = itemsize * numExercises;
 
-export default function WorkoutCard({ edit, assign, dbInfo }) {
+export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
   const [expanded, setExpanded] = useState(false);
   const [elevation, setElevation] = useState(5)
   // Show on surface
@@ -86,6 +86,11 @@ export default function WorkoutCard({ edit, assign, dbInfo }) {
 
   const sendAssign = () => {
     assign(info);
+    setAnchorEl(false);
+  }
+
+  const sendDelete = () => {
+    deleteCard(info);
     setAnchorEl(false);
   }
 
@@ -150,7 +155,7 @@ export default function WorkoutCard({ edit, assign, dbInfo }) {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={sendDelete}>
               <ListItemIcon>
                 <DeleteIcon />
               </ListItemIcon>
@@ -174,9 +179,9 @@ export default function WorkoutCard({ edit, assign, dbInfo }) {
             sx={{marginLeft: '-18px'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
-            sx={{background: '#e9e3ee', marginLeft: '-20px', width: '250px', marginBottom: '-24px'}}
+            sx={{background: '#e9e3ee', marginLeft: '-20px', width: '75%', marginBottom: '-24px'}}
             >
-            <ListItemButton onClick={handleClick} sx={{marginRight: '-45px'}}>
+            <ListItemButton onClick={handleClick} sx={{marginRight: '-45px', marginBottom: '-10px'}}>
               <ListItemText primary="Exercise List" sx={{background: '#e9e3ee'}}/>
               <div style={{marginRight: '-45px', marginBottom: '-5px'}}>{open ? <ExpandLess /> : <ExpandMoreIcon />}</div>
             </ListItemButton>

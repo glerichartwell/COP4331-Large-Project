@@ -73,6 +73,13 @@ const ExerciseDisplay = () => {
     }
   };
 
+  const deleteCard = (info) => {
+    // pass information from relavent card to editbox
+    if(window.confirm("Are you sure you would like to permanently delete " + info.name + "?")){
+      deleteExercise(info);
+    }
+  };
+
   const getExercises = async (event) => {
 
     const address = "http://localhost:5000/api/view-all-exercises";
@@ -128,6 +135,7 @@ const ExerciseDisplay = () => {
               // opens edit box
               edit={edit}
               closeEditBox={closeEditBox}
+              deleteCard={deleteCard}
             />
           </Grid>
         );
@@ -199,6 +207,7 @@ const ExerciseDisplay = () => {
               // opens edit box
               edit={edit}
               closeEditBox={closeEditBox}
+              deleteCard={deleteCard}
             />
           </Grid>
         );
