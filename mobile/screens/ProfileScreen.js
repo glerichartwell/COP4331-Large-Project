@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Avatar, Button, Text, Title, Portal, Modal, TextInput, Divider} from "react-native-paper";
-import {Platform, StyleSheet, View} from "react-native";
+import {Avatar, Button, Text, Title, Portal, Modal, TextInput, Divider, Dialog} from "react-native-paper";
+import {Platform, StyleSheet, View, ScrollView} from "react-native";
 import {getAuth, signOut} from "firebase/auth";
 import {useNavigation} from "@react-navigation/core";
 import TopBar from "../components/TopBar";
@@ -209,6 +209,7 @@ const ProfileScreen = (props) => {
 
                         mode="outlined"
                         style={styles.editTextInput}
+                        dense={true}
                     />
                     <Text style={styles.editText}>Gender:</Text>
                     <TextInput
@@ -217,6 +218,7 @@ const ProfileScreen = (props) => {
 
                         mode="outlined"
                         style={styles.editTextInput}
+                        dense={true}
                     />
                     <Text style={styles.editText}>Email:</Text>
                     <TextInput
@@ -225,6 +227,7 @@ const ProfileScreen = (props) => {
 
                         mode="outlined"
                         style={styles.editTextInput}
+                        dense={true}
                     />
                     <Text style={styles.editText}>Phone:</Text>
                     <TextInput
@@ -235,6 +238,7 @@ const ProfileScreen = (props) => {
 
                         mode="outlined"
                         style={styles.editTextInput}
+                        dense={true}
                     />
                     <Text style={styles.editText}>City:</Text>
                     <TextInput
@@ -243,6 +247,7 @@ const ProfileScreen = (props) => {
 
                         mode="outlined"
                         style={styles.editTextInput}
+                        dense={true}
                     />
                     <Text style={styles.editText}>Height:</Text>
                     <TextInput
@@ -253,6 +258,7 @@ const ProfileScreen = (props) => {
 
                         mode="outlined"
                         style={styles.editTextInput}
+                        dense={true}
                     />
                     <Text style={styles.editText}>Weight:</Text>
                     <TextInput
@@ -263,11 +269,13 @@ const ProfileScreen = (props) => {
 
                         mode="outlined"
                         style={styles.editTextInput}
+                        dense={true}
                     />
                     <Button
                         onPress={submitEdit}
                         mode="contained"
                         style={styles.editSubmitButton}
+                        dense={true}
                     >Submit</Button>
                 </Modal>
             </Portal>
@@ -357,15 +365,21 @@ const styles = StyleSheet.create({
         padding: 20,
         overflow: "hidden",
     },
+    editTitle: {
+        marginTop: 0,
+    },
     editTextInput: {},
     editText: {
         marginTop: 10
     },
     editSubmitButton: {
-        marginTop: 10,
+        marginTop: 20,
         marginBottom: 10,
         borderRadius: 10,
         backgroundColor: theme.colors.lightBlue,
+    },
+    editButtonArea: {
+        margin: 0,
     },
     editButton: {
         marginTop: 30,

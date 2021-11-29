@@ -65,7 +65,8 @@ const Dashboard = () => {
             />
             <Tab.Screen
                 name="Workouts"
-                component={WorkoutsScreen}
+                /*component={WorkoutsScreen}*/
+                children={() => <WorkoutsScreen email={email}/>}
                 options={{
                     tabBarLabel: 'Workouts',
                     tabBarIcon: ({color}) => (
