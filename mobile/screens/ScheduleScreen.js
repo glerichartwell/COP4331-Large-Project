@@ -4,7 +4,7 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 import TopBar from "../components/TopBar";
 import {StyleSheet, View} from "react-native";
 
-const CalendarScreen = () => {
+const ScheduleScreen = () => {
     const auth = getAuth();
     let email;
 
@@ -19,8 +19,8 @@ const CalendarScreen = () => {
 
     return (
         <View>
-            <TopBar title="Calendar"/>
-            <Text>Calendar</Text>
+            <TopBar title="Schedule"/>
+            <Text>Schedule</Text>
         </View>
     );
 }
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CalendarScreen;
+export default ScheduleScreen;
