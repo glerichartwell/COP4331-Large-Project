@@ -237,7 +237,7 @@ const WorkoutDisplay = () => {
 
   const closeEditBox = () => {
     setShowEdit(false);
-    refresh();
+    setRefresh(!refresh);
   };
 
   const deleteCard = (info) => {
@@ -265,6 +265,8 @@ const WorkoutDisplay = () => {
 
   const addItem = () => {
     setShowAddWorkout(true);
+    setRefresh(!refresh);
+
   };
 
 

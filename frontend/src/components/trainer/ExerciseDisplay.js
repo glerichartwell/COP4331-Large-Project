@@ -247,7 +247,7 @@ const ExerciseDisplay = () => {
 
   const closeEditBox = () => {
     setShowEdit(false);
-    //refresh();
+    setRefresh(!refresh);
   };
 
   const DeleteCard = (info) => {

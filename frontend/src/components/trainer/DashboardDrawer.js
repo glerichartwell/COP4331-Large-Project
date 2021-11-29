@@ -50,7 +50,6 @@ const DashboardDrawer = (props) => {
   const [searchWorkout, setSearchWorkout] = useState(false);
   const [searchExercise, setSearchExercise] = useState(false);
   const [hideAdd, setHideAdd] = useState(true);
-  const [refresh, setRefresh] = useState(false);
 
   // const handleDrawerOpen = () => {
   //   setOpen(true);
@@ -220,7 +219,7 @@ const DashboardDrawer = (props) => {
         {/* code for contents of box area in dashboard */}
         {showClient ? <ClientDisplay trainerID={trainerID} user={user} /> : null}
         {showWorkout ? <WorkoutDisplay query={query} /> : null}
-        {showExercise ? <ExerciseDisplay query={query}  refresh={refresh}/> : null}
+        {showExercise ? <ExerciseDisplay query={query} /> : null}
         
       </Box>
     </Box>
