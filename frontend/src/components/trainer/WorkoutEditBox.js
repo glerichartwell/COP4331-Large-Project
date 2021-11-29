@@ -16,7 +16,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import './css/EditBox.css'
 
-
 const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
   const [showEdit, setShowEdit] = useState(true);
   const [buttonName, setButtonName] = useState("Change");
@@ -29,12 +28,6 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
   const [id, setID] = useState(info.id);
   const [exercise, setExercise] = useState(null);
   const [comment, setComment] = useState(null);
-
-  // const exercises = [
-  //   {label: 'Bicep Curls', name: 'Bicep Curls', id: 1},
-  //   {label: 'Squats', name: 'Squats', id: 2},
-  //   {label: 'Burpees', name: 'Burpees', id: 3},
-  // ]
 
   const removeErrorMessage = () => {
     setAddError("");
@@ -251,6 +244,38 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
                 {buttonName}
               </Button>
           </Grid>
+          <Grid container direction='column' sm={6} sx={{textAlign: 'right'}}>
+            <Autocomplete 
+              id="exercise-autocomplete"
+              options={exercises}
+              renderInput={(params) => <TextField {...params} label="Exercises" />}
+              sx={{ width: '90%', margin:'8px'}}
+              />
+              <List>
+              {chosenExercises.map((exercise) => (
+                <ListItem 
+                  secondaryAction={
+                    <IconButton edge="end" aria-label="delete" onClick={() => {deleteExercise(exercise.name)}}>
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                  sx={{ width: '95%', marginLeft: '-5px'}}
+                  >
+                  {exercise.name}
+                </ListItem>
+              ))}
+              </List>
+          </Grid>
+          </Grid>
+              <div style={{textAlign: 'center', marginTop: '15px'}}>{message}</div>
+              <Button
+                className='edit-box-button'
+                variant="outlined"
+                onClick={changingFunction}
+              >
+                {buttonName}
+              </Button>
+          
         </DialogContent>
       </Dialog>
     </div>

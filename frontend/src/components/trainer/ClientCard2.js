@@ -33,7 +33,7 @@ const ExpandMore = styled((infos) => {
   }),
 }));
 
-export default function RecipeReviewCard({ info, openClientDash, deleting }) {
+export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
 
   const cardNumber = info.cardNumber;
   const firstName = info.firstName;
@@ -79,12 +79,10 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
     setAnchorEl(null);
   };
 
-  const deleteFunction = () => {
-    //deleting(info);
-    console.log("Deleting stuff happens here!!!");
+  const sendDelete = () => {
+    deleteCard(info);
     setAnchorEl(false);
-  };
-
+  }
   const openi = Boolean(anchorEl);
   const id = openi ? "simple-popover" : undefined;
   return (
@@ -132,7 +130,8 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
             </ListItemButton>
           </ListItem> */}
           <ListItem key="delete" disablePadding>
-            <ListItemButton key='delete-button' onClick={deleteFunction}>
+
+            <ListItemButton key='delete-button' onClick={sendDelete}>
               <ListItemIcon key='delete-icon-item'>
                 <DeleteIcon key='delete-icon'/>
               </ListItemIcon>

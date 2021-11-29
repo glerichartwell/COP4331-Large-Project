@@ -33,7 +33,6 @@ const AddWorkout = (props) => {
   const navigate = useNavigate();
   //clientID, Exercise, name, date, reps, time, weight, rest
 
-
   const auth = getAuth();
   const user = auth.currentUser;
   const trainerEmail = user.email;
@@ -188,6 +187,7 @@ const AddWorkout = (props) => {
       console.log(error);
     }
   };
+
 
 
   const [chosenExercises, setChosenExercises] = useState([])
