@@ -140,7 +140,8 @@ export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, c
         {/* options for popout tab including add, edit, and delete*/}
 
         <List>
-        <ListItem disablePadding>
+
+          <ListItem disablePadding>
             <ListItemButton onClick={sendEdit}>
               <ListItemIcon>
                 <EditIcon />
@@ -148,14 +149,7 @@ export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, c
               <ListItemText primary="Edit" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton onClick={sendAssign}>
-              <ListItemIcon>
-                <FitnessCenterIcon />
-              </ListItemIcon>
-              <ListItemText primary="Add Exercise" />
-            </ListItemButton>
-          </ListItem>
+          
           <ListItem disablePadding>
             <ListItemButton onClick={assignToClient}>
               <ListItemIcon>
@@ -174,7 +168,8 @@ export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, c
               <ListItemText primary="Delete" />
             </ListItemButton>
           </ListItem>
-        </List>
+
+      </List>
       </Popover>
       <CardContent>
         <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
@@ -192,11 +187,11 @@ export default function WorkoutCard({ edit, assign, deleteCard, assignWorkout, c
             sx={{marginLeft: '-18px'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
-            sx={{background: '#e9e3ee', marginLeft: '-20px', width: '250px', marginBottom: '-24px'}}
+            sx={{background: '#e9e3ee', marginLeft: '-20px', width: '110%', marginBottom: '-24px'}}
             >
-            <ListItemButton onClick={handleClick} sx={{marginRight: '0px'}}>
+            <ListItemButton onClick={handleClick} sx={{width: '100%', marginRight: '0px'}}>
               <ListItemText primary="Exercise List" sx={{background: '#e9e3ee'}}/>
-              <div style={{marginRight: '-45px', marginBottom: '-5px'}}>{open ? <ExpandLess /> : <ExpandMoreIcon />}</div>
+              <div style={{marginBottom: '-5px'}}>{open ? <ExpandLess /> : <ExpandMoreIcon />}</div>
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit sx={{background: '#e9e3ee'}}>
               <List>

@@ -243,38 +243,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
                 {buttonName}
               </Button>
           </Grid>
-          <Grid container direction='column' sm={6} sx={{textAlign: 'right'}}>
-            <Autocomplete 
-              id="exercise-autocomplete"
-              options={exercises}
-              renderInput={(params) => <TextField {...params} label="Exercises" />}
-              sx={{ width: '90%', margin:'8px'}}
-              />
-              <List>
-              {chosenExercises.map((exercise) => (
-                <ListItem 
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="delete" onClick={() => {deleteExercise(exercise.name)}}>
-                      <DeleteIcon />
-                    </IconButton>
-                  }
-                  sx={{ width: '95%', marginLeft: '-5px'}}
-                  >
-                  {exercise.name}
-                </ListItem>
-              ))}
-              </List>
           </Grid>
-          </Grid>
-              <div style={{textAlign: 'center', marginTop: '15px'}}>{message}</div>
-              <Button
-                className='edit-box-button'
-                variant="outlined"
-                onClick={changingFunction}
-              >
-                {buttonName}
-              </Button>
-          
         </DialogContent>
       </Dialog>
     </div>

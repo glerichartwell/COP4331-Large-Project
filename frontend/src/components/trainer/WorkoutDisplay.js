@@ -29,8 +29,8 @@ const WorkoutDisplay = () => {
   const [showAddWorkout, setShowAddWorkout] = useState(false);
 
 
-  const openEditBox = () => {
-    setShowEditBox(true);
+  const refreshComponent = () => {
+    setRefresh(!refresh);
   };
 
   //firebase component to return trainer profile info
@@ -259,12 +259,12 @@ const WorkoutDisplay = () => {
 
   const closeEditBox = () => {
     setShowEdit(false);
-    refresh();
+    setRefresh(!refresh);
   };
   
 const closeAssignBox = () => {
     setShowAssign(false);
-    refresh();
+    setRefresh(!refresh);
   }
 
   const deleteCard = (info) => {
