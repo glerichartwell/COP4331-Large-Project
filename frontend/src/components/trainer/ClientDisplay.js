@@ -4,15 +4,15 @@ import "./css/ClientDisplay.css";
 
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
 
-import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
 import { Divider, TextField, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from '@mui/icons-material/Search'; 
 
-import AddClient from "./AddClient";
+import { Button } from "@mui/material";
 import ClientCard from "./ClientCard2";
 import ClientInfoView from "../client/ClientInfoView";
+import AddClient from "./AddClient";
 
 const ClientDisplay = props => {
   // allow results of api to be rendered on page after loading
@@ -22,39 +22,48 @@ const ClientDisplay = props => {
   const [showClientDash, setShowClientDash] = useState(false);
   const [clientDashHolder, setClientDashHolder] = useState();
   const [query, setQuery] = useState('');
-  // const [cardNumber, setCardNumber] = useState(0);
-  const openAddClient = () => {
-    setShowAddClient(true);
-  };
-  const closeAddClient = () => {
-    setShowAddClient(false);
-  };
+  const [refresh, setRefresh] = useState(false);
 
-  //firebase component to return trainer profile info
-
-  const handleClick = (e) => {
-    e.stopPropagation();
-  };
-
-  // var trainerID = "";
-  // const auth = getAuth();
-  // onAuthStateChanged(auth, (user) => {
-  //   // console.log(user);
-  //   if (user) {
-  //     // User is signed in, see docs for a list of available properties
-  //     // https://firebase.google.com/docs/reference/js/firebase.User
-  //     trainerID = user["email"];
-  //     console.log("Auth TrainerID: ", trainerID);
-  //     // ...
-  //   } else {
-  //     //navigate('/access-denied')
-  //   }
-  // });
 
   var clients;
   var cardArray = [];
   var objects = [];
   var cardNumber = 0;
+
+  const deleteClient = async (info) => {
+
+    const address = "http://localhost:5000/api/delete-client";
+
+    var obj1 = { id: info.id  };
+    var js = JSON.stringify(obj1);
+
+    try {
+      const response = await fetch(
+      address,
+       {
+        method: "DELETE",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+
+
+      
+      // after deleting, refresh component
+      setRefresh(!refresh);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Client " + info.name + " deleted");
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
+
+  };
 
   const getClients = async (event) => {
 
@@ -113,6 +122,7 @@ const ClientDisplay = props => {
           >
             <ClientCard
               info={objects[i]}
+              deleteCard={deleteCard}
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
               // deleting={Deleting}
@@ -188,6 +198,7 @@ const ClientDisplay = props => {
           >
             <ClientCard
               info={objects[i]}
+              deleteCard={deleteCard}
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
               // deleting={Deleting}
@@ -226,16 +237,16 @@ const ClientDisplay = props => {
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
       }
-    }, [query])
+    }, [query, refresh])
 
   };
 
   const openClientDash = (num) => {
     console.log("opening dashboard for card number: " + num);
     console.log("opening dashboard for card name: " + objects[num].firstName);
+    
     cardNumber = num;
-    console.log(num);
-    console.log(cardNumber);
+
     setClientDashHolder(
       <ClientInfoView
         closeClientDash={closeClientDash}
@@ -251,24 +262,51 @@ const ClientDisplay = props => {
   };
 
 
-  // const Deleting = (info) => {
-  //   // allow results of api to be rendered on page after loading
-  //   useEffect(() => {
-  //     console.log("render array changed");
-  //     deleteClient()
-  //       .then(getClients())
-  //       .then((result) => setArrayChange(cardArray))
-  //       .then((result) => setObjectArray(objects));
-  //   }, []);
+  const deleteCard = (info) => {
+    // pass information from relavent card to editbox
+    if(window.confirm("Are you sure you would like to permanently delete " + info.name + "?")){
+      deleteClient(info);
+    }
+    // alert("Are you sure you would like to delete " + info.name + "?");
+    // // setShowEdit(true);
+  };
 
-  //   //firebase component to return trainer profile info
-  //   // var trainerID = 1; //getFirebaseID()
-  // };
+  const closeAddClient = () => {
+    setShowAddClient(false);
+  };
 
+  const addItem = () => {
+    setShowAddClient(true);
+  };
 
   
   return (
     <div>
+
+      {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
+
+      <Button
+        onClick={addItem}
+        variant="outlined"
+        sx={{
+          position: "fixed",
+          right: "21.5vw",
+          height: "42px",
+          background: "#866d9c",
+          borderColor: "#6f4792",
+          color: "#ffffff",
+          marginLeft: "1px",
+          marginTop: "-44px",
+          zIndex: 5000,
+          "&:hover": {
+            background: "#b19cbe",
+            borderColor: "#6f4792",
+            color: "#6f4792",
+          },
+        }}
+      >
+        <AddIcon />
+      </Button>
       <TextField 
           className='search-bar' 
           type="search" 
@@ -321,7 +359,6 @@ const ClientDisplay = props => {
         alignContent="stretch"
         wrap="wrap"
       >
-        {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
 
         {/* loop through json of clients and create components */}
         {DisplayClients()}
