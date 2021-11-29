@@ -247,10 +247,9 @@ const DashboardDrawer = (props) => {
         {showClient ? <ClientDisplay trainerID={trainerID} user={user} /> : null}
         {showWorkout ? <WorkoutDisplay query={query} /> : null}
         {showExercise ? <ExerciseDisplay query={query} /> : null}
-        {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
-        {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
-        {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null}
-        
+//         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
+//         {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
+//         {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null} 
       </Box>
     </Box>
   );

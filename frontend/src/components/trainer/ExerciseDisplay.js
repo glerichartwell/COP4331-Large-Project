@@ -214,7 +214,14 @@ const ExerciseDisplay = () => {
 
   const closeEditBox = () => {
     setShowEdit(false);
-    refresh();
+    setRefresh(!refresh);
+  };
+
+  const DeleteCard = (info) => {
+    // pass information from relavent card to editbox
+    if(window.confirm("Are you sure you would like to permanently delete " + info.name + "?")){
+      deleteExercise(info);
+    }
   };
 
   const [query, setQuery] = useState(null);

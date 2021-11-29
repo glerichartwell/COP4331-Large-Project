@@ -229,13 +229,24 @@ const WorkoutDisplay = () => {
 
   const closeEditBox = () => {
     setShowEdit(false);
-    refresh();
+    setRefresh(!refresh);
   };
 
   const closeAssignBox = () => {
     setShowAssign(false);
     refresh();
   }
+
+  const closeAddWorkout = () => {
+    setShowAddWorkout(false);
+    setRefresh(!refresh);
+  };
+
+  const addItem = () => {
+    setShowAddWorkout(true);
+    setRefresh(!refresh);
+
+  };
 
   return (
     <div>
