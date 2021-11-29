@@ -19,14 +19,15 @@ const AddWorkout = (props) => {
   const [message, setMessage] = useState("");
   const [clientID, setClientID] = useState(0);
   const [exercises, setExercises] = useState([]);
-  const [workoutName, setWorkoutName] = useState();
+  const [linkedClients, setLinkedClients] = useState([]);
+  const [name, setName] = useState();
   const [date, setDate] = useState();
   const [numExercises, setNumExercises] = useState();
   const [timeToComplete, setTimeToComplete] = useState();
   const [statButton, setStatButton] = useState(true);
 
   const navigate = useNavigate();
-  //clientID, Exercise, workoutName, date, reps, time, weight, rest
+  //clientID, Exercise, name, date, reps, time, weight, rest
 
   var trainerID = null;
   const auth = getAuth();
@@ -52,13 +53,14 @@ const AddWorkout = (props) => {
     var obj = {
       clientID: clientID,
       trainerEmail: trainerID,
-      workoutName: workoutName,
+      name: name,
       exercises: exercises,
       date: date,
       timeToComplete: timeToComplete,
       numExercises: numExercises,
       comment: "",
       rating: "0",
+      linkedClients: linkedClients,
     };
     var js = JSON.stringify(obj);
     try {
@@ -80,18 +82,19 @@ const AddWorkout = (props) => {
       setMessage(error);
       console.log(error);
     }
+    console.log(name);
 
     handleClose();
 
   };
 
   useEffect(() => {
-    if (workoutName && date && timeToComplete && numExercises) {
+    if (name && date && timeToComplete && numExercises) {
       setStatButton(false);
     } else {
       setStatButton(true);
     }
-  }, [workoutName, date, timeToComplete, numExercises]);
+  }, [name, date, timeToComplete, numExercises]);
 
   return (
     <div>
@@ -121,9 +124,9 @@ const AddWorkout = (props) => {
               sx={{ width: "250px", margin: "5px" }}
               id="email"
               placeholder="Name of workout"
-              value={workoutName}
+              value={name}
               onChange={(e) => {
-                setWorkoutName(e.target.value);
+                setName(e.target.value);
               }}
               size="large"
               variant="standard"

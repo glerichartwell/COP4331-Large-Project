@@ -17,7 +17,7 @@ const AddExercise = (props) => {
   const [open, setOpen] = useState(true);
   const [message, setMessage] = useState("");
   const [workoutID, setWorkoutID] = useState(0);
-  const [exerciseName, setExerciseName] = useState();
+  const [name, setName] = useState();
   const [sets, setSets] = useState();
   const [reps, setReps] = useState();
   const [time, setTime] = useState();
@@ -52,7 +52,7 @@ const AddExercise = (props) => {
     var obj = {
       trainerID: trainerID,
       workoutID: workoutID,
-      exerciseName: exerciseName,
+      name: name,
       sets: sets,
       reps: reps,
       time: time,
@@ -79,15 +79,18 @@ const AddExercise = (props) => {
       setMessage(error);
       console.log(error);
     }
+
+    handleClose();
+
   };
 
   useEffect(() => {
-    if (exerciseName && sets && reps && time && weight && rest) {
+    if (name && sets && reps && time && weight && rest) {
       setStatButton(false);
     }else {
       setStatButton(true);
     }
-  }, [exerciseName, sets, reps, time, weight, rest]);
+  }, [name, sets, reps, time, weight, rest]);
 
   return (
     <div>
@@ -117,9 +120,9 @@ const AddExercise = (props) => {
               sx={{ width: "250px", margin: "5px" }}
               id="email"
               placeholder="Name of Exercise"
-              value={exerciseName}
+              value={name}
               onChange={(e) => {
-                setExerciseName(e.target.value);
+                setName(e.target.value);
               }}
               size="large"
               variant="standard"

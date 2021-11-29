@@ -1,17 +1,21 @@
 .edit-box-button {
-    display: flex;
-    align-self: center;
-    background: #6f4792;
-    color: #fff;
-    border-color: #6f4792;
-    padding: 5px 45px;
-    margin-top: 20px;
-    border-radius: 5px;
-    cursor: pointer;
+    display: flex !important;
+    align-self: center !important;
+    background: #6f4792 !important;
+    color: #ffffff !important;
+    border-color: #6f4792 !important;
+    padding: 5px 45px !important;
+    margin-top: 20px !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
 }
 
 .edit-box-button:hover {
-    background: #ac99be; 
-    border-color: #6f4792; 
-    color: #6f4792;
+    background: #ac99be !important; 
+    border-color: #6f4792 !important; 
+    color: #6f4792 !important;
+}
+
+.edit-box {
+    min-height: 60vh !important;
 }

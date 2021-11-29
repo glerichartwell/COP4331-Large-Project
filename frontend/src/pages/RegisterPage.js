@@ -24,7 +24,7 @@ const RegisterPage = props => {
     // Grab email from URL
     
     // email not in URL (did not receive link i.e. /register)
-    if (queryJSON['email'] == null || queryJSON == null)
+    if (queryJSON['email'] === null || queryJSON === null)
     {
       console.log("No email in query or no query force navigate");
       window.removeEventListener('load', checkValidRegister);
@@ -32,9 +32,9 @@ const RegisterPage = props => {
     }
 
     // Check Mongo
+    console.log(queryJSON)
     var obj = {email: queryJSON['email']};
     var js = JSON.stringify(obj);
-
     try {
       const response = await fetch(
         "http://localhost:5000/api/search-client-by-email",
@@ -49,7 +49,7 @@ const RegisterPage = props => {
         var res = JSON.parse(txt);
 
         if (res.error.length > 0) {
-          console.log(res.error);
+          console.log("Result error: ", res.error);
         }
         if (res['results'].length === 0)
         {

@@ -33,7 +33,7 @@ const ExpandMore = styled((infos) => {
   }),
 }));
 
-export default function RecipeReviewCard({ info, openClientDash, deleting }) {
+export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
 
   const cardNumber = info.cardNumber;
   const firstName = info.firstName;
@@ -77,15 +77,12 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
     setAnchorEl(null);
   };
 
-  const deleteFunction = () => {
-    //deleting(info);
-    console.log("Deleting stuff happens here!!!");
+  const sendDelete = () => {
+    deleteCard(info);
     setAnchorEl(false);
-  };
-
+  }
   const openi = Boolean(anchorEl);
   const id = openi ? "simple-popover" : undefined;
-  console.log(openi);
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -121,8 +118,8 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
           horizontal: "left",
         }}
       >
-        <List>
-          {/* <ListItem disablePadding>
+        <List key='list'>
+          {/* <ListItem key="edit" disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <EditIcon />
@@ -130,24 +127,24 @@ export default function RecipeReviewCard({ info, openClientDash, deleting }) {
               <ListItemText primary="Edit" />
             </ListItemButton>
           </ListItem> */}
-          <ListItem disablePadding>
-            <ListItemButton onClick={deleteFunction}>
-              <ListItemIcon>
-                <DeleteIcon />
+          <ListItem key="delete" disablePadding>
+            <ListItemButton key='delete-button' onClick={sendDelete}>
+              <ListItemIcon key='delete-icon-item'>
+                <DeleteIcon key='delete-icon'/>
               </ListItemIcon>
-              <ListItemText primary="Delete" />
+              <ListItemText key='delete-text' primary="Delete" />
             </ListItemButton>
           </ListItem>
         </List>
       </Popover>
       <CardContent>
 
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left'}}>
           {concatdate}
           <br />
           Last Logged In: {lastLoggedIn}
           <br />
-          <Divider />
+          {/* <Divider /> */}
           {email}
         </Typography>
       </CardContent>
