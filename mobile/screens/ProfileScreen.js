@@ -26,15 +26,15 @@ const ProfileScreen = (props) => {
     const [editWeight, setEditWeight] = useState(null);
 
     useEffect(() => {
-        loadClientInfo();
+        loadClientInfo().then(() => setLoaded(true));
     }, [loaded])
 
-    const loadClientInfo = () => {
+    const loadClientInfo = async () => {
         /*console.log("-----------");
         console.log("Loading client info");
         console.log("EMAIL:" + props.email);*/
         let js = JSON.stringify({search: props.email});
-        fetch("http://192.168.208.1:5000/api/search-client",
+        await fetch("http://192.168.208.1:5000/api/search-client",
             {
                 method: "POST",
                 body: js,
@@ -43,7 +43,6 @@ const ProfileScreen = (props) => {
             .then(response => response.json())
             .then((responseJson) => {
                 setClientInfo(responseJson.results[0]);
-                setLoaded(true);
                 /*console.log("Client Info:");
                 console.log(responseJson.results[0]);*/
             })
@@ -178,11 +177,11 @@ const ProfileScreen = (props) => {
             })
             .then(response => response.json())
             .then((responseJson) => {
+                hideEditModal();
+                setLoaded(false);
+                loadClientInfo().then(() => setLoaded(true));
             })
             .catch(error => console.log("ERROR: " + error))
-        hideEditModal();
-        setLoaded(false);
-        loadClientInfo();
     }
 
     return (loaded && (
