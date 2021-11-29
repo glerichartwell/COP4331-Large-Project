@@ -5,10 +5,11 @@ import Grid from "@mui/material/Grid";
 import { Divider, TextField, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from '@mui/icons-material/Search'; 
-
+import AssignBox from "./AssignBox";
 import AddWorkout from "./AddWorkout";
 import WorkoutCard from "./WorkoutCard2";
 import WorkoutEditBox from "./WorkoutEditBox";
+
 
 const WorkoutDisplay = () => {
   // allow results of api to be rendered on page after loading
@@ -18,6 +19,8 @@ const WorkoutDisplay = () => {
   const [showEditBox, setShowEditBox] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [Edit, setEdit] = useState();
+  const [showAssign, setShowAssign] = useState(false);
+  const [Assign, setAssign] = useState();
   const [update, setUpdate] = useState(false);
   const [query, setQuery] = useState('');
 
@@ -63,18 +66,19 @@ const WorkoutDisplay = () => {
 
       for (var i = 0; i < numWorkouts; i++) {
 
-        var obj = new Object();
-        obj["cardNumber"] = i;
-        obj["id"] = Workouts.results[i]._id;
-        obj["name"] = Workouts.results[i].name;
-        obj["clientID"] = Workouts.results[i].clientID;
-        obj["trainerEmail"] = Workouts.results[i].trainerID;
-        obj["exercises"] = Workouts.results[i].exercises;
-        obj["date"] = Workouts.results[i].date;
-        obj["timeToComplete"] = Workouts.results[i].timeToComplete;
-        obj["numExercises"] = Workouts.results[i].numExercises;
-        obj["comment"] = Workouts.results[i].comment;
-        obj["rating"] = Workouts.results[i].rating;
+        var obj = {
+          cardNumber: i,
+          id: Workouts.results[i]._id,
+          name: Workouts.results[i].name,
+          clientID: Workouts.results[i].clientID,
+          trainerEmail: Workouts.results[i].trainerID,
+          exercises: Workouts.results[i].exercises,
+          date: Workouts.results[i].date,
+          timeToComplete: Workouts.results[i].timeToComplete,
+          numExercises: Workouts.results[i].exercises.length,
+          comment: Workouts.results[i].comment,
+          rating: Workouts.results[i].rating,
+        }
         objects.push(obj);
       }
       //can access numWorkouts from trainer database
@@ -94,6 +98,7 @@ const WorkoutDisplay = () => {
             <WorkoutCard
               dbInfo={objects[i]}
               // opens edit box
+              assign={assign}
               edit={edit}
               closeEditBox={closeEditBox}
             />
@@ -217,10 +222,20 @@ const WorkoutDisplay = () => {
     setShowEdit(true);
   };
 
+  const assign = (info) => {
+    setAssign(<AssignBox closeAssignBox={closeAssignBox} info={info}/>)
+    setShowAssign(true);
+  }
+
   const closeEditBox = () => {
     setShowEdit(false);
     refresh();
   };
+
+  const closeAssignBox = () => {
+    setShowAssign(false);
+    refresh();
+  }
 
   return (
     <div>
@@ -231,7 +246,7 @@ const WorkoutDisplay = () => {
           onChange={e => setQuery(e.target.value)}
           variant='outlined' 
           size='small'
-          InputProps={{startAdornment: <InputAdornment><SearchIcon sx={{color: 'white'}}/></InputAdornment>,}}
+          InputProps={{startAdornment: <InputAdornment position='start'><SearchIcon sx={{color: 'white'}}/></InputAdornment>,}}
           sx={{
               position: 'fixed',
               marginLeft: '1px',
@@ -281,6 +296,7 @@ const WorkoutDisplay = () => {
         {arrayChange}
 
         {showEdit ? Edit : null}
+        {showAssign ? Assign : null}
       </Grid>
     </div>
   );
