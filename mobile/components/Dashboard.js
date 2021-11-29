@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import ProfileScreen from "../screens/ProfileScreen";
-import CalendarScreen from "../screens/CalendarScreen";
+import ScheduleScreen from "../screens/ScheduleScreen";
 import WorkoutsScreen from "../screens/WorkoutsScreen";
 import HealthWellnessScreen from "../screens/HealthWellnessScreen";
 import theme from '../custom-properties/Themes';
@@ -38,7 +38,7 @@ const Dashboard = () => {
 
     return (
         <Tab.Navigator
-            initialRouteName="Calendar"
+            initialRouteName="Schedule"
             barStyle={{backgroundColor: theme.colors.purple}}
         >
             <Tab.Screen
@@ -53,11 +53,11 @@ const Dashboard = () => {
                 }}
             />
             <Tab.Screen
-                name="Calendar"
-                component={CalendarScreen}
+                name="Schedule"
+                component={ScheduleScreen}
                 options={{
-                    tabBarLabel: 'Calendar',
-                    title: 'Calendar',
+                    tabBarLabel: 'Schedule',
+                    title: 'Schedule',
                     tabBarIcon: ({color}) => (
                         <MaterialCommunityIcons name="calendar" color={color} size={26}/>
                     ),

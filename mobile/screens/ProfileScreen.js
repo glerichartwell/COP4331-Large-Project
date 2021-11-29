@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from "react";
-import {Avatar, Button, Text, Title, Portal, Modal, TextInput} from "react-native-paper";
+import {Avatar, Button, Text, Title, Portal, Modal, TextInput, Divider} from "react-native-paper";
 import {Platform, StyleSheet, View} from "react-native";
 import {getAuth, signOut} from "firebase/auth";
 import {useNavigation} from "@react-navigation/core";
 import TopBar from "../components/TopBar";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {TextInputMask} from 'react-native-masked-text'
+import {DatePicker} from 'react-native-woodpicker'
+import theme from "../custom-properties/Themes";
 
 const ProfileScreen = (props) => {
     const auth = getAuth();
@@ -58,16 +61,10 @@ const ProfileScreen = (props) => {
 
     const formatBirthday = (birthday, fromDatePicker) => {
         const date = new Date(birthday);
-        return date.toLocaleDateString();
-        console.log(date.toLocaleDateString())
-        if (fromDatePicker){
-            date.setDate(date.getDate() - 1);
+        if (!fromDatePicker) {
+            date.setDate(date.getDate() + 1);
         }
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate() + 1;
-        /*return month + "/" + day + "/" + year;*/
-
+        return date.toLocaleDateString();
     }
 
     const calculateAge = (birthday) => {
@@ -91,7 +88,7 @@ const ProfileScreen = (props) => {
         setShowEdit(true);
         setShowDatePicker(false);
         let newDob = new Date(clientInfo.birthday);
-        /*newDob.setDate(newDob.getDate() + 1);*/
+        newDob.setDate(newDob.getDate() + 1);
         setEditDob(newDob);
     }
 
@@ -114,9 +111,46 @@ const ProfileScreen = (props) => {
         setEditDob(currentDate);
     }
 
+    function formatPhoneNumber(value) {
+        // if input value is falsy eg if the user deletes the input, then just return
+        if (!value) return value;
+
+        // clean the input for any non-digit values.
+        const phoneNumber = value.replace(/[^\d]/g, "");
+
+        // phoneNumberLength is used to know when to apply our formatting for the phone number
+        const phoneNumberLength = phoneNumber.length;
+
+        // we need to return the value with no formatting if its less then four digits
+        // this is to avoid weird behavior that occurs if you  format the area code to early
+
+        if (phoneNumberLength < 4) return phoneNumber;
+
+        // if phoneNumberLength is greater than 4 and less the 7 we start to return
+        // the formatted number
+        if (phoneNumberLength < 7) {
+            return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+        }
+
+        // finally, if the phoneNumberLength is greater then seven, we add the last
+        // bit of formatting and return it.
+        return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+            3,
+            6
+        )}-${phoneNumber.slice(6, 10)}`;
+    }
+
+    const handlePhoneChange = (e) => {
+        // this is where we'll call our future formatPhoneNumber function that we haven't written yet.
+        const formattedPhoneNumber = formatPhoneNumber(e);
+        // we'll set the input value using our setInputValue
+        setEditPhone(formattedPhoneNumber);
+        // From https://tomduffytech.com/how-to-format-phone-number-in-react/
+    }
+
     const submitEdit = () => {
         let newBirthday = null;
-        /*editDob.setDate(editDob.getDate() - 1);*/
+        editDob.setDate(editDob.getDate() - 1);
         let dobDBString = editDob.toISOString().split("T")[0];
         if (dobDBString !== clientInfo.birthday) {
             newBirthday = dobDBString;
@@ -144,7 +178,6 @@ const ProfileScreen = (props) => {
             })
             .then(response => response.json())
             .then((responseJson) => {
-                console.log(responseJson);
             })
             .catch(error => console.log("ERROR: " + error))
         hideEditModal();
@@ -167,50 +200,75 @@ const ProfileScreen = (props) => {
                             display="default"
                             onChange={dateChange}
                         />)}
-                    <Text>Date of Birth:</Text>
+                    <Text style={styles.editText}>Date of Birth:</Text>
                     <TextInput
                         onFocus={() => setShowDatePicker(true)}
                         disabled={true}
                         placeholder={formatBirthday(editDob, true)}
                         right={<TextInput.Icon name="calendar" onPress={() => setShowDatePicker(true)}/>}
-                    />
-                    <Text>Gender:</Text>
-                    <TextInput
+
                         mode="outlined"
+                        style={styles.editTextInput}
+                    />
+                    <Text style={styles.editText}>Gender:</Text>
+                    <TextInput
                         label={clientInfo.gender}
                         onChangeText={text => setEditGender(text)}
+
+                        mode="outlined"
+                        style={styles.editTextInput}
                     />
-                    <Text>Email:</Text>
+                    <Text style={styles.editText}>Email:</Text>
                     <TextInput
                         label={clientInfo.email}
                         onChangeText={text => setEditEmail(text)}
+
+                        mode="outlined"
+                        style={styles.editTextInput}
                     />
-                    <Text>Phone:</Text>
+                    <Text style={styles.editText}>Phone:</Text>
                     <TextInput
                         label={clientInfo.phone}
                         keyboardType="phone-pad"
-                        onChangeText={text => setEditPhone(text)}
+                        onChangeText={text => handlePhoneChange(text)}
+                        value={editPhone}
+
+                        mode="outlined"
+                        style={styles.editTextInput}
                     />
-                    <Text>City:</Text>
+                    <Text style={styles.editText}>City:</Text>
                     <TextInput
                         label={clientInfo.city}
                         onChangeText={text => setEditCity(text)}
+
+                        mode="outlined"
+                        style={styles.editTextInput}
                     />
-                    <Text>Height:</Text>
+                    <Text style={styles.editText}>Height:</Text>
                     <TextInput
                         label={clientInfo.height}
                         keyboardType="numeric"
                         right={<TextInput.Affix text="inches"/>}
                         onChangeText={text => setEditHeight(text)}
+
+                        mode="outlined"
+                        style={styles.editTextInput}
                     />
-                    <Text>Weight:</Text>
+                    <Text style={styles.editText}>Weight:</Text>
                     <TextInput
                         label={clientInfo.weight}
                         keyboardType="numeric"
                         right={<TextInput.Affix text="lbs"/>}
                         onChangeText={text => setEditWeight(text)}
+
+                        mode="outlined"
+                        style={styles.editTextInput}
                     />
-                    <Button onPress={submitEdit}>Submit</Button>
+                    <Button
+                        onPress={submitEdit}
+                        mode="contained"
+                        style={styles.editSubmitButton}
+                    >Submit</Button>
                 </Modal>
             </Portal>
             <TopBar title="Profile"/>
@@ -220,19 +278,57 @@ const ProfileScreen = (props) => {
                 style={styles.avatar}
             />
             <Title
-                style={styles.name}>{formatName(clientInfo.firstName, clientInfo.middleName, clientInfo.lastName)}</Title>
-            <Text>Date of Birth: {formatBirthday(clientInfo.birthday, false)}</Text>
-            <Text>Age: {calculateAge(clientInfo.birthday)}</Text>
-            <Text>Gender: {clientInfo.gender}</Text>
-            <Title>Contact</Title>
-            <Text>Email: {clientInfo.email}</Text>
-            <Text>Phone: {clientInfo.phone}</Text>
-            <Text>City: {clientInfo.city}</Text>
-            <Title>Measurements</Title>
-            <Text>Height: {clientInfo.height} inches</Text>
-            <Text>Weight: {clientInfo.weight} lbs</Text>
-            <Button onPress={showEditModal}>Edit</Button>
-            <Button onPress={handleSignOut}>Sign Out</Button>
+                style={styles.name}
+            >{formatName(clientInfo.firstName, clientInfo.middleName, clientInfo.lastName)}</Title>
+            <Divider
+                style={styles.divider}
+            />
+            <Text
+                style={styles.text}
+            >Date of Birth: {formatBirthday(clientInfo.birthday, false)}</Text>
+            <Text
+                style={styles.text}
+            >Age: {calculateAge(clientInfo.birthday)}</Text>
+            <Text
+                style={styles.text}
+            >Gender: {clientInfo.gender}</Text>
+            <Title
+                style={styles.title}
+            >Contact</Title>
+            <Divider
+                style={styles.divider}
+            />
+            <Text
+                style={styles.text}
+            >Email: {clientInfo.email}</Text>
+            <Text
+                style={styles.text}
+            >Phone: {clientInfo.phone}</Text>
+            <Text
+                style={styles.text}
+            >City: {clientInfo.city}</Text>
+            <Title
+                style={styles.title}
+            >Measurements</Title>
+            <Divider
+                style={styles.divider}
+            />
+            <Text
+                style={styles.text}
+            >Height: {clientInfo.height} inches</Text>
+            <Text
+                style={styles.text}
+            >Weight: {clientInfo.weight} lbs</Text>
+            <Button
+                onPress={showEditModal}
+                style={styles.editButton}
+                mode="contained"
+            >Edit</Button>
+            <Button
+                onPress={handleSignOut}
+                style={styles.signOutButton}
+                mode="contained"
+            >Sign Out</Button>
         </View>
     ));
 }
@@ -240,16 +336,57 @@ const ProfileScreen = (props) => {
 const styles = StyleSheet.create({
     avatar: {
         alignSelf: "center",
+        marginTop: 10,
+        marginBottom: 10,
     },
     name: {
         alignSelf: "center",
+    },
+    title: {
+        alignSelf: "center",
+        marginTop: 40,
+    },
+    text: {
+        marginLeft: 30,
+        fontSize: 16,
     },
     editPopUp: {
         backgroundColor: "white",
         borderRadius: 20,
         margin: 30,
         padding: 20,
-    }
+        overflow: "hidden",
+    },
+    editTextInput: {},
+    editText: {
+        marginTop: 10
+    },
+    editSubmitButton: {
+        marginTop: 10,
+        marginBottom: 10,
+        borderRadius: 10,
+        backgroundColor: theme.colors.lightBlue,
+    },
+    editButton: {
+        marginTop: 30,
+        marginLeft: 30,
+        marginRight: 30,
+        borderRadius: 10,
+        backgroundColor: theme.colors.lightBlue,
+    },
+    signOutButton: {
+        marginTop: 25,
+        marginLeft: 30,
+        marginRight: 30,
+        borderRadius: 10,
+        backgroundColor: theme.colors.lightBlue,
+    },
+    divider: {
+        backgroundColor: theme.colors.purple,
+        height: 3,
+        width: 340,
+        alignSelf: "center"
+    },
 });
 
 export default ProfileScreen;
