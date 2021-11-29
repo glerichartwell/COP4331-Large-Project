@@ -24,10 +24,10 @@ router.post("/api/view-client-workouts-by-week", async (req, res) => {
 
     // receive iso startDate string and get date range
     var getDateBounds = new Date(startDate);
-    // console.log(getDateBounds.toISOString());
+    console.log(getDateBounds.toISOString());
     var endDate = getDateBounds.setDate(getDateBounds.getDate() + 6);
     endDate = new Date(endDate).toISOString();
-    // console.log(endDate);
+    console.log(endDate);
 
     if (clients && clients.length == 0) {
       error = "No clients";

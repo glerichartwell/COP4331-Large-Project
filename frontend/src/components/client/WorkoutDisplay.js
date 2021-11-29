@@ -32,7 +32,7 @@ const WorkoutDisplay = () => {
   };
 
   //firebase component to return trainer profile info
-  var email = "delroyjordan@knights.ucf.edu"; //getFirebaseID()
+  var email = "scooby@gmail.com"; //getFirebaseID()
 
   var Workouts;
   var cardArray = [];
