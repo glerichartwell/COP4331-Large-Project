@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import Radio from "@mui/material/Radio";
 import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
 import { Autocomplete, Box, Grid, List, ListItem } from "@mui/material";
 import Slider from "@mui/material/Slider";
 import TextField from "@mui/material/TextField";
@@ -15,30 +16,96 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import './css/EditBox.css'
 
+
 const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
   const [showEdit, setShowEdit] = useState(true);
   const [buttonName, setButtonName] = useState("Change");
-  const [confirmClick, setConfirmClick] = useState(0);
+  const [confirmClick, setConfirmClick] = useState(null);
   const [message, setMessage] = useState("");
-  const [name, setName] = useState();
-  const [date, setDate] = useState();
-  const [timeToComplete, setTimeToComplete] = useState();
-  const [numExercises, setNumExercises] = useState();
+  const [addError, setAddError] = useState("");
+  const [name, setName] = useState(undefined);
+  const [date, setDate] = useState(undefined);
+  const [timeToComplete, setTimeToComplete] = useState(undefined);
   const [id, setID] = useState(info.id);
+  const [exercise, setExercise] = useState(null);
+  const [comment, setComment] = useState(null);
 
-  const exercises = [
-    {label: 'Bicep Curls', id: '1'},
-    {label: 'Squats', id: '2'},
-    {label: 'Burpees', id: '3'},
-  ]
+  // const exercises = [
+  //   {label: 'Bicep Curls', name: 'Bicep Curls', id: 1},
+  //   {label: 'Squats', name: 'Squats', id: 2},
+  //   {label: 'Burpees', name: 'Burpees', id: 3},
+  // ]
 
-
+  const removeErrorMessage = () => {
+    setAddError("");
+  }
   //add ability to add exercises in here
+  useEffect(() => {
+    window.addEventListener('mouseup', removeErrorMessage)
+    return () => {
+      window.removeEventListener('mouseup', removeErrorMessage)
+    }
+  }, [])
 
+  useEffect(() => {
+      loadExercises();
+  })
 
-  const confirm = () => {
-    closeEditBox(info);
+  var exercises = [];
+  const getExercises = async (event) => {
+
+    const address = "http://localhost:5000/api/view-all-exercises";
+
+    try {
+      const response = await fetch(
+      address,
+       {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+
+      // save number of exercises
+      const numExercises = res.results.length;
+      for (var i = 0; i < numExercises; i++) {
+
+        var obj = {
+          cardNumber: i,
+          id: res.results[i]._id,
+          name: res.results[i].name,
+          sets: res.results[i].sets,
+          reps: res.results[i].reps,
+          time: res.results[i].time,
+          weight: res.results[i].weight,
+          rest: res.results[i].rest,
+        }
+        exercises.push(obj);
+      }
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("exercises returned");
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
+
+  
   };
+  
+  const loadExercises = () => {
+    if (exercises.length <= 0)
+    {
+        // Call search api
+        getExercises()
+        .then(() => {
+          exercises.forEach(exercise => {
+            exercise.label = exercise.name
+          })
+        })
+      }
+  }
 
   const EditWorkout = async (event) => {
 
@@ -47,11 +114,12 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
       id : id, 
       name: name,
       date: date,
+      exercises: chosenExercises,
+      comment: comment,
       timeToComplete: timeToComplete,
-      numExercises: numExercises,
 
     };
-    console.log(id);
+
     var js = JSON.stringify(obj);
     try {
       const response = await fetch("http://localhost:5000/api/edit-workout", {
@@ -66,17 +134,14 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
 
       if (res.error.length > 0) {
         console.log(res.error);
-        setMessage(res.error);
       }
     } catch (error) {
-      setMessage(error);
       console.log(error);
     }
   };
 
   const changingFunction = () => {
     setButtonName("Confirm");
-    console.log(info.id);
 
     if (confirmClick) {
       EditWorkout();
@@ -88,13 +153,26 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
 
   const deleteExercise = (name) => {
     var index = chosenExercises.findIndex(exercise => exercise.name == name);
-    console.log(chosenExercises.slice(0, index).concat(chosenExercises.slice(index+1, chosenExercises.length)))
     setChosenExercises(chosenExercises.slice(0, index).concat(chosenExercises.slice(index+1, chosenExercises.length)))
   }
 
-  const [chosenExercises, setChosenExercises] = useState([{name: "Bicep Curls", id: '9821374923874'}, 
-                                                          {name: 'Squats', id: '9821345343874'}, 
-                                                          {name: 'Burpees', id: '9821334233874'}])
+  const addExercise = (exercise) => {
+    
+    if (!exercise)
+    {
+      setAddError("Please choose an exercise.")
+    }
+    else if (chosenExercises.find(item => item.name == exercise.name))
+    {
+      setAddError("This exercise is already in the workout!")
+    }
+    else
+    {
+      setChosenExercises(chosenExercises.concat([{name: exercise.name, id: exercise.id}]));
+    }
+  }
+
+  const [chosenExercises, setChosenExercises] = useState([])
   return (
     <div>
       <Dialog
@@ -110,45 +188,60 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
             {info.type}: {info.name}
           </DialogTitle>
           <Grid container direction='row'>
-          <Grid container direction="column" sm={6}>
+          <Grid container direction='column' sm={6}>
             <Grid item>
-              <TextField placeholder={info.name} label='Name' sx={{ width: '90%', margin:'8px'}} onChange={e => {setName(e.target.value)}}/>
+                <TextField placeholder={info.name} label='Name' sx={{ width: '90%', margin:'8px', marginBottom: '3px'}} onChange={e => {setName(e.target.value)}}/>
+              </Grid>
+              <Grid item>
+                <TextField type="date" placeholder={info.date} sx={{ width: '90%', margin:'8px'}} onChange={e => {setDate(e.target.value)}}/>
+              </Grid>
+              <Grid item>
+                <TextField type="number" placeholder={info.timeToComplete} label='Estimated Time to Complete' sx={{ width: '90%', margin:'8px'}} onChange={e => {setTimeToComplete(e.target.value)}}
+                            InputProps={{endAdornment: <InputAdornment position="start">minutes</InputAdornment>,}}
+                />
+              </Grid>
+              <Grid item>
+                <TextField type='textarea' multiline rows={3} label="Comments" sx={{ width: '90%', margin:'8px'}} onChange={e => {setComment(e.target.value)}}/>
             </Grid>
-            <Grid item>
-              <TextField type="date" placeholder={info.date} sx={{ width: '90%', margin:'8px'}} onChange={e => {setDate(e.target.value)}}/>
-            </Grid>
-            <Grid item>
-              <TextField type="number" placeholder={info.timeToComplete} label='Estimated Time to Complete' sx={{ width: '90%', margin:'8px'}} onChange={e => {setTimeToComplete(e.target.value)}}
-                InputProps={{endAdornment: <InputAdornment position="start">minutes</InputAdornment>,}}/>
-            </Grid>
-            <Grid item>
-              <TextField type='textarea' multiline rows={3} label="Comments" sx={{ width: '90%', margin:'8px'}}/>
-            </Grid>
-            {/* changing buttons and functionality */}
           </Grid>
-          <Grid container direction='column' sm={6} sx={{textAlign: 'right'}}>
-            <Autocomplete 
-              id="exercise-autocomplete"
-              options={exercises}
-              renderInput={(params) => <TextField {...params} label="Exercises" />}
-              sx={{ width: '90%', margin:'8px'}}
-              />
-              <List>
-              {chosenExercises.map((exercise) => (
-                <ListItem 
+          <Grid container direction='column' sm={6}>
+              <Grid container direction='row' >
+                <Grid item>
+                  <Autocomplete 
+                    id="exercise-autocomplete"
+                    options={exercises}
+                    value={exercise}
+                    isOptionEqualToValue={(option, value) => {return (option.name === value.name)}}
+                    onChange={(e, value) => {setExercise(value)}}
+                    renderInput={(params) => <TextField {...params} label="Exercises" />}
+                    sx={{ width: '330px', margin:'8px', marginLeft: '30px', marginBottom: '-15px'}}
+                    />
+                    <div style={{textAlign: 'center', marginTop: '15px', color: 'purple'}}>{addError}</div>
+                </Grid>
+                <Grid item>
+                  <Button className='add-exercise' variant='text' onClick={() => {addExercise(exercise)}} sx={{minWidth: '1px'}}>Add</Button>
+                </Grid>
+              </Grid>
+            <Grid item >
+                <List>
+                {chosenExercises.map((exercise) => (
+                  <ListItem
+                  key={exercise.id}
                   secondaryAction={
-                    <IconButton edge="end" aria-label="delete" onClick={() => {deleteExercise(exercise.name)}}>
-                      <DeleteIcon />
-                    </IconButton>
-                  }
-                  sx={{ width: '95%', marginLeft: '-5px'}}
-                  >
-                  {exercise.name}
-                </ListItem>
-              ))}
-              </List>
+                    <IconButton edge="end" aria-label="delete" onClick={() => {deleteExercise(exercise.name)}} sx={{position: 'absolute', right: '0px', top: '-21px'}}>
+                        <DeleteIcon  />
+                      </IconButton>
+                    } 
+                    sx={{ width: '330px', margin: '3px', marginLeft: '30px', border: 1, borderColor: '#c2c0c0', borderRadius: 1}}
+                    >
+                    {exercise.name}
+                  </ListItem>
+                ))}
+                </List>
+              </Grid>  
           </Grid>
           </Grid>
+          <Grid container direction='column' sx={{textAlign: 'center'}} >
               <div style={{textAlign: 'center', marginTop: '15px'}}>{message}</div>
               <Button
                 className='edit-box-button'
@@ -157,7 +250,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
               >
                 {buttonName}
               </Button>
-          
+          </Grid>
         </DialogContent>
       </Dialog>
     </div>

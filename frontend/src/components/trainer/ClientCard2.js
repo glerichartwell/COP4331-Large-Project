@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Card from "@mui/material/Card";
 import Avatar from "@mui/material/Avatar";
 import { red } from "@mui/material/colors";
@@ -33,7 +33,7 @@ const ExpandMore = styled((infos) => {
   }),
 }));
 
-export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
+export default function RecipeReviewCard({ info, openClientDash, deleting }) {
 
   const cardNumber = info.cardNumber;
   const firstName = info.firstName;
@@ -55,8 +55,10 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
   const city = info.city;
   const lastLoggedIn = info.lastLoggedIn;
 
-  const [expanded, setExpanded] = React.useState(false);
-  const [open, setOpen] = React.useState(true);
+  const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(true);
+
+  const [elevation, setElevation] = useState(5)
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -67,7 +69,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
   };
 
   // stuff
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClickii = (event) => {
     setAnchorEl(event.currentTarget);
@@ -77,14 +79,16 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
     setAnchorEl(null);
   };
 
-  const sendDelete = () => {
-    deleteCard(info);
+  const deleteFunction = () => {
+    //deleting(info);
+    console.log("Deleting stuff happens here!!!");
     setAnchorEl(false);
-  }
+  };
+
   const openi = Boolean(anchorEl);
   const id = openi ? "simple-popover" : undefined;
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
       <CardHeader
         action={
           <IconButton aria-label="settings" onClick={handleClickii}>
@@ -128,7 +132,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
             </ListItemButton>
           </ListItem> */}
           <ListItem key="delete" disablePadding>
-            <ListItemButton key='delete-button' onClick={sendDelete}>
+            <ListItemButton key='delete-button' onClick={deleteFunction}>
               <ListItemIcon key='delete-icon-item'>
                 <DeleteIcon key='delete-icon'/>
               </ListItemIcon>

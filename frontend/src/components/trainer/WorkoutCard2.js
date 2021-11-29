@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -36,11 +36,24 @@ const ExpandMore = styled((props) => {
 }));
 
 // Show on surface
-// preset array to be empty if no exercises are entered on creation
+// const name = "Crabification";
+// const sumtext = "Date Started: ";
+// const date = "09/32/2014";
+// const concatdate = sumtext + date;
+// const rating = "3";
+// const comment =
+//   "Y'know the crab walking really isn't working out for me. When I first did it, I noticed my skin got harder. The more I did it, the more I was stuck walking like a crab and then...";
 const exercises = [];
+// const time = "20";
+// // Changing the number of exercises here increases the count of how many will be displayed
+// const numExercises = 4;
+// // Don't change this, if you really need to, don't make it lower than 45
+// const itemsize = 45;
+// const listheight = itemsize * numExercises;
 
-export default function WorkoutCard({ edit, deleteCard, assignWorkout, closeEditBox, dbInfo }) {
-  const [expanded, setExpanded] = React.useState(false);
+export default function WorkoutCard({ edit, assign, dbInfo }) {
+  const [expanded, setExpanded] = useState(false);
+  const [elevation, setElevation] = useState(5)
   // Show on surface
   const sumtext = "Date: ";
   // Don't change this, if you really need to, don't make it lower than 45
@@ -50,13 +63,13 @@ export default function WorkoutCard({ edit, deleteCard, assignWorkout, closeEdit
     setExpanded(!expanded);
   };
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
   // stuff
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClickii = (event) => {
     setAnchorEl(event.currentTarget);
@@ -66,61 +79,38 @@ export default function WorkoutCard({ edit, deleteCard, assignWorkout, closeEdit
     setAnchorEl(null);
   };
   
-  //send information from card to be edited in edit box
   const sendEdit = () => {
     edit(info);
     setAnchorEl(false);
   };
 
-  //send information from card to be deleted from database then close popout
-  const sendDelete = () => {
-    deleteCard(info);
+  const sendAssign = () => {
+    assign(info);
     setAnchorEl(false);
   }
-
-  //send information to assign workouts to clients
-  const assignToClient = () => {
-    assignWorkout(info);
-    setAnchorEl(false);
-  }
-
 
   const openi = Boolean(anchorEl);
   const id = openi ? "simple-popover" : undefined;
-  console.log(openi);
 
   var info = new Object();
   info.id = dbInfo.id;
   info.type = "Editing Workout";
   info.name = dbInfo.name;
-  console.log(dbInfo)
   info.clientID = dbInfo.clientID;
   info.trainerEmail = dbInfo.trainerEmail;
   info.exercises = dbInfo.exercises;
   info.date = dbInfo.date;
-  info.numExercises = dbInfo.numExercises;
+  info.numExercises = dbInfo.exercises.length;
   info.timeToComplete = dbInfo.timeToComplete;
   info.comment = dbInfo.comment;
   info.rating = dbInfo.rating;
 
   const concatdate = sumtext + info.date;
-  const listheight = itemsize * info.numExercises;
-
-  console.log(listheight);
-
-  function renderRow(props) {
-    const { index, style } = props;
-    return (
-      <ListItem style={style} key={index} component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }}>
-          <ListItemText primary={info.exercises[index]} />
-        </ListItemButton>
-      </ListItem>
-    );
-  }
+  
+  
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{overflow: 'inherit', maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
       <CardHeader
         action={
           <IconButton aria-label="settings" onClick={handleClickii}>
@@ -142,8 +132,6 @@ export default function WorkoutCard({ edit, deleteCard, assignWorkout, closeEdit
           horizontal: "left",
         }}
       >
-        {/* options for popout tab including add, edit, and delete*/}
-
         <List>
         <ListItem disablePadding>
             <ListItemButton onClick={sendEdit}>
@@ -154,24 +142,15 @@ export default function WorkoutCard({ edit, deleteCard, assignWorkout, closeEdit
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
+            <ListItemButton onClick={sendAssign}>
+              <ListItemIcon>
+                <AddIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Assign" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
-                <FitnessCenterIcon />
-              </ListItemIcon>
-              <ListItemText primary="Add Exercise" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton onClick={assignToClient}>
-              <ListItemIcon>
-                <FitnessCenterIcon />
-              </ListItemIcon>
-              <ListItemText primary="Assign to Client" />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton onClick={sendDelete}>
               <ListItemIcon>
                 <DeleteIcon />
               </ListItemIcon>
@@ -182,60 +161,41 @@ export default function WorkoutCard({ edit, deleteCard, assignWorkout, closeEdit
       </Popover>
       <CardContent>
         <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
-          {/* <Rating
-            name="simple-controlled"
-            value={rating}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
-          />
-          <br />
-          <br /> */}
+          <Typography variant="body2" color="text.secondary" sx={{marginBottom: '15px'}}>
+            Estimated Time to Complete: {info.timeToComplete} minutes
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{marginTop: '15px'}}>
+            Comment:
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {info.comment}
+          </Typography>
           <List
             sx={{marginLeft: '-18px'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
-          >
-            <ListItemButton onClick={handleClick}>
-              <ListItemText primary="Exercise List" />
-              {open ? <ExpandLess /> : <ExpandMoreIcon />}
+            sx={{background: '#e9e3ee', marginLeft: '-20px', width: '250px', marginBottom: '-24px'}}
+            >
+            <ListItemButton onClick={handleClick} sx={{marginRight: '-45px'}}>
+              <ListItemText primary="Exercise List" sx={{background: '#e9e3ee'}}/>
+              <div style={{marginRight: '-45px', marginBottom: '-5px'}}>{open ? <ExpandLess /> : <ExpandMoreIcon />}</div>
             </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <FixedSizeList
-                height={listheight}
-                width={360}
-                itemSize={itemsize}
-                itemCount={info.numExercises}
-                overscanCount={1}
-              >
-                {renderRow}
-              </FixedSizeList>
+            <Collapse in={open} timeout="auto" unmountOnExit sx={{background: '#e9e3ee'}}>
+              <List>
+                {info.exercises.map((exercise) => (
+                  <ListItem
+                  key={exercise.id}
+                    sx={{ width: '330px', margin: '3px', marginLeft: '0px',}}
+                    >
+                    {exercise.name}
+                  </ListItem>
+                ))}
+              </List>
             </Collapse>
           </List>
-          <br />
-          <br />
-          Estimated Time to Complete: {info.timeToComplete} minutes
-          <br />
+          <div></div>
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
-            User Comment: <br />
-            {info.comment}
-          </Typography>
-        </CardContent>
-      </Collapse>
     </Card>
   );
 }

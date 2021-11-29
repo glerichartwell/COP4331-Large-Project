@@ -16,6 +16,35 @@
     color: #6f4792 !important;
 }
 
+.edit-box-button:disabled {
+    border-color: #b8b8b8 !important;
+    background-color: #cccccc !important; 
+    color: #666666 !important;
+}
+
 .edit-box {
-    min-height: 60vh !important;
+    min-height: 40vh !important;
+}
+
+.add-exercise {
+    width: 40px;
+    height: 30px;
+    margin-top: 20px !important;
+    margin-left: 9px !important;
+    /* background: #6f4792 !important; */
+    color: #6f4792 !important;
+    /* border-color: #6f4792 !important; */
+
+}
+
+.add-exercise:hover {
+    /* background: #ac99be !important; 
+    border-color: #6f4792 !important;  */
+    background-color: #c2c0c0;
+    color: #492964 !important;
+    font-weight: bold;
+}
+
+.decoy {
+    color:#e9e3ee;
 }

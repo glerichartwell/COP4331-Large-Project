@@ -81,6 +81,26 @@ const DashboardDrawer = (props) => {
     navigate(`/`);
   };
 
+  const openAddClient = () => {
+    setShowAddClient(true);
+  };
+  const closeAddClient = () => {
+    setShowAddClient(false);
+  };
+  const openAddExercise = () => {
+    setShowAddExercise(true);
+  };
+  const closeAddExercise = () => {
+    setShowAddExercise(false);
+  };  
+  const openAddWorkout = () => {
+    setShowAddWorkout(true);
+  };
+  const closeAddWorkout = () => {
+    setShowAddWorkout(false);
+  };
+
+
   const ClientOn = () => {
     setShowWorkout(false);
     setShowExercise(false);
@@ -126,6 +146,15 @@ const DashboardDrawer = (props) => {
     }
   };
 
+
+  const editItem = () => {
+    
+  };
+
+  const deleteItem = () => {
+
+  };
+
   const [query, setQuery] = useState(null);
 
   // useEffect(() => {
@@ -143,18 +172,16 @@ const DashboardDrawer = (props) => {
       >
         <Toolbar sx={{position: 'relative'}} >
           <Typography variant="h6" noWrap component="div">
-            My Dashboard
+            <ArrowBackIosIcon /> My Dashboard
           </Typography>
 
 
           {/* imported search bar */}
-          {/* {hideAdd ? null : <Button onClick={addItem} variant='outlined' sx={{position: 'absolute', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+          {hideAdd ? null : <Button onClick={addItem} variant='outlined' sx={{position: 'absolute', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
             <AddIcon />
           </Button>}
-           */}
-
+          
           {console.log(query)}
-
         </Toolbar>
       </AppBar>
       <Drawer
@@ -184,18 +211,18 @@ const DashboardDrawer = (props) => {
               <ListItemText primary="Clients" />
             </ListItem>
 
-            <ListItem button key="Workouts" onClick={WorkoutOn} >
+            <ListItem button key="Workouts">
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
-              <ListItemText primary="Workouts"/>
+              <ListItemText primary="Workouts" onClick={WorkoutOn} />
             </ListItem>
 
-            <ListItem button key="Exercises" onClick={ExerciseOn} >
+            <ListItem button key="Exercises">
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
-              <ListItemText primary="Exercises"/>
+              <ListItemText primary="Exercises" onClick={ExerciseOn} />
             </ListItem>
 
           </List>
@@ -220,7 +247,9 @@ const DashboardDrawer = (props) => {
         {showClient ? <ClientDisplay trainerID={trainerID} user={user} /> : null}
         {showWorkout ? <WorkoutDisplay query={query} /> : null}
         {showExercise ? <ExerciseDisplay query={query} /> : null}
-        
+//         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
+//         {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
+//         {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null} 
       </Box>
     </Box>
   );
