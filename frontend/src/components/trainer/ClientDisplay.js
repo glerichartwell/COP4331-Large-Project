@@ -85,6 +85,7 @@ const ClientDisplay = props => {
         obj["firstName"] = clients.results[i].firstName;
         obj["middleName"] = clients.results[i].middleName;
         obj["lastName"] = clients.results[i].lastName;
+        obj["email"] = clients.results[i].email;
         obj["height"] = clients.results[i].height;
         obj["weight"] = clients.results[i].weight;
         obj["gender"] = clients.results[i].gender;
