@@ -6,7 +6,7 @@ import {getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndP
 import {useNavigation} from "@react-navigation/core";
 import {SafeAreaView} from "react-native-safe-area-context";
 
-const LoginScreen = () => {
+const LoginScreen = (props) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -22,6 +22,8 @@ const LoginScreen = () => {
     useEffect(() => {
         return onAuthStateChanged(auth, (user) => {
             if (user) {
+                props.setEmail(user.email);
+                /*props.setEmail("iloveprincessbubblegum@gmail.com");*/
                 navigation.navigate("Dashboard");
             }
         });

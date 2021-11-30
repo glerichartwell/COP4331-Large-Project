@@ -8,23 +8,20 @@ import CustomLoading from "../components/CustomLoading";
 
 const WorkoutsScreen = (props) => {
     const auth = getAuth();
-    const [workouts, setWorkouts] = useState(null);
-    const [date, setDate] = useState(new Date());
+    const [workouts, setWorkouts] = useState([]);
+    const [date, setDate] = useState((new Date()).toLocaleDateString());
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
-        loadWorkoutInfo().then(() => setLoaded(true));
+        loadAllWorkoutInfo().then(() => setLoaded(true));
     }, [loaded])
 
-    const loadWorkoutInfo = async () => {
+    const loadAllWorkoutInfo = async () => {
         /*console.log("-----------");
         console.log("Loading workout info");*/
-        let js = JSON.stringify({email: props.email, startDate: date.toISOString()});
-        /*console.log("JSON", js);*/
         await fetch("http://192.168.208.1:5000/api/view-all-workouts",
             {
                 method: "GET",
-                /*body: js,*/
                 headers: {"Content-Type": "application/json"},
             })
             .then(response => response.json())
@@ -48,6 +45,47 @@ const WorkoutsScreen = (props) => {
             })
             .catch(error => console.log("ERROR: " + error))
         /*console.log("-----------");*/
+    }
+
+    const loadWorkoutWeekInfo = async () => {
+        /*console.log("-----------");
+        console.log("Loading workout info");*/
+        let js = JSON.stringify({email: props.email, startDate: (new Date(date)).toISOString()});
+        /*console.log("JSON", js);*/
+        await fetch("http://192.168.208.1:5000/api/view-client-workouts-by-week",
+            {
+                method: "POST",
+                body: js,
+                headers: {"Content-Type": "application/json"},
+            })
+            .then(response => response.json())
+            .then(async (responseJson) => {
+                /*console.log("RESPONSE: ", responseJson);*/
+                let workoutIDArray = responseJson.results;
+                for (let i = 0; i < workoutIDArray.length; i++) {
+                    let js = JSON.stringify({workoutID: workoutIDArray[i].workoutID})
+                    /*console.log(js);*/
+                    await fetch("http://192.168.208.1:5000/api/get-workout",
+                        {
+                            method: "POST",
+                            body: js,
+                            headers: {"Content-Type": "application/json"},
+                        })
+                        .then(response => response.json())
+                        .then((responseJson) => {
+                            /*console.log(responseJson);*/
+                            let newWorkouts = workouts;
+                            let newWorkoutToAdd = responseJson.results[0];
+                            newWorkouts.push(newWorkoutToAdd);
+                            setWorkouts(newWorkouts);
+                            /*console.log("WORKOUTS: ", workouts);*/
+                        })
+                        .catch(error => console.log("ERROR: ", error))
+                }
+            })
+            .catch(error => console.log("ERROR: ", error))
+        /*console.log("out");
+        console.log("-----------");*/
     }
 
     if (loaded) {

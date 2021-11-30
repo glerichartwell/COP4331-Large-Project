@@ -55,6 +55,7 @@ const ProfileScreen = (props) => {
     const handleSignOut = () => {
         signOut(auth)
             .then(() => {
+                console.log("NAVIGATING TO: Login")
                 navigation.navigate("Login");
             })
             .catch(error => console.log(error.message))
@@ -324,7 +325,7 @@ const ProfileScreen = (props) => {
                     mode="contained"
                 >Edit</Button>
                 <Button
-                    onPress={handleSignOut}
+                    onPress={() => handleSignOut()}
                     style={styles.signOutButton}
                     mode="contained"
                 >Sign Out</Button>

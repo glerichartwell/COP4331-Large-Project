@@ -12,6 +12,9 @@ const CustomDatePicker = (props) => {
         setShowDatePicker(Platform.OS === "ios"); // IDK
         props.setDate(currentDate.toLocaleDateString());
         setDateObj(currentDate);
+        if (props.setLoaded != null) {
+            props.setLoaded(false);
+        }
     }
 
     return (

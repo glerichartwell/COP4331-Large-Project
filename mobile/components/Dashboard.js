@@ -6,22 +6,21 @@ import HealthWellnessScreen from "../screens/HealthWellnessScreen";
 import theme from '../custom-properties/Themes';
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import {getAuth, onAuthStateChanged} from "firebase/auth";
+import {getAuth} from "firebase/auth";
 import {StyleSheet, View} from "react-native";
-import CustomLoading from "./CustomLoading";
 
 const Tab = createMaterialBottomTabNavigator();
 
-const Dashboard = () => {
+const Dashboard = (props) => {
     const auth = getAuth();
-    const [email, setEmail] = useState("");
+    /*const [email, setEmail] = useState("");
 
     useEffect(() => {
         let user = auth.currentUser;
-        /*setEmail(user.email);*/
+        /!*setEmail(user.email);*!/
         setEmail("iloveprincessbubblegum@gmail.com");
-        /*console.log("Setting email");*/
-    }, [email])
+        /!*console.log("Setting email");*!/
+    }, [email])*/
 
     return (
         <Tab.Navigator
@@ -31,7 +30,7 @@ const Dashboard = () => {
             <Tab.Screen
                 name="Profile"
                 /*component={ProfileScreen}*/
-                children={() => <ProfileScreen email={email}/>}
+                children={() => <ProfileScreen email={props.email}/>}
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({color}) => (
@@ -42,7 +41,7 @@ const Dashboard = () => {
             <Tab.Screen
                 name="Daily Goals"
                 /*component={DailyGoalsScreen}*/
-                children={() => <DailyGoalsScreen email={email}/>}
+                children={() => <DailyGoalsScreen email={props.email}/>}
                 options={{
                     tabBarLabel: 'Daily Goals',
                     title: 'Daily Goals',
@@ -54,7 +53,7 @@ const Dashboard = () => {
             <Tab.Screen
                 name="Workouts"
                 /*component={WorkoutsScreen}*/
-                children={() => <WorkoutsScreen email={email}/>}
+                children={() => <WorkoutsScreen email={props.email}/>}
                 options={{
                     tabBarLabel: 'Workouts',
                     tabBarIcon: ({color}) => (
@@ -64,7 +63,8 @@ const Dashboard = () => {
             />
             <Tab.Screen
                 name="Health"
-                component={HealthWellnessScreen}
+                /*component={HealthWellnessScreen}*/
+                children={() => <HealthWellnessScreen email={props.email}/>}
                 options={{
                     tabBarLabel: 'H & W',
                     tabBarIcon: ({color}) => (
@@ -79,6 +79,7 @@ const Dashboard = () => {
 const styles = StyleSheet.create({
     tab: {
         backgroundColor: theme.colors.purple,
+        marginTop: 0,
     },
 });
 
