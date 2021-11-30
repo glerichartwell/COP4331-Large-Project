@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Image, StyleSheet, TouchableOpacity} from "react-native";
+import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {Card, Text, Paragraph, Button, List, Portal, Dialog} from "react-native-paper";
 
 
@@ -14,9 +14,9 @@ const WorkoutCard = (props) => {
 
     const loadExercise = async (exerciseID) => {
         let js = JSON.stringify({exerciseID: exerciseID});
-        console.log("-----------");
+        /*console.log("-----------");
         console.log("Loading exercise ", exerciseID);
-        console.log("JSON", js);
+        console.log("JSON", js);*/
         await fetch("http://192.168.208.1:5000/api/get-exercise",
             {
                 method: "POST",
@@ -25,8 +25,8 @@ const WorkoutCard = (props) => {
             })
             .then(response => response.json())
             .then((responseJson) => {
-                console.log("RESPONSE: ", responseJson);
-                /*setExercise(responseJson.results[0]);*/
+                /*console.log("RESPONSE: ", responseJson);
+                setExercise(responseJson.results[0]);*/
                 let exerciseData = responseJson.results[0];
                 setExerciseName(exerciseData.name);
                 setExerciseSets(exerciseData.sets);
@@ -34,9 +34,9 @@ const WorkoutCard = (props) => {
                 setExerciseTime(exerciseData.time);
                 setExerciseWeight(exerciseData.weight);
                 setExerciseRest(exerciseData.rest);
-                console.log("Done loading exercise");
+                /*console.log("Done loading exercise");*/
                 displayExerciseModal();
-                console.log("-----------");
+                /*console.log("-----------");*/
             })
             .catch(error => console.log("ERROR: " + error))
     }
@@ -45,31 +45,61 @@ const WorkoutCard = (props) => {
         setShowExercise(true);
     }
 
+    const hideExerciseModal = () => {
+        setExerciseName(null);
+        setExerciseSets(null);
+        setExerciseReps(null);
+        setExerciseTime(null);
+        setExerciseWeight(null);
+        setExerciseRest(null);
+        setShowExercise(false);
+    }
+
     return (
-        <React.Fragment>
+        <View>
             <Portal>
                 <Dialog
                     visible={showExercise}
-                    onDismiss={() => setShowExercise(false)}
+                    onDismiss={hideExerciseModal}
                 >
                     <Dialog.Title>{exerciseName}</Dialog.Title>
                     <Dialog.Content>
-                        <Text>Sets: {exerciseSets}</Text>
-                        <Text>Reps: {exerciseReps}</Text>
-                        <Text>Estimated Time: {exerciseTime} seconds</Text>
-                        <Text>Weight: {exerciseWeight} lb(s)</Text>
-                        <Text>Resting Period: {exerciseRest} seconds</Text>
+                        <Text
+                            style={styles.exerciseText}
+                        >Sets: {exerciseSets}</Text>
+                        <Text
+                            style={styles.exerciseText}
+                        >Reps: {exerciseReps}</Text>
+                        <Text
+                            style={styles.exerciseText}
+                        >Estimated Time: {exerciseTime} second(s)</Text>
+                        <Text
+                            style={styles.exerciseText}
+                        >Weight: {exerciseWeight} lb(s)</Text>
+                        <Text
+                            style={styles.exerciseText}
+                        >Resting Period: {exerciseRest} second(s)</Text>
                     </Dialog.Content>
+                    <Dialog.Actions
+                        style={styles.exerciseHideButtonArea}
+                    >
+                        <Button
+                            onPress={hideExerciseModal}
+                            style={styles.exerciseHideButton}
+                        >Hide</Button>
+                    </Dialog.Actions>
                 </Dialog>
             </Portal>
-            <Card>
+            <Card
+                style={styles.card}
+            >
                 <Card.Title
                     title={props.name}
-                    subtitle={"Date: " + props.date}
+                    subtitle={"Date: " + (new Date(props.date)).toLocaleDateString()}
                 />
                 <Card.Content>
                     <Text>
-                        Estimated Time to Complete: {props.timeToComplete} minutes
+                        Estimated Time to Complete: {props.timeToComplete} minute(s)
                     </Text>
                     <Text>
                         Comment: {props.comment}
@@ -89,10 +119,23 @@ const WorkoutCard = (props) => {
                         </List.Accordion>
                 </Card.Content>
             </Card>
-        </React.Fragment>
+        </View>
     );
 };
 
 export default WorkoutCard;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    card: {
+        margin: 10,
+    },
+    exerciseText: {
+        fontSize: 16
+    },
+    exerciseHideButtonArea: {
+        alignSelf: "center",
+    },
+    exerciseHideButton: {
+        width: "100%",
+    },
+});
