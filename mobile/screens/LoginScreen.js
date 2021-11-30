@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {ImageBackground, StyleSheet, Text} from 'react-native';
-import {Button, HelperText, Modal, Portal, Subheading, Surface, TextInput, Title} from 'react-native-paper';
+import {Button, Dialog, HelperText, Modal, Portal, Subheading, Surface, TextInput, Title} from 'react-native-paper';
 import theme from '../custom-properties/Themes';
 import {getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import {useNavigation} from "@react-navigation/core";
@@ -113,39 +113,55 @@ const LoginScreen = (props) => {
     return (
         <ImageBackground source={require('../assets/images/palette_max.jpg')} style={styles.backgroundImage}>
             <Portal>
-                <Modal
+                <Dialog
                     visible={forgotPassword}
-                    onDismiss={() => hidePasswordModal()}
+                    onDismiss={hidePasswordModal}
                     contentContainerStyle={styles.forgotPasswordPopUp}
                 >
-                    <Title style={styles.forgotPasswordTitle}>
+                    <Dialog.Title style={styles.forgotPasswordTitle}>
                         Forgot password?
-                    </Title>
-                    <TextInput
-                        style={styles.textInput}
-                        mode="outlined"
-                        label="Email"
-                        /*right={<TextInput.Icon name="check" />}*/
+                    </Dialog.Title>
+                    <Dialog.Content>
+                        <TextInput
+                            /*style={styles.textInput}*/
+                            mode="outlined"
+                            label="Email"
+                            /*right={<TextInput.Icon name="check" />}*/
 
-                        value={forgotEmail}
-                        onChangeText={text => setForgotEmail(text)}
-                        error={invalidForgot}
-                    />
-                    <Text styles={styles.forgotPasswordPopUpText}>
-                        Enter the email associated with your account and we'll send you a reset password link!
-                    </Text>
-                    <HelperText
-                        type="error"
-                        style={styles.invalidText}
-                        visible={invalidForgot}>
-                        Invalid Email.
-                    </HelperText>
-                    <Button mode="contained" style={styles.submitButton} onPress={() => {
-                        handleForgotPassword()
-                    }}>
-                        Submit
-                    </Button>
-                </Modal>
+                            value={forgotEmail}
+                            onChangeText={text => setForgotEmail(text)}
+                            error={invalidForgot}
+                        />
+                        <HelperText
+                            type="error"
+                            style={styles.invalidText}
+                            visible={invalidForgot}
+                        >
+                            Invalid Email.
+                        </HelperText>
+                        <Text styles={styles.forgotPasswordPopUpText}>
+                            Enter the email associated with your account and we'll send you a reset password link!
+                        </Text>
+                    </Dialog.Content>
+                    <Dialog.Actions
+                        style={styles.forgotPasswordPopUpActionsArea}
+                    >
+                        <Button
+                            mode="contained"
+                            style={styles.forgotCancelButton}
+                            onPress={hidePasswordModal}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            mode="contained"
+                            style={styles.forgotSubmitButton}
+                            onPress={handleForgotPassword}
+                        >
+                            Submit
+                        </Button>
+                    </Dialog.Actions>
+                </Dialog>
             </Portal>
             <Title style={styles.title1}>Hello again!</Title>
             <Title style={styles.title2}>Welcome back</Title>
@@ -179,9 +195,11 @@ const LoginScreen = (props) => {
                 >
                     Invalid Email/Password.
                 </HelperText>
-                <Button mode="contained" style={styles.submitButton} onPress={() => {
-                    handleLogin()
-                }}>
+                <Button
+                    mode="contained"
+                    style={styles.submitButton}
+                    onPress={handleLogin}
+                >
                     Submit
                 </Button>
                 <Text
@@ -214,11 +232,21 @@ const styles = StyleSheet.create({
             margin: 30,
             padding: 20,
         },
+        forgotPasswordPopUpActionsArea: {},
         forgotPasswordTitle: {
             marginBottom: 20
         },
         forgotPasswordPopUpText: {},
         bottom: {},
+        forgotCancelButton: {
+            borderRadius: 10,
+            backgroundColor: theme.colors.red,
+            marginHorizontal: 20,
+        },
+        forgotSubmitButton: {
+            borderRadius: 10,
+            backgroundColor: theme.colors.lightBlue,
+        },
         title1: {
             paddingTop: 100,
             marginLeft: 20,

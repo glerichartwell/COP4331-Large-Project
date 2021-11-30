@@ -30,7 +30,7 @@ const Dashboard = (props) => {
             <Tab.Screen
                 name="Profile"
                 /*component={ProfileScreen}*/
-                children={() => <ProfileScreen email={props.email}/>}
+                children={() => <ProfileScreen email={props.email} setEmail={props.setEmail}/>}
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({color}) => (

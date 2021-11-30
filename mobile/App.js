@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
     LogBox.ignoreAllLogs(true);
 
-    const [email, setEmail] = useState(null);
+    const [email, setEmail] = useState("");
 
     return (
         <NavigationContainer>
@@ -31,7 +31,7 @@ export default function App() {
                         name="Dashboard"
                         options={{headerShown: false}}
                         /*component={Dashboard}*/
-                        children={() => <Dashboard email={email}/>}
+                        children={() => <Dashboard email={email} setEmail={setEmail}/>}
                     />
                 </Stack.Navigator>
             </PaperProvider>

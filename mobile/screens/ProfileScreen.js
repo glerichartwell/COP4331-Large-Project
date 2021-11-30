@@ -55,7 +55,8 @@ const ProfileScreen = (props) => {
     const handleSignOut = () => {
         signOut(auth)
             .then(() => {
-                console.log("NAVIGATING TO: Login")
+                /*console.log("NAVIGATING TO: Login");*/
+                props.setEmail("");
                 navigation.navigate("Login");
             })
             .catch(error => console.log(error.message))
