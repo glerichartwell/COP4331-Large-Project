@@ -30,11 +30,11 @@ const ProfileScreen = (props) => {
     }, [loaded])
 
     const loadClientInfo = () => {
-        /*console.log("-----------");
+        console.log("-----------");
         console.log("Loading client info");
-        console.log("EMAIL:" + props.email);*/
+        console.log("EMAIL:" + props.email);
         let js = JSON.stringify({search: props.email});
-        fetch("http://192.168.208.1:5000/api/search-client",
+        fetch("http://10.32.156.125:5000/api/search-client",
             {
                 method: "POST",
                 body: js,
@@ -170,7 +170,7 @@ const ProfileScreen = (props) => {
         let js = JSON.stringify(obj);
         console.log(js);
 
-        fetch("http://192.168.208.1:5000/api/edit-client",
+        fetch("http://10.32.156.125:5000/api/edit-client",
             {
                 method: "PATCH",
                 body: js,
