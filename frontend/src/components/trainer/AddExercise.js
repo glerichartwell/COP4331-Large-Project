@@ -11,6 +11,7 @@ import {
   Button,
   Grid,
   TextField,
+  InputAdornment
 } from "@mui/material";
 
 const AddExercise = (props) => {
@@ -24,6 +25,7 @@ const AddExercise = (props) => {
   const [weight, setWeight] = useState();
   const [rest, setRest] = useState();
   const [statButton, setStatButton] = useState(true);
+  const [description, setDescription] = useState();
 
   const navigate = useNavigate();
   //workoutID, exerciseName, sets, reps, time, weight, rest
@@ -82,7 +84,7 @@ const AddExercise = (props) => {
   };
 
   useEffect(() => {
-    if (exerciseName && sets && reps && time && weight && rest) {
+    if (exerciseName && sets && (reps || time || description) && weight && rest) {
       setStatButton(false);
     }else {
       setStatButton(true);
@@ -114,8 +116,8 @@ const AddExercise = (props) => {
             {/* workoutID, name, sets, reps, time, weight, rest  */}
 
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
+              type="text"
               placeholder="Name of Exercise"
               value={exerciseName}
               onChange={(e) => {
@@ -125,8 +127,7 @@ const AddExercise = (props) => {
               variant="standard"
             />
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
               type="number"
               placeholder="Sets"
               value={sets}
@@ -137,8 +138,7 @@ const AddExercise = (props) => {
               variant="standard"
             />
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
               type="number"
               placeholder="Reps"
               value={reps}
@@ -149,37 +149,50 @@ const AddExercise = (props) => {
               variant="standard"
             />
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
               type="number"
-              placeholder="Time to Complete"
+              placeholder="Duration"
               value={time}
               onChange={(e) => {
                 setTime(e.target.value);
               }}
+              InputProps={{endAdornment: <InputAdornment position="end">seconds</InputAdornment>}}
               size="large"
               variant="standard"
             />
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
               type="number"
               placeholder="Weight"
               value={weight}
               onChange={(e) => {
                 setWeight(e.target.value);
               }}
+              InputProps={{endAdornment: <InputAdornment position="end">lbs</InputAdornment>}}
               size="large"
               variant="standard"
             />
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
               type="number"
               placeholder="Rest"
               value={rest}
               onChange={(e) => {
                 setRest(e.target.value);
+              }}
+              InputProps={{endAdornment: <InputAdornment position="end">seconds</InputAdornment>}}
+              size="large"
+              variant="standard"
+            />
+            <TextField
+              sx={{ width: "80%", margin: "5px" }}
+              type="textarea"
+              multiline
+              rows={3}
+              placeholder="Description"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
               }}
               size="large"
               variant="standard"

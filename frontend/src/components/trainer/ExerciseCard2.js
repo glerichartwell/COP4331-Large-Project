@@ -8,7 +8,7 @@ import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
-import { Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -60,6 +60,8 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo, deleteCar
   info.time = dbInfo.time;
   info.weight = dbInfo.weight;
   info.rest = dbInfo.rest;
+  info.description = dbInfo.description;
+  console.log("Incoming: ", dbInfo)
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -90,12 +92,49 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo, deleteCar
     setAnchorEl(false);
   }
 
+  const displayRepsDuration = () => {
+    if (info.reps > 0)
+    {
+      return (
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '0'}}>
+          Reps: {info.reps}
+        </Typography>
+      )
+    }
+    if (parseInt(info.time) > 0)
+    {
+      return (
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '0'}}>
+          Duration: {info.time} second(s)
+        </Typography>
+      )
+    }
+  }
+
+  const displayDescription = () => {
+    if (info.description)
+    {
+      return (
+        <Typography>
+          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginTop: '20px', fontSize: 16}}>
+            Description
+          </Typography>
+          <Divider sx={{marginTop: '10px', marginBottom: '15px'}}/>
+          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', }}>
+          {info.description}
+          </Typography>
+        </Typography>
+      )
+    }
+  }
+
+
   const openPopoverMenu = Boolean(anchorEl);
   // const id = openPopoverMenu ? "simple-popover" : undefined;
 
 
   return (
-    <Card sx={{overflow: 'inherit', height: '15%', maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
+    <Card sx={{overflow: 'inherit', maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
       <CardHeader
         action={
           <IconButton aria-label="settings" onClick={handleClickii}>
@@ -103,7 +142,7 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo, deleteCar
           </IconButton>
         }
         title={info.name}
-        sx={{marginTop: '15px', marginBottom: '0px'}}
+        sx={{marginBottom: '-15px'}}
       />
       <Popover
         id="simple-popover" 
@@ -139,17 +178,20 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo, deleteCar
         </List>
       </Popover>
       <CardContent>
-        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '5vh'}}>
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '0'}}>
           Sets: {info.sets}
-          <br />
-          Reps: {info.reps}
-          <br />
-          Estimated Time: {info.time} seconds;
-          <br />
-          Weight: {info.weight} lb(s)
-          <br />
-          Resting Period: {info.rest} seconds;
         </Typography>
+        {displayRepsDuration()}
+        {() => {
+          
+        }}
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '0'}}>
+          Weight: {info.weight} lb(s)
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '0'}}>
+          Rest: {info.rest} second(s)
+        </Typography>
+        {displayDescription()}
       </CardContent>
     </Card>
   );

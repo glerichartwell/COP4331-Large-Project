@@ -212,11 +212,11 @@ const ClientDisplay = props => {
 
     const address = "http://localhost:5000/api/delete-client";
 
-    var obj1 = { id: info.id  };
+    var obj1 = { email: info.email  };
     var js = JSON.stringify(obj1);
-    console.log(info.id)
 
     try {
+
       const response = await fetch(
       address,
        {
@@ -290,7 +290,8 @@ const ClientDisplay = props => {
 
   const deleteCard = (info) => {
     // pass information from relavent card to editbox
-    if(window.confirm("Are you sure you would like to permanently delete " + info.name + "?")){
+    console.log(info)
+    if(window.confirm("Are you sure you would like to permanently delete " + info.firstName + " " + info.lastName + "?")){
       deleteClient(info);
     }
     // alert("Are you sure you would like to delete " + info.name + "?");

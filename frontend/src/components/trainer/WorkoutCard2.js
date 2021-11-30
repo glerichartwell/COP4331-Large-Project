@@ -23,6 +23,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Popover from "@mui/material/Popover";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import AddIcon from "@mui/icons-material/Add";
+import { Divider } from "@mui/material";
+import formatDate from "../../utils/formatDate";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -104,7 +106,7 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
   info.clientID = dbInfo.clientID;
   info.trainerEmail = dbInfo.trainerEmail;
   info.exercises = dbInfo.exercises;
-  info.date = dbInfo.date;
+  info.date = formatDate(dbInfo.date);
   info.numExercises = dbInfo.exercises.length;
   info.timeToComplete = dbInfo.timeToComplete;
   info.comment = dbInfo.comment;
@@ -167,13 +169,7 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
       <CardContent>
         <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
           <Typography variant="body2" color="text.secondary" sx={{marginBottom: '15px'}}>
-            Estimated Time to Complete: {info.timeToComplete} minutes
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{marginTop: '15px'}}>
-            Comment:
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {info.comment}
+            Workout Length: {info.timeToComplete} minutes
           </Typography>
           <List
             sx={{marginLeft: '-18px'}}
@@ -181,7 +177,7 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
             aria-labelledby="nested-list-subheader"
             sx={{background: '#e9e3ee', marginLeft: '-20px', width: '75%', marginBottom: '-24px'}}
             >
-            <ListItemButton onClick={handleClick} sx={{marginRight: '-45px', marginBottom: '-10px'}}>
+            <ListItemButton onClick={handleClick} sx={{marginRight: '-30%', marginBottom: '-10px'}}>
               <ListItemText primary="Exercise List" sx={{background: '#e9e3ee'}}/>
               <div style={{marginRight: '-45px', marginBottom: '-5px'}}>{open ? <ExpandLess /> : <ExpandMoreIcon />}</div>
             </ListItemButton>
@@ -195,6 +191,13 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
                     {exercise.name}
                   </ListItem>
                 ))}
+                <ListItem sx={{width : '150%'}}>
+                <Typography variant="body2" color="text.secondary" sx={{width : '100%', marginTop: '15px'}}>
+                  <span style={{fontSize: 16}}>Comment</span>
+                  <Divider sx={{marginTop: '1%', marginBottom: '4%'}}/>
+                  {info.comment}
+                </Typography>
+                </ListItem>
               </List>
             </Collapse>
           </List>

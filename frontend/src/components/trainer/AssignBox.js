@@ -11,6 +11,10 @@ import { DatePicker } from "@mui/lab";
 import { LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { getAuth } from "@firebase/auth";
+import { createTheme } from '@material-ui/core/styles'
+import { ThemeProvider } from "@material-ui/core/styles";
+import { green } from "@mui/material/colors";
+
 
 
 const AssignBox = ({info, closeAssignBox}) => {
@@ -19,7 +23,7 @@ const AssignBox = ({info, closeAssignBox}) => {
     const [chosenClient, setChosenClient] = useState(null)
     const [client, setClient] = useState();
     const [dateType, setDateType] = useState("text")
-    const [date, setDate] = useState()
+    const [date, setDate] = useState(new Date())
 
     const [assignError, setAssignError] = useState("")
 
@@ -147,6 +151,17 @@ const AssignBox = ({info, closeAssignBox}) => {
         width: '330px'
       }
 
+    const customTheme = createTheme({
+      palette: {
+        primary: {
+          main: green[500],
+        },
+        secondary: {
+          main: '#e4ccf8',
+        },
+      },
+    })
+
     return (
         <Dialog open={open} fullWidth={true} maxWidth='xs' onBackdropClick={handleClose}>
           <DialogTitle textAlign='center'sx={{marginTop: '10px', marginBottom: '-20px'}}>Assign Workout: {info.name}</DialogTitle>
@@ -155,14 +170,16 @@ const AssignBox = ({info, closeAssignBox}) => {
                 <Grid item>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
+                        className='date-picker'
                         label="Date"
                         value={date}
+                        allowSameDateSelection={true}
                         onChange={(newValue) => {
                             setDate(newValue);
                             console.log("date: ", date);
                             console.log("newValue: ", newValue)
                           }}
-                        renderInput={(params) => <TextField {...params} sx={{width: '330px', margin:'8px'}}/>}
+                        renderInput={(params) => <TextField {...params} variant="standard" sx={{width: '330px', margin:'8px'}}/>}
                         
                     />
                 </LocalizationProvider>
@@ -173,7 +190,7 @@ const AssignBox = ({info, closeAssignBox}) => {
                         options={clients}
                         isOptionEqualToValue={(option, value) => {return (option.name === value.name)}}
                         onChange={(e, value) => {setChosenClient(value)}}
-                        renderInput={(params) => <TextField {...params} label="Clients" />}
+                        renderInput={(params) => <TextField {...params} variant="standard" label="Clients" />}
                         sx={{ width: '330px', margin:'8px'}}
                         />
                         <div style={{textAlign: 'center', marginTop: '30px', color: 'purple'}}>{assignError}</div>

@@ -204,21 +204,21 @@ const DashboardDrawer = (props) => {
         <Box sx={{ overflow: "auto" }}>
           <List>
             {/* Buttons on the drawer to change displays */}
-            <ListItem button key="Clients" onClick={ClientOn} className="items">
+            <ListItem button key="Clients" onClick={ClientOn} className="items" sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary="Clients" />
             </ListItem>
 
-            <ListItem button key="Workouts">
+            <ListItem button key="Workouts" sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
               <ListItemText primary="Workouts" onClick={WorkoutOn} />
             </ListItem>
 
-            <ListItem button key="Exercises">
+            <ListItem button key="Exercises" sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>

@@ -15,6 +15,9 @@ import {
   TextField,
 } from "@mui/material";
 import { InputAdornment } from "@mui/material";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { LocalizationProvider } from "@mui/lab";
+import { DesktopDatePicker } from "@mui/lab";
 
 const AddWorkout = (props) => {
   const [open, setOpen] = useState(true);
@@ -206,18 +209,29 @@ const AddWorkout = (props) => {
           <Grid container direction='row'>
           <Grid container direction='column' sm={6}>
             <Grid item>
-                <TextField placeholder={name} label="Name of workout" sx={{ width: '90%', margin:'8px', marginBottom: '3px'}} onChange={e => {setName(e.target.value)}}/>
+                <TextField placeholder={name} variant='standard' label="Name of workout" sx={{ paddingBottom: "10px", width: '90%', margin:'8px', marginBottom: '3px'}} onChange={e => {setName(e.target.value)}}/>
               </Grid>
               <Grid item>
-                <TextField type="date" placeholder={date} sx={{ width: '90%', margin:'8px'}} onChange={e => {setDate(e.target.value)}}/>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                        label="Date"
+                        value={date}
+                        allowSameDateSelection={true}
+                        onChange={(newValue) => {
+                            setDate(newValue);
+                          }}
+                        renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '90%', margin:'8px'}}/>}
+                        
+                    />
+                </LocalizationProvider>
               </Grid>
               <Grid item>
-                <TextField type="number" placeholder={timeToComplete} label='Estimated Time to Complete' sx={{ width: '90%', margin:'8px'}} onChange={e => {setTimeToComplete(e.target.value)}}
+                <TextField type="number" variant='standard' placeholder={timeToComplete} label='Estimated Time to Complete' sx={{ width: '90%', margin:'8px'}} onChange={e => {setTimeToComplete(e.target.value)}}
                             InputProps={{endAdornment: <InputAdornment position="start">minutes</InputAdornment>,}}
                 />
               </Grid>
               <Grid item>
-                <TextField type='textarea' multiline rows={3} value={comment} label="Comments" sx={{ width: '90%', margin:'8px'}} onChange={e => {setComment(e.target.value)}}/>
+                <TextField type='textarea' variant='standard' multiline rows={3} value={comment} label="Comments" sx={{ width: '90%', margin:'8px'}} onChange={e => {setComment(e.target.value)}}/>
             </Grid>
           </Grid>
           <Grid container direction='column' sm={6}>
@@ -229,7 +243,7 @@ const AddWorkout = (props) => {
                     options={exercises}
                     getOptionLabel={(option) => {return option.label}}
                     onChange={(e, value) => {console.log("subset: ", value); setExercise(value)}}
-                    renderInput={(params) => <TextField {...params} label="Exercises" />}
+                    renderInput={(params) => <TextField {...params} variant='standard' label="Exercises" />}
                     sx={{ width: '330px', margin:'8px', marginLeft: '30px', marginBottom: '-15px'}}
                     />
                     <div style={{textAlign: 'center', marginTop: '15px', color: 'purple'}}>{addError}</div>

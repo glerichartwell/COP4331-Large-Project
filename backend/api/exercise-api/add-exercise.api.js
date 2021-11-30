@@ -11,7 +11,7 @@ router.post("/api/add-exercise", async (req, res) => {
   // outgoing: success or error
 
   var error = "";
-  const { name, sets, reps, time, weight, rest } = req.body;
+  const { name, sets, reps, time, weight, rest, description } = req.body;
 
   try {
     const db = client.db();
@@ -22,6 +22,7 @@ router.post("/api/add-exercise", async (req, res) => {
       time: time,
       weight: weight,
       rest: rest,
+      description: description,
     };
 
     db.collection("Exercises").insertOne(newExercise);

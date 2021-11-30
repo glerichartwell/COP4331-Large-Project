@@ -12,7 +12,7 @@ router.patch("/api/edit-exercise", async (req, res) => {
   // outgoing: success or error
 
   var error = "";
-  const { id, name, sets, reps, time, weight, height, rest } = req.body;
+  const { id, name, sets, reps, time, weight, height, rest, description } = req.body;
 
   try {
     const db = client.db();
@@ -73,6 +73,13 @@ router.patch("/api/edit-exercise", async (req, res) => {
         db.collection(collectionName).updateOne(
           { _id: ObjectId(id) },
           { $set: { rest: rest } }
+        );
+      }
+
+      if (description) {
+        db.collection(collectionName).updateOne(
+          { _id: ObjectId(id) },
+          { $set: { description: description } }
         );
       }
     } else {

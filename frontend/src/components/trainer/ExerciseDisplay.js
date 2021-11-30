@@ -104,16 +104,18 @@ const ExerciseDisplay = () => {
       const numexercises = exercises.results.length;
 
       for (var i = 0; i < numexercises; i++) {
-
-        var obj = new Object();
-        obj["cardNumber"] = i;
-        obj["id"] = exercises.results[i]._id;
-        obj["name"] = exercises.results[i].name;
-        obj["sets"] = exercises.results[i].sets;
-        obj["reps"] = exercises.results[i].reps;
-        obj["time"] = exercises.results[i].time;
-        obj["weight"] = exercises.results[i].weight;
-        obj["rest"] = exercises.results[i].rest;
+        
+        var obj = {
+          cardNumber: i,
+          id: exercises.results[i]._id,
+          name: exercises.results[i].name,
+          sets: exercises.results[i].sets,
+          reps: exercises.results[i].reps,
+          time: exercises.results[i].time,
+          weight: exercises.results[i].weight,
+          rest: exercises.results[i].rest,
+          description: exercises.results[i].description,
+        }
         objects.push(obj);
       }
       //can access numexercises from trainer database
