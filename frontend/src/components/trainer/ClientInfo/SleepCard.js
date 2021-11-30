@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import TextField from "@mui/material/TextField";
+import StaticDatePicker from "@mui/lab/StaticDatePicker";
 
 const bull = (
   <Box
@@ -104,10 +105,16 @@ export default function BasicCard() {
           <Grid item xs>
             <br />
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DesktopDatePicker
-                label="Custom input"
+              <StaticDatePicker
+                orientation="landscape"
+                openTo="day"
                 value={value}
-                onChange={handleChange}
+                onChange={(newValue) => {
+                  setValue(newValue);
+                }}
+                renderInput={() => {
+                  return null;
+                }}
               />
             </LocalizationProvider>
           </Grid>
