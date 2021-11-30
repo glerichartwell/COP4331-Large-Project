@@ -1,4 +1,4 @@
-// view-client-workouts-by-week.api.js - View Client Workouts Endpoint
+// view-client-workouts-by-date-range.api.js - View Client Workouts By Date Range Endpoint
 
 // setting up middleware
 require("dotenv").config();
@@ -6,13 +6,13 @@ const express = require("express");
 const client = require("../../db");
 const router = express.Router();
 
-router.post("/api/view-client-workouts-by-week", async (req, res) => {
-  // incoming: client's email (required), startDate (ISOString)
+router.post("/api/view-client-workouts-by-date-range", async (req, res) => {
+  // incoming: client's email (required), startDate (ISOString), endDate (ISOString)
   // outgoing: clients or error
 
   var error = "";
   var weeklyWorkouts = [];
-  const { email, startDate } = req.body;
+  const { email, startDate, endDate } = req.body;
 
   try {
     const db = client.db();
@@ -22,12 +22,6 @@ router.post("/api/view-client-workouts-by-week", async (req, res) => {
       .find({ email: email.toLowerCase() })
       .toArray();
 
-    // receive iso startDate string and get date range
-    var getDateBounds = new Date(startDate);
-    console.log(getDateBounds.toISOString());
-    var endDate = getDateBounds.setDate(getDateBounds.getDate() + 6);
-    endDate = new Date(endDate).toISOString();
-    console.log(endDate);
 
     if (clients && clients.length == 0) {
       error = "No clients";
