@@ -82,3 +82,7 @@
 .items:active {
   color: blue;
 }
+
+.decoy {
+  color: #12da00;
+}
