@@ -40,7 +40,7 @@ const concatdate = sumtext + date;
 const rating = "3";
 const comment =
   "Y'know the crab walking really isn't working out for me. When I first did it, I noticed my skin got harder. The more I did it, the more I was stuck walking like a crab and then...";
-const exercises = ["Crabwalking ", "Squats ", "Crunches ", "E-mail "];
+const exercises = [];//"Crabwalking ", "Squats ", "Crunches ", "E-mail "];
 const time = "20";
 // Changing the number of exercises here increases the count of how many will be displayed
 const numExercises = 4;

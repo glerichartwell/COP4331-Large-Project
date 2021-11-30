@@ -215,8 +215,10 @@ const Register = props => {
   }, [password, confirmPassword]); 
   
   const paperBasicInfoStyle = {
-    marginBottom: '100px', 
-    marginTop: '70px', 
+    position: 'relative',
+    marginBottom: '10vh', 
+    marginTop: '20vh',
+    alignSelf: 'center',
     height: '550px', 
     width: '400px',
   }
@@ -295,6 +297,7 @@ const Register = props => {
               <TextField sx={sxBasicTextField} id='gender' type='text' placeholder="Preferred Gender" value={gender} onChange={e => {setGender(e.target.value)}} size="large" variant='standard'/>
               <TextField sx={sxBasicTextField} id='phone' type='text' placeholder="Phone Number" value={phone} onChange={handlePhoneChange} size="large" variant='standard'/>
               <TextField sx={sxBasicTextField} id='birthday' type={bdayType} placeholder="Birthday" value={birthday} onBlur={() => setBdayType('text')} onFocus={() => setBdayType('date')} onChange={e => {setBirthday(e.target.value)}} size="large" variant='standard'/>
+              {console.log(birthday)}
               <TextField sx={sxBasicTextField} id='city' type='text' placeholder="City" value={city} onChange={e => {setCity(e.target.value)}} size="large" variant='standard'/>
               <Button sx={sxButton} disabled={disableRegisterButton} variant='contained' onClick={registerClient}>Register</Button>
             </Paper>

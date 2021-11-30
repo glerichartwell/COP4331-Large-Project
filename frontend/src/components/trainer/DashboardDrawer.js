@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import "./css/Dashboard.css";
+import "./css/DashboardDrawer.css";
 import ClientDisplay from "./ClientDisplay";
 import ExerciseDisplay from "./ExerciseDisplay";
 import WorkoutDisplay from "./WorkoutDisplay";
 import AddClient from "./AddClient";
 import SearchBar from "../reuseable/SearchBar";
+import AddExercise from "./AddExercise";
+import AddWorkout from "./AddWorkout";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-
+import SearchIcon from '@mui/icons-material/Search';
 import {
   AppBar,
   CssBaseline,
@@ -23,7 +25,8 @@ import {
   Toolbar,
   Typography,
   Button,
-  Grid,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import AddIcon from "@mui/icons-material/Add";
@@ -33,7 +36,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import { getAuth, signOut } from "@firebase/auth";
+import { getAuth, signOut, onAuthStateChanged } from "@firebase/auth";
 
 const DashboardDrawer = (props) => {
   const navigate = useNavigate();
@@ -41,6 +44,12 @@ const DashboardDrawer = (props) => {
   const [showWorkout, setShowWorkout] = useState(false);
   const [showExercise, setShowExercise] = useState(false);
   const [showAddClient, setShowAddClient] = useState(false);
+  const [showAddExercise, setShowAddExercise] = useState(false);
+  const [showAddWorkout, setShowAddWorkout] = useState(false);
+  const [searchClient, setSearchClient] = useState(false);
+  const [searchWorkout, setSearchWorkout] = useState(false);
+  const [searchExercise, setSearchExercise] = useState(false);
+  const [hideAdd, setHideAdd] = useState(true);
 
   // const handleDrawerOpen = () => {
   //   setOpen(true);
@@ -49,7 +58,24 @@ const DashboardDrawer = (props) => {
   // const handleDrawerClose = () => {
   //   setOpen(false);
   // };
+
+  useEffect(() => {
+    
+  })
+
   const auth = getAuth();
+  const user = auth.currentUser;
+  const trainerID = "g.erichartwell@gmail.com";
+  if (user !== null)
+  {
+    console.log(user)
+  }
+  else
+  {
+    console.log("Where's the chapstick?")
+  }
+
+
   const logout = () => {
     signOut(auth);
     navigate(`/`);
@@ -61,34 +87,79 @@ const DashboardDrawer = (props) => {
   const closeAddClient = () => {
     setShowAddClient(false);
   };
+  const openAddExercise = () => {
+    setShowAddExercise(true);
+  };
+  const closeAddExercise = () => {
+    setShowAddExercise(false);
+  };  
+  const openAddWorkout = () => {
+    setShowAddWorkout(true);
+  };
+  const closeAddWorkout = () => {
+    setShowAddWorkout(false);
+  };
+
 
   const ClientOn = () => {
-    setShowClient(true);
     setShowWorkout(false);
     setShowExercise(false);
+    setSearchWorkout(false);
+    setSearchExercise(false);
+    setHideAdd(false);
+    
+    setSearchClient(true);
+    setShowClient(true);
   };
 
   const WorkoutOn = () => {
     setShowClient(false);
-    setShowWorkout(true);
     setShowExercise(false);
+    setSearchExercise(false);
+    setSearchClient(false);
+    setHideAdd(false);
+    
+    setShowWorkout(true);
+    setSearchWorkout(true);
   };
 
   const ExerciseOn = () => {
     setShowClient(false);
     setShowWorkout(false);
+    setSearchClient(false);
+    setSearchWorkout(false);
+    setHideAdd(false);
+
+    setSearchExercise(true);
     setShowExercise(true);
   };
 
-  const addFunctionality = () => {
+  const addItem = () => {
     if (showClient) {
       setShowAddClient(true);
     }
+    else if(showExercise) {
+      setShowAddExercise(true);
+    }
+    else if(showWorkout) {
+      setShowAddWorkout(true)
+    }
   };
 
-  const editFunctionality = () => {};
 
-  const deleteFunctionality = () => {};
+  const editItem = () => {
+    
+  };
+
+  const deleteItem = () => {
+
+  };
+
+  const [query, setQuery] = useState(null);
+
+  // useEffect(() => {
+  //   searchItem(query)
+  // }, [query])
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -106,10 +177,11 @@ const DashboardDrawer = (props) => {
 
 
           {/* imported search bar */}
-          <Button onClick={addFunctionality} variant='outlined' sx={{position: 'absolute', right: "20vw", height: '40px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#ac99be', borderColor: '#6f4792', color: '#6f4792'},}}>
+          {hideAdd ? null : <Button onClick={addItem} variant='outlined' sx={{position: 'absolute', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
             <AddIcon />
-          </Button>
-          <SearchBar/>
+          </Button>}
+          
+          {console.log(query)}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -139,6 +211,13 @@ const DashboardDrawer = (props) => {
               <ListItemText primary="Clients" />
             </ListItem>
 
+            <ListItem button key="Workouts">
+              <ListItemIcon>
+                <FitnessCenterIcon />
+              </ListItemIcon>
+              <ListItemText primary="Workouts" onClick={WorkoutOn} />
+            </ListItem>
+
             <ListItem button key="Exercises">
               <ListItemIcon>
                 <EventIcon />
@@ -146,18 +225,12 @@ const DashboardDrawer = (props) => {
               <ListItemText primary="Exercises" onClick={ExerciseOn} />
             </ListItem>
 
-            <ListItem button key="Workouts">
-              <ListItemIcon>
-                <FitnessCenterIcon />
-              </ListItemIcon>
-              <ListItemText primary="Workouts" onClick={WorkoutOn} />
-            </ListItem>
           </List>
           <Divider />
         </Box>
-        <button onClick={logout} className="logout-btn">
+        <Button onClick={logout} id="trainer-logout-btn" variant='outlined'>
           Logout
-        </button>
+        </Button>
       </Drawer>
       <Box
         component="main"
@@ -171,11 +244,13 @@ const DashboardDrawer = (props) => {
       >
         <Toolbar />
         {/* code for contents of box area in dashboard */}
-
-        {showClient ? <ClientDisplay /> : null}
-        {showWorkout ? <WorkoutDisplay /> : null}
-        {showExercise ? <ExerciseDisplay /> : null}
+        {showClient ? <ClientDisplay trainerID={trainerID} user={user} /> : null}
+        {showWorkout ? <WorkoutDisplay query={query} /> : null}
+        {showExercise ? <ExerciseDisplay query={query} /> : null}
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
+        {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
+        {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null}
+        
       </Box>
     </Box>
   );

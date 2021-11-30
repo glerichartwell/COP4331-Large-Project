@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -31,31 +31,33 @@ const ExpandMore = styled((props) => {
 }));
 
 // Show on surface
-var ident = 123314;
-var name = "Crabwalking";
-var sets = 8;
-var reps = 5;
-const rating = "3";
-const comment =
-  "I feel like I've done this so many times that I can't stand upright anymore. And now I can only pinch with my hands";
-var time = 20;
-var weight = 14.5;
-var rest = 45;
+// var ident = 123314;
+// var name = "Crabwalking";
+// var sets = 8;
+// var reps = 5;
+// const rating = "3";
+// const comment =
+//   "I feel like I've done this so many times that I can't stand upright anymore. And now I can only pinch with my hands";
+// var time = 20;
+// var weight = 14.5;
+// var rest = 45;
 
-export default function RecipeReviewCard({ edit }) {
-  const [expanded, setExpanded] = React.useState(false);
-  const [rating, setValue] = React.useState(2);
-  const [open, setOpen] = React.useState(true);
+
+
+export default function RecipeReviewCard({ edit, closeEditBox, dbInfo }) {
+  const [expanded, setExpanded] = useState(false);
+  const [rating, setValue] = useState(2);
+  const [open, setOpen] = useState(true);
 
   var info = new Object();
-  info.id = ident;
+  info.id = dbInfo.id;
   info.type = "Editing Exercise";
-  info.name = name;
-  info.sets = sets;
-  info.reps = reps;
-  info.time = time;
-  info.weight = weight;
-  info.rest = rest;
+  info.name = dbInfo.name;
+  info.sets = dbInfo.sets;
+  info.reps = dbInfo.reps;
+  info.time = dbInfo.time;
+  info.weight = dbInfo.weight;
+  info.rest = dbInfo.rest;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -66,7 +68,7 @@ export default function RecipeReviewCard({ edit }) {
   };
 
   // stuff
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClickii = (event) => {
     setAnchorEl(event.currentTarget);
@@ -78,10 +80,12 @@ export default function RecipeReviewCard({ edit }) {
 
   const sendEdit = () => {
     edit(info);
+    setAnchorEl(false);
   };
 
-  const openi = Boolean(anchorEl);
-  const id = openi ? "simple-popover" : undefined;
+  const openPopoverMenu = Boolean(anchorEl);
+  // const id = openPopoverMenu ? "simple-popover" : undefined;
+
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -94,8 +98,8 @@ export default function RecipeReviewCard({ edit }) {
         title={info.name}
       />
       <Popover
-        id={id}
-        open={openi}
+        id="simple-popover" 
+        open={openPopoverMenu}
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
@@ -103,6 +107,10 @@ export default function RecipeReviewCard({ edit }) {
           horizontal: "left",
         }}
       >
+        {/* Add exercise category later */}
+        {/* <Typography variant='body2' color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
+          {workoutName}
+        </Typography> */}
         <List>
           <ListItem disablePadding>
             <ListItemButton onClick={sendEdit}>
@@ -123,16 +131,7 @@ export default function RecipeReviewCard({ edit }) {
         </List>
       </Popover>
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          <Rating
-            name="simple-controlled"
-            value={rating}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
-          />
-          <br />
-          <br />
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
           Sets: {info.sets}
           <br />
           Reps: {info.reps}
@@ -142,7 +141,6 @@ export default function RecipeReviewCard({ edit }) {
           Weight: {info.weight} lb(s)
           <br />
           Resting Period: {info.rest} seconds;
-          <br />
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -157,7 +155,7 @@ export default function RecipeReviewCard({ edit }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
             User Comment: <br />
             {info.comment}
           </Typography>

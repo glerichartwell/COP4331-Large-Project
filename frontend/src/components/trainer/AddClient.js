@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -14,15 +14,26 @@ import {
 
 } from "@mui/material";
 
-
-
-
 const AddClient = (props) => {
   const [open, setOpen] = useState(true);
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [disableAddClientButton, setDisableAddClientButton] = useState(true)
   
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (email)
+    {
+      setDisableAddClientButton(false);
+    }
+    else
+    {
+      setDisableAddClientButton(true);
+    }
+    
+  }, [email])
+
 
   var trainerID = null;
   const auth = getAuth();
@@ -40,7 +51,7 @@ const AddClient = (props) => {
   });
 
   const handleClose = () => {
-    props.closeAddClient()
+    props.closeAddClient();
   };
 
   const sendRegisterInvite = async event => {
@@ -71,7 +82,26 @@ const AddClient = (props) => {
         setMessage(error);
       console.log(error);
     }
+    
   }
+
+  const sxAddClientButton = {
+    marginTop: '10px', 
+    
+    background: '#6f4792', 
+    borderColor: '#6f4792', 
+    color: '#ffffff',  
+    '&:hover': {
+      background: '#ac99be', 
+      borderColor: '#6f4792', 
+      color: '#6f4792', 
+    }, 
+    '&:disabled' : {
+      backgroundColor: '#cccccc', 
+      color: '#666666',
+    }
+  }
+
   return (
     <div>
       <Dialog open={open} fullWidth={true} maxWidth='xs' onBackdropClick={handleClose}>
@@ -83,7 +113,7 @@ const AddClient = (props) => {
             <Grid container direction='column' justifyContent='center' alignItems='center' marginTop='25px'>
               <TextField sx={{width: '250px', margin: '5px',}} id='email' type='email' placeholder="Email" value={email} onChange={e => {setEmail(e.target.value)}} size="large" variant='standard'/>
               {message}
-              <Button sx={{margin: '15px', background: '#28B7CB'}} variant='contained' onClick={sendRegisterInvite}>Send Invite</Button>
+              <Button variant='outlined' disabled={disableAddClientButton} onClick={sendRegisterInvite} sx={sxAddClientButton}>Send Invite</Button>
             </Grid>
           </DialogContent>
       </Dialog>
