@@ -143,7 +143,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
       </Popover>
       <CardContent>
 
-        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left'}}>
+        <Typography variant="body2" color="text.secondary" sx={{overflow: 'hidden', textAlign: 'left'}}>
           {concatdate}
           <br />
           Last Logged In: {lastLoggedIn}

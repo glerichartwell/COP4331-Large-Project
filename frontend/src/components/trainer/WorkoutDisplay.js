@@ -7,12 +7,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import AssignBox from "./AssignBox";
 import WorkoutCard from "./WorkoutCard2";
 import WorkoutEditBox from "./WorkoutEditBox";
-
+import AddWorkout from "./AddWorkout";
+import AddIcon from "@mui/icons-material/Add";
+import { Button } from "@mui/material";
 
 const WorkoutDisplay = () => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [showEdit, setShowEdit] = useState(false);
+  const [showAddWorkout, setShowAddWorkout] = useState(false);
   const [Edit, setEdit] = useState();
   const [showAssign, setShowAssign] = useState(false);
   const [Assign, setAssign] = useState();
@@ -231,7 +234,7 @@ const WorkoutDisplay = () => {
         getWorkouts()
         .then((result) => setArrayChange(cardArray))
       }
-    }, [])
+    }, [query, refresh])
 
     //firebase component to return trainer profile info
     // var trainerID = 1; //getFirebaseID()
@@ -258,6 +261,16 @@ const WorkoutDisplay = () => {
     setRefresh(!refresh);
   }
 
+  const openAddWorkout = () => {
+    setShowAddWorkout(true);
+  };
+  const closeAddWorkout = () => {
+    setShowAddWorkout(false);
+    setRefresh(!refresh);
+  };
+  const addItem = () => {
+      setShowAddWorkout(true);
+  };
   return (
     <div>
       <TextField 
@@ -301,6 +314,10 @@ const WorkoutDisplay = () => {
                 },
               },
             }} />
+            
+          <Button onClick={addItem} variant='outlined' sx={{marginTop:'-44px', zIndex: 5000, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+            <AddIcon />
+          </Button>
       <Grid
         container
         className="outerContainer"
@@ -318,6 +335,8 @@ const WorkoutDisplay = () => {
 
         {showEdit ? Edit : null}
         {showAssign ? Assign : null}
+        {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null} 
+
       </Grid>
     </div>
   );

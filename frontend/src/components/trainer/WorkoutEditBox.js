@@ -7,6 +7,9 @@ import { DialogContent, DialogTitle } from "@mui/material";
 import { InputAdornment } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { LocalizationProvider } from "@mui/lab";
+import { DesktopDatePicker } from "@mui/lab";
 import './css/EditBox.css'
 
 
@@ -183,18 +186,29 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
           <Grid container direction='row'>
           <Grid container direction='column' sm={6}>
             <Grid item>
-                <TextField placeholder={info.name} label='Name' sx={{ width: '90%', margin:'8px', marginBottom: '3px'}} onChange={e => {setName(e.target.value)}}/>
+                <TextField placeholder={info.name} label='Name' sx={{ paddingBottom: "10px", width: '90%', margin:'8px', marginBottom: '3px'}} onChange={e => {setName(e.target.value)}} variant='standard' />
               </Grid>
               <Grid item>
-                <TextField type="date" placeholder={info.date} sx={{ width: '90%', margin:'8px'}} onChange={e => {setDate(e.target.value)}}/>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                        label="Date"
+                        value={date}
+                        allowSameDateSelection={true}
+                        onChange={(newValue) => {
+                            setDate(newValue);
+                          }}
+                        renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '90%', margin:'8px'}}/>}
+                        
+                    />
+                </LocalizationProvider>
               </Grid>
               <Grid item>
                 <TextField type="number" placeholder={info.timeToComplete} label='Estimated Time to Complete' sx={{ width: '90%', margin:'8px'}} onChange={e => {setTimeToComplete(e.target.value)}}
-                            InputProps={{endAdornment: <InputAdornment position="start">minutes</InputAdornment>,}}
+                            InputProps={{endAdornment: <InputAdornment position="start">minutes</InputAdornment>,}} variant='standard'
                 />
               </Grid>
               <Grid item>
-                <TextField type='textarea' multiline rows={3} label="Comments" sx={{ width: '90%', margin:'8px'}} onChange={e => {setComment(e.target.value)}}/>
+                <TextField type='textarea' multiline rows={3} label="Comments" sx={{ width: '90%', margin:'8px'}} onChange={e => {setComment(e.target.value)}} variant='standard'/>
             </Grid>
           </Grid>
           <Grid container direction='column' sm={6}>
@@ -205,7 +219,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
                     options={exercises}
                     getOptionLabel={(option) => {return option.label}}
                     onChange={(e, value) => {setExercise(value)}}
-                    renderInput={(params) => <TextField {...params} label="Exercises" />}
+                    renderInput={(params) => <TextField {...params} label="Exercises" variant='standard' />}
                     sx={{ width: '330px', margin:'8px', marginLeft: '30px', marginBottom: '-15px'}}
                     />
                     <div style={{textAlign: 'center', marginTop: '15px', color: 'purple'}}>{addError}</div>

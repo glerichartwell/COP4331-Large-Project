@@ -11,22 +11,24 @@ import {
   Button,
   Grid,
   TextField,
+  InputAdornment
 } from "@mui/material";
 
 const AddExercise = (props) => {
   const [open, setOpen] = useState(true);
   const [message, setMessage] = useState("");
   const [workoutID, setWorkoutID] = useState(0);
-  const [exerciseName, setExerciseName] = useState();
+  const [name, setName] = useState();
   const [sets, setSets] = useState();
   const [reps, setReps] = useState();
   const [time, setTime] = useState();
   const [weight, setWeight] = useState();
   const [rest, setRest] = useState();
   const [statButton, setStatButton] = useState(true);
+  const [description, setDescription] = useState();
 
   const navigate = useNavigate();
-  //workoutID, exerciseName, sets, reps, time, weight, rest
+  //workoutID, name, sets, reps, time, weight, rest
 
   var trainerID = null;
   const auth = getAuth();
@@ -52,12 +54,13 @@ const AddExercise = (props) => {
     var obj = {
       trainerID: trainerID,
       workoutID: workoutID,
-      exerciseName: exerciseName,
+      name: name,
       sets: sets,
       reps: reps,
       time: time,
       weight: weight,
       rest: rest,
+      description: description,
     };
     var js = JSON.stringify(obj);
     try {
@@ -79,15 +82,18 @@ const AddExercise = (props) => {
       setMessage(error);
       console.log(error);
     }
+
+    handleClose();
+
   };
 
   useEffect(() => {
-    if (exerciseName && sets && reps && time && weight && rest) {
+    if (name && sets && (reps || time || description) && weight && rest) {
       setStatButton(false);
     }else {
       setStatButton(true);
     }
-  }, [exerciseName, sets, reps, time, weight, rest]);
+  }, [name, sets, reps, time, weight, rest]);
 
   return (
     <div>
@@ -114,19 +120,18 @@ const AddExercise = (props) => {
             {/* workoutID, name, sets, reps, time, weight, rest  */}
 
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
+              type="text"
               placeholder="Name of Exercise"
-              value={exerciseName}
+              value={name}
               onChange={(e) => {
-                setExerciseName(e.target.value);
+                setName(e.target.value);
               }}
               size="large"
               variant="standard"
             />
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
               type="number"
               placeholder="Sets"
               value={sets}
@@ -137,8 +142,7 @@ const AddExercise = (props) => {
               variant="standard"
             />
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
               type="number"
               placeholder="Reps"
               value={reps}
@@ -149,37 +153,50 @@ const AddExercise = (props) => {
               variant="standard"
             />
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
               type="number"
-              placeholder="Time to Complete"
+              placeholder="Duration"
               value={time}
               onChange={(e) => {
                 setTime(e.target.value);
               }}
+              InputProps={{endAdornment: <InputAdornment position="end">seconds</InputAdornment>}}
               size="large"
               variant="standard"
             />
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
               type="number"
               placeholder="Weight"
               value={weight}
               onChange={(e) => {
                 setWeight(e.target.value);
               }}
+              InputProps={{endAdornment: <InputAdornment position="end">lbs</InputAdornment>}}
               size="large"
               variant="standard"
             />
             <TextField
-              sx={{ width: "250px", margin: "5px" }}
-              id="email"
+              sx={{ width: "80%", margin: "5px" }}
               type="number"
               placeholder="Rest"
               value={rest}
               onChange={(e) => {
                 setRest(e.target.value);
+              }}
+              InputProps={{endAdornment: <InputAdornment position="end">seconds</InputAdornment>}}
+              size="large"
+              variant="standard"
+            />
+            <TextField
+              sx={{ width: "80%", margin: "5px" }}
+              type="textarea"
+              multiline
+              rows={3}
+              placeholder="Description"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
               }}
               size="large"
               variant="standard"

@@ -8,7 +8,6 @@ import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
-import { Divider, Grid } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -31,27 +30,14 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-// Show on surface
-// var ident = 123314;
-// var name = "Crabwalking";
-// var sets = 8;
-// var reps = 5;
-// const rating = "3";
-// const comment =
-//   "I feel like I've done this so many times that I can't stand upright anymore. And now I can only pinch with my hands";
-// var time = 20;
-// var weight = 14.5;
-// var rest = 45;
-
-
-
-export default function RecipeReviewCard({ edit, closeEditBox, dbInfo, deleteCard }) {
+export default function RecipeReviewCard({ edit, deleteCard, closeEditBox, dbInfo }) {
   const [expanded, setExpanded] = useState(false);
   const [rating, setValue] = useState(2);
   const [open, setOpen] = useState(true);
-  const [elevation, setElevation] = useState(5)
 
+  //load object exercise information into the card component
   var info = new Object();
+  info.cardNumber = dbInfo.cardNumber;
   info.id = dbInfo.id;
   info.type = "Editing Exercise";
   info.name = dbInfo.name;
@@ -60,8 +46,6 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo, deleteCar
   info.time = dbInfo.time;
   info.weight = dbInfo.weight;
   info.rest = dbInfo.rest;
-  info.description = dbInfo.description;
-  console.log("Incoming: ", dbInfo)
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -82,59 +66,24 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo, deleteCar
     setAnchorEl(null);
   };
 
+  //send information from card to be edited in edit box then close popout
   const sendEdit = () => {
     edit(info);
     setAnchorEl(false);
   };
 
+  //send information from card to be deleted from database then close popout
   const sendDelete = () => {
     deleteCard(info);
     setAnchorEl(false);
   }
-
-  const displayRepsDuration = () => {
-    if (info.reps > 0)
-    {
-      return (
-        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '0'}}>
-          Reps: {info.reps}
-        </Typography>
-      )
-    }
-    if (parseInt(info.time) > 0)
-    {
-      return (
-        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '0'}}>
-          Duration: {info.time} second(s)
-        </Typography>
-      )
-    }
-  }
-
-  const displayDescription = () => {
-    if (info.description)
-    {
-      return (
-        <Typography>
-          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginTop: '20px', fontSize: 16}}>
-            Description
-          </Typography>
-          <Divider sx={{marginTop: '10px', marginBottom: '15px'}}/>
-          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', }}>
-          {info.description}
-          </Typography>
-        </Typography>
-      )
-    }
-  }
-
 
   const openPopoverMenu = Boolean(anchorEl);
   // const id = openPopoverMenu ? "simple-popover" : undefined;
 
 
   return (
-    <Card sx={{overflow: 'inherit', maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
+    <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         action={
           <IconButton aria-label="settings" onClick={handleClickii}>
@@ -142,7 +91,6 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo, deleteCar
           </IconButton>
         }
         title={info.name}
-        sx={{marginBottom: '-15px'}}
       />
       <Popover
         id="simple-popover" 
@@ -178,21 +126,36 @@ export default function RecipeReviewCard({ edit, closeEditBox, dbInfo, deleteCar
         </List>
       </Popover>
       <CardContent>
-        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '0'}}>
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
           Sets: {info.sets}
-        </Typography>
-        {displayRepsDuration()}
-        {() => {
-          
-        }}
-        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '0'}}>
+          <br />
+          Reps: {info.reps}
+          <br />
+          Estimated Time: {info.time} seconds
+          <br />
           Weight: {info.weight} lb(s)
+          <br />
+          Resting Period: {info.rest} seconds
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px', marginBottom: '0'}}>
-          Rest: {info.rest} second(s)
-        </Typography>
-        {displayDescription()}
       </CardContent>
+      <CardActions disableSpacing>
+        <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
+            User Comment: <br />
+            {info.comment}
+          </Typography>
+        </CardContent>
+      </Collapse>
     </Card>
   );
 }

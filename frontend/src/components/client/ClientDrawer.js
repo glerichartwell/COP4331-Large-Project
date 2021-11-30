@@ -29,6 +29,10 @@ import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import SearchBar from "../reuseable/SearchBar";
+import WorkoutDisplay from "./WorkoutDisplay"
+import ExerciseDisplay from "./ExerciseDisplay";
+import ClientDashboard from "./ClientDashboard";
+import HAWDisplay from "./HAWDisplay";
 
 const ClientDrawer = (props) => {
   const navigate = useNavigate();
@@ -44,15 +48,15 @@ const ClientDrawer = (props) => {
   };
 
   const DashOn = () => {
-    setShowClient(true);
     setShowWorkout(false);
     setShowExercise(false);
+    setShowClient(true);
   };
 
   const WorkoutOn = () => {
     setShowClient(false);
-    setShowWorkout(true);
     setShowExercise(false);
+    setShowWorkout(true);
   };
 
   const ExerciseOn = () => {
@@ -85,41 +89,7 @@ const ClientDrawer = (props) => {
             {/* <SearchBar getQueryRef={getQueryRef}/> */}
           {/* </form> */}
           {/* <SearchBar variant='standard' /> */}
-          <TextField 
-          className='search-bar' 
-          type="search" 
-          variant='outlined' 
-          size='small'
-          InputProps={{startAdornment: <InputAdornment><SearchIcon/></InputAdornment>,}}
-          sx={{
-              position: 'absolute',
-              opacity: 0.3,
-              right: '1vw',
-              maxWidth: '30%',
-              minWidth: '20%',
-              '& .MuiInputBase-root': {
-                color: '#300130',
-                background: 'white',
-              },
-              '& label.Mui-focused': {
-                color: 'white',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'yellow',
-              },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: 'white',
-                  opacity: 0.3
-                },
-                '&:hover fieldset': {
-                  borderColor: 'white',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#3d013d',
-                },
-              },
-            }} />
+
 
           {console.log(query)}
         </Toolbar>
@@ -151,18 +121,18 @@ const ClientDrawer = (props) => {
               <ListItemText primary="Personal Dashboard"/>
             </ListItem>
 
-            <ListItem button key="Exercise">
+            <ListItem button key="Exercise" onClick={ExerciseOn}>
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
-              <ListItemText primary="Exercise" onClick={ExerciseOn} />
+              <ListItemText primary="Exercise" />
             </ListItem>
 
-            <ListItem button key="Workouts">
+            <ListItem button key="Workouts" onClick={WorkoutOn}>
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
-              <ListItemText primary="Workouts" onClick={WorkoutOn} />
+              <ListItemText primary="Workouts"/>
             </ListItem>
           </List>
           <Divider />
@@ -184,9 +154,9 @@ const ClientDrawer = (props) => {
         <Toolbar />
         {/* code for contents of box area in dashboard */}
 
-        {/* {showClient ? <ClientDisplay /> : null}
+        {showClient ? <HAWDisplay /> : null}
         {showExercise ? <ExerciseDisplay /> : null}
-        {showWorkout ? < WorkoutDisplay/> : null} */}
+        {showWorkout ? < WorkoutDisplay/> : null}
 
       </Box>
     </Box>

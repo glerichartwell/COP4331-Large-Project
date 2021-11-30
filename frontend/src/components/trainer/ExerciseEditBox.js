@@ -24,6 +24,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
   const [time, setTime] = useState();
   const [weight, setWeight] = useState();
   const [rest, setRest] = useState();
+  const [description, setDescription] = useState();
   const [id, setID] = useState(info.id);
 
 
@@ -41,6 +42,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
       time: time,
       weight: weight,
       rest: rest,
+      description: description,
     };
     var js = JSON.stringify(obj);
     try {
@@ -91,18 +93,19 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
           <Grid
             container
             direction="column"
-            // justifyContent="center"
-            // alignItems="center"
+            justifyContent="center"
+            alignItems="center"
           >
-            <TextField placeholder={info.name} label='Name' sx={{ paddingBottom:'10px'}} onChange={e => {setName(e.target.value)}} />
-            <TextField type="number" placeholder={info.reps} label='Reps' sx={{ paddingBottom:'10px'}} onChange={e => {setReps(e.target.value)}} />
-            <TextField type="number" placeholder={info.sets} label='Sets' sx={{ paddingBottom:'10px'}} onChange={e => {setSets(e.target.value)}} />
-            <TextField type="number" placeholder={info.time} label='Duration' sx={{ paddingBottom:'10px'}} onChange={e => {setTime(e.target.value)}}
-              InputProps={{endAdornment: <InputAdornment position="start">seconds</InputAdornment>}}/>
-            <TextField type="number" placeholder={info.weight} label='Weight' sx={{ paddingBottom:'10px'}} onChange={e => {setWeight(e.target.value)}}
-              InputProps={{endAdornment: <InputAdornment position="start">lbs</InputAdornment>}}/>
-            <TextField type="number" placeholder={info.rest} label="Rest" onChange={e => {setRest(e.target.value)}}
-              InputProps={{endAdornment: <InputAdornment position="start">seconds</InputAdornment>}}/>
+            <TextField placeholder={info.name} label='Name' sx={{ width: '85%', paddingBottom:'10px'}} onChange={e => {setName(e.target.value)}} variant='standard' />
+            <TextField type="number" placeholder={info.sets} label='Sets' sx={{ width: '85%', paddingBottom:'10px'}} onChange={e => {setSets(e.target.value)}} variant='standard' />
+            <TextField type="number" placeholder={info.reps} label='Reps' sx={{ width: '85%', paddingBottom:'10px'}} onChange={e => {setReps(e.target.value)}} variant='standard' />
+            <TextField type="number" placeholder={info.time} label='Duration' sx={{ width: '85%', paddingBottom:'10px'}} onChange={e => {setTime(e.target.value)}}
+              InputProps={{endAdornment: <InputAdornment position="start">seconds</InputAdornment>}} variant='standard' />
+            <TextField type="number" placeholder={info.weight} label='Weight' sx={{ width: '85%', paddingBottom:'10px'}} onChange={e => {setWeight(e.target.value)}}
+              InputProps={{endAdornment: <InputAdornment position="start">lbs</InputAdornment>}} variant='standard' />
+            <TextField type="number" placeholder={info.rest} label="Rest" sx={{ width: '85%', paddingBottom:'10px'}} onChange={e => {setRest(e.target.value)}}
+              InputProps={{endAdornment: <InputAdornment position="start">seconds</InputAdornment>}} variant='standard' />
+            <TextField type='textarea' multiline rows={3} placeholder={info.description} label='Description' sx={{width: '85%',}} onChange={e => setDescription(e.target.value)} variant='standard' />
             
             {/* changing buttons and functionality */}
             <div style={{textAlign: 'center', marginTop: '15px'}}>{message}</div>

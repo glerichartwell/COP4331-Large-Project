@@ -7,6 +7,7 @@ import ExerciseDisplay from "./ExerciseDisplay";
 import WorkoutDisplay from "./WorkoutDisplay";
 import AddClient from "./AddClient";
 import SearchBar from "../reuseable/SearchBar";
+import AddExercise from "./AddExercise";
 import AddWorkout from "./AddWorkout";
 import ClientInfo from "./ClientInfo/ClientInfo"
 
@@ -29,6 +30,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import EventIcon from "@mui/icons-material/Event";
 import PersonIcon from "@mui/icons-material/Person";
@@ -42,6 +44,9 @@ const DashboardDrawer = (props) => {
   const [showClient, setShowClient] = useState(false);
   const [showWorkout, setShowWorkout] = useState(false);
   const [showExercise, setShowExercise] = useState(false);
+  const [showAddClient, setShowAddClient] = useState(false);
+  const [showAddExercise, setShowAddExercise] = useState(false);
+  const [showAddWorkout, setShowAddWorkout] = useState(false);
   const [searchClient, setSearchClient] = useState(false);
   const [searchWorkout, setSearchWorkout] = useState(false);
   const [searchExercise, setSearchExercise] = useState(false);
@@ -81,6 +86,25 @@ const DashboardDrawer = (props) => {
     navigate(`/`);
   };
 
+  const openAddClient = () => {
+    setShowAddClient(true);
+  };
+  const closeAddClient = () => {
+    setShowAddClient(false);
+  };
+  const openAddExercise = () => {
+    setShowAddExercise(true);
+  };
+  const closeAddExercise = () => {
+    setShowAddExercise(false);
+  };  
+  const openAddWorkout = () => {
+    setShowAddWorkout(true);
+  };
+  const closeAddWorkout = () => {
+    setShowAddWorkout(false);
+  };
+
 
   const ClientOn = () => {
     setShowWorkout(false);
@@ -115,6 +139,27 @@ const DashboardDrawer = (props) => {
     setShowExercise(true);
   };
 
+  const addItem = () => {
+    if (showClient) {
+      setShowAddClient(true);
+    }
+    else if(showExercise) {
+      setShowAddExercise(true);
+    }
+    else if(showWorkout) {
+      setShowAddWorkout(true)
+    }
+  };
+
+
+  const editItem = () => {
+    
+  };
+
+  const deleteItem = () => {
+
+  };
+
   const [query, setQuery] = useState(null);
 
   // useEffect(() => {
@@ -136,6 +181,10 @@ const DashboardDrawer = (props) => {
           </Typography>
 
 
+          {/* imported search bar */}
+          {hideAdd ? null : <Button onClick={addItem} variant='outlined' sx={{position: 'absolute', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+            <AddIcon />
+          </Button>}
           
           {console.log(query)}
         </Toolbar>
@@ -167,18 +216,18 @@ const DashboardDrawer = (props) => {
               <ListItemText primary="Clients" />
             </ListItem>
 
-            <ListItem button key="Workouts" onClick={WorkoutOn}  sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
+            <ListItem button key="Workouts" sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
-              <ListItemText primary="Workouts"/>
+              <ListItemText primary="Workouts" onClick={WorkoutOn} />
             </ListItem>
 
-            <ListItem button key="Exercises" onClick={ExerciseOn}  sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
+            <ListItem button key="Exercises" sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
-              <ListItemText primary="Exercises" />
+              <ListItemText primary="Exercises" onClick={ExerciseOn} />
             </ListItem>
 
           </List>
@@ -201,9 +250,12 @@ const DashboardDrawer = (props) => {
         <Toolbar />
         {/* code for contents of box area in dashboard */}
         {showClient ? <ClientDisplay trainerID={trainerID} user={user} /> : null}
-        {/* {showClientInfo ? <ClientInfo /> : null} */}
+        {showClientInfo ? <ClientInfo /> : null}
         {showWorkout ? <WorkoutDisplay query={query} /> : null}
         {showExercise ? <ExerciseDisplay query={query} /> : null}
+        {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
+        {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
+        {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null} 
       </Box>
     </Box>
   );

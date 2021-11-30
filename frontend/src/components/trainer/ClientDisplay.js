@@ -13,6 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddClient from "./AddClient";
 import ClientCard from "./ClientCard2";
 import ClientInfoView from "../client/ClientInfoView";
+import { Button } from "@mui/material";
 
 const ClientDisplay = props => {
   // allow results of api to be rendered on page after loading
@@ -30,6 +31,7 @@ const ClientDisplay = props => {
   };
   const closeAddClient = () => {
     setShowAddClient(false);
+    setRefresh(!refresh);
   };
 
   //firebase component to return trainer profile info
@@ -212,11 +214,11 @@ const ClientDisplay = props => {
 
     const address = "http://localhost:5000/api/delete-client";
 
-    var obj1 = { id: info.id  };
+    var obj1 = { email: info.email  };
     var js = JSON.stringify(obj1);
-    console.log(info.id)
 
     try {
+
       const response = await fetch(
       address,
        {
@@ -227,8 +229,6 @@ const ClientDisplay = props => {
 
       var txt = await response.text();
       var res = JSON.parse(txt);
-
-
       
       // after deleting, refresh component
       setRefresh(!refresh);
@@ -264,7 +264,7 @@ const ClientDisplay = props => {
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
       }
-    }, [query])
+    }, [query, refresh])
 
   };
 
@@ -290,7 +290,8 @@ const ClientDisplay = props => {
 
   const deleteCard = (info) => {
     // pass information from relavent card to editbox
-    if(window.confirm("Are you sure you would like to permanently delete " + info.name + "?")){
+    console.log(info)
+    if(window.confirm("Are you sure you would like to permanently delete " + info.firstName + " " + info.lastName + "?")){
       deleteClient(info);
     }
     // alert("Are you sure you would like to delete " + info.name + "?");
@@ -312,6 +313,9 @@ const ClientDisplay = props => {
   //   // var trainerID = 1; //getFirebaseID()
   // };
 
+  const addItem = () => {
+    setShowAddClient(true);
+  };
 
   
   return (
@@ -357,6 +361,11 @@ const ClientDisplay = props => {
                 },
               },
             }} />
+           
+            <Button onClick={addItem} variant='outlined' sx={{marginTop:'-44px', zIndex: 5000, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+              <AddIcon />
+            </Button>
+
       <Grid
         container
         className="outerContainer"
@@ -375,6 +384,8 @@ const ClientDisplay = props => {
         {arrayChange}
 
         {showClientDash ? clientDashHolder : null}
+        {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
+
       </Grid>
     </div>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -24,7 +24,6 @@ import Popover from "@mui/material/Popover";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import AddIcon from "@mui/icons-material/Add";
 import { Divider } from "@mui/material";
-import formatDate from "../../utils/formatDate";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -38,24 +37,11 @@ const ExpandMore = styled((props) => {
 }));
 
 // Show on surface
-// const name = "Crabification";
-// const sumtext = "Date Started: ";
-// const date = "09/32/2014";
-// const concatdate = sumtext + date;
-// const rating = "3";
-// const comment =
-//   "Y'know the crab walking really isn't working out for me. When I first did it, I noticed my skin got harder. The more I did it, the more I was stuck walking like a crab and then...";
+// preset array to be empty if no exercises are entered on creation
 const exercises = [];
-// const time = "20";
-// // Changing the number of exercises here increases the count of how many will be displayed
-// const numExercises = 4;
-// // Don't change this, if you really need to, don't make it lower than 45
-// const itemsize = 45;
-// const listheight = itemsize * numExercises;
 
-export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
-  const [expanded, setExpanded] = useState(false);
-  const [elevation, setElevation] = useState(5)
+export default function WorkoutCard({ edit, deleteCard, assignWorkout, closeEditBox, dbInfo }) {
+  const [expanded, setExpanded] = React.useState(false);
   // Show on surface
   const sumtext = "Date: ";
   // Don't change this, if you really need to, don't make it lower than 45
@@ -65,13 +51,13 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
     setExpanded(!expanded);
   };
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
   // stuff
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClickii = (event) => {
     setAnchorEl(event.currentTarget);
@@ -81,20 +67,24 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
     setAnchorEl(null);
   };
   
+  //send information from card to be edited in edit box
   const sendEdit = () => {
     edit(info);
     setAnchorEl(false);
   };
 
-  const sendAssign = () => {
-    assign(info);
-    setAnchorEl(false);
-  }
-
+  //send information from card to be deleted from database then close popout
   const sendDelete = () => {
     deleteCard(info);
     setAnchorEl(false);
   }
+
+  //send information to assign workouts to clients
+  const assignToClient = () => {
+    assignWorkout(info);
+    setAnchorEl(false);
+  }
+
 
   const openi = Boolean(anchorEl);
   const id = openi ? "simple-popover" : undefined;
@@ -106,18 +96,34 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
   info.clientID = dbInfo.clientID;
   info.trainerEmail = dbInfo.trainerEmail;
   info.exercises = dbInfo.exercises;
-  info.date = formatDate(dbInfo.date);
-  info.numExercises = dbInfo.exercises.length;
+  info.date = dbInfo.date;
+  info.numExercises = dbInfo.numExercises;
   info.timeToComplete = dbInfo.timeToComplete;
   info.comment = dbInfo.comment;
   info.rating = dbInfo.rating;
 
   const concatdate = sumtext + info.date;
-  
-  
+  const listheight = itemsize * info.numExercises;
+  console.log(info.numExercises)
+  console.log(listheight);
+
+  function renderRow(props) {
+    const { index, style } = props;
+    return (
+      <ListItem style={style} key={index} component="div" disablePadding>
+        <ListItemButton sx={{ pl: 4 }}>
+          <ListItemText primary={info.exercises[index]} />
+        </ListItemButton>
+      </ListItem>
+    );
+  }
+
+  const workoutInfo = () => {
+    alert("line 122 for displaying info for exercise");
+  }
 
   return (
-    <Card sx={{overflow: 'inherit', maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
+    <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         action={
           <IconButton aria-label="settings" onClick={handleClickii}>
@@ -139,6 +145,8 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
           horizontal: "left",
         }}
       >
+        {/* options for popout tab including add, edit, and delete*/}
+
         <List>
         <ListItem disablePadding>
             <ListItemButton onClick={sendEdit}>
@@ -149,13 +157,22 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={sendAssign}>
+            <ListItemButton>
               <ListItemIcon>
-                <AddIcon/>
+                <FitnessCenterIcon />
               </ListItemIcon>
-              <ListItemText primary="Assign" />
+              <ListItemText primary="Add Exercise" />
             </ListItemButton>
           </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={assignToClient}>
+              <ListItemIcon>
+                <FitnessCenterIcon />
+              </ListItemIcon>
+              <ListItemText primary="Assign to Client" />
+            </ListItemButton>
+          </ListItem>
+
           <ListItem disablePadding>
             <ListItemButton onClick={sendDelete}>
               <ListItemIcon>
@@ -167,7 +184,7 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
         </List>
       </Popover>
       <CardContent>
-        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
+      <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
           <Typography variant="body2" color="text.secondary" sx={{marginBottom: '15px'}}>
             Workout Length: {info.timeToComplete} minutes
           </Typography>
@@ -184,7 +201,7 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
             <Collapse in={open} timeout="auto" unmountOnExit sx={{background: '#e9e3ee'}}>
               <List>
                 {info.exercises.map((exercise) => (
-                  <ListItem
+                  <ListItem 
                   key={exercise.id}
                     sx={{ width: '330px', margin: '3px', marginLeft: '0px',}}
                     >
@@ -204,6 +221,8 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
           <div></div>
         </Typography>
       </CardContent>
+      
+      
     </Card>
   );
 }

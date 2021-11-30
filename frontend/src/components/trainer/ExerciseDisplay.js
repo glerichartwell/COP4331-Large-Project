@@ -7,11 +7,11 @@ import { Divider, TextField, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from '@mui/icons-material/Search'; 
 
-
-import AddClient from "./AddClient";
+import AddExercise from "./AddExercise";
 import ExerciseCard from "./ExerciseCard2";
 import ClientDashboard from "../client/ClientInfoView";
 import ExerciseEditBox from "./ExerciseEditBox";
+import { Button } from "@mui/material";
 
 const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading
@@ -24,6 +24,7 @@ const ExerciseDisplay = () => {
   const [Edit, setEdit] = useState();
   const [update, setUpdate] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [showAddExercise, setShowAddExercise] = useState(false);
 
   // const [cardNumber, setCardNumber] = useState(0);
 
@@ -104,16 +105,18 @@ const ExerciseDisplay = () => {
       const numexercises = exercises.results.length;
 
       for (var i = 0; i < numexercises; i++) {
-
-        var obj = new Object();
-        obj["cardNumber"] = i;
-        obj["id"] = exercises.results[i]._id;
-        obj["name"] = exercises.results[i].name;
-        obj["sets"] = exercises.results[i].sets;
-        obj["reps"] = exercises.results[i].reps;
-        obj["time"] = exercises.results[i].time;
-        obj["weight"] = exercises.results[i].weight;
-        obj["rest"] = exercises.results[i].rest;
+        
+        var obj = {
+          cardNumber: i,
+          id: exercises.results[i]._id,
+          name: exercises.results[i].name,
+          sets: exercises.results[i].sets,
+          reps: exercises.results[i].reps,
+          time: exercises.results[i].time,
+          weight: exercises.results[i].weight,
+          rest: exercises.results[i].rest,
+          description: exercises.results[i].description,
+        }
         objects.push(obj);
       }
       //can access numexercises from trainer database
@@ -242,7 +245,7 @@ const ExerciseDisplay = () => {
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
       }
-    }, [query])
+    }, [query, refresh])
   };
 
   const edit = (info) => {
@@ -261,6 +264,19 @@ const ExerciseDisplay = () => {
     if(window.confirm("Are you sure you would like to permanently delete " + info.name + "?")){
       deleteExercise(info);
     }
+  };
+
+  
+  const openAddExercise = () => {
+    setShowAddExercise(true);
+  };
+  const closeAddExercise = () => {
+    setShowAddExercise(false);
+    setRefresh(!refresh);
+  };  
+
+  const addItem = () => {
+    setShowAddExercise(true);
   };
 
   const [query, setQuery] = useState(null);
@@ -307,6 +323,10 @@ const ExerciseDisplay = () => {
                 },
               },
             }} />
+            
+          <Button onClick={addItem} variant='outlined' sx={{marginTop:'-44px', zIndex: 5000, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+            <AddIcon />
+          </Button>
       <Grid
         container
         className="outerContainer"
@@ -323,6 +343,8 @@ const ExerciseDisplay = () => {
         {arrayChange}
 
         {showEdit ? Edit : null}
+        {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
+
       </Grid>
     </div>
   );
