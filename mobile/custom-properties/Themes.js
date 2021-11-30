@@ -15,11 +15,11 @@ const theme = {
     iconColor: "#808080",
 
     // Custom
-    main_c: '#64104D',
+    darkPurple: '#64104D',
     orange: '#ED5E4F',
     color1: '#B21B3F',
     color2: '#D2C3E4',
-    color3: '#EB3248',
+    red: '#EB3248',
     lightBlue: '#28B7CB',
     purple: '#6f4792',
   },

@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
 import ProfileScreen from "../screens/ProfileScreen";
-import ScheduleScreen from "../screens/ScheduleScreen";
+import DailyGoalsScreen from "../screens/DailyGoalsScreen";
 import WorkoutsScreen from "../screens/WorkoutsScreen";
 import HealthWellnessScreen from "../screens/HealthWellnessScreen";
 import theme from '../custom-properties/Themes';
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
+import {StyleSheet, View} from "react-native";
+import CustomLoading from "./CustomLoading";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -14,32 +16,17 @@ const Dashboard = () => {
     const auth = getAuth();
     const [email, setEmail] = useState("");
 
-    /*onAuthStateChanged(auth, (user) => {
-        if (user != null) {
-            /!*setEmail(user["email"]);*!/
-            setEmail("glerichartwell@gmail.com");
-            console.log("Dashboard Email: " + email);
-        } else {
-            setEmail("");
-            console.log("No more dashboard email");
-        }
-    });*/
-
-    /*let user = auth.currentUser;
-    /!*setEmail(user.email);*!/
-    setEmail("glerichartwell@gmail.com");*/
-
     useEffect(() => {
         let user = auth.currentUser;
         /*setEmail(user.email);*/
-        setEmail("glerichartwell@gmail.com");
+        setEmail("iloveprincessbubblegum@gmail.com");
         /*console.log("Setting email");*/
     }, [email])
 
     return (
         <Tab.Navigator
-            initialRouteName="Schedule"
-            barStyle={{backgroundColor: theme.colors.purple}}
+            initialRouteName="Daily Goals"
+            barStyle={styles.tab}
         >
             <Tab.Screen
                 name="Profile"
@@ -53,11 +40,12 @@ const Dashboard = () => {
                 }}
             />
             <Tab.Screen
-                name="Schedule"
-                component={ScheduleScreen}
+                name="Daily Goals"
+                /*component={DailyGoalsScreen}*/
+                children={() => <DailyGoalsScreen email={email}/>}
                 options={{
-                    tabBarLabel: 'Schedule',
-                    title: 'Schedule',
+                    tabBarLabel: 'Daily Goals',
+                    title: 'Daily Goals',
                     tabBarIcon: ({color}) => (
                         <MaterialCommunityIcons name="calendar" color={color} size={26}/>
                     ),
@@ -87,5 +75,11 @@ const Dashboard = () => {
         </Tab.Navigator>
     );
 }
+
+const styles = StyleSheet.create({
+    tab: {
+        backgroundColor: theme.colors.purple,
+    },
+});
 
 export default Dashboard;

@@ -4,6 +4,7 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {FlatList, ScrollView, StyleSheet, View} from "react-native";
 import TopBar from "../components/TopBar";
 import WorkoutCard from "../components/WorkoutCard";
+import CustomLoading from "../components/CustomLoading";
 
 const WorkoutsScreen = (props) => {
     const auth = getAuth();
@@ -16,10 +17,10 @@ const WorkoutsScreen = (props) => {
     }, [loaded])
 
     const loadWorkoutInfo = async () => {
-        console.log("-----------");
-        console.log("Loading workout info");
+        /*console.log("-----------");
+        console.log("Loading workout info");*/
         let js = JSON.stringify({email: props.email, startDate: date.toISOString()});
-        console.log("JSON", js);
+        /*console.log("JSON", js);*/
         await fetch("http://192.168.208.1:5000/api/view-all-workouts",
             {
                 method: "GET",
@@ -30,7 +31,7 @@ const WorkoutsScreen = (props) => {
             .then((responseJson) => {
                 /*console.log("RESPONSE: ", responseJson);*/
                 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-                responseJson.results.sort(function(a, b) {
+                responseJson.results.sort(function (a, b) {
                     let nameA = a.name.toUpperCase(); // ignore upper and lowercase
                     let nameB = b.name.toUpperCase(); // ignore upper and lowercase
                     if (nameA < nameB) {
@@ -46,29 +47,38 @@ const WorkoutsScreen = (props) => {
                 setWorkouts(responseJson.results);
             })
             .catch(error => console.log("ERROR: " + error))
-        console.log("-----------");
+        /*console.log("-----------");*/
     }
 
-    return (loaded && (
-        <View>
-            <TopBar title="Workouts"/>
-            <FlatList
-                renderItem={({item, index, separators}) =>
-                    <WorkoutCard
-                        name={item.name}
-                        date={item.date}
-                        timeToComplete={item.timeToComplete}
-                        comment={item.comment}
-                        exercises={item.exercises}
-                    />
-                }
-                data={workouts}
-                keyExtractor={(item) => item._id}
-                contentContainerStyle={styles.scrollContainer}
-            >
-            </FlatList>
-        </View>
-    ));
+    if (loaded) {
+        return (
+            <View>
+                <TopBar title="Workouts"/>
+                <FlatList
+                    renderItem={({item, index, separators}) =>
+                        <WorkoutCard
+                            name={item.name}
+                            date={item.date}
+                            timeToComplete={item.timeToComplete}
+                            comment={item.comment}
+                            exercises={item.exercises}
+                        />
+                    }
+                    data={workouts}
+                    keyExtractor={(item) => item._id}
+                    contentContainerStyle={styles.scrollContainer}
+                >
+                </FlatList>
+            </View>
+        );
+    } else {
+        return (
+            <View>
+                <TopBar title="Workouts"/>
+                <CustomLoading/>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
