@@ -22,6 +22,7 @@ const theme = {
     red: '#EB3248',
     lightBlue: '#28B7CB',
     purple: '#6f4792',
+    lightPurple: '#e9e3ee',
   },
 };
 

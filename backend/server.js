@@ -46,6 +46,7 @@ var searchClientWorkout = require("./api/workout-api/search-client-workout.api")
 var searchWorkout = require("./api/workout-api/search-workout.api");
 var viewAllWorkouts = require("./api/workout-api/view-all-workouts.api");
 var viewClientWorkoutsByWeek = require("./api/workout-api/view-client-workouts-by-week.api");
+var viewClientWorkoutsByDateRange = require("./api/workout-api/view-client-workouts-by-date-range.api");
 
 // exercise controllers
 var addExerciseToWorkout = require("./api/exercise-api/add-exercise-to-workout.api");
@@ -113,6 +114,7 @@ app.use("/", searchClientWorkout);
 app.use("/", searchWorkout);
 app.use("/", viewAllWorkouts);
 app.use("/", viewClientWorkoutsByWeek);
+app.use("/", viewClientWorkoutsByDateRange);
 
 // exercise routes
 app.use("/", addExerciseToWorkout);

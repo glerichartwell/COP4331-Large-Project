@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {Card, Text, Paragraph, Button, List, Portal, Dialog} from "react-native-paper";
+import theme from "../custom-properties/Themes";
 
 
 const WorkoutCard = (props) => {
@@ -80,14 +81,14 @@ const WorkoutCard = (props) => {
                             style={styles.exerciseText}
                         >Resting Period: {exerciseRest} second(s)</Text>
                     </Dialog.Content>
-                    <Dialog.Actions
+                    {/*<Dialog.Actions
                         style={styles.exerciseHideButtonArea}
                     >
                         <Button
                             onPress={hideExerciseModal}
                             style={styles.exerciseHideButton}
                         >Hide</Button>
-                    </Dialog.Actions>
+                    </Dialog.Actions>*/}
                 </Dialog>
             </Portal>
             <Card
@@ -108,6 +109,7 @@ const WorkoutCard = (props) => {
                 <Card.Content>
                         <List.Accordion
                             title="Exercises"
+                            style={{backgroundColor: theme.colors.lightPurple}}
                         >
                             {props.exercises.map((exercise) => (
                                 <List.Item
@@ -128,6 +130,7 @@ export default WorkoutCard;
 const styles = StyleSheet.create({
     card: {
         margin: 10,
+        backgroundColor: theme.colors.lightPurple
     },
     exerciseText: {
         fontSize: 16

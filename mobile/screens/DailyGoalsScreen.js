@@ -21,10 +21,10 @@ const DailyGoalsScreen = (props) => {
     }, [loaded])
 
     const loadWorkoutInfo = async () => {
-        /*console.log("-----------");
-        console.log("Loading workout info");*/
+        console.log("-----------");
+        console.log("Loading workout info");
         let js = JSON.stringify({email: props.email, date: (new Date(date)).toISOString()})
-        /*console.log("JSON: ", js);*/
+        console.log("JSON: ", js);
         await fetch("http://192.168.208.1:5000/api/search-client-workout",
             {
                 method: "POST",
@@ -33,7 +33,7 @@ const DailyGoalsScreen = (props) => {
             })
             .then(response => response.json())
             .then((responseJson) => {
-                /*console.log("RESPONSE: ", responseJson);*/
+                console.log("RESPONSE: ", responseJson);
                 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
                 responseJson.results.sort(function (a, b) {
                     let nameA = a.name.toUpperCase(); // ignore upper and lowercase
@@ -49,9 +49,10 @@ const DailyGoalsScreen = (props) => {
                     return 0;
                 });
                 setWorkouts(responseJson.results);
+                console.log("WORKOUTS", responseJson.results);
             })
             .catch(error => console.log("ERROR: " + error))
-        /*console.log("-----------");*/
+        console.log("-----------");
     }
 
     if (loaded) {
