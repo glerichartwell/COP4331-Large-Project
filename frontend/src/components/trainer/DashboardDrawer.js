@@ -9,6 +9,7 @@ import AddClient from "./AddClient";
 import SearchBar from "../reuseable/SearchBar";
 import AddExercise from "./AddExercise";
 import AddWorkout from "./AddWorkout";
+import ClientInfo from "./ClientInfo/ClientInfo"
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -50,6 +51,10 @@ const DashboardDrawer = (props) => {
   const [searchWorkout, setSearchWorkout] = useState(false);
   const [searchExercise, setSearchExercise] = useState(false);
   const [hideAdd, setHideAdd] = useState(true);
+  const [showClientInfo, setshowClientInfo] = useState(true)
+
+  
+
 
   // const handleDrawerOpen = () => {
   //   setOpen(true);
@@ -245,6 +250,7 @@ const DashboardDrawer = (props) => {
         <Toolbar />
         {/* code for contents of box area in dashboard */}
         {showClient ? <ClientDisplay trainerID={trainerID} user={user} /> : null}
+        {showClientInfo ? <ClientInfo /> : null}
         {showWorkout ? <WorkoutDisplay query={query} /> : null}
         {showExercise ? <ExerciseDisplay query={query} /> : null}
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
