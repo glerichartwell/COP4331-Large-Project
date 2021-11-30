@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 
 import Grid from "@mui/material/Grid";
 import { TextField, InputAdornment } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search'; 
+import SearchIcon from "@mui/icons-material/Search";
 
-import ExerciseCard from "./ExerciseCard";
+import ExerciseCard from "./HAWDisplay";
 import ClientDashboard from "./ClientInfoView";
 // import ExerciseEditBox from "./ExerciseEditBox";
 import { Button } from "@mui/material";
@@ -30,18 +30,14 @@ const ExerciseDisplay = () => {
   var objects = [];
   var cardNumber = 0;
 
-  
   const getExercises = async (event) => {
-
     const address = "http://localhost:5000/api/view-all-exercises";
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
 
     try {
-      const response = await fetch(
-      address,
-       {
+      const response = await fetch(address, {
         method: "GET",
         // body: js,
         headers: { "Content-Type": "application/json" },
@@ -55,7 +51,6 @@ const ExerciseDisplay = () => {
       const numexercises = exercises.results.length;
 
       for (var i = 0; i < numexercises; i++) {
-
         var obj = new Object();
         obj["cardNumber"] = i;
         obj["id"] = exercises.results[i]._id;
@@ -103,21 +98,17 @@ const ExerciseDisplay = () => {
   };
 
   const searchExercises = async (event) => {
-
     const address = "http://localhost:5000/api/search-exercise";
 
     var obj1 = { name: query };
     var js = JSON.stringify(obj1);
 
     try {
-      const response = await fetch(
-        address,
-        {
-          method: "POST",
-          body: js,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const response = await fetch(address, {
+        method: "POST",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
 
       var txt = await response.text();
       var res = JSON.parse(txt);
@@ -127,7 +118,6 @@ const ExerciseDisplay = () => {
       const numexercises = exercises.results.length;
 
       for (var i = 0; i < numexercises; i++) {
-
         var obj = new Object();
         obj["cardNumber"] = i;
         obj["id"] = exercises.results[i]._id;
@@ -179,22 +169,19 @@ const ExerciseDisplay = () => {
     //render cards after information is loaded to array.
     //overcome await timelapse
     useEffect(() => {
-      if (query)
-      {
-        console.log("Query: ", query)
+      if (query) {
+        console.log("Query: ", query);
         // Call search api
         searchExercises()
-        .then((result) => setArrayChange(cardArray))
-        .then((result) => setObjectArray(objects));
-      }
-      else
-      {
-        console.log("No query: ", query)
+          .then((result) => setArrayChange(cardArray))
+          .then((result) => setObjectArray(objects));
+      } else {
+        console.log("No query: ", query);
         getExercises()
-        .then((result) => setArrayChange(cardArray))
-        .then((result) => setObjectArray(objects));
+          .then((result) => setArrayChange(cardArray))
+          .then((result) => setObjectArray(objects));
       }
-    }, [query, refresh])
+    }, [query, refresh]);
   };
 
   // const edit = (info) => {
@@ -219,47 +206,54 @@ const ExerciseDisplay = () => {
 
   return (
     <div>
-      <TextField 
-          className='search-bar' 
-          type="search" 
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          variant='outlined' 
-          size='small'
-          InputProps={{startAdornment: <InputAdornment><SearchIcon sx={{color: 'white'}}/></InputAdornment>,}}
-          sx={{
-              position: 'fixed',
-              marginLeft: '1px',
-              opacity: 0.4,
-              right: '1vw',
-              marginTop:'-44px',
-              zIndex: 5000,
-              maxWidth: '30%',
-              minWidth: '20%',
-              '& .MuiInputBase-root': {
-                color: '#300130',
-                background: '#ac99be',
-              },
-              '& label.Mui-focused': {
-                color: 'white',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'white',
-              },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#6f4792',
-                  opacity: 0.3
-                },
-                '&:hover fieldset': {
-                  background: 'white',
-                  borderColor: 'white',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#3d013d',
-                },
-              },
-            }} />
+      <TextField
+        className="search-bar"
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        variant="outlined"
+        size="small"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment>
+              <SearchIcon sx={{ color: "white" }} />
+            </InputAdornment>
+          ),
+        }}
+        sx={{
+          position: "fixed",
+          marginLeft: "1px",
+          opacity: 0.4,
+          right: "1vw",
+          marginTop: "-44px",
+          zIndex: 5000,
+          maxWidth: "30%",
+          minWidth: "20%",
+          "& .MuiInputBase-root": {
+            color: "#300130",
+            background: "#ac99be",
+          },
+          "& label.Mui-focused": {
+            color: "white",
+          },
+          "& .MuiInput-underline:after": {
+            borderBottomColor: "white",
+          },
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "#6f4792",
+              opacity: 0.3,
+            },
+            "&:hover fieldset": {
+              background: "white",
+              borderColor: "white",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#3d013d",
+            },
+          },
+        }}
+      />
       <Grid
         container
         className="outerContainer"

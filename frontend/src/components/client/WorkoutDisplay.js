@@ -5,6 +5,12 @@ import Grid from "@mui/material/Grid";
 import { Divider, TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import WorkoutCard from "./WorkoutCard";
+import Box from "@mui/material/Box";
+
+import DateRangePicker from "@mui/lab/DateRangePicker";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { LocalizationProvider } from "@mui/lab";
+
 // import WorkoutEditBox from "./WorkoutEditBox";
 
 import { Button } from "@mui/material";
@@ -19,8 +25,9 @@ const WorkoutDisplay = () => {
   const [update, setUpdate] = useState(false);
   const [query, setQuery] = useState("");
   const [refresh, setRefresh] = useState(false);
-  const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
+  // const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
   const [startDate, setStartDate] = useState();
+  const [value, setValue] = React.useState([null, null]);
 
   //change date picker to select range
   const handleChange = (newValue) => {
@@ -69,13 +76,15 @@ const WorkoutDisplay = () => {
   };
 
   const getWorkouts = async (event) => {
-    const address1 = "http://localhost:5000/api/view-client-workouts-by-week";
+    const address1 = "http://localhost:5000/api/view-client-workouts-by-date-range";
     //event.preventDefault();
-    var thisdate = new Date(startDate);
+    var startDate = new Date(value[0]);
+    var endDate = new Date(value[1]);
 
-    console.log(thisdate);
+    console.log(startDate);
+    console.log(endDate);
 
-    var obj1 = { email: email, startDate: thisdate };
+    var obj1 = { email: email, startDate: startDate, endDate: endDate };
     var js1 = JSON.stringify(obj1);
 
     try {
@@ -88,13 +97,13 @@ const WorkoutDisplay = () => {
       var txt1 = await response.text();
       var res1 = JSON.parse(txt1);
       console.log(res1.results);
-      
+
       // loop through results and search for orther workout info in db
       for (var i = 0; i < res1.results.length; i++) {
         //second api call using object id from first api call
         const address2 = "http://localhost:5000/api/get-workout";
 
-        var obj2 = { workoutID: res1.results[i].id };
+        var obj2 = { workoutID: res1.results[i].workoutID };
         var js2 = JSON.stringify(obj2);
         console.log(obj2);
         try {
@@ -107,6 +116,9 @@ const WorkoutDisplay = () => {
           var txt2 = await response.text();
           var res2 = JSON.parse(txt2);
           Workouts = res2;
+
+          console.log(Workouts);
+
           var obj = new Object();
           obj["cardNumber"] = i;
           obj["id"] = Workouts.results[0]._id;
@@ -122,11 +134,11 @@ const WorkoutDisplay = () => {
           objects.push(obj);
           console.log(objects[0]);
 
-          //  take information from db and load to 
+          //  take information from db and load to
           //  array containing grid and card for each
           cardArray.push(
             <Grid
-              key={objects[i].id}
+              key={obj.id}
               className="custom-cards"
               textAlign="center"
               item
@@ -257,7 +269,7 @@ const WorkoutDisplay = () => {
           .then((result) => setArrayChange(cardArray))
           .then((result) => setObjectArray(objects));
       }
-    }, [query, refresh, startDate]);
+    }, [query, refresh, value]);
 
     //firebase component to return trainer profile info
     // var trainerID = 1; //getFirebaseID()
@@ -346,7 +358,7 @@ const WorkoutDisplay = () => {
           },
         }}
       />
-      <TextField
+      {/* <TextField
         type="date"
         placeholder={"mm/dd/yyyy"}
         sx={{
@@ -358,7 +370,26 @@ const WorkoutDisplay = () => {
         onChange={(e) => {
           setStartDate(e.target.value);
         }}
-      />
+      /> */}
+
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DateRangePicker
+        sx
+          startText="Start Date"
+          endText="End Date"
+          value={value}
+          onChange={(newValue) => {
+            setValue(newValue);
+          }}
+          renderInput={(startProps, endProps) => (
+            <React.Fragment>
+              <TextField {...startProps} variant="standard"/>
+              <Box sx={{ mx: 2 }}> to </Box>
+              <TextField {...endProps}  variant="standard"/>
+            </React.Fragment>
+          )}
+        />
+      </LocalizationProvider>
 
       <Grid
         container
