@@ -6,6 +6,7 @@ import { getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersis
 
 import { TextField, Grid, Button} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import { sendPasswordResetEmail } from "firebase/auth";
 
 
 import './css/Login.css'
@@ -23,6 +24,10 @@ const Login = props => {
 
   const handleClose = () => {
     props.close();
+  }
+
+  const sendPasswordReset = () => {
+    sendPasswordResetEmail(auth, email)
   }
 
   const determineUserType = async event => {
@@ -116,7 +121,7 @@ const Login = props => {
                 <p>{message}</p>
               </Grid>
               <Grid container direction='column' justifyContent='left' alignItems='left' marginTop='25px'>
-                <Button sx={{margin: '15px', background: '#28B7CB'}} variant='contained' onClick={logIn}>Submit</Button>
+                <Button sx={{margin: '15px', background: '#28B7CB'}} variant='contained' onClick={sendPasswordReset}>Submit</Button>
               </Grid>
             </div>
           </div>

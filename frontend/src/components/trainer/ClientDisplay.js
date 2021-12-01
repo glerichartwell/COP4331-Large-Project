@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./css/ClientDisplay.css";
 
-import { getAuth, onAuthStateChanged } from "@firebase/auth";
+import { getAuth, onAuthStateChanged, deleteUser } from "@firebase/auth";
 
 import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
@@ -232,7 +232,12 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
       var txt = await response.text();
       var res = JSON.parse(txt);
 
-
+      // Firebase delete
+      getAuth()
+      .getUserByEmail(info.email)
+      .then((userRecord) => {
+          deleteUser(userRecord)
+      })
       
       // after deleting, refresh component
       setRefresh(!refresh);
