@@ -60,7 +60,7 @@ const LoginScreen = (props) => {
 
         try {
             const response = await fetch(
-                "http://192.168.208.1:5000/api/view-clients-by-trainer",
+                "https://courtneygenix.herokuapp.com/api/view-clients-by-trainer",
                 {
                     method: "POST",
                     body: js,

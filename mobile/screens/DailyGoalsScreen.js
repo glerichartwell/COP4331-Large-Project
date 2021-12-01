@@ -43,7 +43,7 @@ const DailyGoalsScreen = (props) => {
         clearWorkouts();
         let js = JSON.stringify({email: props.email, date: (new Date(date)).toISOString().slice(0, 10)})
         console.log("JSON: ", js);
-        await fetch("http://192.168.208.1:5000/api/search-client-workout",
+        await fetch("https://courtneygenix.herokuapp.com/api/search-client-workout",
             {
                 method: "POST",
                 body: js,
@@ -62,7 +62,7 @@ const DailyGoalsScreen = (props) => {
                 for (let i = 0; i < workoutIDArray.length; i++) {
                     let js = JSON.stringify({workoutID: workoutIDArray[i].workoutID})
                     console.log(js);
-                    await fetch("http://192.168.208.1:5000/api/get-workout",
+                    await fetch("https://courtneygenix.herokuapp.com/api/get-workout",
                         {
                             method: "POST",
                             body: js,
@@ -98,7 +98,7 @@ const DailyGoalsScreen = (props) => {
         let sleepJS = JSON.stringify({email: props.email, date: (new Date(date)).toISOString().slice(0, 10)})
         /*console.log("Loading Sleep:");
         console.log("Sleep JSON: ", sleepJS);*/
-        await fetch("http://192.168.208.1:5000/api/search-client-sleep",
+        await fetch("https://courtneygenix.herokuapp.com/api/search-client-sleep",
             {
                 method: "POST",
                 body: sleepJS,
@@ -121,7 +121,7 @@ const DailyGoalsScreen = (props) => {
         let moodJS = JSON.stringify({email: props.email, date: (new Date(date)).toISOString().slice(0, 10)})
         /*console.log("Loading Mood:");
         console.log("Mood JSON: ", moodJS);*/
-        await fetch("http://192.168.208.1:5000/api/search-client-mood",
+        await fetch("https://courtneygenix.herokuapp.com/api/search-client-mood",
             {
                 method: "POST",
                 body: moodJS,
@@ -145,7 +145,7 @@ const DailyGoalsScreen = (props) => {
         let macroJS = JSON.stringify({email: props.email, date: (new Date(date)).toISOString().slice(0, 10)})
         /*console.log("Loading Macros:");
         console.log("Macro JSON: ", macroJS);*/
-        await fetch("http://192.168.208.1:5000/api/search-client-macro",
+        await fetch("https://courtneygenix.herokuapp.com/api/search-client-macro",
             {
                 method: "POST",
                 body: moodJS,

@@ -35,7 +35,7 @@ const HWComponentView = (props) => {
         let moodJS = JSON.stringify({email: props.email, rating: mood, date: (new Date(props.date)).toISOString().slice(0, 10)});
         /*console.log("Submitting Mood:");
         console.log("Mood JSON: ", moodJS);*/
-        fetch("http://192.168.208.1:5000/api/edit-client-mood",
+        await fetch("https://courtneygenix.herokuapp.com/api/edit-client-mood",
             {
                 method: "PATCH",
                 body: moodJS,
@@ -52,7 +52,7 @@ const HWComponentView = (props) => {
         let sleepJS = JSON.stringify({email: props.email, rating: sleep, date: (new Date(globalDate)).toISOString().slice(0, 10)});
         /*console.log("Submitting Sleep:");
         console.log("Sleep JSON: ", sleepJS);*/
-        fetch("http://192.168.208.1:5000/api/edit-client-sleep",
+        await fetch("https://courtneygenix.herokuapp.com/api/edit-client-sleep",
             {
                 method: "PATCH",
                 body: sleepJS,
@@ -107,7 +107,7 @@ const HWComponentView = (props) => {
                 </View>
             </RadioButton.Group>
 
-            <Title>Macromolecule Ratio</Title>
+            {/*<Title>Macromolecule Ratio</Title>
 
             {props.macroExists ? <PieChart
                 data={[
@@ -150,7 +150,7 @@ const HWComponentView = (props) => {
                 paddingLeft="15"
             /> :
                 <Text>No macros for this day.</Text>
-            }
+            }*/}
         </View>
     );
 }

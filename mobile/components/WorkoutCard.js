@@ -18,7 +18,7 @@ const WorkoutCard = (props) => {
         /*console.log("-----------");
         console.log("Loading exercise ", exerciseID);
         console.log("JSON", js);*/
-        await fetch("http://192.168.208.1:5000/api/get-exercise",
+        await fetch("https://courtneygenix.herokuapp.com/api/get-exercise",
             {
                 method: "POST",
                 body: js,

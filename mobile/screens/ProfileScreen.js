@@ -35,7 +35,7 @@ const ProfileScreen = (props) => {
         console.log("Loading client info");
         console.log("EMAIL:" + props.email);*/
         let js = JSON.stringify({search: props.email});
-        await fetch("http://192.168.208.1:5000/api/search-client",
+        await fetch("https://courtneygenix.herokuapp.com/api/search-client",
             {
                 method: "POST",
                 body: js,
@@ -155,7 +155,7 @@ const ProfileScreen = (props) => {
         let js = JSON.stringify(obj);
         console.log(js);
 
-        fetch("http://192.168.208.1:5000/api/edit-client",
+        fetch("https://courtneygenix.herokuapp.com/api/edit-client",
             {
                 method: "PATCH",
                 body: js,

@@ -31,7 +31,7 @@ const WorkoutsScreen = (props) => {
     const loadAllWorkoutInfo = async () => {
         /*console.log("-----------");
         console.log("Loading workout info");*/
-        await fetch("http://192.168.208.1:5000/api/view-all-workouts",
+        await fetch("https://courtneygenix.herokuapp.com/api/view-all-workouts",
             {
                 method: "GET",
                 headers: {"Content-Type": "application/json"},
@@ -69,7 +69,7 @@ const WorkoutsScreen = (props) => {
             endDate: (new Date(endDate)).toISOString().slice(0, 10),
         });
         console.log("WORKOUT JSON", js);
-        await fetch("http://192.168.208.1:5000/api/view-client-workouts-by-date-range",
+        await fetch("https://courtneygenix.herokuapp.com/api/view-client-workouts-by-date-range",
             {
                 method: "POST",
                 body: js,
@@ -88,7 +88,7 @@ const WorkoutsScreen = (props) => {
                 for (let i = 0; i < workoutIDArray.length; i++) {
                     let js = JSON.stringify({workoutID: workoutIDArray[i].workoutID})
                     console.log("Workout individual JSON: ", js);
-                    await fetch("http://192.168.208.1:5000/api/get-workout",
+                    await fetch("https://courtneygenix.herokuapp.com/api/get-workout",
                         {
                             method: "POST",
                             body: js,
@@ -125,7 +125,7 @@ const WorkoutsScreen = (props) => {
         console.log("Loading workout info");*/
         let js = JSON.stringify({email: props.email, startDate: (new Date(startDate)).toISOString()});
         /*console.log("JSON", js);*/
-        await fetch("http://192.168.208.1:5000/api/view-client-workouts-by-week",
+        await fetch("https://courtneygenix.herokuapp.com/api/view-client-workouts-by-week",
             {
                 method: "POST",
                 body: js,
@@ -138,7 +138,7 @@ const WorkoutsScreen = (props) => {
                 for (let i = 0; i < workoutIDArray.length; i++) {
                     let js = JSON.stringify({workoutID: workoutIDArray[i].workoutID})
                     /*console.log(js);*/
-                    await fetch("http://192.168.208.1:5000/api/get-workout",
+                    await fetch("https://courtneygenix.herokuapp.com/api/get-workout",
                         {
                             method: "POST",
                             body: js,
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     },
     dateArea: {
         width: "100%",
-        position: "relative",
+        /*position: "relative",*/
     },
     dateStart: {
         position: "absolute",
