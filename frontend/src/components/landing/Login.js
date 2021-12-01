@@ -40,7 +40,7 @@ const Login = props => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/determine-dashboard",
+        "http://courtneygenix.herokuapp.com/api/determine-dashboard",
         {
           method: "POST",
           body: js,

@@ -62,7 +62,7 @@ const AddClient = (props) => {
     var js = JSON.stringify(obj);
     try {
       const response = await fetch(
-        "http://localhost:5000/api/add-client",
+        "http://courtneygenix.herokuapp.com/api/add-client",
         {
           method: "POST",
           body: js,

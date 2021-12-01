@@ -29,7 +29,7 @@ const WorkoutDisplay = () => {
 
   const getWorkouts = async (event) => {
 
-    const address = "http://localhost:5000/api/view-all-workouts";
+    const address = "http://courtneygenix.herokuapp.com/api/view-all-workouts";
 
     try {
       const response = await fetch(address, {
@@ -99,7 +99,7 @@ const WorkoutDisplay = () => {
 
   const searchWorkouts = async (event) => {
 
-    const address = "http://localhost:5000/api/search-workout";
+    const address = "http://courtneygenix.herokuapp.com/api/search-workout";
 
     var obj1 = { name: query };
     var js = JSON.stringify(obj1);
@@ -175,7 +175,7 @@ const WorkoutDisplay = () => {
   };
 
   const deleteWorkout = async (info) => {
-    const address = "http://localhost:5000/api/delete-workout";
+    const address = "http://courtneygenix.herokuapp.com/api/delete-workout";
 
     var obj1 = { id: info.id };
     var js = JSON.stringify(obj1);

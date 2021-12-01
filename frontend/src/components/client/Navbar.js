@@ -109,7 +109,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       console.log("JSON: ", js)
 
       const response = await fetch(
-        "http://localhost:5000/api/search-client-mood",
+        "http://courtneygenix.herokuapp.com/api/search-client-mood",
         {
           method: "POST",
           body: js,

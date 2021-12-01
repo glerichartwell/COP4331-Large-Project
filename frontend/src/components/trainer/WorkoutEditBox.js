@@ -50,7 +50,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
   var exercises = [];
   const getExercises = async (event) => {
 
-    const address = "http://localhost:5000/api/view-all-exercises";
+    const address = "http://courtneygenix.herokuapp.com/api/view-all-exercises";
 
     try {
       const response = await fetch(
@@ -123,7 +123,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
 
     var js = JSON.stringify(obj);
     try {
-      const response = await fetch("http://localhost:5000/api/edit-workout", {
+      const response = await fetch("http://courtneygenix.herokuapp.com/api/edit-workout", {
         method: "PATCH",
         body: js,
         headers: { "Content-Type": "application/json" },

@@ -46,7 +46,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
     };
     var js = JSON.stringify(obj);
     try {
-      const response = await fetch("http://localhost:5000/api/edit-exercise", {
+      const response = await fetch("http://courtneygenix.herokuapp.com/api/edit-exercise", {
         method: "PATCH",
         body: js,
         headers: { "Content-Type": "application/json" },
