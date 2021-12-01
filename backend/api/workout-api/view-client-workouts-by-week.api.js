@@ -19,8 +19,9 @@ router.post("/api/view-client-workouts-by-week", async (req, res) => {
     // get clients
     const clients = await db
       .collection("Clients")
-      .find({ email: email.toLowerCase() })
-      .toArray();
+      .find({ email: email}).collation(
+        { locale: 'en', strength: 2 }
+      ).toArray();
 
     // receive iso startDate string and get date range
     var getDateBounds = new Date(startDate);
@@ -38,8 +39,9 @@ router.post("/api/view-client-workouts-by-week", async (req, res) => {
         // get workouts within date range
         const clients = await db
           .collection("Clients")
-          .find({ email: email.toLowerCase() })
-          .toArray();
+          .find({ email: email }).collation(
+            { locale: 'en', strength: 2 }
+          ).toArray();
         for (var i = 0; i < clients[0].workout.length; i++) {
           var dateToCheck = clients[0].workout[i].date;
           if (dateToCheck <= endDate && dateToCheck >= startDate) {

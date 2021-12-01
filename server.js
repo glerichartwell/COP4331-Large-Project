@@ -1,9 +1,9 @@
 // server.js
-// This is a test
-// import middleware
+
 
 const PORT = process.env.PORT || 5000
 
+// import middleware
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -18,6 +18,7 @@ var addClient = require("./backend/api/client-api/add-client.api");
 var editClient = require("./backend/api/client-api/edit-client.api");
 var searchClientByEmail = require("./backend/api/client-api/search-client-by-email.api");
 var viewClientsByTrainer = require("./backend/api/client-api/view-clients-by-trainer.api");
+var fuzzySearchClientByTrainer = require("./backend/api/client-api/fuzzy-search-client-by-trainer.api");
 
 // mood controllers
 var addMoodToClient = require("./backend/api/mood-api/add-mood-to-client.api");
@@ -35,7 +36,7 @@ var viewAllClientSleep = require("./backend/api/sleep-api/view-all-client-sleep.
 var addMacroToClient = require("./backend/api/macro-api/add-macro-to-client.api");
 var editClientMacro = require("./backend/api/macro-api/edit-client-macro.api");
 var searchClientMacro = require("./backend/api/macro-api/search-client-macro.api");
-var viewAllClientMacros = require("./backend/api/macro-api/view-all-client-macros.api");
+var viewAllClientMacro = require("./backend/api/macro-api/view-all-client-macros.api");
 
 // workout controllers
 var addWorkoutToClient = require("./backend/api/workout-api/add-workout-to-client.api");
@@ -86,6 +87,7 @@ app.use("/", addClient);
 app.use("/", editClient);
 app.use("/", searchClientByEmail);
 app.use("/", viewClientsByTrainer);
+app.use("/", fuzzySearchClientByTrainer);
 
 // mood routes
 app.use("/", addMoodToClient);
@@ -103,7 +105,7 @@ app.use("/", viewAllClientSleep);
 app.use("/", addMacroToClient);
 app.use("/", editClientMacro);
 app.use("/", searchClientMacro);
-app.use("/", viewAllClientMacros);
+app.use("/", viewAllClientMacro);
 
 // workout routes
 app.use("/", addWorkoutToClient);
@@ -140,6 +142,7 @@ app.use("/", requestInformationAPI);
 // determine dashboard route
 app.use("/", determineDashboardAPI);
 
+
 const path = require('path')
 
 const whitelist = ['http://localhost:3000', 'http://localhost:5000', 'http://courtneygenix.herokuapp.com']
@@ -155,25 +158,20 @@ const corsOptions = {
     }
   }
 }
-// app.use(cors(corsOptions))
-
-// Serve static files from the React frontend app
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PATCH, DELETE, OPTIONS"
-      );
-      next();
-    });
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, DELETE, OPTIONS"
+  );
+  next();
+});
 
-    
-    
 app.use(express.static('build'));
 
 
@@ -181,6 +179,5 @@ app.use(express.static('build'));
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/build/index.html'))
 })
-app.listen(PORT); // start Node + Express server on port 4000
+app.listen(5000); // start Node + Express server on port 4000
 console.log("listening", PORT);
-

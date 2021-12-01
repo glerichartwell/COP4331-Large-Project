@@ -19,21 +19,41 @@ router.patch("/api/edit-client-sleep", async (req, res) => {
     const results = await db
       .collection("Clients")
       .find({ email: email })
+      .collation({ locale: "en", strength: 2 })
       .toArray();
 
     // if results, store data
     if (results.length > 0) {
       id = results[0]._id;
       var collectionName = "Clients";
-      // update sleep
-      db.collection(collectionName).updateOne(
-        { _id: id, "sleep.date": date },
-        {
-          $set: {
-            "sleep.$.rating": rating,
-          },
-        }
-      );
+      // if sleep needs updating
+      const sleepResults = await db
+        .collection(collectionName)
+        .find({ _id: id, "sleep.date": date })
+        .toArray();
+
+      if (sleepResults.length > 0) {
+        db.collection(collectionName).updateOne(
+          { _id: id, "sleep.date": date },
+          {
+            $set: {
+              "sleep.$.rating": rating,
+            },
+          }
+        );
+      } else {
+        db.collection(collectionName).updateOne(
+          { _id: id },
+          {
+            $push: {
+              sleep: {
+                date: date,
+                rating: rating,
+              },
+            },
+          }
+        );
+      }
     } else {
       error = "Client does not exist";
     }

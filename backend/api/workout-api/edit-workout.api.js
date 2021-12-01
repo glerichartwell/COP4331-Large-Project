@@ -26,7 +26,7 @@ router.patch("/api/edit-workout", async (req, res) => {
       // id = results[0]._id;
       var collectionName = "Workouts";
       // if workoutName needs updating
-      if (name) {
+      if (workoutName) {
         db.collection(collectionName).updateOne(
           { _id: ObjectId(id) },
           { $set: { name: name } }

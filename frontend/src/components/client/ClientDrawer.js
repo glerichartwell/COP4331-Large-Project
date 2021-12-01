@@ -33,6 +33,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import SearchBar from "../reuseable/SearchBar";
+import { getAuth } from "firebase/auth";
 
 const ClientDrawer = (props) => {
   const navigate = useNavigate();
@@ -40,6 +41,8 @@ const ClientDrawer = (props) => {
   const [showClient, setShowClient] = useState(true);
   const [showWorkout, setShowWorkout] = useState(false);
   const [showHAW, setShowHAW] = useState(false);
+
+
 
   //change to actual logout function
   const logout = () => {
