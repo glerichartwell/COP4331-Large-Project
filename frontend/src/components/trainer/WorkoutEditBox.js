@@ -105,11 +105,16 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
 
   const EditWorkout = async (event) => {
 
+    // if (date)
+    // {
+    //   date = new Date(date).toISOString().slice(0,10)
+    // }
+
     var obj = {
 
       id : id, 
       name: name,
-      date: new Date(date).toISOString().slice(0,10),
+      // date: date,
       exercises: chosenExercises,
       comment: comment,
       timeToComplete: timeToComplete,
@@ -189,7 +194,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
                 <TextField placeholder={info.name} label='Name' sx={{ paddingBottom: "10px", width: '90%', margin:'8px', marginBottom: '3px'}} onChange={e => {setName(e.target.value)}} variant='standard' />
               </Grid>
               <Grid item>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
+              {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                         label="Date"
                         value={date}
@@ -200,7 +205,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
                         renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '90%', margin:'8px'}}/>}
                         
                     />
-                </LocalizationProvider>
+                </LocalizationProvider> */}
               </Grid>
               <Grid item>
                 <TextField type="number" placeholder={info.timeToComplete} label='Estimated Time to Complete' sx={{ width: '90%', margin:'8px'}} onChange={e => {setTimeToComplete(e.target.value)}}

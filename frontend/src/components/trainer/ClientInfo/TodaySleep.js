@@ -31,7 +31,7 @@ const dangar = {
       </CardActions>
  */
 
-export default function BasicCard({info}) {
+export default function BasicCard({info, todaySleepRating}) {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -86,12 +86,8 @@ export default function BasicCard({info}) {
             name="size-large"
             size="large"
             sx={{ position: 'absolute', fontSize: "42 vh", left: "15%", top: "50%" }}
-            defaultValue={2.5}
-            precision={0.5}
-            value={rating}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
+            value={todaySleepRating}
+
             readOnly
           />
           <Grid item xs={12}></Grid>

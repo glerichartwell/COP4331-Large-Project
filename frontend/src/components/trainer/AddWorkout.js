@@ -160,11 +160,16 @@ const AddWorkout = (props) => {
   const addWorkout = async (event) => {
     //workoutID, name, sets, reps, timeToComplete, weight, rest
 
+    // if (date)
+    // {
+    //   date = new Date(date).toISOString().slice(0,10)
+    // }
+    
     var obj = {
       trainerEmail: trainerEmail,
       name: name,
       exercises: chosenExercises,
-      date: new Date(date).toISOString().slice(0,10),
+      // date: date
       timeToComplete: timeToComplete,
       comment: comment,
     };
@@ -212,7 +217,7 @@ const AddWorkout = (props) => {
                 <TextField placeholder={name} variant='standard' label="Name of workout" sx={{ paddingBottom: "10px", width: '90%', margin:'8px', marginBottom: '3px'}} onChange={e => {setName(e.target.value)}}/>
               </Grid>
               <Grid item>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
+              {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                         label="Date"
                         value={date}
@@ -223,7 +228,7 @@ const AddWorkout = (props) => {
                         renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '90%', margin:'8px'}}/>}
                         
                     />
-                </LocalizationProvider>
+                </LocalizationProvider> */}
               </Grid>
               <Grid item>
                 <TextField type="number" variant='standard' placeholder={timeToComplete} label='Estimated Time to Complete' sx={{ width: '90%', margin:'8px'}} onChange={e => {setTimeToComplete(e.target.value)}}

@@ -34,7 +34,7 @@ const ClientInfo = ({info}) => {
   const middleName = info.middleName
   const lastName = info.lastName
   const phone = info.phone
-  const concatheader = firstName + " " + middleName + " " + lastName + "" + phone
+  const concatheader = firstName + " " + middleName + " " + lastName
   const email = info.email
 
   const carb = 33;
@@ -57,16 +57,15 @@ const ClientInfo = ({info}) => {
   }
   return (
     <div>
-      {showMacroEdit && <MacroEditBox info={macroinfo} closeMacroEdit={closeMacroEdit}/>}
+      {showMacroEdit && <MacroEditBox info={info} closeMacroEdit={closeMacroEdit}/>}
       <Grid container direction='column' >
         <Grid container direction='row'>
           <Grid item sm={12} sx={{display: 'flex', marginBottom: '20px'}}>
             <Avatar sx={{ bgcolor: '#c29bff' }} aria-label="recipe">
               {firstName[0]}
             </Avatar>
-            <Typography variant="body2" sx={{marginLeft: '20px', marginTop: '5px'}} gutterBottom>
-              {concatheader}<br/>
-              {email}
+            <Typography variant="body2" sx={{marginLeft: '20px', marginTop: '10px', fontSize: 20}} gutterBottom>
+              {concatheader}
             </Typography>
           </Grid>
         </Grid>

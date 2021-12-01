@@ -63,13 +63,9 @@ IconContainer.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function BasicCard() {
-  const [value, setValue] = React.useState(2);
-  const [hover, setHover] = React.useState(-1);
-  const handleChange = (newValue) => {
-    setValueii(newValue);
-  };
-  const [valuei, setValueii] = React.useState(new Date("2014-08-18T21:11:54"));
+export default function BasicCard({info, rating}) {
+
+
   return (
     <Paper
       sx={{
@@ -86,31 +82,12 @@ export default function BasicCard() {
           Mood
         </Typography>
       </Box>
-      <Box sx={{display: 'flex', position: 'absolute', right: -70, width: '80%',}}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DesktopDatePicker
-                orientation="landscape"
-                openTo="day"
-                value={value}
-                onChange={(newValue) => {
-                  setValue(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '120px', margin:'8px'}}/>}
-              />
-            </LocalizationProvider>
-      </Box>
       <Box sx={{display: 'flex', position: 'absolute', bottom: 120, left: 40, width: '50%',}}>
       <Rating
               name="highlight-selected-only"
-              value={value}
+              value={rating}
               IconContainerComponent={IconContainer}
               highlightSelectedOnly
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-              onChangeActive={(event, newHover) => {
-                setHover(newHover);
-              }}
               readOnly
             />
             {/* <Box sx={{display: 'flex', position: 'absolute', bottom: -30, left: 30, width: '50%',}}>

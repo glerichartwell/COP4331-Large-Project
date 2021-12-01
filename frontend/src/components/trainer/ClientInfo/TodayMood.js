@@ -59,7 +59,7 @@ IconContainer.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function BasicCard() {
+export default function BasicCard({todayMoodRating}) {
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
   const handleChange = (newValue) => {
@@ -86,16 +86,10 @@ export default function BasicCard() {
         <Grid item xs container direction="column" spacing={1}>
           <Rating
             name="highlight-selected-only"
-            value={value}
+            value={todayMoodRating}
             sx={{ position: 'absolute', fontSize: "42 vh", left: "65%", top: "50%" }}
             IconContainerComponent={IconContainer}
             highlightSelectedOnly
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
-            onChangeActive={(event, newHover) => {
-              setHover(newHover);
-            }}
             readOnly
           />
           {/* {value !== null && (

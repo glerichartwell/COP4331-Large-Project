@@ -147,7 +147,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard, get
         <Typography variant="body2" color="text.secondary" sx={{overflow: 'hidden', textAlign: 'left'}}>
           {concatdate}
           <br />
-          Last Logged In: {lastLoggedIn}
+          {/* Last Logged In: {lastLoggedIn} */}
           <br />
           {/* <Divider /> */}
           {email}

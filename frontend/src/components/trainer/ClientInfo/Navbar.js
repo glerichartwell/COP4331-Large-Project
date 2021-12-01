@@ -12,6 +12,10 @@ import Charts from "./Chart";
 import ChartToday from "./ChartToday";
 import TodaySleep from "./TodaySleep";
 import TodayMood from "./TodayMood";
+import { LocalizationProvider, DesktopDatePicker } from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { TextField } from "@mui/material";
+
 
 /**
 <Grid container spacing={2} columns={18}>
@@ -83,28 +87,127 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
     setValue(newValue);
   };
 
-  const [date, setDate] = useState(new Date());
-  const [rating, setRating] = useState();
+  const [date, setDate] = useState();
+  const [sleepRating, setSleepRating] = useState();
+  const [moodRating, setMoodRating] = useState()
+  const [macros, setMacros] = useState()
+  const [todaySleepRating, setTodaySleepRating] = useState();
+  const [todayMoodRating, setTodayMoodRating] = useState()
+  const [todayMacros, setTodayMacros] = useState()
 
   useEffect(() => {
     if (date)
     {
       getSleep();
+      getMood();
+      getMacros()
     }
+  }, [date])
+
+  useEffect(() => {
+    getTodayMacros();
+    getTodayMood();
+    getTodaySleep();
   })
 
+  const handleDateChange = (value) => {
+    setDate(value);
+  }
+
   const getSleep = async event => {
-    console.log("====================")
-    console.log("Incoming date: ", date)
+
     try {
 
       var obj = {
           email: info.email,
           date: new Date(date).toISOString().slice(0,10),
       }
-      console.log("Date: ", new Date(date).toISOString().slice(0,10))
+
       var js = JSON.stringify(obj)
-      console.log("JSON: ", js)
+
+
+      const response = await fetch(
+        "http://localhost:5000/api/search-client-sleep",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      // Save mood
+      if (res.results.length === 0)
+      {
+        return;
+      }
+
+      setSleepRating(res.results[0].rating);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        // console.log("Sleep acquired");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
+  }
+
+  const getTodaySleep = async event => {
+
+    try {
+      var temp = new Date()
+      var obj = {
+          email: info.email,
+          date: temp.toISOString().slice(0,10),
+      }
+
+      var js = JSON.stringify(obj)
+
+
+      const response = await fetch(
+        "http://localhost:5000/api/search-client-sleep",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      // Save mood
+      if (res.results.length === 0)
+      {
+        return;
+      }
+
+      setTodaySleepRating(res.results[0].rating);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Sleep acquired: ", todaySleepRating);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
+  }
+
+  const getMood = async event => {
+    try {
+
+      var obj = {
+          email: info.email,
+          date: new Date(date).toISOString().slice(0,10),
+      }
+
+      var js = JSON.stringify(obj)
+
 
       const response = await fetch(
         "http://localhost:5000/api/search-client-mood",
@@ -116,25 +219,147 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       );
       var txt = await response.text();
       var res = JSON.parse(txt);
-      console.log(res)
       // Save mood
       if (res.results.length === 0)
       {
         return;
       }
-      console.log("Res: ", res.results[0].rating)
-      setRating(res.results[0].rating);
-      console.log("====================")
+
+      setMoodRating(res.results[0].rating);
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
-        console.log("Sleep acquired");
+        // console.log("Mood acquired");
       }
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const getTodayMood = async event => {
+    try {
+
+      var temp = new Date()
+      var obj = {
+          email: info.email,
+          date: temp.toISOString().slice(0,10),
+      }
+
+      var js = JSON.stringify(obj)
 
 
+      const response = await fetch(
+        "http://localhost:5000/api/search-client-mood",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      // Save mood
+      if (res.results.length === 0)
+      {
+        return;
+      }
+
+      setTodayMoodRating(res.results[0].rating);
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Mood acquired: ", todayMoodRating);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getMacros = async event => {
+    try {
+
+      var obj = {
+          email: info.email,
+          date: new Date(date).toISOString().slice(0,10),
+      }
+      var js = JSON.stringify(obj)
+
+      const response = await fetch(
+        "http://localhost:5000/api/search-client-macro",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+  
+      // Save mood
+      if (res.results.length === 0)
+      {
+        return;
+      }
+      var macros = {
+        fats: res.results[0].fats,
+        proteins: res.results[0].proteins,
+        carbs: res.results[0].carbs,
+      }
+      console.log("Macros retrieved: ", macros)
+      setMacros(macros);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        // console.log("Macros acquired");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getTodayMacros = async event => {
+    try {
+
+      var temp = new Date()
+      var obj = {
+          email: info.email,
+          date: temp.toISOString().slice(0,10),
+      }
+      var js = JSON.stringify(obj)
+
+      const response = await fetch(
+        "http://localhost:5000/api/search-client-macro",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+  
+      // Save mood
+      if (res.results.length === 0)
+      {
+        return;
+      }
+      var macros = {
+        fats: res.results[0].fats,
+        proteins: res.results[0].proteins,
+        carbs: res.results[0].carbs,
+      }
+      console.log("Macros retrieved: ", macros)
+      setTodayMacros(macros);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Macros acquired: ", todayMacros);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 
@@ -155,15 +380,21 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       <TabPanel value={value} index={0}>
       <Box sx={{position: 'relative', width: '100%'}}>
         <Box sx={{ position: 'absolute', display: 'flex', width: '275px', height: '410px'}}>
-          <Profile info={info} />
+          
+          <Profile info={info}  />
           
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '60%', left: 280}}>
-          <TodaySleep info={info} />
-          <TodayMood info={info} />
+          
+          <TodaySleep info={info} todaySleepRating={todaySleepRating}  />
+          <TodayMood info={info} todayMoodRating={todayMoodRating} />
+
+
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '60%', left: 280, top: 156}}>
-          <ChartToday info={info} />
+          
+          <ChartToday info={info} todayMacros={todayMacros} />
+
         </Box>
       </Box>
       </TabPanel>   
@@ -171,15 +402,31 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
         Workouts
       </TabPanel>
       <TabPanel value={value} index={2}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DesktopDatePicker
+          allowSameDateSelection
+          orientation="landscape"
+          openTo="day"
+          value={date}
+          onChange={handleDateChange}
+          renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '120px', margin:'8px'}}/>}
+        />
+      </LocalizationProvider>
       <Box sx={{position: 'relative', width: '100%'}}>
         <Box sx={{ position: 'absolute', display: 'flex', width: '275px', height: '300px'}}>
-          <Slep info={info} />
+
+          <Slep rating={sleepRating} />
+
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '275px', height: '300px', left: 280}}>
-          <Mood info={info} />
+
+          <Mood rating={moodRating} />
+
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '400px', height: '300px', left: 560,}}>
-          <Charts displayMacroEdit={displayMacroEdit} info={info} />
+
+          <Charts displayMacroEdit={displayMacroEdit} macros={macros} />
+
         </Box>
       </Box>
       </TabPanel>

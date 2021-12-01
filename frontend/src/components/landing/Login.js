@@ -19,10 +19,42 @@ const Login = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const isTrainer = 1;
+  var isTrainer = 0;
 
   const handleClose = () => {
     props.close();
+  }
+
+  const determineUserType = async event => {
+
+    var obj = {
+      email: email,
+    }
+    var js = JSON.stringify(obj)
+    console.log("JSON: ", js)
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/determine-dashboard",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+        );
+        
+        var txt = await response.text();
+        var res = JSON.parse(txt);
+        console.log("results: ", res)
+        console.log("isTrainer: ", res.isTrainer)
+        isTrainer = res.isTrainer
+        
+        if (res.error.length > 0) {
+          console.log(res.error);
+        }
+      } catch (error) {
+      console.log(error);
+    }
   }
 
   const auth = getAuth();
@@ -49,51 +81,21 @@ const Login = props => {
       console.log(error)
     });
 
-    if (isTrainer)
-    {
-        handleClose();
-        navigate('/trainer-dashboard');
-    }
-    else
-    {
-      const obj = {
-        email: userEmail,
-        lastLoggedIn: lastLoggedIn,
-      }
-      const js = JSON.stringify(obj);
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/edit-client",
-          {
-            method: "PATCH",
-            body: js,
-            headers: { "Content-Type": "application/json" },
-          }
-          );
-          
-          var txt = await response.text();
-          var res = JSON.parse(txt);
-
-          if (res['status'] === 200) {
-            console.log("Client updated.")
-            handleClose();
-            navigate('/client-dashboard');
-          }
-          else
-          {
-            console.log("Edit unsucessful");
-            console.log("Redirecting...");
-            handleClose();
-            navigate('/access-denied');
-          }
-        } catch (error) {
-          console.log("Edit unsucessful");
-          console.log("Redirecting...");
+    determineUserType()
+    .then(() => {
+      if (isTrainer)
+      {
           handleClose();
-          navigate('/access-denied');
-        }
-      
-    }
+          navigate('/trainer-dashboard');
+          isTrainer = 0;
+      }
+      else
+      {
+        navigate('/dashboard')
+      }
+    })
+
+    
 
   };
 

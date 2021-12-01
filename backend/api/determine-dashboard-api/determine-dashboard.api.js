@@ -13,7 +13,7 @@ router.post("/api/determine-dashboard", async (req, res) => {
   var error = "";
   var isTrainer = false;
   const { email } = req.body;
-
+  
   try {
     const db = client.db();
     // get trainer or client from database
