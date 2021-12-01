@@ -28,7 +28,7 @@ router.post("/api/delete-workout-from-client", async (req, res) => {
       // push to exercises
       db.collection(collectionName).updateOne(
         { _id: id },
-        { $pull: { workouts: { workoutID: ObjectId(workoutID) } } }
+        { $pull: { workout: { workoutID: ObjectId(workoutID) } } }
       );
     } else {
       error = "Workout does not exist";

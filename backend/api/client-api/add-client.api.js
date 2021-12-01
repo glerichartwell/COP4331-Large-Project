@@ -19,12 +19,14 @@ router.post("/api/add-client", async (req, res) => {
     // check if email is already associated with a trainer or client
     const trainerResults = await db
       .collection("Trainers")
-      .find({ email: email })
-      .toArray();
+      .find({ email: email }).collation(
+        { locale: 'en', strength: 2 }
+      ).toArray();
     const clientResults = await db
       .collection("Clients")
-      .find({ email: email })
-      .toArray();
+      .find({ email: email }).collation(
+        { locale: 'en', strength: 2 }
+      ).toArray();
 
     // Determine if trainer or client already exists
     const results =

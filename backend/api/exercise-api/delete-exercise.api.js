@@ -17,7 +17,8 @@ router.delete("/api/delete-exercise", async (req, res) => {
 
   try {
     const db = client.db();
-    // find client
+
+    // find exercise
     const results = await db
       .collection("Exercises")
       .find({ _id: ObjectId(id) })
@@ -47,9 +48,15 @@ router.delete("/api/delete-exercise", async (req, res) => {
           results: results2,
           error: error,
         };
+
         // send data
         res.status(200).json(ret);
       });
+      db.collection("Workout").updateMany(
+        {},
+        { $pull: { exercises: { exerciseID: ObjectId(id) } } },
+        { multi: true }
+      );
     }
   } catch (e) {
     error = e.toString();

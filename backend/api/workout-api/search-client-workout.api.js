@@ -27,12 +27,14 @@ router.post("/api/search-client-workout", async (req, res) => {
 
     // find client
     const results = await db
-      .collection("Clients")
+      .collection("Client")
       .find({
         "workout.date": date,
         email: email,
         workout: { $elemMatch: { date: date } },
-      })
+      }).collation(
+        { locale: 'en', strength: 2 }
+      )
       .toArray();
 
     if (results.length > 0) {

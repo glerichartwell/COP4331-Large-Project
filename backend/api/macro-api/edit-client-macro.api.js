@@ -19,42 +19,65 @@ router.patch("/api/edit-client-macro", async (req, res) => {
     const results = await db
       .collection("Clients")
       .find({ email: email })
+      .collation({ locale: "en", strength: 2 })
       .toArray();
 
     // if results, store data
     if (results.length > 0) {
       id = results[0]._id;
       var collectionName = "Clients";
-      // update macro
-      // if fats need updating
-      if (fats) {
-        db.collection(collectionName).updateOne(
-          { _id: id, "macro.date": date },
+      // if mood needs updating
+      const macroResults = await db
+        .collection(collectionName)
+        .find({ _id: id, "macro.date": date })
+        .toArray();
+
+      if (macroResults.length > 0) {
+        // update macro
+        // if fats need updating
+        if (fats) {
+          db.collection(collectionName).updateOne(
+            { _id: id, "macro.date": date },
+            {
+              $set: {
+                "macro.$.fats": fats,
+              },
+            }
+          );
+        }
+        // if proteins need updating
+        if (proteins) {
+          db.collection(collectionName).updateOne(
+            { _id: id, "macro.date": date },
+            {
+              $set: {
+                "macro.$.proteins": proteins,
+              },
+            }
+          );
+        }
+        // if carbs need updating
+        if (carbs) {
+          db.collection(collectionName).updateOne(
+            { _id: id, "macro.date": date },
+            {
+              $set: {
+                "macro.$.carbs": carbs,
+              },
+            }
+          );
+        }
+      } else {
+        db.collection(collectionName).update(
+          { _id: id },
           {
-            $set: {
-              "macro.$.fats": fats,
-            },
-          }
-        );
-      }
-      // if proteins need updating
-      if (proteins) {
-        db.collection(collectionName).updateOne(
-          { _id: id, "macro.date": date },
-          {
-            $set: {
-              "macro.$.proteins": proteins,
-            },
-          }
-        );
-      }
-      // if carbs need updating
-      if (carbs) {
-        db.collection(collectionName).updateOne(
-          { _id: id, "macro.date": date },
-          {
-            $set: {
-              "macro.$.carbs": carbs,
+            $push: {
+              macro: {
+                date: date,
+                fats: fats,
+                proteins: proteins,
+                carbs: carbs,
+              },
             },
           }
         );

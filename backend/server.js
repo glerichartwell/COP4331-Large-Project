@@ -15,6 +15,7 @@ var addClient = require("./api/client-api/add-client.api");
 var editClient = require("./api/client-api/edit-client.api");
 var searchClientByEmail = require("./api/client-api/search-client-by-email.api");
 var viewClientsByTrainer = require("./api/client-api/view-clients-by-trainer.api");
+var fuzzySearchClientByTrainer = require("./api/client-api/fuzzy-search-client-by-trainer.api");
 
 // mood controllers
 var addMoodToClient = require("./api/mood-api/add-mood-to-client.api");
@@ -32,7 +33,7 @@ var viewAllClientSleep = require("./api/sleep-api/view-all-client-sleep.api");
 var addMacroToClient = require("./api/macro-api/add-macro-to-client.api");
 var editClientMacro = require("./api/macro-api/edit-client-macro.api");
 var searchClientMacro = require("./api/macro-api/search-client-macro.api");
-var viewAllClientMacro = require("./api/macro-api/view-all-client-macro.api");
+var viewAllClientMacro = require("./api/macro-api/view-all-client-macros.api");
 
 // workout controllers
 var addWorkoutToClient = require("./api/workout-api/add-workout-to-client.api");
@@ -46,6 +47,7 @@ var searchClientWorkout = require("./api/workout-api/search-client-workout.api")
 var searchWorkout = require("./api/workout-api/search-workout.api");
 var viewAllWorkouts = require("./api/workout-api/view-all-workouts.api");
 var viewClientWorkoutsByWeek = require("./api/workout-api/view-client-workouts-by-week.api");
+var viewClientWorkoutsByDateRange = require("./api/workout-api/view-client-workouts-by-date-range.api");
 
 // exercise controllers
 var addExerciseToWorkout = require("./api/exercise-api/add-exercise-to-workout.api");
@@ -82,6 +84,7 @@ app.use("/", addClient);
 app.use("/", editClient);
 app.use("/", searchClientByEmail);
 app.use("/", viewClientsByTrainer);
+app.use("/", fuzzySearchClientByTrainer);
 
 // mood routes
 app.use("/", addMoodToClient);
@@ -99,7 +102,7 @@ app.use("/", viewAllClientSleep);
 app.use("/", addMacroToClient);
 app.use("/", editClientMacro);
 app.use("/", searchClientMacro);
-app.use("/", viewAllClientMacros);
+app.use("/", viewAllClientMacro);
 
 // workout routes
 app.use("/", addWorkoutToClient);
@@ -113,6 +116,7 @@ app.use("/", searchClientWorkout);
 app.use("/", searchWorkout);
 app.use("/", viewAllWorkouts);
 app.use("/", viewClientWorkoutsByWeek);
+app.use("/", viewClientWorkoutsByDateRange);
 
 // exercise routes
 app.use("/", addExerciseToWorkout);

@@ -50,6 +50,12 @@ router.delete("/api/delete-workout", async (req, res) => {
         // send data
         res.status(200).json(ret);
       });
+
+      db.collection("Clients").updateMany(
+        {},
+        { $pull: { workout: { workoutID: ObjectId(id) } } },
+        { multi: true }
+      );
     }
   } catch (e) {
     error = e.toString();
