@@ -149,7 +149,7 @@ const HWComponentView = (props) => {
                 backgroundColor="transparent"
                 paddingLeft="15"
             /> :
-                <Text>No macros for today.</Text>
+                <Text>No macros for this day.</Text>
             }
         </View>
     );

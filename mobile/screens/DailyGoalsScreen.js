@@ -219,7 +219,7 @@ const DailyGoalsScreen = (props) => {
                         />
                     ))}
                     {!workoutsExists &&
-                        <Text>No workouts for today.</Text>
+                        <Text>No workouts for this day.</Text>
                     }
                 </ScrollView>
             </View>
