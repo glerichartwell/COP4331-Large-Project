@@ -26,14 +26,33 @@ router.patch("/api/edit-client-mood", async (req, res) => {
       id = results[0]._id;
       var collectionName = "Clients";
       // if mood needs updating
-      db.collection(collectionName).updateOne(
-        { _id: id, "mood.date": date },
-        {
-          $set: {
-            "mood.$.rating": rating,
-          },
-        }
-      );
+      const moodResults = await db
+        .collection(collectionName)
+        .find({ _id: id, "mood.date": date })
+        .toArray();
+
+      if (moodResults.length > 0) {
+        db.collection(collectionName).updateOne(
+          { _id: id, "mood.date": date },
+          {
+            $set: {
+              "mood.$.rating": rating,
+            },
+          }
+        );
+      } else {
+        db.collection(collectionName).updateOne(
+          { _id: id },
+          {
+            $push: {
+              mood: {
+                date: date,
+                rating: rating,
+              },
+            },
+          }
+        );
+      }
     } else {
       error = "Client does not exist";
     }
