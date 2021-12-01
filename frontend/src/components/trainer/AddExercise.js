@@ -18,7 +18,7 @@ const AddExercise = (props) => {
   const [open, setOpen] = useState(true);
   const [message, setMessage] = useState("");
   const [workoutID, setWorkoutID] = useState(0);
-  const [exerciseName, setExerciseName] = useState();
+  const [name, setName] = useState();
   const [sets, setSets] = useState();
   const [reps, setReps] = useState();
   const [time, setTime] = useState();
@@ -28,7 +28,7 @@ const AddExercise = (props) => {
   const [description, setDescription] = useState();
 
   const navigate = useNavigate();
-  //workoutID, exerciseName, sets, reps, time, weight, rest
+  //workoutID, name, sets, reps, time, weight, rest
 
   var trainerID = null;
   const auth = getAuth();
@@ -54,12 +54,13 @@ const AddExercise = (props) => {
     var obj = {
       trainerID: trainerID,
       workoutID: workoutID,
-      exerciseName: exerciseName,
+      name: name,
       sets: sets,
       reps: reps,
       time: time,
       weight: weight,
       rest: rest,
+      description: description,
     };
     var js = JSON.stringify(obj);
     try {
@@ -84,12 +85,12 @@ const AddExercise = (props) => {
   };
 
   useEffect(() => {
-    if (exerciseName && sets && (reps || time || description) && weight && rest) {
+    if (name && sets && (reps || time || description) && weight && rest) {
       setStatButton(false);
     }else {
       setStatButton(true);
     }
-  }, [exerciseName, sets, reps, time, weight, rest]);
+  }, [name, sets, reps, time, weight, rest]);
 
   return (
     <div>
@@ -119,9 +120,9 @@ const AddExercise = (props) => {
               sx={{ width: "80%", margin: "5px" }}
               type="text"
               placeholder="Name of Exercise"
-              value={exerciseName}
+              value={name}
               onChange={(e) => {
-                setExerciseName(e.target.value);
+                setName(e.target.value);
               }}
               size="large"
               variant="standard"

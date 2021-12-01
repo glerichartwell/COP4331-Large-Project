@@ -107,7 +107,7 @@ const AssignBox = ({info, closeAssignBox}) => {
             var obj = {
                 email: chosenClient.email,
                 workoutID: chosenClient.id,
-                date: date,
+                date: new Date(date).toISOString().slice(0,10),
             }
             var js = JSON.stringify(obj)
             console.log("JSON: ", js)

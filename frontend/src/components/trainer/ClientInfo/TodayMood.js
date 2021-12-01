@@ -87,6 +87,7 @@ export default function BasicCard() {
           <Rating
             name="highlight-selected-only"
             value={value}
+            sx={{ position: 'absolute', fontSize: "42 vh", left: "65%", top: "50%" }}
             IconContainerComponent={IconContainer}
             highlightSelectedOnly
             onChange={(event, newValue) => {
@@ -97,9 +98,9 @@ export default function BasicCard() {
             }}
             readOnly
           />
-          {value !== null && (
+          {/* {value !== null && (
             <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
-          )}
+          )} */}
         </Grid>
       </Grid>
     </Paper>

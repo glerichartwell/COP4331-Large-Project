@@ -6,19 +6,9 @@ import Grid from "@mui/material/Grid";
 import { red } from "@mui/material/colors";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
+import formatDate from "../../../utils/formatDate";
 
-const firstName = "Anit ";
-const middleName = " A ";
-const lastName = " Bath ";
-const phone = "(123) 451-1337";
-const concatname = firstName + " " + middleName + " " + lastName;
-const email = "bootnob@aol.com";
-const birthday = "Feb 20, 1992";
-const gender = "Fluid";
-const street = "1984 Elm Street";
-const city = "Springwood";
-const state = "Ohio";
-const zippy = 45011;
+
 
 const bull = (
   <Box
@@ -43,14 +33,25 @@ const dangar = {
       </CardActions>
  */
 
-export default function BasicCard() {
+export default function BasicCard({info}) {
+  
+  const firstName = info.firstName
+  const middleName = info.middleName
+  const lastName = info.lastName
+  const phone = info.phone
+  const concatname = firstName + " " + middleName + " " + lastName;
+  const email = info.email
+  const birthday = formatDate(info.birthday)
+  const gender = info.gender
+  const city = info.city
+
+
+
   return (
     <Paper
       sx={{
         p: 2,
         margin: "4px 0px 0px 4px",
-        width: 275,
-        height: 305,
         flexGrow: 1,
         borderColor: "gray",
       }}
@@ -59,13 +60,13 @@ export default function BasicCard() {
       <Grid container spacing={-4}>
         <Grid item xs>
           <Avatar
-            sx={{ bgcolor: red[500], width: 56, height: 56 }}
+            sx={{ bgcolor: '#c29bff', width: 56, height: 56 }}
             aria-label="recipe"
           >
             A
           </Avatar>
         </Grid>
-        <Grid item xs={6} sm container>
+        <Grid item xs={6} sm container sx={{marginTop: '60px', marginLeft: '-120px'}}>
           <Grid item xs container direction="column" spacing={1}>
             <Grid item xs>
               <Typography
@@ -82,14 +83,13 @@ export default function BasicCard() {
                 Contact
               </Typography>
               <Typography variant="body2">{email}</Typography>
-              <Typography variant="body2">Cell: {phone}</Typography>
+              <Typography variant="body2">Phone: {phone}</Typography>
               <br />
               <Typography variant="header1" style={{ fontWeight: "bold" }}>
-                Address
+                City
               </Typography>
-              <Typography variant="body2">{street}</Typography>
               <Typography variant="body2">
-                {city},{state} {zippy}
+                {city}
               </Typography>
             </Grid>
           </Grid>

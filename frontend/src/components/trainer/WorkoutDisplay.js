@@ -113,7 +113,7 @@ const WorkoutDisplay = () => {
       var txt = await response.text();
       var res = JSON.parse(txt);
       Workouts = res;
-
+      console.log("Workouts: ", Workouts)
       // save number of Workouts
       const numWorkouts = Workouts.results.length;
 
@@ -231,7 +231,7 @@ const WorkoutDisplay = () => {
         getWorkouts()
         .then((result) => setArrayChange(cardArray))
       }
-    }, [])
+    }, [query])
 
     //firebase component to return trainer profile info
     // var trainerID = 1; //getFirebaseID()

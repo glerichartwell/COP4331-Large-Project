@@ -164,7 +164,7 @@ const AddWorkout = (props) => {
       trainerEmail: trainerEmail,
       name: name,
       exercises: chosenExercises,
-      date: date,
+      date: new Date(date).toISOString().slice(0,10),
       timeToComplete: timeToComplete,
       comment: comment,
     };

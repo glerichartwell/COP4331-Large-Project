@@ -1,0 +1,20 @@
+.submit-btn {
+    display: flex;
+    width: 125px;
+    background: #6f4792 !important;
+    color: #fff !important;
+    border-color: #6f4792 !important;
+    margin-top: 20px !important;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: inherit;
+    
+  }
+  
+  .submit-btn:hover {
+    background: #ac99be !important; 
+    border-color: #6f4792 !important; 
+    color: #6f4792 !important;
+  }

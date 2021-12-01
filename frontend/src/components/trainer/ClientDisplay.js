@@ -14,7 +14,7 @@ import AddClient from "./AddClient";
 import ClientCard from "./ClientCard2";
 import ClientInfoView from "../client/ClientInfoView";
 
-const ClientDisplay = props => {
+const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [objectArray, setObjectArray] = useState();
@@ -60,7 +60,7 @@ const ClientDisplay = props => {
 
   const getClients = async (event) => {
 
-    var obj1 = { trainerID: props.trainerID };
+    var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
 
     try {
@@ -118,6 +118,8 @@ const ClientDisplay = props => {
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
               deleteCard={deleteCard}
+              openClientDash={openClientDash}
+              getClientInfo={getClientInfo}
             />
           </Grid>
         );
@@ -193,6 +195,8 @@ const ClientDisplay = props => {
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
               deleteCard={deleteCard}
+              openClientDash={openClientDash}
+              getClientInfo={getClientInfo}
             />
           </Grid>
         );
@@ -268,20 +272,20 @@ const ClientDisplay = props => {
 
   };
 
-  const openClientDash = (num) => {
-    console.log("opening dashboard for card number: " + num);
-    console.log("opening dashboard for card name: " + objects[num].firstName);
-    cardNumber = num;
-    console.log(num);
-    console.log(cardNumber);
-    setClientDashHolder(
-      <ClientInfoView
-        closeClientDash={closeClientDash}
-        useCardNumber={objects[num].firstName}
-      />
-    );
-    setShowClientDash(true);
-  };
+  // const openClientDash = (num) => {
+  //   console.log("opening dashboard for card number: " + num);
+  //   console.log("opening dashboard for card name: " + objects[num].firstName);
+  //   cardNumber = num;
+  //   console.log(num);
+  //   console.log(cardNumber);
+  //   setClientDashHolder(
+  //     <ClientInfoView
+  //       closeClientDash={closeClientDash}
+  //       useCardNumber={objects[num].firstName}
+  //     />
+  //   );
+  //   setShowClientDash(true);
+  // };
 
   const closeClientDash = () => {
     setShowClientDash(false);

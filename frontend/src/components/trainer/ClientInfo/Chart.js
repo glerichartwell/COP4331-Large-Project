@@ -11,13 +11,20 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { Box } from "@mui/system";
+import "./css/Chart.css"
 
-export default function Charts() {
-  const carb = 13;
-  const fat = 10;
-  const protein = 15;
+const Charts = ({displayMacroEdit}) => {
+
   const [open, setOpen] = useState(false);
-
+  const carb = 33;
+  const fat = 33;
+  const protein = 33;
+  const info = {
+    fat: fat,
+    protein: protein,
+    carb: carb,
+  }
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -30,19 +37,16 @@ export default function Charts() {
     <Paper
       sx={{
         p: 2,
+        position: 'relative',
         margin: "4px 0px 0px 4px",
-        width: 250,
-        height: 250,
         flexGrow: 1,
         borderColor: "gray",
       }}
       variant="outlined"
     >
-      <Grid container spacing={1} direction="row">
-        <Grid item xs={10.5} container>
-          <Chart
-            width={"250px"}
-            height={"200px"}
+    <Box sx={{display: 'flex', position: 'absolute', bottom: 30, left: 50 }}>
+      <Chart
+            width={"300px"}
             chartType="PieChart"
             loader={<div>Loading Chart</div>}
             data={[
@@ -56,49 +60,15 @@ export default function Charts() {
             }}
             rootProps={{ "data-testid": "1" }}
           />
-        </Grid>
-        <div>
-          <EditIcon onClick={handleClickOpen} />
-        </div>
-      </Grid>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ m: 0, p: 2 }}>
-          Edit Macro Goals
-          <IconButton onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={1} direction="row">
-            <Grid item xs={10.5} container spacing={2}>
-              <Grid item>
-                <TextField
-                  id="standard-helperText"
-                  label="Fat"
-                  defaultValue={fat}
-                  variant="standard"
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  id="standard-helperText"
-                  label="Carbs"
-                  defaultValue={carb}
-                  variant="standard"
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  id="standard-helperText"
-                  label="Protein"
-                  defaultValue={protein}
-                  variant="standard"
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </DialogContent>
-      </Dialog>
+    </Box>
+    <Box sx={{display: 'flex', position: 'absolute', top: 5, right: 10, }}>
+      <Button className='edit-btn' variant='text' onClick={displayMacroEdit}>
+        <EditIcon />
+      </Button>
+    </Box>
+        
     </Paper>
   );
 }
+
+export default Charts

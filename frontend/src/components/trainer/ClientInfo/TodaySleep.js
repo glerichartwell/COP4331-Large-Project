@@ -31,7 +31,7 @@ const dangar = {
       </CardActions>
  */
 
-export default function BasicCard() {
+export default function BasicCard({info}) {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -85,7 +85,7 @@ export default function BasicCard() {
           <Rating
             name="size-large"
             size="large"
-            sx={{ fontSize: "42 vh" }}
+            sx={{ position: 'absolute', fontSize: "42 vh", left: "15%", top: "50%" }}
             defaultValue={2.5}
             precision={0.5}
             value={rating}

@@ -33,7 +33,7 @@ const ExpandMore = styled((infos) => {
   }),
 }));
 
-export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
+export default function RecipeReviewCard({ info, openClientDash, deleteCard, getClientInfo }) {
 
   const cardNumber = info.cardNumber;
   const firstName = info.firstName;
@@ -65,7 +65,8 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
   };
   const openDashboard = () => {
     console.log("got to open dashboard function");
-    openClientDash(cardNumber);
+    getClientInfo(info);
+    openClientDash(info);
   };
 
   // stuff
@@ -102,14 +103,14 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
           },
         }}
         avatar={
-          <div onClick={(openClientDash, openDashboard)}>
+          <div onClick={openDashboard}>
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
               {info.firstName[0]}
             </Avatar>
           </div>
         }
         title={
-          <div onClick={(openClientDash, openDashboard)}>{concatname}</div>
+          <div onClick={openDashboard}>{concatname}</div>
         }
       />
       <Popover
@@ -141,7 +142,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard }) {
           </ListItem>
         </List>
       </Popover>
-      <CardContent>
+      <CardContent onClick={openDashboard}>
 
         <Typography variant="body2" color="text.secondary" sx={{overflow: 'hidden', textAlign: 'left'}}>
           {concatdate}

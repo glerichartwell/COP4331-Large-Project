@@ -13,6 +13,7 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import Typography from "@mui/material/Typography";
+import { TextField } from "@mui/material";
 
 const bull = (
   <Box
@@ -73,23 +74,33 @@ export default function BasicCard() {
     <Paper
       sx={{
         p: 2,
+        position: 'relative',
         margin: "4px 0px 0px 4px",
-        width: 250,
-        height: 250,
         flexGrow: 1,
         borderColor: "gray",
       }}
       variant="outlined"
     >
-      <Typography variant="header2" gutterBottom style={{ fontWeight: "bold" }}>
-        Mood
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12}></Grid>
-        <Grid item xs={6} sm container>
-          <Grid item xs={2.8}></Grid>
-          <Grid item xs container direction="column" spacing={1}>
-            <Rating
+      <Box sx={{display: 'flex', position: 'absolute', top: 20, left: 30, width: '50%', }}>
+        <Typography variant="header2" gutterBottom style={{ fontWeight: "bold", fontSize: 24 }}>
+          Mood
+        </Typography>
+      </Box>
+      <Box sx={{display: 'flex', position: 'absolute', right: -70, width: '80%',}}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DesktopDatePicker
+                orientation="landscape"
+                openTo="day"
+                value={value}
+                onChange={(newValue) => {
+                  setValue(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '120px', margin:'8px'}}/>}
+              />
+            </LocalizationProvider>
+      </Box>
+      <Box sx={{display: 'flex', position: 'absolute', bottom: 120, left: 40, width: '50%',}}>
+      <Rating
               name="highlight-selected-only"
               value={value}
               IconContainerComponent={IconContainer}
@@ -102,28 +113,13 @@ export default function BasicCard() {
               }}
               readOnly
             />
+            {/* <Box sx={{display: 'flex', position: 'absolute', bottom: -30, left: 30, width: '50%',}}>
             {value !== null && (
               <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
             )}
-          </Grid>
-          <Grid item xs>
-            <br />
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DesktopDatePicker
-                label="Custom input"
-                value={valuei}
-                onChange={handleChange}
-                renderInput={({ inputRef, inputProps, InputProps }) => (
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <input ref={inputRef} {...inputProps} />
-                    {InputProps?.endAdornment}
-                  </Box>
-                )}
-              />
-            </LocalizationProvider>
-          </Grid>
-        </Grid>
-      </Grid>
+            </Box> */}
+      </Box>
+      
     </Paper>
   );
 }

@@ -10,7 +10,7 @@ import Slep from "./SleepCard";
 import Mood from "./MoodCard";
 import Charts from "./Chart";
 import Charts2 from "./ChartToday";
-import Slep2 from "./TodaySleep";
+import TodaySleep from "./TodaySleep";
 import Mood2 from "./TodayMood";
 
 /**
@@ -76,22 +76,22 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs() {
+export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  
+
   return (
-    <Box sx={{ width: "1000px" }}>
+    <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
-          variant="scrollable"
-          scrollButtons="auto"
         >
           <Tab label="Info" {...a11yProps(0)} />
           <Tab label="Workouts" {...a11yProps(1)} />
@@ -99,34 +99,48 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Grid container spacing={2} columns={18}>
-          <Grid item xs={6}>
-            <Profile />
-          </Grid>
-          <Grid item xs={6}>
-            <Grid item>
-              <Slep2 />
-            </Grid>
-            <Grid item>
-              <Mood2 />
-            </Grid>
-          </Grid>
-          <Grid item xs={10.95} direction="column">
-            <Charts2 />
-          </Grid>
-        </Grid>
-      </TabPanel>
+      <Box sx={{position: 'relative', width: '100%'}}>
+        <Box sx={{ position: 'absolute', display: 'flex', width: '275px', height: '410px'}}>
+          <Profile info={info} />
+          
+        </Box>
+        <Box sx={{position: 'absolute', display: 'flex', width: '60%', left: 280}}>
+          <TodaySleep info={info} />
+          <Mood2 info={info} />
+        </Box>
+        <Box sx={{position: 'absolute', display: 'flex', width: '60%', left: 280, top: 156}}>
+          <Charts2 info={info} />
+        </Box>
+      </Box>
+      </TabPanel>   
       <TabPanel value={value} index={1}>
         Workouts
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Health and Wellness
-        <Grid container spacing={3}>
-          <Slep />
-          <Mood />
-          <Charts />
-        </Grid>
+      <Box sx={{position: 'relative', width: '100%'}}>
+        <Box sx={{ position: 'absolute', display: 'flex', width: '275px', height: '300px'}}>
+          <Slep info={info} />
+        </Box>
+        <Box sx={{position: 'absolute', display: 'flex', width: '275px', height: '300px', left: 280}}>
+          <Mood info={info} />
+        </Box>
+        <Box sx={{position: 'absolute', display: 'flex', width: '400px', height: '300px', left: 560,}}>
+          <Charts displayMacroEdit={displayMacroEdit} info={info} />
+        </Box>
+      </Box>
       </TabPanel>
     </Box>
   );
 }
+
+{/* <Box sx={{display: 'flex', width: '100%'}}>
+  <Box sx={{display: 'flex', width: '33%'}}>
+    <Slep />
+  </Box>
+  <Box sx={{display: 'flex', width: '33%'}}>
+    <Mood />
+  </Box>
+  <Box sx={{display: 'flex', width: '33%'}}>
+    <Charts displayMacroEdit={displayMacroEdit} closeMacroEdit={closeMacroEdit} />
+  </Box>
+</Box> */}

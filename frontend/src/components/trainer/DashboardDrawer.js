@@ -10,6 +10,7 @@ import SearchBar from "../reuseable/SearchBar";
 import AddExercise from "./AddExercise";
 import AddWorkout from "./AddWorkout";
 import ClientInfo from "./ClientInfo/ClientInfo"
+import MacroEditBox from "./ClientInfo/MacroEditBox";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -51,7 +52,8 @@ const DashboardDrawer = (props) => {
   const [searchWorkout, setSearchWorkout] = useState(false);
   const [searchExercise, setSearchExercise] = useState(false);
   const [hideAdd, setHideAdd] = useState(true);
-  const [showClientInfo, setshowClientInfo] = useState(true)
+  const [showClientInfo, setShowClientInfo] = useState(false)
+  const [clientInfo, setClientInfo] = useState()
 
   
 
@@ -112,6 +114,7 @@ const DashboardDrawer = (props) => {
     setSearchWorkout(false);
     setSearchExercise(false);
     setHideAdd(false);
+    setShowClientInfo(false)
     
     setSearchClient(true);
     setShowClient(true);
@@ -123,6 +126,7 @@ const DashboardDrawer = (props) => {
     setSearchExercise(false);
     setSearchClient(false);
     setHideAdd(false);
+    setShowClientInfo(false)
     
     setShowWorkout(true);
     setSearchWorkout(true);
@@ -134,10 +138,29 @@ const DashboardDrawer = (props) => {
     setSearchClient(false);
     setSearchWorkout(false);
     setHideAdd(false);
+    setShowClientInfo(false);
 
     setSearchExercise(true);
     setShowExercise(true);
   };
+
+  const openClientDash = (info) => {
+    setShowClient(false);
+    setSearchClient(false);
+    
+    setShowWorkout(false);
+    setSearchWorkout(false);
+    
+    setSearchExercise(false);
+    setShowExercise(false);
+    
+    setHideAdd(true);
+    setShowClientInfo(true);
+  }
+
+  const getClientInfo = (info) => {
+    setClientInfo(info)
+  }
 
   const addItem = () => {
     if (showClient) {
@@ -165,6 +188,16 @@ const DashboardDrawer = (props) => {
   // useEffect(() => {
   //   searchItem(query)
   // }, [query])
+
+  const carb = 33;
+  const fat = 33;
+  const protein = 33;
+  const info = {
+    fat: fat,
+    protein: protein,
+    carb: carb,
+  }
+
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -249,13 +282,13 @@ const DashboardDrawer = (props) => {
       >
         <Toolbar />
         {/* code for contents of box area in dashboard */}
-        {showClient ? <ClientDisplay trainerID={trainerID} user={user} /> : null}
-        {showClientInfo ? <ClientInfo /> : null}
+        {showClient ? <ClientDisplay openClientDash={openClientDash} getClientInfo={getClientInfo} trainerID={trainerID} user={user} /> : null}
+        {showClientInfo ? <ClientInfo info={clientInfo}/> : null}
         {showWorkout ? <WorkoutDisplay query={query} /> : null}
         {showExercise ? <ExerciseDisplay query={query} /> : null}
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
         {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
-        {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null} 
+        {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null}
       </Box>
     </Box>
   );

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
@@ -10,6 +10,8 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import TextField from "@mui/material/TextField";
 import StaticDatePicker from "@mui/lab/StaticDatePicker";
+import {ThemeProvider} from "@material-ui/styles";
+import { createTheme } from "@material-ui/core/styles";
 
 const bull = (
   <Box
@@ -34,92 +36,101 @@ const dangar = {
       </CardActions>
  */
 
-export default function BasicCard() {
-  const [expanded, setExpanded] = React.useState(false);
+export default function BasicCard({info}) {
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const [date, setDate] = useState(new Date());
+  const [rating, setRating] = useState();
+  var tempRating = null;
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
-  const handleClickii = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const getSleepWrapper = (event) => {
+    setDate(event)
+    getSleep();
+  }
 
-  const openi = Boolean(anchorEl);
-  const id = openi ? "simple-popover" : undefined;
+  const getSleep = async event => {
+    console.log("====================")
+    console.log("Incoming date: ", date)
+    try {
 
-  const handleChange = (newValue) => {
-    setValueii(newValue);
-  };
+      var obj = {
+          email: info.email,
+          date: new Date(date).toISOString().slice(0,10),
+      }
+      console.log("Date: ", new Date(date).toISOString().slice(0,10))
+      var js = JSON.stringify(obj)
+      console.log("JSON: ", js)
 
-  const [rating, setValue] = React.useState(2);
+      const response = await fetch(
+        "http://localhost:5000/api/search-client-mood",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      console.log(res)
+      // Save mood
+      if (res.results.length === 0)
+      {
+        return;
+      }
+      console.log("Res: ", res.results[0].rating)
+      setRating(res.results[0].rating);
+      console.log("====================")
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Sleep acquired");
+        tempRating = res.results[0].rating;
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
-  const [open, setOpen] = React.useState(true);
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  }
 
-  const [value, setValueii] = React.useState(new Date("2014-08-18T21:11:54"));
   return (
     <Paper
       sx={{
+        position: 'relative',
         p: 2,
         margin: "4px 0px 0px 4px",
-        width: 250,
-        height: 250,
         flexGrow: 1,
         borderColor: "gray",
       }}
       variant="outlined"
     >
-      <Typography variant="header2" gutterBottom style={{ fontWeight: "bold" }}>
-        Sleep
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12}></Grid>
-        <Grid item xs={6} sm container>
-          <Grid item xs={2.8}></Grid>
-          <Grid item xs container direction="column" spacing={1}>
-            <Rating
-              name="size-large"
-              size="large"
-              sx={{ fontSize: 42 }}
-              defaultValue={2.5}
-              precision={0.5}
-              value={rating}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-              readOnly
-            />
-            <Grid item xs={12}></Grid>
-            <Grid item xs={12}></Grid>
-          </Grid>
-
-          <Grid item xs>
-            <br />
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <StaticDatePicker
-                orientation="landscape"
-                openTo="day"
-                value={value}
-                onChange={(newValue) => {
-                  setValue(newValue);
-                }}
-                renderInput={() => {
-                  return null;
-                }}
-              />
-            </LocalizationProvider>
-          </Grid>
-        </Grid>
-      </Grid>
+      <Box sx={{display: 'flex', position: 'absolute', top: 20, left: 30, width: '50%', }}>
+        <Typography variant="header2" gutterBottom style={{ fontWeight: "bold", fontSize: 24 }}>
+          Sleep
+        </Typography>
+      </Box>
+      <Box sx={{display: 'flex', position: 'absolute', right: -70, width: '80%',}}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DesktopDatePicker
+          allowSameDateSelection
+          orientation="landscape"
+          openTo="day"
+          value={date}
+          onChange={getSleepWrapper}
+          renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '120px', margin:'8px'}}/>}
+        />
+      </LocalizationProvider>
+      </Box>
+      <Box sx={{display: 'flex', position: 'absolute', bottom: 120, left: 25, width: '50%',}}>
+        <Rating
+          name="size-large"
+          size="large"
+          sx={{ fontSize: 42 }}
+          value={rating}
+          readOnly
+        />
+      </Box>
+      
     </Paper>
   );
 }
