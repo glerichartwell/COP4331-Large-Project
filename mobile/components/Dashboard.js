@@ -61,9 +61,8 @@ const Dashboard = (props) => {
                     ),
                 }}
             />
-            <Tab.Screen
+            {/*<Tab.Screen
                 name="Health"
-                /*component={HealthWellnessScreen}*/
                 children={() => <HealthWellnessScreen email={props.email}/>}
                 options={{
                     tabBarLabel: 'H & W',
@@ -71,7 +70,7 @@ const Dashboard = (props) => {
                         <MaterialCommunityIcons name="heart" color={color} size={26}/>
                     ),
                 }}
-            />
+            />*/}
         </Tab.Navigator>
     );
 }

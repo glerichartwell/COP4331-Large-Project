@@ -11,13 +11,22 @@ import theme from "../custom-properties/Themes";
 const WorkoutsScreen = (props) => {
     const auth = getAuth();
     const [workouts, setWorkouts] = useState([]);
+    const [workoutsExists, setWorkoutsExists] = useState(false);
     const [startDate, setStartDate] = useState((new Date()).toLocaleDateString());
     const [endDate, setEndDate] = useState((new Date()).toLocaleDateString());
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
+        clearWorkouts();
         loadWorkoutInfoDateRange().then(() => setLoaded(true));
     }, [loaded])
+
+    const clearWorkouts = () => {
+        setWorkouts([])
+        for (let i = 0; i < workouts.length; i++){
+            workouts.pop()
+        }
+    }
 
     const loadAllWorkoutInfo = async () => {
         /*console.log("-----------");
@@ -53,15 +62,13 @@ const WorkoutsScreen = (props) => {
     const loadWorkoutInfoDateRange = async () => {
         console.log("-----------");
         console.log("Loading workout info");
-        for (let i = 0; i < workouts.length; i++){
-            workouts.pop();
-        }
+        clearWorkouts();
         let js = JSON.stringify({
             email: props.email,
             startDate: (new Date(startDate)).toISOString().slice(0, 10),
             endDate: (new Date(endDate)).toISOString().slice(0, 10),
         });
-        console.log("JSON", js);
+        console.log("WORKOUT JSON", js);
         await fetch("http://192.168.208.1:5000/api/view-client-workouts-by-date-range",
             {
                 method: "POST",
@@ -72,9 +79,15 @@ const WorkoutsScreen = (props) => {
             .then(async (responseJson) => {
                 console.log("RESPONSE: ", responseJson);
                 let workoutIDArray = responseJson.results;
+                if (workoutIDArray.length === 0){
+                    setWorkoutsExists(false);
+                }
+                else {
+                    setWorkoutsExists(true);
+                }
                 for (let i = 0; i < workoutIDArray.length; i++) {
                     let js = JSON.stringify({workoutID: workoutIDArray[i].workoutID})
-                    console.log(js);
+                    console.log("Workout individual JSON: ", js);
                     await fetch("http://192.168.208.1:5000/api/get-workout",
                         {
                             method: "POST",
@@ -83,7 +96,7 @@ const WorkoutsScreen = (props) => {
                         })
                         .then(response => response.json())
                         .then((responseJson) => {
-                            console.log(responseJson);
+                            console.log("INDIVIDUAL RESPONSE: ", responseJson);
                             let newWorkouts = workouts;
                             let newWorkoutToAdd = responseJson.results[0];
                             newWorkoutToAdd.date = workoutIDArray[i].date;
@@ -191,10 +204,17 @@ const WorkoutsScreen = (props) => {
                             />
                         }
                         data={workouts}
-                        keyExtractor={(item) => item._id}
+                        keyExtractor={(item) => (item._id + item.date)}
                         contentContainerStyle={styles.scrollContainer}
                     >
                     </FlatList>
+                    {!workoutsExists &&
+                        <Title
+                            style={{textAlign: "center"}}
+                        >
+                            No workouts for this date range.
+                        </Title>
+                    }
                 </Surface>
             </View>
         );
