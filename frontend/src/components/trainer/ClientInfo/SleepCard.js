@@ -36,7 +36,7 @@ const dangar = {
       </CardActions>
  */
 
-export default function BasicCard({info}) {
+export default function BasicCard({getDate, info}) {
 
   const [date, setDate] = useState(new Date());
   const [rating, setRating] = useState();
@@ -45,7 +45,6 @@ export default function BasicCard({info}) {
 
   const getSleepWrapper = (event) => {
     setDate(event)
-    getSleep();
   }
 
   const getSleep = async event => {
@@ -116,7 +115,9 @@ export default function BasicCard({info}) {
           orientation="landscape"
           openTo="day"
           value={date}
-          onChange={getSleepWrapper}
+          onChange={(value) => {
+            getSleepWrapper(value); console.log("Date: ", date)
+          }}
           renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '120px', margin:'8px'}}/>}
         />
       </LocalizationProvider>

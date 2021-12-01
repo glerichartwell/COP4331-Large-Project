@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -77,13 +77,16 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  
+  const [date, setDate] = useState(new Date());
+  const [rating, setRating] = useState();
+
+
 
   return (
     <Box sx={{ width: "100%" }}>
