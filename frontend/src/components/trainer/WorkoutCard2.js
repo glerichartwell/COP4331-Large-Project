@@ -126,9 +126,9 @@ export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
         }
         title={info.name}
       />
-      <Typography variant='body2' color="text.secondary" sx={{textAlign: 'left', marginLeft: '25px', fontSize: 17}}>
+      {/* <Typography variant='body2' color="text.secondary" sx={{textAlign: 'left', marginLeft: '25px', fontSize: 17}}>
         {concatdate}
-      </Typography>
+      </Typography> */}
       <Popover
         id={id}
         open={openi}
