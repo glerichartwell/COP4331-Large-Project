@@ -72,7 +72,7 @@ export default function BasicCard({todayMoodRating}) {
         p: 2,
         margin: "4px 0px 0px 4px",
         width: 250,
-        height: 150,
+        height: 205,
         flexGrow: 1,
         borderColor: "gray",
       }}
@@ -87,7 +87,7 @@ export default function BasicCard({todayMoodRating}) {
           <Rating
             name="highlight-selected-only"
             value={todayMoodRating}
-            sx={{ position: 'absolute', fontSize: "42 vh", left: "65%", top: "50%" }}
+            sx={{ position: 'absolute', fontSize: "42 vh", left: "10%", top: "50%" }}
             IconContainerComponent={IconContainer}
             highlightSelectedOnly
             readOnly

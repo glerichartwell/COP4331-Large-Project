@@ -69,7 +69,7 @@ export default function BasicCard({info, todaySleepRating}) {
         p: 2,
         margin: "4px 0px 0px 4px",
         width: 250,
-        height: 150,
+        height: 190,
         flexGrow: 1,
         borderColor: "gray",
       }}

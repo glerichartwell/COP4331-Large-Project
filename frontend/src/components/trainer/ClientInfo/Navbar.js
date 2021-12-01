@@ -384,16 +384,19 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
           <Profile info={info}  />
           
         </Box>
-        <Box sx={{position: 'absolute', display: 'flex', width: '60%', left: 280}}>
+        <Box sx={{position: 'relative', width: '300px', left: 280, top: 5}}>
           
           <TodaySleep info={info} todaySleepRating={todaySleepRating}  />
+          </Box>
+          <Box sx={{position: 'absolute',width: '300px', left: 280, top: 200}}>
           <TodayMood info={info} todayMoodRating={todayMoodRating} />
+          
 
 
         </Box>
-        <Box sx={{position: 'absolute', display: 'flex', width: '60%', left: 280, top: 156}}>
+        <Box sx={{position: 'absolute', display: 'flex', width: '60%'}}>
           
-          <ChartToday info={info} todayMacros={todayMacros} />
+          {/* <ChartToday info={info} todayMacros={todayMacros} /> */}
 
         </Box>
       </Box>
@@ -425,7 +428,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '400px', height: '300px', left: 560,}}>
 
-          <Charts displayMacroEdit={displayMacroEdit} macros={macros} />
+          {/* <Charts displayMacroEdit={displayMacroEdit} macros={macros} /> */}
 
         </Box>
       </Box>

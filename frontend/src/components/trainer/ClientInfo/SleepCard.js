@@ -53,7 +53,7 @@ export default function BasicCard({setDate, date, info, rating}) {
       }}
       variant="outlined"
     >
-      <Box sx={{display: 'flex', position: 'absolute', top: 20, left: 30, width: '50%', }}>
+      <Box sx={{display: 'flex', position: 'absolute', top: 20, left: 30, width: '50%', height: '100px' }}>
         <Typography variant="header2" gutterBottom style={{ fontWeight: "bold", fontSize: 24 }}>
           Sleep
         </Typography>
