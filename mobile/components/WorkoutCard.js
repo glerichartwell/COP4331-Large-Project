@@ -56,6 +56,15 @@ const WorkoutCard = (props) => {
         setShowExercise(false);
     }
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const d2 = new Date( d.getTime() - d.getTimezoneOffset() * -60000);
+        const year = d2.getFullYear();
+        const month = d2.getMonth() + 1;
+        const day = d2.getDate();
+        return month + "/" + day + "/" + year;
+    }
+
     return (
         <View>
             <Portal>
@@ -96,7 +105,7 @@ const WorkoutCard = (props) => {
             >
                 <Card.Title
                     title={props.name}
-                    subtitle={"Date: " + (new Date(props.date)).toLocaleDateString()}
+                    subtitle={"Date: " + formatDate(props.date)}
                 />
                 <Card.Content>
                     <Text>

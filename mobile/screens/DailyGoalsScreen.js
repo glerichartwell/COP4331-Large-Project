@@ -23,7 +23,10 @@ const DailyGoalsScreen = (props) => {
     const loadWorkoutInfo = async () => {
         console.log("-----------");
         console.log("Loading workout info");
-        let js = JSON.stringify({email: props.email, date: (new Date(date)).toISOString()})
+        for (let i = 0; i < workouts.length; i++){
+            workouts.pop();
+        }
+        let js = JSON.stringify({email: props.email, date: (new Date(date)).toISOString().slice(0, 10)})
         console.log("JSON: ", js);
         await fetch("http://192.168.208.1:5000/api/search-client-workout",
             {
@@ -32,24 +35,38 @@ const DailyGoalsScreen = (props) => {
                 headers: {"Content-Type": "application/json"},
             })
             .then(response => response.json())
-            .then((responseJson) => {
+            .then(async (responseJson) => {
                 console.log("RESPONSE: ", responseJson);
-                // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-                responseJson.results.sort(function (a, b) {
-                    let nameA = a.name.toUpperCase(); // ignore upper and lowercase
-                    let nameB = b.name.toUpperCase(); // ignore upper and lowercase
-                    if (nameA < nameB) {
-                        return -1;
-                    }
-                    if (nameA > nameB) {
-                        return 1;
-                    }
-
-                    // names must be equal
-                    return 0;
-                });
-                setWorkouts(responseJson.results);
-                console.log("WORKOUTS", responseJson.results);
+                let workoutIDArray = responseJson.results;
+                for (let i = 0; i < workoutIDArray.length; i++) {
+                    let js = JSON.stringify({workoutID: workoutIDArray[i].workoutID})
+                    console.log(js);
+                    await fetch("http://192.168.208.1:5000/api/get-workout",
+                        {
+                            method: "POST",
+                            body: js,
+                            headers: {"Content-Type": "application/json"},
+                        })
+                        .then(response => response.json())
+                        .then((responseJson) => {
+                            console.log(responseJson);
+                            let newWorkouts = workouts;
+                            let newWorkoutToAdd = responseJson.results[0];
+                            newWorkoutToAdd.date = workoutIDArray[i].date;
+                            let add = true;
+                            for (let i = 0; i < workouts.length; i++){
+                                if (workouts[i].workoutID === newWorkoutToAdd.workoutID && workouts[i].date === newWorkoutToAdd.date){
+                                    add = false;
+                                }
+                            }
+                            if (add){
+                                newWorkouts.push(newWorkoutToAdd);
+                            }
+                            setWorkouts(newWorkouts);
+                            console.log("WORKOUTS: ", workouts);
+                        })
+                        .catch(error => console.log("ERROR: ", error))
+                }
             })
             .catch(error => console.log("ERROR: " + error))
         console.log("-----------");

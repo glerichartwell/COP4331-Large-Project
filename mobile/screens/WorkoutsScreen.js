@@ -53,10 +53,13 @@ const WorkoutsScreen = (props) => {
     const loadWorkoutInfoDateRange = async () => {
         console.log("-----------");
         console.log("Loading workout info");
+        for (let i = 0; i < workouts.length; i++){
+            workouts.pop();
+        }
         let js = JSON.stringify({
             email: props.email,
-            startDate: (new Date(startDate)).toISOString(),
-            endDate: (new Date(endDate)).toISOString(),
+            startDate: (new Date(startDate)).toISOString().slice(0, 10),
+            endDate: (new Date(endDate)).toISOString().slice(0, 10),
         });
         console.log("JSON", js);
         await fetch("http://192.168.208.1:5000/api/view-client-workouts-by-date-range",
