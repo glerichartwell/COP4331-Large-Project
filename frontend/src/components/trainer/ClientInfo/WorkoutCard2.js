@@ -24,7 +24,7 @@ import Popover from "@mui/material/Popover";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import AddIcon from "@mui/icons-material/Add";
 import { Divider } from "@mui/material";
-import formatDate from "../../utils/formatDate";
+import formatDate from "../../../utils/formatDate";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -53,15 +53,9 @@ const exercises = [];
 // const itemsize = 45;
 // const listheight = itemsize * numExercises;
 
-export default function WorkoutCard({
-  edit,
-  assign,
-  dbInfo,
-  deleteCard,
-  revealExercise,
-}) {
+export default function WorkoutCard({ edit, assign, dbInfo, deleteCard }) {
   const [expanded, setExpanded] = useState(false);
-  const [elevation, setElevation] = useState(5);
+  const [elevation, setElevation] = useState(5)
   // Show on surface
   const sumtext = "Date: ";
   // Don't change this, if you really need to, don't make it lower than 45
@@ -86,7 +80,7 @@ export default function WorkoutCard({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  
   const sendEdit = () => {
     edit(info);
     setAnchorEl(false);
@@ -95,12 +89,12 @@ export default function WorkoutCard({
   const sendAssign = () => {
     assign(info);
     setAnchorEl(false);
-  };
+  }
 
   const sendDelete = () => {
     deleteCard(info);
     setAnchorEl(false);
-  };
+  }
 
   const openi = Boolean(anchorEl);
   const id = openi ? "simple-popover" : undefined;
@@ -119,31 +113,20 @@ export default function WorkoutCard({
   info.rating = dbInfo.rating;
 
   const concatdate = sumtext + info.date;
+  
+  
 
   return (
-    <Card
-      sx={{
-        overflow: "inherit",
-        maxWidth: 345,
-        background: "#e9e3ee",
-        "&:hover": { cursor: "pointer" },
-      }}
-      onMouseOut={() => {
-        setElevation(5);
-      }}
-      onMouseOver={() => {
-        setElevation(24);
-      }}
-      elevation={elevation}
-    >
+    <Card sx={{overflow: 'inherit', maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
       <CardHeader
+        action={
+          <IconButton aria-label="settings" onClick={handleClickii}>
+            <MoreVertIcon />
+          </IconButton>
+        }
         title={info.name}
       />
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        sx={{ textAlign: "left", marginLeft: "25px", fontSize: 17 }}
-      >
+      <Typography variant='body2' color="text.secondary" sx={{textAlign: 'left', marginLeft: '25px', fontSize: 17}}>
         {concatdate}
       </Typography>
       <Popover
@@ -157,7 +140,7 @@ export default function WorkoutCard({
         }}
       >
         <List>
-          <ListItem disablePadding>
+        <ListItem disablePadding>
             <ListItemButton onClick={sendEdit}>
               <ListItemIcon>
                 <EditIcon />
@@ -168,7 +151,7 @@ export default function WorkoutCard({
           <ListItem disablePadding>
             <ListItemButton onClick={sendAssign}>
               <ListItemIcon>
-                <AddIcon />
+                <AddIcon/>
               </ListItemIcon>
               <ListItemText primary="Assign" />
             </ListItemButton>
@@ -184,68 +167,36 @@ export default function WorkoutCard({
         </List>
       </Popover>
       <CardContent>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ textAlign: "left", marginLeft: "10px" }}
-        >
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ marginBottom: "15px" }}
-          >
+        <Typography variant="body2" color="text.secondary" sx={{textAlign: 'left', marginLeft: '10px'}}>
+          <Typography variant="body2" color="text.secondary" sx={{marginBottom: '15px'}}>
             Workout Length: {info.timeToComplete} minutes
           </Typography>
           <List
-            sx={{ marginLeft: "-18px" }}
+            sx={{marginLeft: '-18px'}}
             component="nav"
             aria-labelledby="nested-list-subheader"
-            sx={{
-              background: "#e9e3ee",
-              marginLeft: "-20px",
-              width: "75%",
-              marginBottom: "-24px",
-            }}
-          >
-            <ListItemButton
-              onClick={handleClick}
-              sx={{ marginRight: "-30%", marginBottom: "-10px" }}
+            sx={{background: '#e9e3ee', marginLeft: '-20px', width: '75%', marginBottom: '-24px'}}
             >
-              <ListItemText
-                primary="Exercise List"
-                sx={{ background: "#e9e3ee" }}
-              />
-              <div style={{ marginRight: "-45px", marginBottom: "-5px" }}>
-                {open ? <ExpandLess /> : <ExpandMoreIcon />}
-              </div>
+            <ListItemButton onClick={handleClick} sx={{marginRight: '-30%', marginBottom: '-10px'}}>
+              <ListItemText primary="Exercise List" sx={{background: '#e9e3ee'}}/>
+              <div style={{marginRight: '-45px', marginBottom: '-5px'}}>{open ? <ExpandLess /> : <ExpandMoreIcon />}</div>
             </ListItemButton>
-            <Collapse
-              in={open}
-              timeout="auto"
-              unmountOnExit
-              sx={{ background: "#e9e3ee" }}
-            >
+            <Collapse in={open} timeout="auto" unmountOnExit sx={{background: '#e9e3ee'}}>
               <List>
                 {info.exercises.map((exercise) => (
                   <ListItem
-                    key={exercise.id}
-                    sx={{ width: "330px", margin: "3px", marginLeft: "0px" }}
-                  >
-                    <ListItemButton onClick={() => { revealExercise(exercise, info.trainerEmail) }}>
-                      {exercise.name}
-                    </ListItemButton>
+                  key={exercise.id}
+                    sx={{ width: '330px', margin: '3px', marginLeft: '0px',}}
+                    >
+                    {exercise.name}
                   </ListItem>
                 ))}
-                <ListItem sx={{ width: "150%" }}>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ width: "100%", marginTop: "15px" }}
-                  >
-                    <span style={{ fontSize: 16 }}>Comment</span>
-                    <Divider sx={{ marginTop: "1%", marginBottom: "4%" }} />
-                    {info.comment}
-                  </Typography>
+                <ListItem sx={{width : '150%'}}>
+                <Typography variant="body2" color="text.secondary" sx={{width : '100%', marginTop: '15px'}}>
+                  <span style={{fontSize: 16}}>Comment</span>
+                  <Divider sx={{marginTop: '1%', marginBottom: '4%'}}/>
+                  {info.comment}
+                </Typography>
                 </ListItem>
               </List>
             </Collapse>

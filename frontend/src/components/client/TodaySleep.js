@@ -32,8 +32,6 @@ const dangar = {
  */
 
 export default function BasicCard({info}) {
-
-  console.log(info);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -56,15 +54,13 @@ export default function BasicCard({info}) {
     setValueii(newValue);
   };
 
-  const [rating, setValue] = React.useState(info);
+  const [rating, setValue] = React.useState(2);
 
   const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
     setOpen(!open);
   };
-
-  console.log(info);
 
   const [value, setValueii] = React.useState(new Date("2014-08-18T21:11:54"));
   return (
@@ -90,12 +86,12 @@ export default function BasicCard({info}) {
             name="size-large"
             size="large"
             sx={{ position: 'absolute', fontSize: "42 vh", left: "15%", top: "50%" }}
-            defaultValue={5}
+            defaultValue={2.5}
             precision={0.5}
-            value={info}
-            // onChange={(event, newValue) => {
-            //   setValue(newValue);
-            // }}
+            value={rating}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
             readOnly
           />
           <Grid item xs={12}></Grid>

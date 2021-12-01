@@ -109,7 +109,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
 
       id : id, 
       name: name,
-      date: date,
+      // date: new Date(date).toISOString().slice(0,10),
       exercises: chosenExercises,
       comment: comment,
       timeToComplete: timeToComplete,

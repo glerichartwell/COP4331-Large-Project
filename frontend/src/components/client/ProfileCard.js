@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid";
 import { red } from "@mui/material/colors";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
-import formatDate from "../../../utils/formatDate";
+import formatDate from "../../utils/formatDate";
 
 
 

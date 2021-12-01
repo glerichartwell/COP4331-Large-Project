@@ -36,7 +36,7 @@ router.post("/api/fuzzy-search-client-by-trainer", async (req, res) => {
           },
         ],
       })
-      .toArray();
+      .collation({ locale: "en", strength: 2 }).toArray();
   } catch (e) {
     error = e.toString();
   }

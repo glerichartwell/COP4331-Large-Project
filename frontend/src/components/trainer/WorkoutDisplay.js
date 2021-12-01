@@ -7,20 +7,20 @@ import SearchIcon from '@mui/icons-material/Search';
 import AssignBox from "./AssignBox";
 import WorkoutCard from "./WorkoutCard2";
 import WorkoutEditBox from "./WorkoutEditBox";
-import AddWorkout from "./AddWorkout";
 import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
+import AddWorkout from "./AddWorkout";
 
 const WorkoutDisplay = () => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [showEdit, setShowEdit] = useState(false);
-  const [showAddWorkout, setShowAddWorkout] = useState(false);
   const [Edit, setEdit] = useState();
   const [showAssign, setShowAssign] = useState(false);
   const [Assign, setAssign] = useState();
   const [query, setQuery] = useState('');
   const [refresh, setRefresh] = useState(false);
+  const [showAddWorkout, setShowAddWorkout] = useState(false);
 
   var Workouts;
   var cardArray = [];
@@ -116,7 +116,7 @@ const WorkoutDisplay = () => {
       var txt = await response.text();
       var res = JSON.parse(txt);
       Workouts = res;
-
+      console.log("Workouts: ", Workouts)
       // save number of Workouts
       const numWorkouts = Workouts.results.length;
 
@@ -261,6 +261,10 @@ const WorkoutDisplay = () => {
     setRefresh(!refresh);
   }
 
+  const addItem = () => {
+    setShowAddWorkout(true)
+  };
+
   const openAddWorkout = () => {
     setShowAddWorkout(true);
   };
@@ -268,11 +272,13 @@ const WorkoutDisplay = () => {
     setShowAddWorkout(false);
     setRefresh(!refresh);
   };
-  const addItem = () => {
-      setShowAddWorkout(true);
-  };
+
+
   return (
     <div>
+      <Button onClick={addItem} variant='outlined' sx={{ marginTop:'-44px', zIndex: 1300, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+        <AddIcon/>
+      </Button>
       <TextField 
           className='search-bar' 
           type="search" 
@@ -314,10 +320,6 @@ const WorkoutDisplay = () => {
                 },
               },
             }} />
-            
-          <Button onClick={addItem} variant='outlined' sx={{marginTop:'-44px', zIndex: 5000, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
-            <AddIcon />
-          </Button>
       <Grid
         container
         className="outerContainer"
@@ -335,7 +337,7 @@ const WorkoutDisplay = () => {
 
         {showEdit ? Edit : null}
         {showAssign ? Assign : null}
-        {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null} 
+        {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null}
 
       </Grid>
     </div>

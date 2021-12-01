@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 import { styled } from "@mui/material/styles";
@@ -25,11 +24,13 @@ const Item = styled(Paper)(({ theme }) => ({
 const styling = {
   fontWeight: "bold",
   textAlign: "left",
+
 };
 
 
 const ClientInfo = ({info}) => {
   
+  console.log(info);
 
   const firstName = info.firstName
   const middleName = info.middleName

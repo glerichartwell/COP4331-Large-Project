@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { InputAdornment } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
-import { styled, alpha } from '@mui/material/styles';
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import { styled, alpha } from "@mui/material/styles";
 import SelectInput from "@mui/material/Select/SelectInput";
 import "./css/ClientDrawer.css";
+import { getAuth, signOut, onAuthStateChanged } from "@firebase/auth";
 
 import {
   AppBar,
@@ -27,50 +28,121 @@ import { Box } from "@mui/system";
 import EventIcon from "@mui/icons-material/Event";
 import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import SearchBar from "../reuseable/SearchBar";
-import WorkoutDisplay from "./WorkoutDisplay"
-import ExerciseDisplay from "./ExerciseDisplay";
-import ClientDashboard from "./ClientDashboard";
+import WorkoutDisplay from "./WorkoutDisplay";
 import HAWDisplay from "./HAWDisplay";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ClientInfo from "./ClientInfo";
 
 const ClientDrawer = (props) => {
   const navigate = useNavigate();
-  const user = "Delroy"
-  const [showClient, setShowClient] = useState(true);
+  const [showClient, setShowClient] = useState(false);
   const [showWorkout, setShowWorkout] = useState(false);
-  const [showExercise, setShowExercise] = useState(false);
+  const [showHAW, setShowHAW] = useState(false);
+  const [clientInfo, setClientInfo] = useState();
+  const [refresh, setRefresh] = useState(false);
+  const [info, setInfo] = useState();
+  const [objects, setObjects] = useState();
+  const [firstLoad, setFirstLoad] = useState(true)
+  // var obj = new Object();
 
+  const auth = getAuth();
+  console.log(auth);
+
+  const user = auth.currentUser;
+  console.log(user);
 
   //change to actual logout function
   const logout = () => {
+    signOut(auth);
     navigate(`/`);
+  };
+  const GetClient = async (event) => {
+    const email = user.email;
+    console.log(email);
+
+    var obj1 = { email: user.email };
+    var js = JSON.stringify(obj1);
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/search-client-by-email",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      console.log(res);
+      var i = 0;
+      var obj = new Object();
+      obj["firstName"] = res.results[i].firstName;
+      obj["middleName"] = res.results[i].middleName;
+      obj["lastName"] = res.results[i].lastName;
+      obj["height"] = res.results[i].height;
+      obj["weight"] = res.results[i].weight;
+      obj["gender"] = res.results[i].gender;
+      obj["age"] = res.results[i].age;
+      obj["phone"] = res.results[i].phone;
+      obj["birthday"] = res.results[i].birthday;
+      obj["city"] = res.results[i].city;
+      obj["startDate"] = res.results[i].startDate;
+      obj["lastLoggedIn"] = res.results[i].lastLoggedIn;
+      obj["mood"] = res.results[i].mood;
+      obj["sleep"] = res.results[i].sleep;
+      obj["email"] = res.results[i].email;
+
+      setObjects(obj);
+      console.log(objects);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Clients returned");
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
   };
 
   const DashOn = () => {
+    GetClient();
     setShowWorkout(false);
-    setShowExercise(false);
+    setShowHAW(false);
     setShowClient(true);
   };
 
   const WorkoutOn = () => {
     setShowClient(false);
-    setShowExercise(false);
+    setShowHAW(false);
     setShowWorkout(true);
   };
 
-  const ExerciseOn = () => {
+  const HAWOn = () => {
     setShowClient(false);
     setShowWorkout(false);
-    setShowExercise(true);
+    setShowHAW(true);
   };
 
   const getQueryRef = (value) => {
-    setQuery(value)
-  }
-  
-  const [query, setQuery] = useState(null)  
-  
+    setQuery(value);
+  };
+  // const getClientInfo = () => {
+  //   setClientInfo(info);
+  // };
+  const Display = () => {
+    useEffect(() => {
+      if (firstLoad) {
+        GetClient();
+        setFirstLoad(false);
+      }
+    }, []);
+  };
+
+  const [query, setQuery] = useState(null);
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -80,25 +152,17 @@ const ClientDrawer = (props) => {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Toolbar sx={{position: 'relative'}}>
+        <Toolbar sx={{ position: "relative" }}>
           <Typography variant="h6" noWrap component="div">
-            <ArrowBackIosIcon /> Welcome {user}
+            Welcome
           </Typography>
-          
-          {/* <form onSubmit={(e) => {e.preventDefault();console.log(query)}}> */}
-            {/* <SearchBar getQueryRef={getQueryRef}/> */}
-          {/* </form> */}
-          {/* <SearchBar variant='standard' /> */}
-
-
-          {console.log(query)}
         </Toolbar>
       </AppBar>
       <Drawer
         sx={{
           width: "20vw",
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { 
+          [`& .MuiDrawer-paper`]: {
             width: "20vw",
             boxSizing: "border-box",
             backgroundColor: "#f8f4fd",
@@ -118,26 +182,18 @@ const ClientDrawer = (props) => {
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary="Personal Dashboard"/>
+              <ListItemText primary="Personal Dashboard" />
             </ListItem>
-
-            <ListItem button key="Exercise" onClick={ExerciseOn}>
-              <ListItemIcon>
-                <FitnessCenterIcon />
-              </ListItemIcon>
-              <ListItemText primary="Exercise" />
-            </ListItem>
-
-            <ListItem button key="Workouts" onClick={WorkoutOn}>
+            {/* <ListItem button key="Workouts" onClick={WorkoutOn}>
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
-              <ListItemText primary="Workouts"/>
-            </ListItem>
+              <ListItemText primary="Workouts" />
+            </ListItem> */}
           </List>
           <Divider />
         </Box>
-        <Button onClick={logout} id="logout-btn" variant='outlined'>
+        <Button onClick={logout} id="logout-btn" variant="outlined">
           Logout
         </Button>
       </Drawer>
@@ -151,13 +207,11 @@ const ClientDrawer = (props) => {
         overflow="scroll"
         sx={{ flexGrow: 1, p: 3, backgroundColor: "#f8f4fd" }}
       >
+        {Display()}
         <Toolbar />
         {/* code for contents of box area in dashboard */}
-
-        {showClient ? <HAWDisplay /> : null}
-        {showExercise ? <ExerciseDisplay /> : null}
-        {showWorkout ? < WorkoutDisplay/> : null}
-
+        {/* {showWorkout ? <WorkoutDisplay /> : null} */}
+        {showClient ? <ClientInfo info={objects} /> : null}
       </Box>
     </Box>
   );

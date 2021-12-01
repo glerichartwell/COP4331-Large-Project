@@ -118,7 +118,6 @@ const AddWorkout = (props) => {
       console.log(error.toString());
     }
     
-  
   };
   
   const loadExercises = () => {
@@ -164,7 +163,7 @@ const AddWorkout = (props) => {
       trainerEmail: trainerEmail,
       name: name,
       exercises: chosenExercises,
-      date: date,
+      // date: new Date(date).toISOString().slice(0,10),
       timeToComplete: timeToComplete,
       comment: comment,
     };
@@ -192,8 +191,13 @@ const AddWorkout = (props) => {
     }
   };
 
-
   const [chosenExercises, setChosenExercises] = useState([])
+
+  const closeAdd = () => {
+    addWorkout();
+    props.closeAddWorkout();
+
+  }
   return (
     <div>
       <Dialog
@@ -277,7 +281,7 @@ const AddWorkout = (props) => {
               <Button
                 className='edit-box-button'
                 variant="outlined"
-                onClick={addWorkout}
+                onClick={closeAdd}
                 disabled={disableAdd}
               >
                 {buttonName}

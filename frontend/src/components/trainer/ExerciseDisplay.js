@@ -6,12 +6,13 @@ import Grid from "@mui/material/Grid";
 import { Divider, TextField, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from '@mui/icons-material/Search'; 
+import { Button } from "@mui/material";
 
-import AddExercise from "./AddExercise";
+import AddClient from "./AddClient";
 import ExerciseCard from "./ExerciseCard2";
 import ClientDashboard from "../client/ClientInfoView";
 import ExerciseEditBox from "./ExerciseEditBox";
-import { Button } from "@mui/material";
+import AddExercise from './AddExercise';
 
 const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading
@@ -266,7 +267,12 @@ const ExerciseDisplay = () => {
     }
   };
 
+  const [query, setQuery] = useState(null);
   
+  const addItem = () => {
+    setShowAddExercise(true)
+  };
+
   const openAddExercise = () => {
     setShowAddExercise(true);
   };
@@ -274,14 +280,12 @@ const ExerciseDisplay = () => {
     setShowAddExercise(false);
     setRefresh(!refresh);
   };  
-
-  const addItem = () => {
-    setShowAddExercise(true);
-  };
-
-  const [query, setQuery] = useState(null);
   return (
     <div>
+      <Button onClick={addItem} variant='outlined' sx={{ marginTop:'-44px', zIndex: 1300, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+        <AddIcon/>
+      </Button>
+
       <TextField 
           className='search-bar' 
           type="search" 
@@ -323,10 +327,6 @@ const ExerciseDisplay = () => {
                 },
               },
             }} />
-            
-          <Button onClick={addItem} variant='outlined' sx={{marginTop:'-44px', zIndex: 5000, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
-            <AddIcon />
-          </Button>
       <Grid
         container
         className="outerContainer"

@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { Divider, TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import WorkoutCard from "./WorkoutCard";
+import WorkoutCard from "./WorkoutCard2";
 import Box from "@mui/material/Box";
 
 import DateRangePicker from "@mui/lab/DateRangePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider } from "@mui/lab";
-import ExerciseDetails from "../reuseable/ExerciseDetails";
+import ExerciseDetails from "../../reuseable/ExerciseDetails";
+import WorkoutEditBox from "../../trainer/WorkoutEditBox";
 
 // import WorkoutEditBox from "./WorkoutEditBox";
 
@@ -201,10 +202,10 @@ const WorkoutDisplay = () => {
                 dbInfo={obj}
                 revealExercise={revealExercise}
                 // opens edit box
-                // edit={edit}
-                // deleteCard={deleteCard}
+                edit={edit}
+                deleteCard={deleteCard}
                 // assignWorkout={assignWorkout}
-                // closeEditBox={closeEditBox}
+                closeEditBox={closeEditBox}
               />
             </Grid>
           );
@@ -273,7 +274,7 @@ const WorkoutDisplay = () => {
       //can access numWorkouts from trainer database
       cardArray.push(
         <Grid
-          key={objects[i].id}
+          key={obj.id}
           className="custom-cards"
           textAlign="center"
           item
@@ -286,12 +287,11 @@ const WorkoutDisplay = () => {
           <WorkoutCard
             dbInfo={obj}
             revealExercise={revealExercise}
-
             // opens edit box
-            // edit={edit}
-            // deleteCard={deleteCard}
+            edit={edit}
+            deleteCard={deleteCard}
             // assignWorkout={assignWorkout}
-            // closeEditBox={closeEditBox}
+            closeEditBox={closeEditBox}
           />
         </Grid>
       );
@@ -327,16 +327,16 @@ const WorkoutDisplay = () => {
     // var trainerID = 1; //getFirebaseID()
   };
 
-  // const edit = (info) => {
-  //   // pass information from relavent card to editbox
-  //   setEdit(<WorkoutEditBox closeEditBox={closeEditBox} info={info} />);
-  //   setShowEdit(true);
-  // };
+  const edit = (info) => {
+    // pass information from relavent card to editbox
+    setEdit(<WorkoutEditBox closeEditBox={closeEditBox} info={info} />);
+    setShowEdit(true);
+  };
 
-  // const closeEditBox = () => {
-  //   setShowEdit(false);
-  //   refresh();
-  // };
+  const closeEditBox = () => {
+    setShowEdit(false);
+    setRefresh(!refresh);
+  };
 
   const deleteCard = (info) => {
     // pass information from relavent card to editbox
@@ -367,68 +367,6 @@ const WorkoutDisplay = () => {
 
   return (
     <div>
-      <TextField
-        className="search-bar"
-        type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        variant="outlined"
-        size="small"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment>
-              <SearchIcon sx={{ color: "white" }} />
-            </InputAdornment>
-          ),
-        }}
-        sx={{
-          position: "fixed",
-          marginLeft: "1px",
-          opacity: 0.4,
-          right: "1vw",
-          marginTop: "-75px",
-          zIndex: 5000,
-          maxWidth: "30%",
-          minWidth: "20%",
-          "& .MuiInputBase-root": {
-            color: "#300130",
-            background: "#ac99be",
-          },
-          "& label.Mui-focused": {
-            color: "white",
-          },
-          "& .MuiInput-underline:after": {
-            borderBottomColor: "white",
-          },
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderColor: "#6f4792",
-              opacity: 0.3,
-            },
-            "&:hover fieldset": {
-              background: "white",
-              borderColor: "white",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: "#3d013d",
-            },
-          },
-        }}
-      />
-      {/* <TextField
-        type="date"
-        placeholder={"mm/dd/yyyy"}
-        sx={{
-          left: "37%",
-          alignContent: "center",
-          width: "23%",
-          margin: "8px",
-        }}
-        onChange={(e) => {
-          setStartDate(e.target.value);
-        }}
-      /> */}
-
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DateRangePicker
           sx
@@ -465,12 +403,14 @@ const WorkoutDisplay = () => {
 
         {arrayChange}
 
+        {showEdit ? Edit : null}
         {showExercise ? (
           <ExerciseDetails
             closeDetailBox={closeDetailBox}
             exercise={exercise}
           />
         ) : null}
+
       </Grid>
     </div>
   );

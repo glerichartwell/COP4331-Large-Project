@@ -8,30 +8,29 @@ import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
 import { Divider, TextField, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from '@mui/icons-material/Search'; 
+import SearchIcon from "@mui/icons-material/Search";
 
 import AddClient from "./AddClient";
 import ClientCard from "./ClientCard2";
 import ClientInfoView from "../client/ClientInfoView";
 import { Button } from "@mui/material";
 
-const ClientDisplay = props => {
+const ClientDisplay = ({ openClientDash, getClientInfo, trainerID, user }) => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [objectArray, setObjectArray] = useState();
   const [showAddClient, setShowAddClient] = useState(false);
   const [showClientDash, setShowClientDash] = useState(false);
   const [clientDashHolder, setClientDashHolder] = useState();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [refresh, setRefresh] = useState(false);
-  
 
   const openAddClient = () => {
     setShowAddClient(true);
   };
   const closeAddClient = () => {
     setShowAddClient(false);
-    setRefresh(!refresh);
+    setRefresh(true);
   };
 
   //firebase component to return trainer profile info
@@ -40,29 +39,30 @@ const ClientDisplay = props => {
     e.stopPropagation();
   };
 
-  // var trainerID = "";
-  // const auth = getAuth();
-  // onAuthStateChanged(auth, (user) => {
-  //   // console.log(user);
-  //   if (user) {
-  //     // User is signed in, see docs for a list of available properties
-  //     // https://firebase.google.com/docs/reference/js/firebase.User
-  //     trainerID = user["email"];
-  //     console.log("Auth TrainerID: ", trainerID);
-  //     // ...
-  //   } else {
-  //     //navigate('/access-denied')
-  //   }
-  // });
+  var trainerID = "";
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    // console.log(user);
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      trainerID = user["email"];
+      console.log("Auth TrainerID: ", trainerID);
+      // ...
+    } else {
+      //navigate('/access-denied')
+    }
+  });
 
   var clients;
   var cardArray = [];
   var objects = [];
   var cardNumber = 0;
 
-  const getClients = async (event) => {
+  // var trainerID = "g.eriChartwell@gmail.com"; //getFirebaseID()
 
-    var obj1 = { trainerID: props.trainerID };
+  const getClients = async (event) => {
+    var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
 
     try {
@@ -76,7 +76,7 @@ const ClientDisplay = props => {
       );
       var txt = await response.text();
       var res = JSON.parse(txt);
-  
+
       clients = res;
 
       // save number of clients
@@ -84,7 +84,7 @@ const ClientDisplay = props => {
 
       // Convert to obj literal {}, current is causing error
       for (var i = 0; i < numClients; i++) {
-        var obj = new Object(); 
+        var obj = new Object();
         obj["cardNumber"] = i;
         obj["firstName"] = clients.results[i].firstName;
         obj["middleName"] = clients.results[i].middleName;
@@ -99,6 +99,8 @@ const ClientDisplay = props => {
         obj["city"] = clients.results[i].city;
         obj["startDate"] = clients.results[i].startDate;
         obj["lastLoggedIn"] = clients.results[i].lastLoggedIn;
+        obj["mood"] = clients.results[i].mood;
+        obj["sleep"] = clients.results[i].sleep;
         objects.push(obj);
       }
       //can access numclients from trainer database
@@ -120,6 +122,8 @@ const ClientDisplay = props => {
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
               deleteCard={deleteCard}
+              openClientDash={openClientDash}
+              getClientInfo={getClientInfo}
             />
           </Grid>
         );
@@ -136,23 +140,19 @@ const ClientDisplay = props => {
     }
   };
 
-  const searchClients = async event => {
-
-    var obj1 = { search: query };
+  const searchClients = async (event) => {
+    var obj1 = { search: query , trainerID: trainerID };
     var js = JSON.stringify(obj1);
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/search-client",
-        {
-          method: "POST",
-          body: js,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const response = await fetch("http://localhost:5000/api/fuzzy-search-client-by-trainer", {
+        method: "POST",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
       var txt = await response.text();
       var res = JSON.parse(txt);
-  
+
       clients = res;
 
       // save number of clients
@@ -160,7 +160,7 @@ const ClientDisplay = props => {
 
       // Convert to obj literal {}, current is causing error
       for (var i = 0; i < numClients; i++) {
-        var obj = new Object(); 
+        var obj = new Object();
         obj["cardNumber"] = i;
         obj["firstName"] = clients.results[i].firstName;
         obj["middleName"] = clients.results[i].middleName;
@@ -174,6 +174,9 @@ const ClientDisplay = props => {
         obj["city"] = clients.results[i].city;
         obj["startDate"] = clients.results[i].startDate;
         obj["lastLoggedIn"] = clients.results[i].lastLoggedIn;
+        obj["mood"] = clients.results[i].mood;
+        obj["sleep"] = clients.results[i].sleep;
+
         objects.push(obj);
       }
       //can access numclients from trainer database
@@ -195,6 +198,8 @@ const ClientDisplay = props => {
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
               deleteCard={deleteCard}
+              openClientDash={openClientDash}
+              getClientInfo={getClientInfo}
             />
           </Grid>
         );
@@ -208,20 +213,16 @@ const ClientDisplay = props => {
     } catch (error) {
       console.log(error.toString());
     }
-  }
+  };
 
   const deleteClient = async (info) => {
-
     const address = "http://localhost:5000/api/delete-client";
 
-    var obj1 = { email: info.email  };
+    var obj1 = { email: info.email };
     var js = JSON.stringify(obj1);
 
     try {
-
-      const response = await fetch(
-      address,
-       {
+      const response = await fetch(address, {
         method: "DELETE",
         body: js,
         headers: { "Content-Type": "application/json" },
@@ -229,7 +230,7 @@ const ClientDisplay = props => {
 
       var txt = await response.text();
       var res = JSON.parse(txt);
-      
+
       // after deleting, refresh component
       setRefresh(!refresh);
 
@@ -241,47 +242,40 @@ const ClientDisplay = props => {
     } catch (error) {
       console.log(error.toString());
     }
-
   };
 
   const DisplayClients = () => {
-
     // Either display all clients or display searched clients
     useEffect(() => {
-      if (query)
-      {
-        console.log("Query: ", query)
+      if (query) {
+        console.log("Query: ", query);
         // Call search api
         searchClients()
-        .then((result) => setArrayChange(cardArray))
-        .then((result) => setObjectArray(objects));
-
-      }
-      else
-      {
-        console.log("No query: ", query)
+          .then((result) => setArrayChange(cardArray))
+          .then((result) => setObjectArray(objects));
+      } else {
+        console.log("No query: ", query);
         getClients()
-        .then((result) => setArrayChange(cardArray))
-        .then((result) => setObjectArray(objects));
+          .then((result) => setArrayChange(cardArray))
+          .then((result) => setObjectArray(objects));
       }
-    }, [query, refresh])
-
+    }, [query, refresh]);
   };
 
-  const openClientDash = (num) => {
-    console.log("opening dashboard for card number: " + num);
-    console.log("opening dashboard for card name: " + objects[num].firstName);
-    cardNumber = num;
-    console.log(num);
-    console.log(cardNumber);
-    setClientDashHolder(
-      <ClientInfoView
-        closeClientDash={closeClientDash}
-        useCardNumber={objects[num].firstName}
-      />
-    );
-    setShowClientDash(true);
-  };
+  // const openClientDash = (num) => {
+  //   console.log("opening dashboard for card number: " + num);
+  //   console.log("opening dashboard for card name: " + objects[num].firstName);
+  //   cardNumber = num;
+  //   console.log(num);
+  //   console.log(cardNumber);
+  //   setClientDashHolder(
+  //     <ClientInfoView
+  //       closeClientDash={closeClientDash}
+  //       useCardNumber={objects[num].firstName}
+  //     />
+  //   );
+  //   setShowClientDash(true);
+  // };
 
   const closeClientDash = () => {
     setShowClientDash(false);
@@ -290,14 +284,21 @@ const ClientDisplay = props => {
 
   const deleteCard = (info) => {
     // pass information from relavent card to editbox
-    console.log(info)
-    if(window.confirm("Are you sure you would like to permanently delete " + info.firstName + " " + info.lastName + "?")){
+    console.log(info);
+    if (
+      window.confirm(
+        "Are you sure you would like to permanently delete " +
+          info.firstName +
+          " " +
+          info.lastName +
+          "?"
+      )
+    ) {
       deleteClient(info);
     }
     // alert("Are you sure you would like to delete " + info.name + "?");
     // // setShowEdit(true);
   };
-
 
   // const Deleting = (info) => {
   //   // allow results of api to be rendered on page after loading
@@ -317,55 +318,60 @@ const ClientDisplay = props => {
     setShowAddClient(true);
   };
 
-  
   return (
     <div>
-      <TextField 
-          className='search-bar' 
-          type="search" 
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          variant='outlined' 
-          size='small'
-          InputProps={{startAdornment: <InputAdornment position='start'><SearchIcon sx={{color: 'white'}}/></InputAdornment>,}}
-          sx={{
-              position: 'fixed',
-              marginLeft: '1px',
-              opacity: 0.4,
-              right: '1vw',
-              marginTop:'-44px',
-              zIndex: 5000,
-              maxWidth: '30%',
-              minWidth: '20%',
-              '& .MuiInputBase-root': {
-                color: '#300130',
-                background: '#ac99be',
-              },
-              '& label.Mui-focused': {
-                color: 'white',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: 'white',
-              },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#6f4792',
-                  opacity: 0.3
-                },
-                '&:hover fieldset': {
-                  background: 'white',
-                  borderColor: 'white',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#3d013d',
-                },
-              },
-            }} />
-           
-            <Button onClick={addItem} variant='outlined' sx={{marginTop:'-44px', zIndex: 5000, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
-              <AddIcon />
-            </Button>
+      <Button onClick={addItem} variant='outlined' sx={{ marginTop:'-44px', zIndex: 1300, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+        <AddIcon/>
+      </Button>
 
+      <TextField
+        className="search-bar"
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        variant="outlined"
+        size="small"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon sx={{ color: "white" }} />
+            </InputAdornment>
+          ),
+        }}
+        sx={{
+          position: "fixed",
+          marginLeft: "1px",
+          opacity: 0.4,
+          right: "1vw",
+          marginTop: "-44px",
+          zIndex: 5000,
+          maxWidth: "30%",
+          minWidth: "20%",
+          "& .MuiInputBase-root": {
+            color: "#300130",
+            background: "#ac99be",
+          },
+          "& label.Mui-focused": {
+            color: "white",
+          },
+          "& .MuiInput-underline:after": {
+            borderBottomColor: "white",
+          },
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "#6f4792",
+              opacity: 0.3,
+            },
+            "&:hover fieldset": {
+              background: "white",
+              borderColor: "white",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#3d013d",
+            },
+          },
+        }}
+      />
       <Grid
         container
         className="outerContainer"
@@ -377,15 +383,13 @@ const ClientDisplay = props => {
         alignContent="stretch"
         wrap="wrap"
       >
-        {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
-
+        
         {/* loop through json of clients and create components */}
         {DisplayClients()}
         {arrayChange}
 
         {showClientDash ? clientDashHolder : null}
         {showAddClient ? <AddClient closeAddClient={closeAddClient} /> : null}
-
       </Grid>
     </div>
   );

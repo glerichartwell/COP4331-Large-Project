@@ -4,11 +4,10 @@ import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search'; 
-
 import ExerciseCard from "./ExerciseCard";
 import ClientDashboard from "./ClientInfoView";
-// import ExerciseEditBox from "./ExerciseEditBox";
 import { Button } from "@mui/material";
+
 
 const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading

@@ -15,6 +15,8 @@ var addClient = require("./api/client-api/add-client.api");
 var editClient = require("./api/client-api/edit-client.api");
 var searchClientByEmail = require("./api/client-api/search-client-by-email.api");
 var viewClientsByTrainer = require("./api/client-api/view-clients-by-trainer.api");
+var searchClientsByTrainer = require("./api/client-api/fuzzy-search-client-by-trainer.api");
+
 
 // mood controllers
 var addMoodToClient = require("./api/mood-api/add-mood-to-client.api");
@@ -83,6 +85,7 @@ app.use("/", addClient);
 app.use("/", editClient);
 app.use("/", searchClientByEmail);
 app.use("/", viewClientsByTrainer);
+app.use("/", searchClientsByTrainer);
 
 // mood routes
 app.use("/", addMoodToClient);

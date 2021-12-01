@@ -14,7 +14,7 @@ router.post("/api/search-client-mood", async (req, res) => {
   var error = "";
   var _ret = [];
   const { email, date } = req.body;
-
+  console.log(email);
   try {
     const db = client.db();
     if (email == null) {

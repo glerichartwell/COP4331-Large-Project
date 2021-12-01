@@ -13,13 +13,15 @@ import {
   TextField, 
 
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const AddClient = (props) => {
   const [open, setOpen] = useState(true);
   const [email, setEmail] = useState(null);
   const [message, setMessage] = useState(null);
   const [disableAddClientButton, setDisableAddClientButton] = useState(true)
-  
+  const [showAddWorkout, setShowAddWorkout] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -101,6 +103,8 @@ const AddClient = (props) => {
       color: '#666666',
     }
   }
+
+
 
   return (
     <div>

@@ -77,28 +77,36 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({ displayMacroEdit, closeMacroEdit, info }) {
+export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
   const [value, setValue] = useState(0);
-  const [date, setDate] = useState(new Date());
-  const [rating, setRating] = useState(1);
-  var rating2;
+  console.log("---------------------" + info)
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const getSleep = async (event) => {
-    console.log("====================");
-    console.log("Incoming date: " + date + " " + info.email);
-    console.log(info.email);
-    
+  const [date, setDate] = useState(new Date());
+  const [rating, setRating] = useState();
+
+  useEffect(() => {
+    if (date)
+    {
+      getSleep();
+    }
+  })
+
+  const getSleep = async event => {
+    console.log("====================")
+    console.log("Incoming date: ", date)
     try {
+
       var obj = {
-        email: info.email,
-        date: new Date(date).toISOString().slice(0, 10),
-      };
-      console.log("Date: ", new Date(date).toISOString().slice(0, 10));
-      var js = JSON.stringify(obj);
-      console.log("JSON: ", js);
+          email: info.email,
+          date: new Date(date).toISOString().slice(0,10),
+      }
+      console.log("Date: ", new Date(date).toISOString().slice(0,10))
+      var js = JSON.stringify(obj)
+      console.log("JSON: ", js)
 
       const response = await fetch(
         "http://localhost:5000/api/search-client-mood",
@@ -110,17 +118,15 @@ export default function BasicTabs({ displayMacroEdit, closeMacroEdit, info }) {
       );
       var txt = await response.text();
       var res = JSON.parse(txt);
-      console.log(res);
+      console.log(res)
       // Save mood
-      if (res.results.length === 0) {
+      if (res.results.length === 0)
+      {
         return;
       }
-      console.log("Res: ", res.results[0].rating);
+      console.log("Res: ", res.results[0].rating)
       setRating(res.results[0].rating);
-      rating2=res.results[0].rating;
-      console.log(rating);
-
-      console.log("====================");
+      console.log("====================")
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
@@ -129,14 +135,11 @@ export default function BasicTabs({ displayMacroEdit, closeMacroEdit, info }) {
     } catch (error) {
       console.log(error);
     }
-  };
 
-  
-  useEffect(() => {
-      getSleep()
-      .then(console.log(rating));
 
-  }, [date]);
+  }
+
+
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -152,86 +155,41 @@ export default function BasicTabs({ displayMacroEdit, closeMacroEdit, info }) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Box sx={{ position: "relative", width: "100%" }}>
-          <Box
-            sx={{
-              position: "absolute",
-              display: "flex",
-              width: "275px",
-              height: "410px",
-            }}
-          >
-            <Profile info={info} />
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              display: "flex",
-              width: "60%",
-              left: 280,
-            }}
-          >
-            <TodaySleep info={rating2} />
-            <TodayMood info={rating2} />
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              display: "flex",
-              width: "60%",
-              left: 280,
-              top: 156,
-            }}
-          >
-            <ChartToday info={info} />
-          </Box>
+      <Box sx={{position: 'relative', width: '100%'}}>
+        <Box sx={{ position: 'absolute', display: 'flex', width: '275px', height: '410px'}}>
+          <Profile info={info} />
+          
         </Box>
-      </TabPanel>
+        <Box sx={{position: 'absolute', display: 'flex', width: '60%', left: 280}}>
+          <TodaySleep info={info} />
+          <TodayMood info={info} />
+        </Box>
+        <Box sx={{position: 'absolute', display: 'flex', width: '60%', left: 280, top: 156}}>
+          <ChartToday info={info} />
+        </Box>
+      </Box>
+      </TabPanel>   
       <TabPanel value={value} index={1}>
-        <WorkoutDisplay />
+        <WorkoutDisplay/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Box sx={{ position: "relative", width: "100%" }}>
-          <Box
-            sx={{
-              position: "absolute",
-              display: "flex",
-              width: "275px",
-              height: "300px",
-            }}
-          >
-            <Slep info={info} />
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              display: "flex",
-              width: "275px",
-              height: "300px",
-              left: 280,
-            }}
-          >
-            <Mood info={info} />
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              display: "flex",
-              width: "400px",
-              height: "300px",
-              left: 560,
-            }}
-          >
-            <Charts displayMacroEdit={displayMacroEdit} info={info} />
-          </Box>
+      <Box sx={{position: 'relative', width: '100%'}}>
+        <Box sx={{ position: 'absolute', display: 'flex', width: '275px', height: '300px'}}>
+          <Slep info={info} />
         </Box>
+        <Box sx={{position: 'absolute', display: 'flex', width: '275px', height: '300px', left: 280}}>
+          <Mood info={info} />
+        </Box>
+        <Box sx={{position: 'absolute', display: 'flex', width: '400px', height: '300px', left: 560,}}>
+          <Charts displayMacroEdit={displayMacroEdit} info={info} />
+        </Box>
+      </Box>
       </TabPanel>
     </Box>
   );
 }
 
-{
-  /* <Box sx={{display: 'flex', width: '100%'}}>
+{/* <Box sx={{display: 'flex', width: '100%'}}>
   <Box sx={{display: 'flex', width: '33%'}}>
     <Slep />
   </Box>
@@ -241,5 +199,4 @@ export default function BasicTabs({ displayMacroEdit, closeMacroEdit, info }) {
   <Box sx={{display: 'flex', width: '33%'}}>
     <Charts displayMacroEdit={displayMacroEdit} closeMacroEdit={closeMacroEdit} />
   </Box>
-</Box> */
-}
+</Box> */}

@@ -49,6 +49,12 @@ const AddExercise = (props) => {
     props.closeAddExercise();
   };
 
+  const closeAdd = () => {
+    addExercise();
+    props.closeAddExercise();
+
+  }
+
   const addExercise = async (event) => {
     //workoutID, name, sets, reps, time, weight, rest
     var obj = {
@@ -82,9 +88,6 @@ const AddExercise = (props) => {
       setMessage(error);
       console.log(error);
     }
-
-    handleClose();
-
   };
 
   useEffect(() => {
@@ -205,7 +208,7 @@ const AddExercise = (props) => {
             <Button
               sx={{ margin: "15px", background: "#28B7CB" }}
               variant="contained"
-              onClick={addExercise}
+              onClick={closeAdd}
               disabled={statButton}
             >
               Add

@@ -7,8 +7,10 @@ import ExerciseDisplay from "./ExerciseDisplay";
 import WorkoutDisplay from "./WorkoutDisplay";
 import AddClient from "./AddClient";
 import SearchBar from "../reuseable/SearchBar";
+import AddExercise from "./AddExercise";
 import AddWorkout from "./AddWorkout";
 import ClientInfo from "./ClientInfo/ClientInfo"
+import MacroEditBox from "./ClientInfo/MacroEditBox";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -46,10 +48,8 @@ const DashboardDrawer = (props) => {
   const [searchWorkout, setSearchWorkout] = useState(false);
   const [searchExercise, setSearchExercise] = useState(false);
   const [hideAdd, setHideAdd] = useState(true);
-  const [showClientInfo, setshowClientInfo] = useState(true)
-
-  
-
+  const [showClientInfo, setShowClientInfo] = useState(false)
+  const [clientInfo, setClientInfo] = useState()
 
   // const handleDrawerOpen = () => {
   //   setOpen(true);
@@ -75,12 +75,10 @@ const DashboardDrawer = (props) => {
     console.log("Where's the chapstick?")
   }
 
-
   const logout = () => {
     signOut(auth);
     navigate(`/`);
   };
-
 
   const ClientOn = () => {
     setShowWorkout(false);
@@ -88,6 +86,7 @@ const DashboardDrawer = (props) => {
     setSearchWorkout(false);
     setSearchExercise(false);
     setHideAdd(false);
+    setShowClientInfo(false)
     
     setSearchClient(true);
     setShowClient(true);
@@ -99,6 +98,7 @@ const DashboardDrawer = (props) => {
     setSearchExercise(false);
     setSearchClient(false);
     setHideAdd(false);
+    setShowClientInfo(false)
     
     setShowWorkout(true);
     setSearchWorkout(true);
@@ -110,16 +110,45 @@ const DashboardDrawer = (props) => {
     setSearchClient(false);
     setSearchWorkout(false);
     setHideAdd(false);
+    setShowClientInfo(false);
 
     setSearchExercise(true);
     setShowExercise(true);
   };
+
+  const openClientDash = (info) => {
+    setShowClient(false);
+    setSearchClient(false);
+    
+    setShowWorkout(false);
+    setSearchWorkout(false);
+    
+    setSearchExercise(false);
+    setShowExercise(false);
+    
+    setHideAdd(true);
+    setShowClientInfo(true);
+  }
+
+  const getClientInfo = (info) => {
+    setClientInfo(info)
+  }
 
   const [query, setQuery] = useState(null);
 
   // useEffect(() => {
   //   searchItem(query)
   // }, [query])
+
+  const carb = 33;
+  const fat = 33;
+  const protein = 33;
+  const info = {
+    fat: fat,
+    protein: protein,
+    carb: carb,
+  }
+
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -134,9 +163,7 @@ const DashboardDrawer = (props) => {
           <Typography variant="h6" noWrap component="div">
             <ArrowBackIosIcon /> My Dashboard
           </Typography>
-
-
-          
+          {/* imported search bar */}
           {console.log(query)}
         </Toolbar>
       </AppBar>
@@ -167,14 +194,14 @@ const DashboardDrawer = (props) => {
               <ListItemText primary="Clients" />
             </ListItem>
 
-            <ListItem button key="Workouts" onClick={WorkoutOn}  sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
+            <ListItem button key="Workouts"onClick={WorkoutOn} sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
-              <ListItemText primary="Workouts"/>
+              <ListItemText primary="Workouts" />
             </ListItem>
 
-            <ListItem button key="Exercises" onClick={ExerciseOn}  sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
+            <ListItem button key="Exercises" onClick={ExerciseOn} sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
@@ -200,8 +227,8 @@ const DashboardDrawer = (props) => {
       >
         <Toolbar />
         {/* code for contents of box area in dashboard */}
-        {showClient ? <ClientDisplay trainerID={trainerID} user={user} /> : null}
-        {/* {showClientInfo ? <ClientInfo /> : null} */}
+        {showClient ? <ClientDisplay openClientDash={openClientDash} getClientInfo={getClientInfo} trainerID={trainerID} user={user} /> : null}
+        {showClientInfo ? <ClientInfo info={clientInfo}/> : null}
         {showWorkout ? <WorkoutDisplay query={query} /> : null}
         {showExercise ? <ExerciseDisplay query={query} /> : null}
       </Box>
