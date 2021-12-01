@@ -197,6 +197,11 @@ const AddWorkout = (props) => {
     }
   };
 
+  const closeAdd = () => {
+    addWorkout();
+    props.closeAddWorkout();
+
+  }
 
   const [chosenExercises, setChosenExercises] = useState([])
   return (
@@ -282,7 +287,7 @@ const AddWorkout = (props) => {
               <Button
                 className='edit-box-button'
                 variant="outlined"
-                onClick={addWorkout}
+                onClick={closeAdd}
                 disabled={disableAdd}
               >
                 {buttonName}

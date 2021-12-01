@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid";
 import { Divider, TextField, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from '@mui/icons-material/Search'; 
+import { Button } from "@mui/material";
 
 import AddClient from "./AddClient";
 import ClientCard from "./ClientCard2";
@@ -321,11 +322,16 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
   //   //firebase component to return trainer profile info
   //   // var trainerID = 1; //getFirebaseID()
   // };
-
+  const addItem = () => {
+    setShowAddClient(true);
+  };
 
   
   return (
     <div>
+      <Button onClick={addItem} variant='outlined' sx={{ marginTop:'-44px', zIndex: 1300, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+        <AddIcon/>
+      </Button>
       <TextField 
           className='search-bar' 
           type="search" 

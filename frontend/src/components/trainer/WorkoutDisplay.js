@@ -7,6 +7,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import AssignBox from "./AssignBox";
 import WorkoutCard from "./WorkoutCard2";
 import WorkoutEditBox from "./WorkoutEditBox";
+import { Button } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import AddWorkout from "./AddWorkout";
 
 
 const WorkoutDisplay = () => {
@@ -18,6 +21,7 @@ const WorkoutDisplay = () => {
   const [Assign, setAssign] = useState();
   const [query, setQuery] = useState('');
   const [refresh, setRefresh] = useState(false);
+  const [showAddWorkout, setShowAddWorkout] = useState(false);
 
   var Workouts;
   var cardArray = [];
@@ -231,7 +235,7 @@ const WorkoutDisplay = () => {
         getWorkouts()
         .then((result) => setArrayChange(cardArray))
       }
-    }, [query])
+    }, [query, refresh])
 
     //firebase component to return trainer profile info
     // var trainerID = 1; //getFirebaseID()
@@ -258,8 +262,23 @@ const WorkoutDisplay = () => {
     setRefresh(!refresh);
   }
 
+  const addItem = () => {
+    setShowAddWorkout(true)
+  };
+
+  const openAddWorkout = () => {
+    setShowAddWorkout(true);
+  };
+  const closeAddWorkout = () => {
+    setShowAddWorkout(false);
+    setRefresh(!refresh);
+  };
+
   return (
     <div>
+      <Button onClick={addItem} variant='outlined' sx={{ marginTop:'-44px', zIndex: 1300, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+        <AddIcon/>
+      </Button>
       <TextField 
           className='search-bar' 
           type="search" 
@@ -318,6 +337,7 @@ const WorkoutDisplay = () => {
 
         {showEdit ? Edit : null}
         {showAssign ? Assign : null}
+        {showAddWorkout ? <AddWorkout closeAddWorkout={closeAddWorkout} /> : null}
       </Grid>
     </div>
   );

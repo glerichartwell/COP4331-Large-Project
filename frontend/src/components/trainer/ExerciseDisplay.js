@@ -5,8 +5,12 @@ import "./css/ClientDisplay.css";
 import Grid from "@mui/material/Grid";
 import { Divider, TextField, InputAdornment } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from '@mui/icons-material/Search'; 
-
+import SearchIcon from '@mui/icons-material/Search';
+import { getAuth } from "@firebase/auth";
+import { Button } from "@mui/material";
+// import AddIcon from "@mui/icons-material"
+import AddWorkout from "./AddWorkout"
+import AddExercise from "./AddExercise"
 
 import AddClient from "./AddClient";
 import ExerciseCard from "./ExerciseCard2";
@@ -24,6 +28,7 @@ const ExerciseDisplay = () => {
   const [Edit, setEdit] = useState();
   const [update, setUpdate] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [showAddExercise, setShowAddExercise] = useState(false);
 
   // const [cardNumber, setCardNumber] = useState(0);
 
@@ -32,8 +37,11 @@ const ExerciseDisplay = () => {
   };
 
   //firebase component to return trainer profile info
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const trainerID = user.email;
 
-  var trainerID = "g.erichartwell@gmail.com"; //getFirebaseID()
+  // var trainerID = "g.erichartwell@gmail.com"; //getFirebaseID()
 
   var exercises;
   var cardArray = [];
@@ -244,7 +252,7 @@ const ExerciseDisplay = () => {
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
       }
-    }, [query])
+    }, [query, refresh])
   };
 
   const edit = (info) => {
@@ -265,9 +273,24 @@ const ExerciseDisplay = () => {
     }
   };
 
+  const addItem = () => {
+    setShowAddExercise(true)
+  };
+
+  const openAddExercise = () => {
+    setShowAddExercise(true);
+  };
+  const closeAddExercise = () => {
+    setShowAddExercise(false);
+    setRefresh(!refresh);
+  }; 
+
   const [query, setQuery] = useState(null);
   return (
     <div>
+      <Button onClick={addItem} variant='outlined' sx={{ marginTop:'-44px', zIndex: 1300, position: 'fixed', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
+        <AddIcon/>
+      </Button>
       <TextField 
           className='search-bar' 
           type="search" 
@@ -325,6 +348,7 @@ const ExerciseDisplay = () => {
         {arrayChange}
 
         {showEdit ? Edit : null}
+        {showAddExercise ? <AddExercise closeAddExercise={closeAddExercise} /> : null}
       </Grid>
     </div>
   );

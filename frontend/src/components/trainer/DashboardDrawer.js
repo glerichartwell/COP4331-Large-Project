@@ -215,9 +215,9 @@ const DashboardDrawer = (props) => {
 
 
           {/* imported search bar */}
-          {hideAdd ? null : <Button onClick={addItem} variant='outlined' sx={{position: 'absolute', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}>
-            <AddIcon />
-          </Button>}
+          {/* {hideAdd ? null : <Button onClick={addItem} variant='outlined' sx={{position: 'absolute', right: "21.5vw", height: '42px', background: '#866d9c', borderColor: '#6f4792', color: '#ffffff', '&:hover': {background: '#b19cbe', borderColor: '#6f4792', color: '#6f4792'},}}> */}
+            {/* <AddIcon /> */}
+          {/* </Button>} */}
           
           {console.log(query)}
         </Toolbar>
@@ -249,18 +249,18 @@ const DashboardDrawer = (props) => {
               <ListItemText primary="Clients" />
             </ListItem>
 
-            <ListItem button key="Workouts" sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
+            <ListItem button key="Workouts" onClick={WorkoutOn} sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
-              <ListItemText primary="Workouts" onClick={WorkoutOn} />
+              <ListItemText primary="Workouts" />
             </ListItem>
 
-            <ListItem button key="Exercises" sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
+            <ListItem button onClick={ExerciseOn} key="Exercises" sx={{'&:hover': {background: '#e4d4f3', }, '&:focus': {background: '#e4d4f3', }}}>
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
-              <ListItemText primary="Exercises" onClick={ExerciseOn} />
+              <ListItemText primary="Exercises" />
             </ListItem>
 
           </List>

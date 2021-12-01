@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import DateRangePicker from "@mui/lab/DateRangePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider } from "@mui/lab";
+import ExerciseDetails from "../reuseable/ExerciseDetails";
 
 // import WorkoutEditBox from "./WorkoutEditBox";
 
@@ -28,6 +29,8 @@ const WorkoutDisplay = () => {
   // const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
   const [startDate, setStartDate] = useState();
   const [value, setValue] = React.useState([null, null]);
+  const [showExercise, setShowExercise] = useState(false);
+  const [exercise, setExercise] = useState(false);
 
   //change date picker to select range
   const handleChange = (newValue) => {
@@ -45,6 +48,47 @@ const WorkoutDisplay = () => {
   var cardArray = [];
   var objects = [];
   var cardNumber = 0;
+
+  const getExercises = async (exercise) => {
+    const address = "http://localhost:5000/api/get-exercise";
+
+    var obj1 = { exerciseID: exercise.id };
+    var js = JSON.stringify(obj1);
+
+    try {
+      const response = await fetch(address, {
+        method: "POST",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+
+      var obj = {
+        id: res.results[0]._id,
+        name: res.results[0].name,
+        sets: res.results[0].sets,
+        reps: res.results[0].reps,
+        time: res.results[0].time,
+        weight: res.results[0].weight,
+        rest: res.results[0].rest,
+        description: res.results[0].description,
+      };
+
+      console.log(obj);
+      setExercise(obj);
+      setShowExercise(true);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("exercises returned");
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
 
   const deleteWorkout = async (info) => {
     const address = "http://localhost:5000/api/delete-workout";
@@ -75,8 +119,13 @@ const WorkoutDisplay = () => {
     }
   };
 
+  const revealExercise = (exercise, trainerEmail) => {
+    getExercises(exercise);
+  };
+
   const getWorkouts = async (event) => {
-    const address1 = "http://localhost:5000/api/view-client-workouts-by-date-range";
+    const address1 =
+      "http://localhost:5000/api/view-client-workouts-by-date-range";
     //event.preventDefault();
     var startDate = new Date(value[0]);
     var endDate = new Date(value[1]);
@@ -150,6 +199,7 @@ const WorkoutDisplay = () => {
             >
               <WorkoutCard
                 dbInfo={obj}
+                revealExercise={revealExercise}
                 // opens edit box
                 // edit={edit}
                 // deleteCard={deleteCard}
@@ -235,6 +285,8 @@ const WorkoutDisplay = () => {
         >
           <WorkoutCard
             dbInfo={obj}
+            revealExercise={revealExercise}
+
             // opens edit box
             // edit={edit}
             // deleteCard={deleteCard}
@@ -308,9 +360,14 @@ const WorkoutDisplay = () => {
     DisplayWorkout();
   };
 
+  const closeDetailBox = () => {
+    setShowExercise(false);
+    setRefresh(!refresh);
+  };
+
   return (
     <div>
-      <TextField
+      {/* <TextField
         className="search-bar"
         type="search"
         value={query}
@@ -357,7 +414,7 @@ const WorkoutDisplay = () => {
             },
           },
         }}
-      />
+      /> */}
       {/* <TextField
         type="date"
         placeholder={"mm/dd/yyyy"}
@@ -374,7 +431,7 @@ const WorkoutDisplay = () => {
 
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DateRangePicker
-        sx
+          sx
           startText="Start Date"
           endText="End Date"
           value={value}
@@ -383,9 +440,9 @@ const WorkoutDisplay = () => {
           }}
           renderInput={(startProps, endProps) => (
             <React.Fragment>
-              <TextField {...startProps} variant="standard"/>
+              <TextField {...startProps} variant="standard" />
               <Box sx={{ mx: 2 }}> to </Box>
-              <TextField {...endProps}  variant="standard"/>
+              <TextField {...endProps} variant="standard" />
             </React.Fragment>
           )}
         />
@@ -408,7 +465,12 @@ const WorkoutDisplay = () => {
 
         {arrayChange}
 
-        {/* {showEdit ? Edit : null} */}
+        {showExercise ? (
+          <ExerciseDetails
+            closeDetailBox={closeDetailBox}
+            exercise={exercise}
+          />
+        ) : null}
       </Grid>
     </div>
   );

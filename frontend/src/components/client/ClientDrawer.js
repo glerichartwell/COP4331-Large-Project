@@ -6,11 +6,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
 import SelectInput from "@mui/material/Select/SelectInput";
-import HAWDisplay from "./HAWDisplay";
-import WorkoutDisplay from "./WorkoutDisplay";
-
-
 import "./css/ClientDrawer.css";
+import { getAuth, signOut, onAuthStateChanged } from "@firebase/auth";
 
 import {
   AppBar,
@@ -31,34 +28,96 @@ import { Box } from "@mui/system";
 import EventIcon from "@mui/icons-material/Event";
 import PersonIcon from "@mui/icons-material/Person";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import SearchBar from "../reuseable/SearchBar";
-import { getAuth } from "firebase/auth";
+import WorkoutDisplay from "./WorkoutDisplay";
+import HAWDisplay from "./HAWDisplay";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ClientInfo from "./ClientInfo";
 
 const ClientDrawer = (props) => {
   const navigate = useNavigate();
-  const user = "Delroy";
-  const [showClient, setShowClient] = useState(true);
+  const [showClient, setShowClient] = useState(false);
   const [showWorkout, setShowWorkout] = useState(false);
   const [showHAW, setShowHAW] = useState(false);
+  const [clientInfo, setClientInfo] = useState();
+  const [refresh, setRefresh] = useState(false);
+  const [info, setInfo] = useState();
+  const [objects, setObjects] = useState();
+  const [firstLoad, setFirstLoad] = useState(true)
+  // var obj = new Object();
 
+  const auth = getAuth();
+  console.log(auth);
 
+  const user = auth.currentUser;
+  console.log(user);
 
   //change to actual logout function
   const logout = () => {
+    signOut(auth);
     navigate(`/`);
+  };
+  const GetClient = async (event) => {
+    const email = user.email;
+    console.log(email);
+
+    var obj1 = { email: user.email };
+    var js = JSON.stringify(obj1);
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/search-client-by-email",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      console.log(res);
+      var i = 0;
+      var obj = new Object();
+      obj["firstName"] = res.results[i].firstName;
+      obj["middleName"] = res.results[i].middleName;
+      obj["lastName"] = res.results[i].lastName;
+      obj["height"] = res.results[i].height;
+      obj["weight"] = res.results[i].weight;
+      obj["gender"] = res.results[i].gender;
+      obj["age"] = res.results[i].age;
+      obj["phone"] = res.results[i].phone;
+      obj["birthday"] = res.results[i].birthday;
+      obj["city"] = res.results[i].city;
+      obj["startDate"] = res.results[i].startDate;
+      obj["lastLoggedIn"] = res.results[i].lastLoggedIn;
+      obj["mood"] = res.results[i].mood;
+      obj["sleep"] = res.results[i].sleep;
+      obj["email"] = res.results[i].email;
+
+      setObjects(obj);
+      console.log(objects);
+
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Clients returned");
+      }
+    } catch (error) {
+      console.log(error.toString());
+    }
   };
 
   const DashOn = () => {
-    setShowClient(true);
+    GetClient();
     setShowWorkout(false);
     setShowHAW(false);
+    setShowClient(true);
   };
 
   const WorkoutOn = () => {
     setShowClient(false);
-    setShowWorkout(true);
     setShowHAW(false);
+    setShowWorkout(true);
   };
 
   const HAWOn = () => {
@@ -69,6 +128,17 @@ const ClientDrawer = (props) => {
 
   const getQueryRef = (value) => {
     setQuery(value);
+  };
+  // const getClientInfo = () => {
+  //   setClientInfo(info);
+  // };
+  const Display = () => {
+    useEffect(() => {
+      if (firstLoad) {
+        GetClient();
+        setFirstLoad(false);
+      }
+    }, []);
   };
 
   const [query, setQuery] = useState(null);
@@ -84,10 +154,8 @@ const ClientDrawer = (props) => {
       >
         <Toolbar sx={{ position: "relative" }}>
           <Typography variant="h6" noWrap component="div">
-            <ArrowBackIosIcon /> Welcome {user}
+            Welcome
           </Typography>
-
-          {console.log(query)}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -116,20 +184,12 @@ const ClientDrawer = (props) => {
               </ListItemIcon>
               <ListItemText primary="Personal Dashboard" />
             </ListItem>
-
-            <ListItem button key="Health and Wellness" onClick={HAWOn}>
-              <ListItemIcon>
-                <FitnessCenterIcon />
-              </ListItemIcon>
-              <ListItemText primary="Health and Wellness" />
-            </ListItem>
-
-            <ListItem button key="Workouts" onClick={WorkoutOn}>
+            {/* <ListItem button key="Workouts" onClick={WorkoutOn}>
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
               <ListItemText primary="Workouts" />
-            </ListItem>
+            </ListItem> */}
           </List>
           <Divider />
         </Box>
@@ -147,12 +207,11 @@ const ClientDrawer = (props) => {
         overflow="scroll"
         sx={{ flexGrow: 1, p: 3, backgroundColor: "#f8f4fd" }}
       >
+        {Display()}
         <Toolbar />
         {/* code for contents of box area in dashboard */}
-
-        {/* {showClient ? <ClientDisplay /> : null} */}
-        {showHAW ? <HAWDisplay /> : null}
-        {showWorkout ? < WorkoutDisplay/> : null}
+        {/* {showWorkout ? <WorkoutDisplay /> : null} */}
+        {showClient ? <ClientInfo info={objects} /> : null}
       </Box>
     </Box>
   );
