@@ -36,61 +36,11 @@ const dangar = {
       </CardActions>
  */
 
-export default function BasicCard({getDate, info}) {
+export default function BasicCard({setDate, date, info, rating}) {
 
-  const [date, setDate] = useState(new Date());
-  const [rating, setRating] = useState();
+  
   var tempRating = null;
 
-
-  const getSleepWrapper = (event) => {
-    setDate(event)
-  }
-
-  const getSleep = async event => {
-    console.log("====================")
-    console.log("Incoming date: ", date)
-    try {
-
-      var obj = {
-          email: info.email,
-          date: new Date(date).toISOString().slice(0,10),
-      }
-      console.log("Date: ", new Date(date).toISOString().slice(0,10))
-      var js = JSON.stringify(obj)
-      console.log("JSON: ", js)
-
-      const response = await fetch(
-        "http://localhost:5000/api/search-client-mood",
-        {
-          method: "POST",
-          body: js,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      var txt = await response.text();
-      var res = JSON.parse(txt);
-      console.log(res)
-      // Save mood
-      if (res.results.length === 0)
-      {
-        return;
-      }
-      console.log("Res: ", res.results[0].rating)
-      setRating(res.results[0].rating);
-      console.log("====================")
-      if (res.error.length > 0) {
-        console.log("API Error: " + res.error);
-      } else {
-        console.log("Sleep acquired");
-        tempRating = res.results[0].rating;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-
-  }
 
   return (
     <Paper
@@ -116,7 +66,7 @@ export default function BasicCard({getDate, info}) {
           openTo="day"
           value={date}
           onChange={(value) => {
-            getSleepWrapper(value); console.log("Date: ", date)
+            setDate(value)
           }}
           renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '120px', margin:'8px'}}/>}
         />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -9,9 +9,9 @@ import Grid from "@mui/material/Grid";
 import Slep from "./SleepCard";
 import Mood from "./MoodCard";
 import Charts from "./Chart";
-import Charts2 from "./ChartToday";
+import ChartToday from "./ChartToday";
 import TodaySleep from "./TodaySleep";
-import Mood2 from "./TodayMood";
+import TodayMood from "./TodayMood";
 
 /**
 <Grid container spacing={2} columns={18}>
@@ -23,11 +23,11 @@ import Mood2 from "./TodayMood";
               <Slep2 />
             </Grid>
             <Grid item>
-              <Mood2 />
+              <TodayMood />
             </Grid>
           </Grid>
           <Grid item xs={10.95} direction="column">
-            <Charts2 />
+            <ChartToday />
           </Grid>
         </Grid>
       </TabPanel>
@@ -86,6 +86,57 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
   const [date, setDate] = useState(new Date());
   const [rating, setRating] = useState();
 
+  useEffect(() => {
+    if (date)
+    {
+      getSleep();
+    }
+  })
+
+  const getSleep = async event => {
+    console.log("====================")
+    console.log("Incoming date: ", date)
+    try {
+
+      var obj = {
+          email: info.email,
+          date: new Date(date).toISOString().slice(0,10),
+      }
+      console.log("Date: ", new Date(date).toISOString().slice(0,10))
+      var js = JSON.stringify(obj)
+      console.log("JSON: ", js)
+
+      const response = await fetch(
+        "http://localhost:5000/api/search-client-mood",
+        {
+          method: "POST",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+      console.log(res)
+      // Save mood
+      if (res.results.length === 0)
+      {
+        return;
+      }
+      console.log("Res: ", res.results[0].rating)
+      setRating(res.results[0].rating);
+      console.log("====================")
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Sleep acquired");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
+  }
+
 
 
   return (
@@ -109,10 +160,10 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '60%', left: 280}}>
           <TodaySleep info={info} />
-          <Mood2 info={info} />
+          <TodayMood info={info} />
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '60%', left: 280, top: 156}}>
-          <Charts2 info={info} />
+          <ChartToday info={info} />
         </Box>
       </Box>
       </TabPanel>   
