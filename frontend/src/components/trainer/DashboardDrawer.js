@@ -209,8 +209,8 @@ const DashboardDrawer = (props) => {
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Toolbar sx={{position: 'relative'}} >
-          <Typography variant="h6" noWrap component="div">
-            <ArrowBackIosIcon /> My Dashboard
+          <Typography variant="h6" noWrap component="div" sx={{marginLeft: "20px"}}>
+            My Dashboard
           </Typography>
 
 
