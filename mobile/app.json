@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "mobile",
+    "name": "Courtney Genix",
+    "description": "Fitness Trainer clientside management for Courtney Genix",
     "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,6 +19,9 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.courtneygenix.courtneygenix"
     }
   }
 }
