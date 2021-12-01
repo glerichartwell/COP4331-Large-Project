@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from "react";
 import {Title} from 'react-native-paper';
 import {Rating} from 'react-native-ratings';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {RadioButton, Text} from 'react-native-paper';
 import {PieChart,} from 'react-native-chart-kit';
 import theme from "../custom-properties/Themes";
@@ -66,23 +66,27 @@ const HWComponentView = (props) => {
     }
 
     return (
-        <View>
-            <Title>Sleep</Title>
+        <View
+            style={styles.totalView}
+        >
+            <Title>Sleep:</Title>
             <Rating
                 type='star'
                 ratingCount={5}
-                imageSize={60}
+                imageSize={40}
                 startingValue={props.sleep}
-                showRating
+                /*showRating*/
                 onFinishRating={newValue => updateSleep(newValue)}
             />
-            <Title>Mood</Title>
+            <Title
+                style={{marginTop: 10}}
+            >Mood:</Title>
             <RadioButton.Group
                 onValueChange={newValue => updateMood(newValue)}
                 value={props.mood}
             >
                 <View>
-                    <Text style={{fontSize: 30}}>
+                    <Text style={{fontSize: 25}}>
                         <RadioButton
                             value={(props.mood === 0) ? props.mood : 0}
                         />
@@ -107,7 +111,7 @@ const HWComponentView = (props) => {
                 </View>
             </RadioButton.Group>
 
-            {/*<Title>Macromolecule Ratio</Title>
+            {/*<Title>Macromolecule Ratio:</Title>
 
             {props.macroExists ? <PieChart
                 data={[
@@ -154,5 +158,11 @@ const HWComponentView = (props) => {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    totalView: {
+        marginHorizontal: 20,
+    },
+});
 
 export default HWComponentView;

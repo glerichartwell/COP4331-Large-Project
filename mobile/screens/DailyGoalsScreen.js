@@ -53,10 +53,9 @@ const DailyGoalsScreen = (props) => {
             .then(async (responseJson) => {
                 console.log("RESPONSE: ", responseJson);
                 let workoutIDArray = responseJson.results;
-                if (workoutIDArray.length === 0){
+                if (workoutIDArray.length === 0) {
                     setWorkoutsExists(false);
-                }
-                else {
+                } else {
                     setWorkoutsExists(true);
                 }
                 for (let i = 0; i < workoutIDArray.length; i++) {
@@ -75,12 +74,12 @@ const DailyGoalsScreen = (props) => {
                             let newWorkoutToAdd = responseJson.results[0];
                             newWorkoutToAdd.date = workoutIDArray[i].date;
                             let add = true;
-                            for (let i = 0; i < workouts.length; i++){
-                                if (workouts[i].workoutID === newWorkoutToAdd.workoutID && workouts[i].date === newWorkoutToAdd.date){
+                            for (let i = 0; i < workouts.length; i++) {
+                                if (workouts[i].workoutID === newWorkoutToAdd.workoutID && workouts[i].date === newWorkoutToAdd.date) {
                                     add = false;
                                 }
                             }
-                            if (add){
+                            if (add) {
                                 newWorkouts.push(newWorkoutToAdd);
                             }
                             setWorkouts(newWorkouts);
@@ -108,10 +107,9 @@ const DailyGoalsScreen = (props) => {
             .then((responseJson) => {
                 /*console.log("SLEEP RESPONSE: ", responseJson);*/
                 // Check if sleep exists, if not default to some value
-                if (responseJson.results.length > 0){
+                if (responseJson.results.length > 0) {
                     setSleep(responseJson.results[0].rating);
-                }
-                else {
+                } else {
                     setSleep(DEFAULT_SLEEP);
                 }
             })
@@ -132,10 +130,9 @@ const DailyGoalsScreen = (props) => {
                 /*console.log("MOOD RESPONSE: ", responseJson);*/
                 // Check if mood exists, if not default to some value
                 setMood(DEFAULT_MOOD);
-                if (responseJson.results.length > 0){
+                if (responseJson.results.length > 0) {
                     setMood(responseJson.results[0].rating);
-                }
-                else {
+                } else {
                     setMood(DEFAULT_MOOD);
                 }
             })
@@ -155,14 +152,13 @@ const DailyGoalsScreen = (props) => {
             .then((responseJson) => {
                 /*console.log("MACRO RESPONSE: ", responseJson);*/
                 // Check if macro exists, if not default to some value
-                if (responseJson.results.length > 0){
+                if (responseJson.results.length > 0) {
                     setMacroExists(true);
                     let macroTemp = responseJson.results[0];
                     setCarbs(parseInt(macroTemp.carbs));
                     setFats(parseInt(macroTemp.fats));
                     setProteins(parseInt(macroTemp.proteins));
-                }
-                else {
+                } else {
                     setCarbs(DEFAULT_CARBS);
                     setFats(DEFAULT_FATS);
                     setProteins(DEFAULT_PROTEINS);
@@ -174,7 +170,7 @@ const DailyGoalsScreen = (props) => {
 
     const clearWorkouts = () => {
         setWorkouts([])
-        for (let i = 0; i < workouts.length; i++){
+        for (let i = 0; i < workouts.length; i++) {
             workouts.pop()
         }
     }
@@ -182,11 +178,26 @@ const DailyGoalsScreen = (props) => {
     if (loaded) {
         return (
             <View>
-                <TopBar title="Daily Goals"/>
-                <Title>Choose Day:</Title>
-                <CustomDatePicker date={date} setDate={setDate} setLoaded={setLoaded}/>
+                <View
+                    style={{backgroundColor: "white"}}
+                >
+                    <TopBar title="Daily Goals"/>
+                    <Title
+                        style={styles.title}
+                    >Choose Day</Title>
+                    <View
+                        style={styles.datePickerView}
+                    >
+                        <CustomDatePicker date={date} setDate={setDate} setLoaded={setLoaded}/>
+                    </View>
+                    <Divider
+                        style={styles.divider}
+                    />
+                </View>
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
-                    <Title>Health & Wellness</Title>
+                    <Title
+                        style={styles.title}
+                    >Health & Wellness</Title>
                     <HWComponent
                         sleep={sleep}
                         setSleep={setSleep}
@@ -206,7 +217,9 @@ const DailyGoalsScreen = (props) => {
                     <Divider
                         style={styles.divider}
                     />
-                    <Title>Workouts</Title>
+                    <Title
+                        style={styles.title}
+                    >Workouts</Title>
                     {workouts.map((workout) => (
                         <WorkoutCard
                             key={workout._id + workout.date}
@@ -219,7 +232,9 @@ const DailyGoalsScreen = (props) => {
                         />
                     ))}
                     {!workoutsExists &&
-                        <Text>No workouts for this day.</Text>
+                    <Text
+                        style={styles.noWorkoutsText}
+                    >No workouts for this day.</Text>
                     }
                 </ScrollView>
             </View>
@@ -236,13 +251,28 @@ const DailyGoalsScreen = (props) => {
 
 const styles = StyleSheet.create({
     scrollContainer: {
-        marginBottom: 100,
+        paddingBottom: 300,
+        backgroundColor: "white",
     },
     divider: {
         backgroundColor: theme.colors.purple,
         height: 3,
         width: "100%",
-        alignSelf: "center"
+        alignSelf: "center",
+        marginTop: 10,
+    },
+    title: {
+        textAlign: "center",
+        marginBottom: 0,
+        marginTop: 20,
+    },
+    datePickerView: {
+        marginHorizontal: 40,
+        backgroundColor: "white",
+    },
+    noWorkoutsText: {
+        fontSize: 20,
+        textAlign: "center",
     },
 });
 

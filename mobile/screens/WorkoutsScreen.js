@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Surface, Text, Title} from "react-native-paper";
+import {Divider, Surface, Text, Title} from "react-native-paper";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {FlatList, ScrollView, StyleSheet, View} from "react-native";
 import TopBar from "../components/TopBar";
@@ -23,7 +23,7 @@ const WorkoutsScreen = (props) => {
 
     const clearWorkouts = () => {
         setWorkouts([])
-        for (let i = 0; i < workouts.length; i++){
+        for (let i = 0; i < workouts.length; i++) {
             workouts.pop()
         }
     }
@@ -79,10 +79,9 @@ const WorkoutsScreen = (props) => {
             .then(async (responseJson) => {
                 console.log("RESPONSE: ", responseJson);
                 let workoutIDArray = responseJson.results;
-                if (workoutIDArray.length === 0){
+                if (workoutIDArray.length === 0) {
                     setWorkoutsExists(false);
-                }
-                else {
+                } else {
                     setWorkoutsExists(true);
                 }
                 for (let i = 0; i < workoutIDArray.length; i++) {
@@ -101,12 +100,12 @@ const WorkoutsScreen = (props) => {
                             let newWorkoutToAdd = responseJson.results[0];
                             newWorkoutToAdd.date = workoutIDArray[i].date;
                             let add = true;
-                            for (let i = 0; i < workouts.length; i++){
-                                if (workouts[i].workoutID === newWorkoutToAdd.workoutID && workouts[i].date === newWorkoutToAdd.date){
+                            for (let i = 0; i < workouts.length; i++) {
+                                if (workouts[i].workoutID === newWorkoutToAdd.workoutID && workouts[i].date === newWorkoutToAdd.date) {
                                     add = false;
                                 }
                             }
-                            if (add){
+                            if (add) {
                                 newWorkouts.push(newWorkoutToAdd);
                             }
                             setWorkouts(newWorkouts);
@@ -166,7 +165,8 @@ const WorkoutsScreen = (props) => {
             <View
                 style={{backgroundColor: "white"}}
             >
-                <TopBar title="Workouts"/>
+                <View>
+                    <TopBar title="Workouts"/>
                     <Title
                         style={styles.dateTitle}
                     >Choose Date Range</Title>
@@ -190,6 +190,10 @@ const WorkoutsScreen = (props) => {
                             <CustomDatePicker date={endDate} setDate={setEndDate} setLoaded={setLoaded}/>
                         </Surface>
                     </Surface>
+                    <Divider
+                        style={styles.divider}
+                    />
+                </View>
                 <Surface
                     style={styles.workoutSurface}
                 >
@@ -209,11 +213,11 @@ const WorkoutsScreen = (props) => {
                     >
                     </FlatList>
                     {!workoutsExists &&
-                        <Title
-                            style={{textAlign: "center"}}
-                        >
-                            No workouts for this date range.
-                        </Title>
+                    <Title
+                        style={{textAlign: "center"}}
+                    >
+                        No workouts for this date range.
+                    </Title>
                     }
                 </Surface>
             </View>
@@ -230,11 +234,11 @@ const WorkoutsScreen = (props) => {
 
 const styles = StyleSheet.create({
     scrollContainer: {
-        paddingBottom: 100,
+        paddingBottom: 300,
     },
     dateArea: {
         width: "100%",
-        /*position: "relative",*/
+        position: "relative",
     },
     dateStart: {
         position: "absolute",
@@ -253,6 +257,13 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginBottom: 20,
         marginTop: 20,
+    },
+    divider: {
+        backgroundColor: theme.colors.purple,
+        height: 3,
+        width: "100%",
+        alignSelf: "center",
+        marginTop: 5,
     },
 });
 
