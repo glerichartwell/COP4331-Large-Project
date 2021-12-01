@@ -73,7 +73,7 @@ router.post("/api/add-client", async (req, res) => {
         text:
           "Hello, future client!" +
           "\n\nPlease click the following link: " +
-          "http://localhost:3000/register?email=" +
+          "https://courtneygenix.herokuapp.com/register?email=" +
           email +
           " to create your account." +
           "\n\n\nSincerely, \nThe CourtneyGenix Team",
