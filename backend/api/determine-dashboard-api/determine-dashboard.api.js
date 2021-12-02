@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/api/determine-dashboard", async (req, res) => {
   // incoming: email
   // outgoing: true/false, or error
-  console.log("Incoming: ", email)
+
 
   var error = "";
   var isTrainer = false;
