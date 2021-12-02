@@ -51,7 +51,7 @@ const ExerciseDisplay = () => {
 
   const deleteExercise = async (info) => {
 
-    const address = "http://courtneygenix.herokuapp.com/api/delete-exercise";
+    const address = "https://courtneygenix.herokuapp.com/api/delete-exercise";
 
     var obj1 = { id: info.id  };
     var js = JSON.stringify(obj1);
@@ -90,7 +90,7 @@ const ExerciseDisplay = () => {
 
   const getExercises = async (event) => {
 
-    const address = "http://courtneygenix.herokuapp.com/api/view-all-exercises";
+    const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
@@ -163,7 +163,7 @@ const ExerciseDisplay = () => {
 
   const searchExercises = async (event) => {
 
-    const address = "http://courtneygenix.herokuapp.com/api/search-exercise";
+    const address = "https://courtneygenix.herokuapp.com/api/search-exercise";
 
     var obj1 = { name: query };
     var js = JSON.stringify(obj1);

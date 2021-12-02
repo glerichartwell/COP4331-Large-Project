@@ -66,7 +66,7 @@ const ClientDrawer = (props) => {
 
     try {
       const response = await fetch(
-        "http://courtneygenix.herokuapp.com/api/search-client-by-email",
+        "https://courtneygenix.herokuapp.com/api/search-client-by-email",
         {
           method: "POST",
           body: js,

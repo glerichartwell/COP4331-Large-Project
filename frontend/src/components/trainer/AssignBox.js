@@ -41,7 +41,7 @@ const AssignBox = ({info, closeAssignBox}) => {
     
         try {
           const response = await fetch(
-            "http://courtneygenix.herokuapp.com/api/view-clients-by-trainer",
+            "https://courtneygenix.herokuapp.com/api/view-clients-by-trainer",
             {
               method: "POST",
               body: js,
@@ -112,7 +112,7 @@ const AssignBox = ({info, closeAssignBox}) => {
             var js = JSON.stringify(obj)
             console.log("JSON: ", js)
             const response = await fetch(
-              "http://courtneygenix.herokuapp.com/api/add-workout-to-client",
+              "https://courtneygenix.herokuapp.com/api/add-workout-to-client",
               {
                 method: "POST",
                 body: js,

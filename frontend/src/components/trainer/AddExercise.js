@@ -64,7 +64,7 @@ const AddExercise = (props) => {
     };
     var js = JSON.stringify(obj);
     try {
-      const response = await fetch("http://courtneygenix.herokuapp.com/api/add-exercise", {
+      const response = await fetch("https://courtneygenix.herokuapp.com/api/add-exercise", {
         method: "POST",
         body: js,
         headers: { "Content-Type": "application/json" },

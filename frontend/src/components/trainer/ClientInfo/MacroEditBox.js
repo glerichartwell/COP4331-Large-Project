@@ -44,7 +44,7 @@ import "./css/MacroEditBox.css"
         console.log("JSON: ", js)
   
         const response = await fetch(
-          "http://courtneygenix.herokuapp.com/api/edit-client-macro",
+          "https://courtneygenix.herokuapp.com/api/edit-client-macro",
           {
             method: "POST",
             body: js,

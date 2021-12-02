@@ -84,7 +84,7 @@ const Register = props => {
       console.log(js)
       try {
         const response = await fetch(
-          "http://courtneygenix.herokuapp.com/api/edit-client",
+          "https://courtneygenix.herokuapp.com/api/edit-client",
           {
             method: "PATCH",
             body: js,

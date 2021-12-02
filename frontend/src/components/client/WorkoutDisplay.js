@@ -50,7 +50,7 @@ const WorkoutDisplay = () => {
   var cardNumber = 0;
 
   const getExercises = async (exercise) => {
-    const address = "http://courtneygenix.herokuapp.com/api/get-exercise";
+    const address = "https://courtneygenix.herokuapp.com/api/get-exercise";
 
     var obj1 = { exerciseID: exercise.id };
     var js = JSON.stringify(obj1);
@@ -91,7 +91,7 @@ const WorkoutDisplay = () => {
   };
 
   const deleteWorkout = async (info) => {
-    const address = "http://courtneygenix.herokuapp.com/api/delete-workout";
+    const address = "https://courtneygenix.herokuapp.com/api/delete-workout";
 
     var obj1 = { id: info.id };
     var js = JSON.stringify(obj1);
@@ -125,7 +125,7 @@ const WorkoutDisplay = () => {
 
   const getWorkouts = async (event) => {
     const address1 =
-      "http://courtneygenix.herokuapp.com/api/view-client-workouts-by-date-range";
+      "https://courtneygenix.herokuapp.com/api/view-client-workouts-by-date-range";
     //event.preventDefault();
     var startDate = new Date(value[0]);
     var endDate = new Date(value[1]);
@@ -150,7 +150,7 @@ const WorkoutDisplay = () => {
       // loop through results and search for orther workout info in db
       for (var i = 0; i < res1.results.length; i++) {
         //second api call using object id from first api call
-        const address2 = "http://courtneygenix.herokuapp.com/api/get-workout";
+        const address2 = "https://courtneygenix.herokuapp.com/api/get-workout";
 
         var obj2 = { workoutID: res1.results[i].workoutID };
         var js2 = JSON.stringify(obj2);
@@ -236,7 +236,7 @@ const WorkoutDisplay = () => {
 
   //  used when using query search
   const searchWorkouts = async (event) => {
-    const address = "http://courtneygenix.herokuapp.com/api/search-workout";
+    const address = "https://courtneygenix.herokuapp.com/api/search-workout";
 
     var obj2 = { name: query };
     var js = JSON.stringify(obj2);

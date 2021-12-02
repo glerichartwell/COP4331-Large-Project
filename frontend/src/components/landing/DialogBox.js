@@ -62,7 +62,7 @@ const DialogBox = (props) => {
     console.log(js);
     try {
       const response = await fetch(
-        "http://courtneygenix.herokuapp.com/api/request-info",
+        "https://courtneygenix.herokuapp.com/api/request-info",
         {
           method: "POST",
           body: js,

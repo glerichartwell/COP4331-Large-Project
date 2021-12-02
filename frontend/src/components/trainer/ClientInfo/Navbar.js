@@ -127,7 +127,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
 
 
       const response = await fetch(
-        "http://courtneygenix.herokuapp.com/api/search-client-sleep",
+        "https://courtneygenix.herokuapp.com/api/search-client-sleep",
         {
           method: "POST",
           body: js,
@@ -169,7 +169,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
 
 
       const response = await fetch(
-        "http://courtneygenix.herokuapp.com/api/search-client-sleep",
+        "https://courtneygenix.herokuapp.com/api/search-client-sleep",
         {
           method: "POST",
           body: js,
@@ -210,7 +210,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
 
 
       const response = await fetch(
-        "http://courtneygenix.herokuapp.com/api/search-client-mood",
+        "https://courtneygenix.herokuapp.com/api/search-client-mood",
         {
           method: "POST",
           body: js,
@@ -249,7 +249,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
 
 
       const response = await fetch(
-        "http://courtneygenix.herokuapp.com/api/search-client-mood",
+        "https://courtneygenix.herokuapp.com/api/search-client-mood",
         {
           method: "POST",
           body: js,
@@ -285,7 +285,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       var js = JSON.stringify(obj)
 
       const response = await fetch(
-        "http://courtneygenix.herokuapp.com/api/search-client-macro",
+        "https://courtneygenix.herokuapp.com/api/search-client-macro",
         {
           method: "POST",
           body: js,
@@ -329,7 +329,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       var js = JSON.stringify(obj)
 
       const response = await fetch(
-        "http://courtneygenix.herokuapp.com/api/search-client-macro",
+        "https://courtneygenix.herokuapp.com/api/search-client-macro",
         {
           method: "POST",
           body: js,

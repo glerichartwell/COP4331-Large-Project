@@ -41,7 +41,7 @@ const Login = props => {
 
     try {
       const response = await fetch(
-        "http://courtneygenix.herokuapp.com/api/determine-dashboard",
+        "https://courtneygenix.herokuapp.com/api/determine-dashboard",
         {
           method: "POST",
           body: js,
@@ -86,6 +86,8 @@ const Login = props => {
       setMessage('Invalid email/password combination.')
       console.log(error)
     });
+
+
 
     determineUserType()
     .then(() => {
