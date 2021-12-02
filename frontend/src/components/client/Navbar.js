@@ -14,6 +14,9 @@ import TodaySleep from "./TodaySleep";
 import TodayMood from "./TodayMood";
 import WorkoutDisplay from "./WorkoutDisplay";
 
+// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
+const address = "https://localhost:5000/api/view-all-exercises";
+
 /**
 <Grid container spacing={2} columns={18}>
           <Grid item xs={6}>
@@ -109,7 +112,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       console.log("JSON: ", js)
 
       const response = await fetch(
-        "https://courtneygenix.herokuapp.com/api/search-client-mood",
+        address,
         {
           method: "POST",
           body: js,

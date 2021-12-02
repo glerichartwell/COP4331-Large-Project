@@ -8,6 +8,9 @@ import ExerciseCard from "./ExerciseCard";
 import ClientDashboard from "./ClientInfoView";
 import { Button } from "@mui/material";
 
+// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
+const address = "https://localhost:5000/api/view-all-exercises";
+
 
 const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading
@@ -31,8 +34,6 @@ const ExerciseDisplay = () => {
 
   
   const getExercises = async (event) => {
-
-    const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
 
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
@@ -102,8 +103,6 @@ const ExerciseDisplay = () => {
   };
 
   const searchExercises = async (event) => {
-
-    const address = "https://courtneygenix.herokuapp.com/api/search-exercise";
 
     var obj1 = { name: query };
     var js = JSON.stringify(obj1);

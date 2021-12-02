@@ -12,6 +12,9 @@ import { LocalizationProvider, DesktopDatePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import "./css/MacroEditBox.css"
 
+// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
+const address = "https://localhost:5000/api/view-all-exercises";
+
  const MacroEditBox = ({info, closeMacroEdit}) => {
 
     const [message, setMessage] = useState("")
@@ -44,7 +47,7 @@ import "./css/MacroEditBox.css"
         console.log("JSON: ", js)
   
         const response = await fetch(
-          "https://courtneygenix.herokuapp.com/api/edit-client-macro",
+          address,
           {
             method: "POST",
             body: js,

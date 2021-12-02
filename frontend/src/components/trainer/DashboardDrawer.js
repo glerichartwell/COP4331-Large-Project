@@ -72,7 +72,7 @@ const DashboardDrawer = (props) => {
 
   const auth = getAuth();
   const user = auth.currentUser;
-  const trainerID = "g.erichartwell@gmail.com";
+  const trainerID = user.email;
   if (user !== null)
   {
     console.log(user)

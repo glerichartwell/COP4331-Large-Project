@@ -12,6 +12,9 @@ import "./css/Register.css"
 import RegisterSuccess from "./RegisterSuccess";
 import { useNavigate } from "react-router";
 
+// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
+const address = "https://localhost:5000/api/view-all-exercises";
+
 
 const Register = props => {
 
@@ -84,7 +87,7 @@ const Register = props => {
       console.log(js)
       try {
         const response = await fetch(
-          "https://courtneygenix.herokuapp.com/api/edit-client",
+          address,
           {
             method: "PATCH",
             body: js,

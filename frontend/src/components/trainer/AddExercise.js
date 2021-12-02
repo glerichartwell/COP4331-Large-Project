@@ -14,6 +14,9 @@ import {
   InputAdornment
 } from "@mui/material";
 
+// const address = "https://courtneygenix.herokuapp.com/api/add-exercise"
+const address = "https://localhost:5000/api/add-exercise"
+
 const AddExercise = (props) => {
   const [open, setOpen] = useState(true);
   const [message, setMessage] = useState("");
@@ -64,7 +67,9 @@ const AddExercise = (props) => {
     };
     var js = JSON.stringify(obj);
     try {
-      const response = await fetch("https://courtneygenix.herokuapp.com/api/add-exercise", {
+      const response = await fetch(
+        address,
+        {
         method: "POST",
         body: js,
         headers: { "Content-Type": "application/json" },

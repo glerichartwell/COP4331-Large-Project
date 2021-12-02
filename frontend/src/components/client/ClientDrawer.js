@@ -34,6 +34,9 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ClientInfo from "./ClientInfo";
 
+// const address = "https://courtneygenix.herokuapp.com/api/search-client-by-email"
+const address = "https://localhost:5000/api/search-client-by-email"
+
 const ClientDrawer = (props) => {
   const navigate = useNavigate();
   const [showClient, setShowClient] = useState(false);
@@ -66,7 +69,7 @@ const ClientDrawer = (props) => {
 
     try {
       const response = await fetch(
-        "https://courtneygenix.herokuapp.com/api/search-client-by-email",
+        address,
         {
           method: "POST",
           body: js,
@@ -75,7 +78,7 @@ const ClientDrawer = (props) => {
       );
       var txt = await response.text();
       var res = JSON.parse(txt);
-      console.log(res);
+      console.log("Result: ", res);
       var i = 0;
       var obj = new Object();
       obj["firstName"] = res.results[i].firstName;

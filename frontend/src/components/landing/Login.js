@@ -11,6 +11,9 @@ import { sendPasswordResetEmail } from "firebase/auth";
 
 import './css/Login.css'
 
+//const address = "https://courtneygenix.herokuapp.com/api/determine-dashboard"
+const address = "https://localhost:5000/api/determine-dashboard"
+
 const Login = props => {
   
   const navigate = useNavigate();
@@ -41,7 +44,7 @@ const Login = props => {
 
     try {
       const response = await fetch(
-        "https://courtneygenix.herokuapp.com/api/determine-dashboard",
+        address,
         {
           method: "POST",
           body: js,

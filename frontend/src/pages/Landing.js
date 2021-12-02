@@ -10,8 +10,6 @@ import "./Landing.css";
 
 
 
-
-
 const Landing = (props) => {
  
   const [showLog, setShowLog] = useState(false);

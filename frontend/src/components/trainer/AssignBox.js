@@ -15,7 +15,8 @@ import { createTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from "@material-ui/core/styles";
 import { green } from "@mui/material/colors";
 
-
+// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
+const address = "https://localhost:5000/api/view-all-exercises";
 
 const AssignBox = ({info, closeAssignBox}) => {
     
@@ -41,7 +42,7 @@ const AssignBox = ({info, closeAssignBox}) => {
     
         try {
           const response = await fetch(
-            "https://courtneygenix.herokuapp.com/api/view-clients-by-trainer",
+            address,
             {
               method: "POST",
               body: js,
@@ -112,7 +113,7 @@ const AssignBox = ({info, closeAssignBox}) => {
             var js = JSON.stringify(obj)
             console.log("JSON: ", js)
             const response = await fetch(
-              "https://courtneygenix.herokuapp.com/api/add-workout-to-client",
+              address,
               {
                 method: "POST",
                 body: js,

@@ -19,6 +19,9 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider } from "@mui/lab";
 import { DesktopDatePicker } from "@mui/lab";
 
+// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
+const address = "https://localhost:5000/api/view-all-exercises";
+
 const AddWorkout = (props) => {
   const [open, setOpen] = useState(true);
   const [message, setMessage] = useState("");
@@ -80,7 +83,7 @@ const AddWorkout = (props) => {
   var exercises = [];
   const getExercises = async (event) => {
     console.log("Retrieving exercises from database...")
-    const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
+    
 
     try {
       const response = await fetch(
@@ -177,7 +180,8 @@ const AddWorkout = (props) => {
     var js = JSON.stringify(obj);
 
     try {
-      const response = await fetch("https://courtneygenix.herokuapp.com/api/add-workout", {
+      const response = await fetch(
+        address, {
         method: "POST",
         body: js,
         headers: { "Content-Type": "application/json" },
