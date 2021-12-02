@@ -13,8 +13,8 @@ import { InputAdornment } from "@mui/material";
 
 import "./css/EditBox.css"
 
-// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
-const address = "https://localhost:5000/api/view-all-exercises";
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
 
 const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
   const [showEdit, setShowEdit] = useState(true);
@@ -50,7 +50,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
     var js = JSON.stringify(obj);
     try {
       const response = await fetch(
-        address, 
+        address + "/api/edit-exercise", 
         {
         method: "PATCH",
         body: js,

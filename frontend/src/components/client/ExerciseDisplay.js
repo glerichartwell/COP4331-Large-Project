@@ -8,9 +8,8 @@ import ExerciseCard from "./ExerciseCard";
 import ClientDashboard from "./ClientInfoView";
 import { Button } from "@mui/material";
 
-// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
-const address = "https://localhost:5000/api/view-all-exercises";
-
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
 
 const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading
@@ -35,12 +34,13 @@ const ExerciseDisplay = () => {
   
   const getExercises = async (event) => {
 
+
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
 
     try {
       const response = await fetch(
-      address,
+      address + "/api/view-all-exercises",
        {
         method: "GET",
         // body: js,
@@ -109,7 +109,7 @@ const ExerciseDisplay = () => {
 
     try {
       const response = await fetch(
-        address,
+        address + "/api/search-exercise",
         {
           method: "POST",
           body: js,

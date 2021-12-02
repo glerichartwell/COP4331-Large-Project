@@ -15,8 +15,8 @@ import AddClient from "./AddClient";
 import ClientCard from "./ClientCard2";
 import ClientInfoView from "../client/ClientInfoView";
 
-// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
-const address = "https://localhost:5000/api/view-all-exercises";
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
 
 const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
   // allow results of api to be rendered on page after loading
@@ -69,7 +69,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
 
     try {
       const response = await fetch(
-        address,
+        address + "/api/view-clients-by-trainer",
         {
           method: "POST",
           body: js,
@@ -147,7 +147,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
 
     try {
       const response = await fetch(
-        address,
+        address + "/api/search-client",
         {
           method: "POST",
           body: js,
@@ -218,14 +218,13 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
 
   const deleteClient = async (info) => {
 
-
     var obj1 = { email: info.email  };
     var js = JSON.stringify(obj1);
 
     try {
 
       const response = await fetch(
-      address,
+      address + "/api/delete-client",
        {
         method: "DELETE",
         body: js,

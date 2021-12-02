@@ -11,8 +11,8 @@ import { Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import AddWorkout from "./AddWorkout";
 
-// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
-const address = "https://localhost:5000/api/view-all-exercises";
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
 
 const WorkoutDisplay = () => {
   // allow results of api to be rendered on page after loading
@@ -32,7 +32,9 @@ const WorkoutDisplay = () => {
   const getWorkouts = async (event) => {
 
     try {
-      const response = await fetch(address, {
+      const response = await fetch(
+        address + "/api/view-all-workouts", 
+        {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -104,7 +106,7 @@ const WorkoutDisplay = () => {
 
     try {
       const response = await fetch(
-        address, 
+        address + "/api/search-workout", 
         {
           method: "POST",
           body: js,
@@ -173,12 +175,14 @@ const WorkoutDisplay = () => {
   };
 
   const deleteWorkout = async (info) => {
-    
+
     var obj1 = { id: info.id };
     var js = JSON.stringify(obj1);
 
     try {
-      const response = await fetch(address, {
+      const response = await fetch(
+        address + "/api/delete-workout", 
+        {
         method: "DELETE",
         body: js,
         headers: { "Content-Type": "application/json" },

@@ -16,9 +16,8 @@ import { LocalizationProvider, DesktopDatePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { TextField } from "@mui/material";
 
-// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
-const address = "https://localhost:5000/api/view-all-exercises";
-
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
 
 /**
 <Grid container spacing={2} columns={18}>
@@ -130,7 +129,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
 
 
       const response = await fetch(
-        address,
+        address + "/api/search-client-sleep",
         {
           method: "POST",
           body: js,
@@ -172,7 +171,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
 
 
       const response = await fetch(
-        address,
+        address + "/api/search-client-sleep",
         {
           method: "POST",
           body: js,
@@ -213,7 +212,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
 
 
       const response = await fetch(
-        address,
+        address + "/api/search-client-mood",
         {
           method: "POST",
           body: js,
@@ -252,7 +251,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
 
 
       const response = await fetch(
-        address,
+        address + "/api/search-client-mood",
         {
           method: "POST",
           body: js,
@@ -288,7 +287,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       var js = JSON.stringify(obj)
 
       const response = await fetch(
-        address,
+        address + "/api/search-client-macro",
         {
           method: "POST",
           body: js,
@@ -332,7 +331,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       var js = JSON.stringify(obj)
 
       const response = await fetch(
-        address,
+        address + "/api/search-client-macro",
         {
           method: "POST",
           body: js,

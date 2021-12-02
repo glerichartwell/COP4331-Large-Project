@@ -17,8 +17,8 @@ import ExerciseCard from "./ExerciseCard2";
 import ClientDashboard from "../client/ClientInfoView";
 import ExerciseEditBox from "./ExerciseEditBox";
 
-// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
-const address = "https://localhost:5000/api/view-all-exercises";
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
 
 const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading
@@ -59,7 +59,7 @@ const ExerciseDisplay = () => {
 
     try {
       const response = await fetch(
-      address,
+      address + "/api/delete-exercise",
        {
         method: "DELETE",
         body: js,
@@ -96,7 +96,7 @@ const ExerciseDisplay = () => {
 
     try {
       const response = await fetch(
-      address,
+      address + "/api/view-all-exercises",
        {
         method: "GET",
         // body: js,
@@ -167,7 +167,7 @@ const ExerciseDisplay = () => {
 
     try {
       const response = await fetch(
-        address,
+        address + "/api/search-exercise",
         {
           method: "POST",
           body: js,

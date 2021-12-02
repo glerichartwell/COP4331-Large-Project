@@ -11,8 +11,8 @@ import { FormControlLabel } from "@mui/material";
 import RadioGroup from '@mui/material/RadioGroup';
 import { DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
-// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
-const address = "https://localhost:5000/api/view-all-exercises";
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
 
 const DialogBox = (props) => {
   
@@ -64,7 +64,7 @@ const DialogBox = (props) => {
     console.log(js);
     try {
       const response = await fetch(
-        address,
+        address + "/api/request-info",
         {
           method: "POST",
           body: js,

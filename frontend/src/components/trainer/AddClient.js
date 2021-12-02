@@ -14,9 +14,8 @@ import {
 
 } from "@mui/material";
 
-// const address = "https://courtneygenix.herokuapp.com/api/add-client",
-const address = "https://localhost:5000/api/add-client"
-
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
 
 const AddClient = (props) => {
   const [open, setOpen] = useState(true);
@@ -66,7 +65,7 @@ const AddClient = (props) => {
     var js = JSON.stringify(obj);
     try {
       const response = await fetch(
-        address,
+        address + "/api/add-client",
         {
           method: "POST",
           body: js,

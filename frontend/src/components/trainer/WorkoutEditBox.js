@@ -12,8 +12,8 @@ import { LocalizationProvider } from "@mui/lab";
 import { DesktopDatePicker } from "@mui/lab";
 import './css/EditBox.css'
 
-// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
-const address = "https://localhost:5000/api/view-all-exercises";
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
 
 const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
   const [showEdit, setShowEdit] = useState(true);
@@ -54,7 +54,7 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
 
     try {
       const response = await fetch(
-      address,
+      address + "/api/view-all-exercises",
        {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -124,7 +124,8 @@ const WorkoutEditBox = ({ closeEditBox, info, returningInfo }) => {
     var js = JSON.stringify(obj);
     try {
       const response = await fetch(
-        address, {
+        address + "/api/edit-workout", 
+        {
         method: "PATCH",
         body: js,
         headers: { "Content-Type": "application/json" },

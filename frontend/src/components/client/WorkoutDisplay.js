@@ -16,6 +16,9 @@ import ExerciseDetails from "../reuseable/ExerciseDetails";
 
 import { Button } from "@mui/material";
 
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
+
 const WorkoutDisplay = () => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
@@ -50,13 +53,13 @@ const WorkoutDisplay = () => {
   var cardNumber = 0;
 
   const getExercises = async (exercise) => {
-    const address = "https://courtneygenix.herokuapp.com/api/get-exercise";
 
     var obj1 = { exerciseID: exercise.id };
     var js = JSON.stringify(obj1);
 
     try {
-      const response = await fetch(address, {
+      const response = await fetch(
+        address + "/api/get-exercise", {
         method: "POST",
         body: js,
         headers: { "Content-Type": "application/json" },
@@ -91,13 +94,14 @@ const WorkoutDisplay = () => {
   };
 
   const deleteWorkout = async (info) => {
-    const address = "https://courtneygenix.herokuapp.com/api/delete-workout";
 
     var obj1 = { id: info.id };
     var js = JSON.stringify(obj1);
 
     try {
-      const response = await fetch(address, {
+      const response = await fetch(
+        address + "/api/delete-workout",
+        {
         method: "DELETE",
         body: js,
         headers: { "Content-Type": "application/json" },
@@ -124,8 +128,6 @@ const WorkoutDisplay = () => {
   };
 
   const getWorkouts = async (event) => {
-    const address1 =
-      "https://courtneygenix.herokuapp.com/api/view-client-workouts-by-date-range";
     //event.preventDefault();
     var startDate = new Date(value[0]);
     var endDate = new Date(value[1]);
@@ -137,7 +139,9 @@ const WorkoutDisplay = () => {
     var js1 = JSON.stringify(obj1);
 
     try {
-      const response = await fetch(address1, {
+      const response = await fetch(
+        address + "/api/view-client-workouts-by-date-range", 
+        {
         method: "POST",
         body: js1,
         headers: { "Content-Type": "application/json" },
@@ -150,13 +154,14 @@ const WorkoutDisplay = () => {
       // loop through results and search for orther workout info in db
       for (var i = 0; i < res1.results.length; i++) {
         //second api call using object id from first api call
-        const address2 = "https://courtneygenix.herokuapp.com/api/get-workout";
 
         var obj2 = { workoutID: res1.results[i].workoutID };
         var js2 = JSON.stringify(obj2);
         console.log(obj2);
         try {
-          const response = await fetch(address2, {
+          const response = await fetch(
+            address + "/api/get-workout",
+            {
             method: "POST",
             body: js2,
             headers: { "Content-Type": "application/json" },
@@ -236,13 +241,14 @@ const WorkoutDisplay = () => {
 
   //  used when using query search
   const searchWorkouts = async (event) => {
-    const address = "https://courtneygenix.herokuapp.com/api/search-workout";
 
     var obj2 = { name: query };
     var js = JSON.stringify(obj2);
 
     try {
-      const response = await fetch(address, {
+      const response = await fetch(
+        address + "/api/search-workout",
+        {
         method: "POST",
         body: js,
         headers: { "Content-Type": "application/json" },

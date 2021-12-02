@@ -9,8 +9,8 @@ import { useNavigate } from "react-router";
 
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
 
-// const address = "https://courtneygenix.herokuapp.com/api/view-all-exercises";
-const address = "https://localhost:5000/api/view-all-exercises";
+// const address = "https://courtneygenix.herokuapp.com"
+const address ="http://localhost:5000"
 
 const RegisterPage = props => {
 
@@ -39,7 +39,7 @@ const RegisterPage = props => {
     var js = JSON.stringify(obj);
     try {
       const response = await fetch(
-        address,
+        address + "/api/search-client-by-email",
         {
           method: "POST",
           body: js,
