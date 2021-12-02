@@ -66,7 +66,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
 
     try {
       const response = await fetch(
-        "https://localhost:5000/api/view-clients-by-trainer",
+        "https://courtneygenix/api/view-clients-by-trainer",
         {
           method: "POST",
           body: js,
@@ -144,7 +144,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
 
     try {
       const response = await fetch(
-        "https://localhost:5000/api/search-client",
+        "https://courtneygenix.herokuapp.com/api/search-client",
         {
           method: "POST",
           body: js,
@@ -215,7 +215,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
 
   const deleteClient = async (info) => {
 
-    const address = "https://localhost:5000/api/delete-client";
+    const address = "https://courtneygenix.herokuapp.com/api/delete-client";
 
     var obj1 = { email: info.email  };
     var js = JSON.stringify(obj1);
