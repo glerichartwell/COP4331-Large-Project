@@ -28,6 +28,7 @@ const Login = props => {
 
   const sendPasswordReset = () => {
     sendPasswordResetEmail(auth, email)
+    setMessage("Email has been sent!")
   }
 
   const determineUserType = async event => {
