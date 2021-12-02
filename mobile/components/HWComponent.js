@@ -111,7 +111,7 @@ const HWComponentView = (props) => {
                 </View>
             </RadioButton.Group>
 
-            {/*<Title>Macromolecule Ratio:</Title>
+            <Title>Macromolecule Ratio:</Title>
 
             {props.macroExists ? <PieChart
                 data={[
@@ -154,7 +154,7 @@ const HWComponentView = (props) => {
                 paddingLeft="15"
             /> :
                 <Text>No macros for this day.</Text>
-            }*/}
+            }
         </View>
     );
 }

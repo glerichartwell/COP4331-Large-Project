@@ -23,7 +23,7 @@ const LoginScreen = (props) => {
         return onAuthStateChanged(auth, (user) => {
             if (user) {
                 props.setEmail(user.email);
-                /*props.setEmail("iloveprincessbubblegum@gmail.com");*/
+                props.setEmail("iloveprincessbubblegum@gmail.com");
                 navigation.navigate("Dashboard");
             }
         });
