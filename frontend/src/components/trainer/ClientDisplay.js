@@ -66,7 +66,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
 
     try {
       const response = await fetch(
-        "https://courtneygenix/api/view-clients-by-trainer",
+        "https://courtneygenix.herokuapp.com/api/view-clients-by-trainer",
         {
           method: "POST",
           body: js,
