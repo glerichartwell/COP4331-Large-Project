@@ -65,7 +65,7 @@ IconContainer.propTypes = {
 
 export default function BasicCard({info, rating}) {
 
-
+  console.log("Incoming rating: ", rating)
   return (
     <Paper
       sx={{
@@ -85,10 +85,10 @@ export default function BasicCard({info, rating}) {
       <Box sx={{display: 'flex', position: 'absolute', bottom: 120, left: 40, width: '50%',}}>
       <Rating
               name="highlight-selected-only"
+              readOnly
               value={rating}
               IconContainerComponent={IconContainer}
               highlightSelectedOnly
-              readOnly
             />
             {/* <Box sx={{display: 'flex', position: 'absolute', bottom: -30, left: 30, width: '50%',}}>
             {value !== null && (

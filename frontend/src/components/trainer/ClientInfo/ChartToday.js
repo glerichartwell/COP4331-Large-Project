@@ -8,9 +8,9 @@ export default function Charts({todayMacros}) {
   var fats = 0;
   if (todayMacros)
   {
-    proteins = todayMacros.proteins;
-    carbs = todayMacros.carbs;
-    fats = todayMacros.fats;
+    proteins = parseInt(todayMacros.proteins);
+    carbs = parseInt(todayMacros.carbs);
+    fats = parseInt(todayMacros.fats);
   }
   console.log("today's macros: ", todayMacros)
 
@@ -24,7 +24,7 @@ export default function Charts({todayMacros}) {
       sx={{
         p: 2,
         margin: "4px 0px 0px 4px",
-        width: "100%",
+        width: 510,
         height: 250,
         flexGrow: 1,
         borderColor: "gray",
@@ -37,7 +37,7 @@ export default function Charts({todayMacros}) {
         chartType="PieChart"
         loader={<div>Loading Chart</div>}
         data={[
-          ["Task", "Hours per Day"],
+          ["Name", "macro"],
           ["Carbs", carbs],
           ["Fat", fats],
           ["Protein", proteins],

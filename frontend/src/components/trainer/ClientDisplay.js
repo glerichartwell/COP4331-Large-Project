@@ -18,7 +18,7 @@ import ClientInfoView from "../client/ClientInfoView";
 // const address = "https://courtneygenix.herokuapp.com"
 const address ="http://localhost:5000"
 
-const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
+const ClientDisplay = ({openClientDash, getClientInfo}) => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [objectArray, setObjectArray] = useState();
@@ -42,20 +42,20 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
     e.stopPropagation();
   };
 
-  // var trainerID = "";
-  // const auth = getAuth();
-  // onAuthStateChanged(auth, (user) => {
-  //   // console.log(user);
-  //   if (user) {
-  //     // User is signed in, see docs for a list of available properties
-  //     // https://firebase.google.com/docs/reference/js/firebase.User
-  //     trainerID = user["email"];
-  //     console.log("Auth TrainerID: ", trainerID);
-  //     // ...
-  //   } else {
-  //     //navigate('/access-denied')
-  //   }
-  // });
+  var trainerID = "";
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    // console.log(user);
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      trainerID = user["email"];
+      // console.log("Auth TrainerID: ", trainerID);
+      // ...
+    } else {
+      //navigate('/access-denied')
+    }
+  });
 
   var clients;
   var cardArray = [];
@@ -63,7 +63,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
   var cardNumber = 0;
 
   const getClients = async (event) => {
-
+    // console.log("Getting clients for: ", trainerID)
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
 
@@ -133,7 +133,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
-        console.log("Clients returned");
+        // console.log("Clients returned");
       }
     } catch (error) {
       console.log(error.toString());
@@ -209,7 +209,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
-        console.log("Clients returned");
+        // console.log("Clients returned");
       }
     } catch (error) {
       console.log(error.toString());
@@ -247,7 +247,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
-        console.log("Client " + info.name + " deleted");
+        // console.log("Client " + info.name + " deleted");
       }
     } catch (error) {
       console.log(error.toString());
@@ -261,7 +261,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
     useEffect(() => {
       if (query)
       {
-        console.log("Query: ", query)
+        // console.log("Query: ", query)
         // Call search api
         searchClients()
         .then((result) => setArrayChange(cardArray))
@@ -270,7 +270,7 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
       }
       else
       {
-        console.log("No query: ", query)
+        // console.log("No query: ", query)
         getClients()
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
@@ -296,12 +296,12 @@ const ClientDisplay = ({openClientDash, getClientInfo, trainerID, user}) => {
 
   const closeClientDash = () => {
     setShowClientDash(false);
-    console.log("closing dash");
+    // console.log("closing dash");
   };
 
   const deleteCard = (info) => {
     // pass information from relavent card to editbox
-    console.log(info)
+    // console.log(info)
     if(window.confirm("Are you sure you would like to permanently delete " + info.firstName + " " + info.lastName + "?")){
       deleteClient(info);
     }

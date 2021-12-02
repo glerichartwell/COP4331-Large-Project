@@ -54,7 +54,8 @@ const DashboardDrawer = (props) => {
   const [hideAdd, setHideAdd] = useState(true);
   const [showClientInfo, setShowClientInfo] = useState(false)
   const [clientInfo, setClientInfo] = useState()
-
+  var trainerID = null;
+  var user = null;
   
 
 
@@ -71,15 +72,30 @@ const DashboardDrawer = (props) => {
   })
 
   const auth = getAuth();
-  const user = auth.currentUser;
-  const trainerID = user.email;
-  if (user !== null)
+  var trainerID = null;
+  var user = null;
+  onAuthStateChanged(auth, (firebaseUser) => {
+    if (firebaseUser) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      user = firebaseUser;
+      // console.log("Signed in")
+      trainerID = firebaseUser.email;
+      // console.log(trainerID)
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+  // const trainerID = user.email;
+  if (trainerID !== null)
   {
-    console.log(user)
+    // console.log(trainerID)
   }
   else
   {
-    console.log("Where's the chapstick?")
+    // console.log("Where's the chapstick?")
   }
 
 
@@ -219,7 +235,7 @@ const DashboardDrawer = (props) => {
             {/* <AddIcon /> */}
           {/* </Button>} */}
           
-          {console.log(query)}
+          {/* {console.log(query)} */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -282,7 +298,7 @@ const DashboardDrawer = (props) => {
       >
         <Toolbar />
         {/* code for contents of box area in dashboard */}
-        {showClient ? <ClientDisplay openClientDash={openClientDash} getClientInfo={getClientInfo} trainerID={trainerID} user={user} /> : null}
+        {showClient ? <ClientDisplay openClientDash={openClientDash} getClientInfo={getClientInfo}/> : null}
         {showClientInfo ? <ClientInfo info={clientInfo}/> : null}
         {showWorkout ? <WorkoutDisplay query={query} /> : null}
         {showExercise ? <ExerciseDisplay query={query} /> : null}

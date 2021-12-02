@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
@@ -32,37 +32,9 @@ const dangar = {
  */
 
 export default function BasicCard({info, todaySleepRating}) {
-  const [expanded, setExpanded] = React.useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const [rating, setRating] = useState(todaySleepRating)
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleClickii = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const openi = Boolean(anchorEl);
-  const id = openi ? "simple-popover" : undefined;
-
-  const handleChange = (newValue) => {
-    setValueii(newValue);
-  };
-
-  const [rating, setValue] = React.useState(2);
-
-  const [open, setOpen] = React.useState(true);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
-  const [value, setValueii] = React.useState(new Date("2014-08-18T21:11:54"));
   return (
     <Paper
       sx={{
@@ -86,8 +58,8 @@ export default function BasicCard({info, todaySleepRating}) {
             name="size-large"
             size="large"
             sx={{ position: 'absolute', fontSize: "42 vh", left: "15%", top: "50%" }}
-            value={todaySleepRating}
-
+            value={rating}
+            onChange={() => {setRating(todaySleepRating)}}
             readOnly
           />
           <Grid item xs={12}></Grid>

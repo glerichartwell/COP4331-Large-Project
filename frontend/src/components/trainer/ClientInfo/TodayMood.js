@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from "react"
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -60,19 +60,23 @@ IconContainer.propTypes = {
 };
 
 export default function BasicCard({todayMoodRating}) {
-  const [value, setValue] = React.useState(2);
-  const [hover, setHover] = React.useState(-1);
-  const handleChange = (newValue) => {
-    setValueii(newValue);
-  };
-  const [valuei, setValueii] = React.useState(new Date("2014-08-18T21:11:54"));
+
+  const [rating, setRating] = useState(todayMoodRating)
+  const [refresh, setRefresh] = useState(true)
+  
+  console.log("INCOMING MOOD: ", todayMoodRating)
+
+  useEffect(() => {
+    setRefresh(!refresh)
+  }, [todayMoodRating])
+
   return (
     <Paper
       sx={{
         p: 2,
         margin: "4px 0px 0px 4px",
         width: 250,
-        height: 205,
+        height: 190,
         flexGrow: 1,
         borderColor: "gray",
       }}
@@ -86,7 +90,7 @@ export default function BasicCard({todayMoodRating}) {
         <Grid item xs container direction="column" spacing={1}>
           <Rating
             name="highlight-selected-only"
-            value={todayMoodRating}
+            defaultValue={rating}
             sx={{ position: 'absolute', fontSize: "42 vh", left: "10%", top: "50%" }}
             IconContainerComponent={IconContainer}
             highlightSelectedOnly

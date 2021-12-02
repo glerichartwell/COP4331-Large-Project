@@ -25,9 +25,9 @@ const Charts = ({displayMacroEdit, macros}) => {
   var info;
   if (macros)
   {
-      fats =  macros.fats;
-      proteins = macros.proteins;
-      carbs = macros.carbs;
+      fats =  parseInt(macros.fats);
+      proteins = parseInt(macros.proteins);
+      carbs = parseInt(macros.carbs);
   }
   
   

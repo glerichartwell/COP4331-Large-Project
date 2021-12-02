@@ -15,6 +15,7 @@ import TodayMood from "./TodayMood";
 import { LocalizationProvider, DesktopDatePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { TextField } from "@mui/material";
+import WorkoutDisplay from "./WorkoutDisplay";
 
 // const address = "https://courtneygenix.herokuapp.com"
 const address ="http://localhost:5000"
@@ -87,6 +88,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setRefresh(!refresh)
   };
 
   const [date, setDate] = useState();
@@ -96,24 +98,38 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
   const [todaySleepRating, setTodaySleepRating] = useState();
   const [todayMoodRating, setTodayMoodRating] = useState()
   const [todayMacros, setTodayMacros] = useState()
+  const [refresh, setRefresh] = useState(true)
 
   useEffect(() => {
     if (date)
     {
+      setSleepRating(null)
+      setMoodRating(null)
+      setMacros(null)
+      // console.log("Date selected: ", date)
       getSleep();
+      // console.log("Sleep: ", sleepRating)
       getMood();
+      // console.log("Mood: ", moodRating)
       getMacros()
     }
-  }, [date])
+  }, [date, refresh])
 
   useEffect(() => {
     getTodayMacros();
+    // console.log("Ran on load")
     getTodayMood();
     getTodaySleep();
-  })
+  }, [refresh])
+
+  useEffect(() => {
+    setRefresh(!refresh)
+  }, [todaySleepRating])
+
 
   const handleDateChange = (value) => {
     setDate(value);
+    setRefresh(!refresh)
   }
 
   const getSleep = async event => {
@@ -191,7 +207,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
-        console.log("Sleep acquired: ", todaySleepRating);
+        // console.log("Sleep acquired: ", todaySleepRating);
       }
     } catch (error) {
       console.log(error);
@@ -270,7 +286,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
-        console.log("Mood acquired: ", todayMoodRating);
+        // console.log("Mood acquired: ", todayMoodRating);
       }
     } catch (error) {
       console.log(error);
@@ -307,7 +323,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
         proteins: res.results[0].proteins,
         carbs: res.results[0].carbs,
       }
-      console.log("Macros retrieved: ", macros)
+      // console.log("Macros retrieved: ", macros)
       setMacros(macros);
 
       if (res.error.length > 0) {
@@ -351,18 +367,20 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
         proteins: res.results[0].proteins,
         carbs: res.results[0].carbs,
       }
-      console.log("Macros retrieved: ", macros)
+      // console.log("Macros retrieved: ", macros)
       setTodayMacros(macros);
 
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
       } else {
-        console.log("Macros acquired: ", todayMacros);
+        // console.log("Macros acquired: ", todayMacros);
       }
     } catch (error) {
       console.log(error);
     }
   }
+
+  
 
 
 
@@ -381,30 +399,30 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       </Box>
       <TabPanel value={value} index={0}>
       <Box sx={{position: 'relative', width: '100%'}}>
-        <Box sx={{ position: 'absolute', display: 'flex', width: '275px', height: '410px'}}>
+        <Box sx={{ position: 'absolute', display: 'flex', width: '275px', height: '452px'}}>
           
           <Profile info={info}  />
           
         </Box>
-        <Box sx={{position: 'relative', width: '300px', left: 280, top: 5}}>
+        <Box sx={{position: 'absolute', width: '300px', left: 280, top: 1}}>
           
           <TodaySleep info={info} todaySleepRating={todaySleepRating}  />
-          </Box>
-          <Box sx={{position: 'absolute',width: '300px', left: 280, top: 200}}>
-          <TodayMood info={info} todayMoodRating={todayMoodRating} />
-          
-
 
         </Box>
-        <Box sx={{position: 'absolute', display: 'flex', width: '60%'}}>
+        <Box sx={{position: 'absolute', width: '300px', left: 540, top: 1}}>
           
-          {/* <ChartToday info={info} todayMacros={todayMacros} /> */}
+          <TodayMood info={info} todayMoodRating={todayMoodRating} />
+          
+        </Box>
+        <Box sx={{ position: 'relative', width: '511px', left: 280, top: 200}}>
+          
+          <ChartToday info={info} todayMacros={todayMacros} />
 
         </Box>
       </Box>
       </TabPanel>   
       <TabPanel value={value} index={1}>
-        Workouts
+        <WorkoutDisplay info={info}/>
       </TabPanel>
       <TabPanel value={value} index={2}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -430,7 +448,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '400px', height: '300px', left: 560,}}>
 
-          {/* <Charts displayMacroEdit={displayMacroEdit} macros={macros} /> */}
+          <Charts displayMacroEdit={displayMacroEdit} macros={macros} />
 
         </Box>
       </Box>
