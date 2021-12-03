@@ -34,6 +34,7 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
   };
   const closeAddClient = () => {
     setShowAddClient(false);
+    setRefresh(!refresh);
   };
 
   //firebase component to return trainer profile info
@@ -275,7 +276,7 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
       }
-    }, [query])
+    }, [query, refresh])
 
   };
 
@@ -307,6 +308,8 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
     }
     // alert("Are you sure you would like to delete " + info.name + "?");
     // // setShowEdit(true);
+    // setRefresh(!refresh);
+
   };
 
 

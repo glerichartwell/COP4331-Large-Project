@@ -57,6 +57,11 @@ const AddClient = (props) => {
     props.closeAddClient();
   };
 
+  const closeOnAdd = () => {
+    sendRegisterInvite();
+    props.closeAddClient();
+  };
+
   const sendRegisterInvite = async event => {
     var obj = {
       email: email,
@@ -116,7 +121,7 @@ const AddClient = (props) => {
             <Grid container direction='column' justifyContent='center' alignItems='center' marginTop='25px'>
               <TextField sx={{width: '250px', margin: '5px',}} id='email' type='email' placeholder="Email" value={email} onChange={e => {setEmail(e.target.value)}} size="large" variant='standard'/>
               {message}
-              <Button variant='outlined' disabled={disableAddClientButton} onClick={sendRegisterInvite} sx={sxAddClientButton}>Send Invite</Button>
+              <Button variant='outlined' disabled={disableAddClientButton} onClick={closeOnAdd} sx={sxAddClientButton}>Send Invite</Button>
             </Grid>
           </DialogContent>
       </Dialog>

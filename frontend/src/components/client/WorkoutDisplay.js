@@ -19,7 +19,7 @@ import { Button } from "@mui/material";
 // const address = "https://courtneygenix.herokuapp.com"
 const address ="http://localhost:5000"
 
-const WorkoutDisplay = () => {
+const WorkoutDisplay = ({ info }) => {
   // allow results of api to be rendered on page after loading
   const [arrayChange, setArrayChange] = useState();
   const [objectArray, setObjectArray] = useState();
@@ -45,7 +45,7 @@ const WorkoutDisplay = () => {
   };
 
   //firebase component to return trainer profile info
-  var email = "scooby@gmail.com"; //getFirebaseID()
+  var email = info.email; //getFirebaseID()
 
   var Workouts;
   var cardArray = [];
@@ -149,7 +149,7 @@ const WorkoutDisplay = () => {
 
       var txt1 = await response.text();
       var res1 = JSON.parse(txt1);
-      console.log(res1.results);
+      console.log(res1);
 
       // loop through results and search for orther workout info in db
       for (var i = 0; i < res1.results.length; i++) {
@@ -180,7 +180,8 @@ const WorkoutDisplay = () => {
           obj["clientID"] = Workouts.results[0].clientID;
           obj["trainerEmail"] = Workouts.results[0].trainerID;
           obj["exercises"] = Workouts.results[0].exercises;
-          obj["date"] = Workouts.results[0].date;
+          // date from client
+          obj["date"] = res1.results[i].date;
           obj["timeToComplete"] = Workouts.results[0].timeToComplete;
           obj["numExercises"] = Workouts.results[0].numExercises;
           obj["comment"] = Workouts.results[0].comment;
@@ -275,6 +276,7 @@ const WorkoutDisplay = () => {
         obj["comment"] = Workouts.results[i].comment;
         obj["rating"] = Workouts.results[i].rating;
         objects.push(obj);
+        console.log(Workouts.results[i].date);
       }
       //can access numWorkouts from trainer database
       cardArray.push(

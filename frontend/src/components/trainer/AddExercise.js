@@ -52,6 +52,12 @@ const AddExercise = (props) => {
     props.closeAddExercise();
   };
 
+  const closeOnAdd = () => {
+    addExercise();
+    handleClose();
+
+  }
+
   const addExercise = async (event) => {
     //workoutID, name, sets, reps, time, weight, rest
     var obj = {
@@ -207,7 +213,7 @@ const AddExercise = (props) => {
             <Button
               sx={{ margin: "15px", background: "#28B7CB" }}
               variant="contained"
-              onClick={addExercise}
+              onClick={closeOnAdd}
               disabled={statButton}
             >
               Add
