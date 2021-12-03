@@ -38,20 +38,7 @@ const ExpandMore = styled((props) => {
 }));
 
 // Show on surface
-// const name = "Crabification";
-// const sumtext = "Date Started: ";
-// const date = "09/32/2014";
-// const concatdate = sumtext + date;
-// const rating = "3";
-// const comment =
-//   "Y'know the crab walking really isn't working out for me. When I first did it, I noticed my skin got harder. The more I did it, the more I was stuck walking like a crab and then...";
 const exercises = [];
-// const time = "20";
-// // Changing the number of exercises here increases the count of how many will be displayed
-// const numExercises = 4;
-// // Don't change this, if you really need to, don't make it lower than 45
-// const itemsize = 45;
-// const listheight = itemsize * numExercises;
 
 export default function WorkoutCard({
   edit,

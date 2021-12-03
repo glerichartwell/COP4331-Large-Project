@@ -173,7 +173,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       </Box>
       </TabPanel>   
       <TabPanel value={value} index={1}>
-        <WorkoutDisplay/>
+        <WorkoutDisplay info={info}/>
       </TabPanel>
       <TabPanel value={value} index={2}>
       <Box sx={{position: 'relative', width: '100%'}}>

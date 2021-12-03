@@ -23,6 +23,7 @@ router.post("/api/view-client-workouts-by-date-range", async (req, res) => {
         { locale: 'en', strength: 2 }
       ).toArray();
 
+      console.log(clients[0]);
 
     if (clients && clients.length == 0) {
       error = "No clients";
@@ -40,6 +41,7 @@ router.post("/api/view-client-workouts-by-date-range", async (req, res) => {
           var dateToCheck = clients[0].workout[i].date;
           if (dateToCheck <= endDate && dateToCheck >= startDate) {
             weeklyWorkouts.push(clients[0].workout[i]);
+            // console.log(weeklyWorkouts);
           }
         }
       }
