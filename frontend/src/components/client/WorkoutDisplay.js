@@ -29,7 +29,6 @@ const WorkoutDisplay = ({ info }) => {
   const [update, setUpdate] = useState(false);
   const [query, setQuery] = useState("");
   const [refresh, setRefresh] = useState(false);
-  // const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
   const [startDate, setStartDate] = useState();
   const [value, setValue] = React.useState([null, null]);
   const [showExercise, setShowExercise] = useState(false);
