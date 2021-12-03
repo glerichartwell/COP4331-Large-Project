@@ -391,6 +391,7 @@ export default function BasicTabs({info, sleep}) {
 
   const closeMacroEdit = () => {
     setShowMacroEdit(false);
+    setRefresh(!refresh)
   }
 
   

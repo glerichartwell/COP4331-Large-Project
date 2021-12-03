@@ -12,26 +12,27 @@ import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Box } from "@mui/system";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import "./css/Chart.css"
 
-const Charts = ({displayMacroEdit}) => {
-
+const Charts = ({displayMacroEdit, macros}) => {
+  const [date, setDate] = useState()
   const [open, setOpen] = useState(false);
-  const carb = 33;
-  const fat = 33;
-  const protein = 33;
-  const info = {
-    fat: fat,
-    protein: protein,
-    carb: carb,
+  var carbs = 0;
+  var fats = 0;
+  var proteins = 0;
+  var info;
+  if (macros)
+  {
+      fats =  parseInt(macros.fats);
+      proteins = parseInt(macros.proteins);
+      carbs = parseInt(macros.carbs);
   }
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  
+  
+  console.log("Macros: ", fats, proteins, carbs)
 
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <Paper
@@ -44,19 +45,19 @@ const Charts = ({displayMacroEdit}) => {
       }}
       variant="outlined"
     >
-    <Box sx={{display: 'flex', position: 'absolute', bottom: 30, left: 50 }}>
+      <Box sx={{display: 'flex', position: 'absolute', bottom: 30, left: 50 }}>
       <Chart
             width={"300px"}
             chartType="PieChart"
             loader={<div>Loading Chart</div>}
             data={[
               ["Task", "Hours per Day"],
-              ["Carbs", carb],
-              ["Fat", fat],
-              ["Protein", protein],
+              ["Carbs", carbs],
+              ["Fat", fats],
+              ["Protein", proteins],
             ]}
             options={{
-              title: "Macromolecule Ratio",
+              title: "Macro Goals",
             }}
             rootProps={{ "data-testid": "1" }}
           />

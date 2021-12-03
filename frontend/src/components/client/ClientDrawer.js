@@ -150,7 +150,7 @@ const ClientDrawer = (props) => {
   const Display = () => {
     useEffect(() => {
       if (firstLoad) {
-        GetClient();
+        GetClient().then(() => {setShowClient(true)})
         setFirstLoad(false);
       }
     }, []);

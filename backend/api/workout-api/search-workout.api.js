@@ -13,6 +13,7 @@ router.post("/api/search-workout", async (req, res) => {
   var error = "";
   var results = "";
   const { name } = req.body;
+  console.log("name: ", name)
 
   try {
     const db = client.db();

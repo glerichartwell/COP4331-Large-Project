@@ -28,6 +28,7 @@ const WorkoutDisplay = () => {
   var Workouts;
   var cardArray = [];
   var objects = [];
+  
 
   const getWorkouts = async (event) => {
 
@@ -103,7 +104,7 @@ const WorkoutDisplay = () => {
 
     var obj1 = { name: query };
     var js = JSON.stringify(obj1);
-
+    console.log("About to search...")
     try {
       const response = await fetch(
         address + "/api/search-workout", 
@@ -244,7 +245,7 @@ const WorkoutDisplay = () => {
 
   const edit = (info) => {
     // pass information from relavent card to editbox
-    setEdit(<WorkoutEditBox closeEditBox={closeEditBox} info={info} />);
+    setEdit(<WorkoutEditBox closeEditBox={closeEditBox} setRefresh={setRefresh} info={info} />);
     setShowEdit(true);
   };
 
@@ -254,8 +255,10 @@ const WorkoutDisplay = () => {
   }
 
   const closeEditBox = () => {
+    console.log("Before: ", refresh)
     setShowEdit(false);
-    setRefresh(!refresh);
+    setRefresh(!refresh)
+    console.log("After: ", refresh)
   };
 
   const closeAssignBox = () => {

@@ -221,7 +221,7 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
 
     var obj1 = { email: info.email  };
     var js = JSON.stringify(obj1);
-
+    console.log(info.email)
     try {
 
       const response = await fetch(
@@ -236,11 +236,11 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
       var res = JSON.parse(txt);
 
       // Firebase delete
-      getAuth()
-      .getUserByEmail(info.email)
-      .then((userRecord) => {
-          deleteUser(userRecord)
-      })
+      // getAuth()
+      // .getUserByEmail(info.email)
+      // .then((userRecord) => {
+      //     deleteUser(userRecord)
+      // })
       
       // after deleting, refresh component
       setRefresh(!refresh);

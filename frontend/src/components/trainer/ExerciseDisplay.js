@@ -254,7 +254,7 @@ const ExerciseDisplay = () => {
 
   const edit = (info) => {
     // pass information from relavent card to editbox
-    setEdit(<ExerciseEditBox closeEditBox={closeEditBox} info={info} />);
+    setEdit(<ExerciseEditBox setRefresh={setRefresh} closeEditBox={closeEditBox} info={info} />);
     setShowEdit(true);
   };
 

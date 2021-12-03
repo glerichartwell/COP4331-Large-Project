@@ -13,6 +13,7 @@ router.delete("/api/delete-client", async (req, res) => {
   var error = "";
   var results2 = "";
   const { email } = req.body;
+  console.log(email)
 
   try {
     const db = client.db();

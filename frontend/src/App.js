@@ -23,6 +23,7 @@ function App() {
           <Route path="/dashboard" exact element={<ClientDashboard/>}/>
           <Route path="/register" exact element={<RegisterPage />} />
           <Route path="/access-denied" exact element={<AccessDenied />} />
+          <Route path='/*' exact element={<AccessDenied />} />
         </Routes>
       </BrowserRouter>
     </div>

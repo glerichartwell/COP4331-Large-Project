@@ -42,7 +42,7 @@ import { getAuth, signOut, onAuthStateChanged } from "@firebase/auth";
 
 const DashboardDrawer = (props) => {
   const navigate = useNavigate();
-  const [showClient, setShowClient] = useState(false);
+  const [showClient, setShowClient] = useState(true);
   const [showWorkout, setShowWorkout] = useState(false);
   const [showExercise, setShowExercise] = useState(false);
   const [showAddClient, setShowAddClient] = useState(false);
@@ -86,6 +86,7 @@ const DashboardDrawer = (props) => {
     } else {
       // User is signed out
       // ...
+      navigate('/')
     }
   });
   // const trainerID = user.email;

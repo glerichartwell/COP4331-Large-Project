@@ -1,23 +1,30 @@
 import Chart from "react-google-charts";
 import Paper from "@mui/material/Paper";
 
-export default function Charts() {
-  const carb = 15;
-  const fat = 100;
-  const protein = 15;
-  var options = {
-    title: "How Much Pizza I Ate Last Night",
-    width: 350,
-    height: 400,
-    chartArea: { width: "100%", height: "80%" },
-    legend: { position: "bottom" },
-  };
+export default function Charts({todayMacros}) {
+
+  var proteins = 0;
+  var carbs = 0;
+  var fats = 0;
+  if (todayMacros)
+  {
+    proteins = parseInt(todayMacros.proteins);
+    carbs = parseInt(todayMacros.carbs);
+    fats = parseInt(todayMacros.fats);
+  }
+  console.log("today's macros: ", todayMacros)
+
+
+
+
+
+
   return (
     <Paper
       sx={{
         p: 2,
         margin: "4px 0px 0px 4px",
-        width: "100%",
+        width: 510,
         height: 250,
         flexGrow: 1,
         borderColor: "gray",
@@ -30,10 +37,10 @@ export default function Charts() {
         chartType="PieChart"
         loader={<div>Loading Chart</div>}
         data={[
-          ["Task", "Hours per Day"],
-          ["Carbs", carb],
-          ["Fat", fat],
-          ["Protein", protein],
+          ["Name", "macro"],
+          ["Carbs", carbs],
+          ["Fat", fats],
+          ["Protein", proteins],
         ]}
         options={{
           title: "Today's Macro Goal",

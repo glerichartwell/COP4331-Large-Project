@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
@@ -31,52 +31,29 @@ const dangar = {
       </CardActions>
  */
 
-export default function BasicCard({info}) {
-  const [expanded, setExpanded] = React.useState(false);
+export default function BasicCard({info, todaySleepRating}) {
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const [rating, setRating] = useState(0)
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleClickii = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const openi = Boolean(anchorEl);
-  const id = openi ? "simple-popover" : undefined;
-
-  const handleChange = (newValue) => {
-    setValueii(newValue);
-  };
-
-  const [rating, setValue] = React.useState(2);
-
-  const [open, setOpen] = React.useState(true);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
-  const [value, setValueii] = React.useState(new Date("2014-08-18T21:11:54"));
+  useEffect(() => {
+    setRating(todaySleepRating)
+  }, [todaySleepRating])
+    
   return (
     <Paper
       sx={{
         p: 2,
         margin: "4px 0px 0px 4px",
         width: 250,
-        height: 150,
+        height: 190,
         flexGrow: 1,
         borderColor: "gray",
       }}
       variant="outlined"
     >
+      {console.log("sleeeeeep: ", todaySleepRating)}
       <Typography variant="header2" gutterBottom style={{ fontWeight: "bold" }}>
-        Today's Sleep
+        Today's Sleep:
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}></Grid>
@@ -86,12 +63,8 @@ export default function BasicCard({info}) {
             name="size-large"
             size="large"
             sx={{ position: 'absolute', fontSize: "42 vh", left: "15%", top: "50%" }}
-            defaultValue={2.5}
-            precision={0.5}
             value={rating}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
+            // onChange={() => {setRating(todaySleepRating)}}
             readOnly
           />
           <Grid item xs={12}></Grid>

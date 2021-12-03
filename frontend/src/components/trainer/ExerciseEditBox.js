@@ -16,7 +16,7 @@ import "./css/EditBox.css"
 // const address = "https://courtneygenix.herokuapp.com"
 const address ="http://localhost:5000"
 
-const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
+const ExerciseEditBox = ({ closeEditBox, info, setRefresh, returningInfo }) => {
   const [showEdit, setShowEdit] = useState(true);
   const [buttonName, setButtonName] = useState("Change");
   const [confirmClick, setConfirmClick] = useState(0);
@@ -30,10 +30,6 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
   const [description, setDescription] = useState();
   const [id, setID] = useState(info.id);
 
-
-  const confirm = () => {
-    closeEditBox(info);
-  };
 
   const EditExercise = async (event) => {
     //workoutID, name, sets, reps, time, weight, rest
@@ -60,6 +56,7 @@ const ExerciseEditBox = ({ closeEditBox, info, returningInfo }) => {
       var txt = await response.text();
       var res = JSON.parse(txt);
 
+      setRefresh((refresh) => !refresh)
       if (res.error.length > 0) {
         console.log(res.error);
       }
