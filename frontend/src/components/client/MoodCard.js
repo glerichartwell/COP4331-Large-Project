@@ -15,6 +15,9 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
 
+const address = "https://courtneygenix.herokuapp.com"
+// const address ="http://localhost:5000"
+
 const bull = (
   <Box
     component="span"
@@ -63,7 +66,7 @@ IconContainer.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function BasicCard({info, moodRating}) {
+export default function BasicCard({info, moodRating, date}) {
 
   const [rating, setRating] = useState(0)
 
@@ -71,6 +74,43 @@ export default function BasicCard({info, moodRating}) {
     setRating(moodRating)
     console.log("MOOD: ", moodRating)
   }, [moodRating])
+
+  useEffect(() => {
+    editMood();
+  }, [rating])
+
+  const editMood = async event => {
+    try {
+      
+      console.log("Info: ", info)
+      var obj = {
+        email: info.email,
+        date: new Date(date).toISOString().slice(0,10),
+        rating: rating
+      }
+      var js = JSON.stringify(obj)
+      console.log("JSON: ", js)
+
+      const response = await fetch(
+        address + "/api/edit-client-mood",
+        {
+          method: "PATCH",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+        
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Sleep acquired");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // console.log("Incoming rating: ", rating)
   return (
@@ -94,6 +134,9 @@ export default function BasicCard({info, moodRating}) {
               name="highlight-selected-only"
               readOnly
               value={rating}
+              onChange={(newValue) => {
+                setRating(newValue)
+              }}
               IconContainerComponent={IconContainer}
               highlightSelectedOnly
             />

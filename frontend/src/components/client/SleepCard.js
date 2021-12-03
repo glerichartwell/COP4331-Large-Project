@@ -13,6 +13,9 @@ import StaticDatePicker from "@mui/lab/StaticDatePicker";
 import {ThemeProvider} from "@material-ui/styles";
 import { createTheme } from "@material-ui/core/styles";
 
+const address = "https://courtneygenix.herokuapp.com"
+// const address ="http://localhost:5000"
+
 const bull = (
   <Box
     component="span"
@@ -47,6 +50,43 @@ export default function BasicCard({setDate, date, info, sleepRating}) {
     console.log("BULLSHIT: ", sleepRating)
     setRating(sleepRating);
   }, [sleepRating])
+
+  useEffect(() => {
+    editSleep();
+  }, [rating])
+
+  const editSleep = async event => {
+    try {
+      
+      console.log("Info: ", info)
+      var obj = {
+        email: info.email,
+        date: new Date(date).toISOString().slice(0,10),
+        rating: rating
+      }
+      var js = JSON.stringify(obj)
+      console.log("JSON: ", js)
+
+      const response = await fetch(
+        address + "/api/edit-client-sleep",
+        {
+          method: "PATCH",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      var txt = await response.text();
+      var res = JSON.parse(txt);
+        
+      if (res.error.length > 0) {
+        console.log("API Error: " + res.error);
+      } else {
+        console.log("Sleep acquired");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Paper

@@ -458,12 +458,12 @@ export default function BasicTabs({info, sleep}) {
       <Box sx={{position: 'relative', width: '100%'}}>
         <Box sx={{ position: 'absolute', display: 'flex', width: '275px', height: '300px'}}>
 
-          <Sleep sleepRating={sleepRating} />
+          <Sleep sleepRating={sleepRating} date={date} />
 
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '275px', height: '300px', left: 280}}>
 
-          <Mood moodRating={moodRating} />
+          <Mood moodRating={moodRating} date={date} />
 
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '400px', height: '300px', left: 560,}}>
