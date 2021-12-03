@@ -50,10 +50,24 @@ const ClientDrawer = (props) => {
   // var obj = new Object();
 
   const auth = getAuth();
-  console.log(auth);
-
-  const user = auth.currentUser;
-  console.log(user);
+  var email = null;
+  var user = null;
+  onAuthStateChanged(auth, (firebaseUser) => {
+    if (firebaseUser) {
+      console.log("Entered here.")
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      user = firebaseUser;
+      console.log(user)
+      console.log("Signed in")
+      email = firebaseUser.email;
+      console.log(email)
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
 
   //change to actual logout function
   const logout = () => {
@@ -61,12 +75,10 @@ const ClientDrawer = (props) => {
     navigate(`/`);
   };
   const GetClient = async (event) => {
-    const email = user.email;
-    console.log(email);
-
-    var obj1 = { email: user.email };
+    
+    var obj1 = { email: email };
     var js = JSON.stringify(obj1);
-
+    console.log(js)
     try {
       const response = await fetch(
         address + "/api/search-client-by-email",
@@ -78,7 +90,7 @@ const ClientDrawer = (props) => {
       );
       var txt = await response.text();
       var res = JSON.parse(txt);
-      console.log(res);
+      console.log("Res: ", res);
       var i = 0;
       var obj = new Object();
       obj["firstName"] = res.results[i].firstName;

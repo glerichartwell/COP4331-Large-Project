@@ -84,15 +84,8 @@ const Login = props => {
       const startYear = today.getFullYear();
 
       lastLoggedIn = startMonth + '/' + startDay + '/' + startYear;
-    })
-    .catch((error) => {
-      setMessage('Invalid email/password combination.')
-      console.log(error)
-    });
 
-
-
-    determineUserType()
+      determineUserType()
     .then(() => {
       if (isTrainer)
       {
@@ -106,8 +99,12 @@ const Login = props => {
       }
     })
 
+    })
+    .catch((error) => {
+      setMessage('Invalid email/password combination.')
+      console.log(error)
+    });
     
-
   };
 
   const LoginSection = () => {
