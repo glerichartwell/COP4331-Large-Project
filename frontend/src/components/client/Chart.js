@@ -62,11 +62,11 @@ const Charts = ({displayMacroEdit, macros}) => {
             rootProps={{ "data-testid": "1" }}
           />
     </Box>
-    <Box sx={{display: 'flex', position: 'absolute', top: 5, right: 10, }}>
+    {/* <Box sx={{display: 'flex', position: 'absolute', top: 5, right: 10, }}>
       <Button className='edit-btn' variant='text' onClick={displayMacroEdit}>
         <EditIcon />
       </Button>
-    </Box>
+    </Box> */}
         
     </Paper>
   );
