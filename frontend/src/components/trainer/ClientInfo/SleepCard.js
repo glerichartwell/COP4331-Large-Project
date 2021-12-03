@@ -36,11 +36,17 @@ const dangar = {
       </CardActions>
  */
 
-export default function BasicCard({setDate, date, info, rating}) {
+export default function BasicCard({setDate, date, info, sleepRating}) {
 
-  
+    
   var tempRating = null;
+  const [refresh, setRefresh] = useState(false)
+  const [rating, setRating] = useState(0)
 
+  useEffect(() => {
+    console.log("BULLSHIT: ", sleepRating)
+    setRating(sleepRating);
+  }, [sleepRating])
 
   return (
     <Paper
@@ -62,7 +68,7 @@ export default function BasicCard({setDate, date, info, rating}) {
         <Rating
           name="size-large"
           size="large"
-          precision={0.1}
+          // precision={0.1}
           sx={{ fontSize: 42 }}
           value={rating}
           readOnly

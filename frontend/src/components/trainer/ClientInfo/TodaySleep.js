@@ -33,8 +33,12 @@ const dangar = {
 
 export default function BasicCard({info, todaySleepRating}) {
 
-  const [rating, setRating] = useState(todaySleepRating)
+  const [rating, setRating] = useState(0)
 
+  useEffect(() => {
+    setRating(todaySleepRating)
+  }, [todaySleepRating])
+    
   return (
     <Paper
       sx={{
@@ -47,8 +51,9 @@ export default function BasicCard({info, todaySleepRating}) {
       }}
       variant="outlined"
     >
+      {console.log("sleeeeeep: ", todaySleepRating)}
       <Typography variant="header2" gutterBottom style={{ fontWeight: "bold" }}>
-        Today's Sleep
+        Today's Sleep:
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}></Grid>
@@ -59,7 +64,7 @@ export default function BasicCard({info, todaySleepRating}) {
             size="large"
             sx={{ position: 'absolute', fontSize: "42 vh", left: "15%", top: "50%" }}
             value={rating}
-            onChange={() => {setRating(todaySleepRating)}}
+            // onChange={() => {setRating(todaySleepRating)}}
             readOnly
           />
           <Grid item xs={12}></Grid>

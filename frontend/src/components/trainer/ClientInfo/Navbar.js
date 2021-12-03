@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Profile from "./ProfileCard";
 import Grid from "@mui/material/Grid";
-import Slep from "./SleepCard";
+import Sleep from "./SleepCard";
 import Mood from "./MoodCard";
 import Charts from "./Chart";
 import ChartToday from "./ChartToday";
@@ -15,7 +15,8 @@ import TodayMood from "./TodayMood";
 import { LocalizationProvider, DesktopDatePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { TextField } from "@mui/material";
-import WorkoutDisplay from "./WorkoutDisplay";
+import WorkoutDisplay from "../../client/WorkoutDisplay";
+import MacroEditBox from "./MacroEditBox";
 
 // const address = "https://courtneygenix.herokuapp.com"
 const address ="http://localhost:5000"
@@ -83,7 +84,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
+export default function BasicTabs({info, sleep}) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -91,7 +92,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
     setRefresh(!refresh)
   };
 
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(null);
   const [sleepRating, setSleepRating] = useState();
   const [moodRating, setMoodRating] = useState()
   const [macros, setMacros] = useState()
@@ -99,6 +100,8 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
   const [todayMoodRating, setTodayMoodRating] = useState()
   const [todayMacros, setTodayMacros] = useState()
   const [refresh, setRefresh] = useState(true)
+  const [firstLoad, setFirstLoad] = useState(true)
+  
 
   useEffect(() => {
     if (date)
@@ -108,7 +111,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       setMacros(null)
       // console.log("Date selected: ", date)
       getSleep();
-      // console.log("Sleep: ", sleepRating)
+      console.log("Sleep: ", sleepRating)
       getMood();
       // console.log("Mood: ", moodRating)
       getMacros()
@@ -119,12 +122,11 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
     getTodayMacros();
     // console.log("Ran on load")
     getTodayMood();
-    getTodaySleep();
+    getTodaySleep()
+    .then(() => {
+      console.log("sleep: ", todaySleepRating)
+    });
   }, [refresh])
-
-  useEffect(() => {
-    setRefresh(!refresh)
-  }, [todaySleepRating])
 
 
   const handleDateChange = (value) => {
@@ -134,11 +136,12 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
 
   const getSleep = async event => {
 
+    console.log(date)
     try {
 
       var obj = {
           email: info.email,
-          date: new Date(date).toISOString().slice(0,10),
+          date: new Date(date.toLocaleDateString()).toISOString().slice(0,10),
       }
 
       var js = JSON.stringify(obj)
@@ -177,12 +180,12 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
   const getTodaySleep = async event => {
 
     try {
-      var temp = new Date()
+      var temp = new Date().toLocaleDateString()
       var obj = {
           email: info.email,
-          date: temp.toISOString().slice(0,10),
+          date: new Date(temp).toISOString().slice(0,10),
       }
-
+      console.log("get today info: ", obj)
       var js = JSON.stringify(obj)
 
 
@@ -219,13 +222,14 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
   const getMood = async event => {
     try {
 
+      console.log("SUPER DATE HEY LOOK HERE: ", date)
       var obj = {
           email: info.email,
-          date: new Date(date).toISOString().slice(0,10),
+          date: new Date(date.toLocaleDateString()).toISOString().slice(0,10),
       }
 
       var js = JSON.stringify(obj)
-
+      console.log("Fuck me: ", js)
 
       const response = await fetch(
         address + "/api/search-client-mood",
@@ -242,7 +246,7 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       {
         return;
       }
-
+      console.log("Henlo: ", res.results[0])
       setMoodRating(res.results[0].rating);
       if (res.error.length > 0) {
         console.log("API Error: " + res.error);
@@ -257,10 +261,11 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
   const getTodayMood = async event => {
     try {
 
-      var temp = new Date()
+      var temp = new Date().toLocaleDateString()
+      console.log("Today mood date: ", temp)
       var obj = {
           email: info.email,
-          date: temp.toISOString().slice(0,10),
+          date: new Date(temp).toISOString().slice(0,10),
       }
 
       var js = JSON.stringify(obj)
@@ -380,12 +385,22 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
     }
   }
 
+  const displayMacroEdit = () => {
+    setShowMacroEdit(true)
+  }
+
+  const closeMacroEdit = () => {
+    setShowMacroEdit(false);
+  }
+
   
-
-
-
+  const [showMacroEdit, setShowMacroEdit] = useState(false)
+  
+  
   return (
+    
     <Box sx={{ width: "100%" }}>
+      {showMacroEdit && <MacroEditBox info={info} date={date} closeMacroEdit={closeMacroEdit}/>}
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
@@ -421,9 +436,13 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
         </Box>
       </Box>
       </TabPanel>   
+      
+      
       <TabPanel value={value} index={1}>
         <WorkoutDisplay info={info}/>
       </TabPanel>
+     
+      
       <TabPanel value={value} index={2}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
@@ -438,12 +457,12 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
       <Box sx={{position: 'relative', width: '100%'}}>
         <Box sx={{ position: 'absolute', display: 'flex', width: '275px', height: '300px'}}>
 
-          <Slep rating={sleepRating} />
+          <Sleep sleepRating={sleepRating} />
 
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '275px', height: '300px', left: 280}}>
 
-          <Mood rating={moodRating} />
+          <Mood moodRating={moodRating} />
 
         </Box>
         <Box sx={{position: 'absolute', display: 'flex', width: '400px', height: '300px', left: 560,}}>
@@ -453,6 +472,8 @@ export default function BasicTabs({displayMacroEdit, closeMacroEdit, info}) {
         </Box>
       </Box>
       </TabPanel>
+
+
     </Box>
   );
 }

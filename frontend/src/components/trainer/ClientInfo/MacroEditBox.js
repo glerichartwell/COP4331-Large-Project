@@ -15,19 +15,12 @@ import "./css/MacroEditBox.css"
 // const address = "https://courtneygenix.herokuapp.com"
 const address ="http://localhost:5000"
 
- const MacroEditBox = ({info, closeMacroEdit}) => {
+ const MacroEditBox = ({info, date, closeMacroEdit}) => {
 
     const [message, setMessage] = useState("")
-    const [fat, setFat] = useState(info.fat)
-    const [carb, setCarb]= useState(info.carb)
-    const [protein, setProtein] = useState(info.protein)
-    const [date, setDate] = useState()
-
-
-    const handleDateChange = (value) => {
-      setDate(value);
-      console.log("Macro edit date: ", date)
-    }
+    const [fat, setFat] = useState(null)
+    const [carb, setCarb]= useState(null)
+    const [protein, setProtein] = useState(null)
 
     const handleClick = () => {
       editMacros().then(closeMacroEdit())
@@ -35,7 +28,8 @@ const address ="http://localhost:5000"
 
     const editMacros = async event => {
       try {
-
+        
+        console.log("Info: ", info)
         var obj = {
           email: info.email,
           date: new Date(date).toISOString().slice(0,10),
@@ -49,7 +43,7 @@ const address ="http://localhost:5000"
         const response = await fetch(
           address + "/api/edit-client-macro",
           {
-            method: "POST",
+            method: "PATCH",
             body: js,
             headers: { "Content-Type": "application/json" },
           }
@@ -76,22 +70,10 @@ const address ="http://localhost:5000"
             <DialogContentText textAlign='center'>
             Enter macro goals
             </DialogContentText>
-            <Grid container direction='column' alignItems='center' marginTop="10px">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DesktopDatePicker
-                allowSameDateSelection
-                orientation="landscape"
-                openTo="day"
-                value={date}
-                onChange={handleDateChange}
-                renderInput={(params) => <TextField {...params} variant="standard" sx={{ width: '120px', margin:'8px',}}/>}
-              />
-            </LocalizationProvider>
-            </Grid>
             <Grid container direction='row' justifyContent='center' alignItems='center' marginTop='25px'>
-              <TextField sx={{width: '30%', margin: '5px',}} id='fat' type='text' label='Fat' placeholder={info.fat} value={fat} onChange={e => {setFat(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="start">%</InputAdornment>,}} size="large" variant='standard'/>
-              <TextField sx={{width: '30%', margin: '5px',}} id='carb' type='text' label='Carbs' placeholder={info.carb} value={carb} onChange={e => {setCarb(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="start">%</InputAdornment>,}} size="large" variant='standard'/>
-              <TextField sx={{width: '30%', margin: '5px',}} id='protein' type='text' label='Protein' placeholder={info.protein} value={protein} onChange={e => {setProtein(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="start">%</InputAdornment>,}} size="large" variant='standard'/>
+              <TextField sx={{width: '30%', margin: '5px',}} type='number' label='Fat' onChange={e => {setFat(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>,}} size="large" variant='standard'/>
+              <TextField sx={{width: '30%', margin: '5px',}} type='number' label='Carbs' onChange={e => {setCarb(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>,}} size="large" variant='standard'/>
+              <TextField sx={{width: '30%', margin: '5px',}} type='number' label='Protein' onChange={e => {setProtein(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>,}} size="large" variant='standard'/>
               {message}
               <Button className="submit-btn" variant='outlined' onClick={handleClick}>Submit</Button>
             </Grid>

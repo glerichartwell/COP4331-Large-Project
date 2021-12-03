@@ -61,10 +61,13 @@ IconContainer.propTypes = {
 
 export default function BasicCard({todayMoodRating}) {
 
-  const [rating, setRating] = useState(todayMoodRating)
+  const [rating, setRating] = useState(-1)
   const [refresh, setRefresh] = useState(true)
   
-  console.log("INCOMING MOOD: ", todayMoodRating)
+  useEffect(() => {
+    setRating(todayMoodRating)
+  }, [todayMoodRating])
+  // console.log("INCOMING MOOD: ", todayMoodRating)
 
   useEffect(() => {
     setRefresh(!refresh)
@@ -90,7 +93,7 @@ export default function BasicCard({todayMoodRating}) {
         <Grid item xs container direction="column" spacing={1}>
           <Rating
             name="highlight-selected-only"
-            defaultValue={rating}
+            value={rating}
             sx={{ position: 'absolute', fontSize: "42 vh", left: "10%", top: "50%" }}
             IconContainerComponent={IconContainer}
             highlightSelectedOnly

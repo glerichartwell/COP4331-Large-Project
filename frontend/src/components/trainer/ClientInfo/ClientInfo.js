@@ -46,18 +46,11 @@ const ClientInfo = ({info}) => {
     carb: carb,
   }
 
-  const [showMacroEdit, setShowMacroEdit] = useState(false)
+  
 
-  const displayMacroEdit = () => {
-    setShowMacroEdit(true)
-  }
-
-  const closeMacroEdit = () => {
-    setShowMacroEdit(false);
-  }
+  
   return (
     <div>
-      {showMacroEdit && <MacroEditBox info={info} closeMacroEdit={closeMacroEdit}/>}
       <Grid container direction='column' >
         <Grid container direction='row'>
           <Grid item sm={12} sx={{display: 'flex', marginBottom: '20px'}}>
@@ -70,7 +63,7 @@ const ClientInfo = ({info}) => {
           </Grid>
         </Grid>
         <Grid container direction='row'>
-          <Navbar info={info} displayMacroEdit={displayMacroEdit} />
+          <Navbar info={info}/>
         </Grid>
       </Grid>
     {/* <Avatar sx={{ bgcolor: '#c29bff' }} aria-label="recipe">

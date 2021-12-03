@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -63,9 +63,16 @@ IconContainer.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function BasicCard({info, rating}) {
+export default function BasicCard({info, moodRating}) {
 
-  console.log("Incoming rating: ", rating)
+  const [rating, setRating] = useState(0)
+
+  useEffect(() => {
+    setRating(moodRating)
+    console.log("MOOD: ", moodRating)
+  }, [moodRating])
+
+  // console.log("Incoming rating: ", rating)
   return (
     <Paper
       sx={{
