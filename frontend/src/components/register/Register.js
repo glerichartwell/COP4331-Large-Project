@@ -12,8 +12,8 @@ import "./css/Register.css"
 import RegisterSuccess from "./RegisterSuccess";
 import { useNavigate } from "react-router";
 
-// const address = "https://courtneygenix.herokuapp.com"
-const address ="http://localhost:5000"
+const address = "https://courtneygenix.herokuapp.com"
+// const address ="http://localhost:5000"
 
 
 const Register = props => {

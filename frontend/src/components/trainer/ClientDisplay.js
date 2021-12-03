@@ -15,8 +15,8 @@ import AddClient from "./AddClient";
 import ClientCard from "./ClientCard2";
 import ClientInfoView from "../client/ClientInfoView";
 
-// const address = "https://courtneygenix.herokuapp.com"
-const address ="http://localhost:5000"
+const address = "https://courtneygenix.herokuapp.com"
+// const address ="http://localhost:5000"
 
 const ClientDisplay = ({openClientDash, getClientInfo}) => {
   // allow results of api to be rendered on page after loading

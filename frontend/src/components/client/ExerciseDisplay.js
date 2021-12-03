@@ -8,8 +8,8 @@ import ExerciseCard from "./ExerciseCard";
 import ClientDashboard from "./ClientInfoView";
 import { Button } from "@mui/material";
 
-// const address = "https://courtneygenix.herokuapp.com"
-const address ="http://localhost:5000"
+const address = "https://courtneygenix.herokuapp.com"
+// const address ="http://localhost:5000"
 
 const ExerciseDisplay = () => {
   // allow results of api to be rendered on page after loading

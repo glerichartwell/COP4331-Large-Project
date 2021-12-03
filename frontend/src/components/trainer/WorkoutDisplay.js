@@ -11,8 +11,8 @@ import { Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import AddWorkout from "./AddWorkout";
 
-// const address = "https://courtneygenix.herokuapp.com"
-const address ="http://localhost:5000"
+const address = "https://courtneygenix.herokuapp.com"
+// const address ="http://localhost:5000"
 
 const WorkoutDisplay = () => {
   // allow results of api to be rendered on page after loading
