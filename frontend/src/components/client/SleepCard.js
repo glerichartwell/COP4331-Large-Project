@@ -111,7 +111,7 @@ export default function BasicCard({setDate, date, info, sleepRating}) {
           // precision={0.1}
           sx={{ fontSize: 42 }}
           value={rating}
-          readOnly
+          // readOnly
         />
       </Box>
       

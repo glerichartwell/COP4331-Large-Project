@@ -132,7 +132,7 @@ export default function BasicCard({info, moodRating, date}) {
       <Box sx={{display: 'flex', position: 'absolute', bottom: 120, left: 40, width: '50%',}}>
       <Rating
               name="highlight-selected-only"
-              readOnly
+              // readOnly
               value={rating}
               onChange={(newValue) => {
                 setRating(newValue)
