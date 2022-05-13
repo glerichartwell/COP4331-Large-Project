@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
 import {ImageBackground, StyleSheet, Text} from 'react-native';
-import {Button, HelperText, Modal, Portal, Subheading, Surface, TextInput, Title} from 'react-native-paper';
+import {Button, Dialog, HelperText, Modal, Portal, Subheading, Surface, TextInput, Title} from 'react-native-paper';
 import theme from '../custom-properties/Themes';
 import {getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import {useNavigation} from "@react-navigation/core";
 import {SafeAreaView} from "react-native-safe-area-context";
 
-const LoginScreen = () => {
+const LoginScreen = (props) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -22,6 +22,8 @@ const LoginScreen = () => {
     useEffect(() => {
         return onAuthStateChanged(auth, (user) => {
             if (user) {
+                props.setEmail(user.email);
+                /*props.setEmail("iloveprincessbubblegum@gmail.com");*/
                 navigation.navigate("Dashboard");
             }
         });
@@ -58,7 +60,7 @@ const LoginScreen = () => {
 
         try {
             const response = await fetch(
-                "http://192.168.208.1:5000/api/view-clients-by-trainer",
+                "https://courtneygenix.herokuapp.com/api/view-clients-by-trainer",
                 {
                     method: "POST",
                     body: js,
@@ -110,18 +112,18 @@ const LoginScreen = () => {
 
     return (
         <ImageBackground source={require('../assets/images/palette_max.jpg')} style={styles.backgroundImage}>
-            <SafeAreaView>
-                <Portal>
-                    <Modal
-                        visible={forgotPassword}
-                        onDismiss={() => hidePasswordModal()}
-                        contentContainerStyle={styles.forgotPasswordPopUp}
-                    >
-                        <Title style={styles.forgotPasswordTitle}>
-                            Forgot password?
-                        </Title>
+            <Portal>
+                <Dialog
+                    visible={forgotPassword}
+                    onDismiss={hidePasswordModal}
+                    contentContainerStyle={styles.forgotPasswordPopUp}
+                >
+                    <Dialog.Title style={styles.forgotPasswordTitle}>
+                        Forgot password?
+                    </Dialog.Title>
+                    <Dialog.Content>
                         <TextInput
-                            style={styles.textInput}
+                            /*style={styles.textInput}*/
                             mode="outlined"
                             label="Email"
                             /*right={<TextInput.Icon name="check" />}*/
@@ -130,74 +132,90 @@ const LoginScreen = () => {
                             onChangeText={text => setForgotEmail(text)}
                             error={invalidForgot}
                         />
-                        <Text styles={styles.forgotPasswordPopUpText}>
-                            Enter the email associated with your account and we'll send you a reset password link!
-                        </Text>
                         <HelperText
                             type="error"
                             style={styles.invalidText}
-                            visible={invalidForgot}>
+                            visible={invalidForgot}
+                        >
                             Invalid Email.
                         </HelperText>
-                        <Button mode="contained" style={styles.submitButton} onPress={() => {
-                            handleForgotPassword()
-                        }}>
+                        <Text styles={styles.forgotPasswordPopUpText}>
+                            Enter the email associated with your account and we'll send you a reset password link!
+                        </Text>
+                    </Dialog.Content>
+                    <Dialog.Actions
+                        style={styles.forgotPasswordPopUpActionsArea}
+                    >
+                        <Button
+                            mode="contained"
+                            style={styles.forgotCancelButton}
+                            onPress={hidePasswordModal}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            mode="contained"
+                            style={styles.forgotSubmitButton}
+                            onPress={handleForgotPassword}
+                        >
                             Submit
                         </Button>
-                    </Modal>
-                </Portal>
-                <Title style={styles.title1}>Hello again!</Title>
-                <Title style={styles.title2}>Welcome back</Title>
-                <Surface style={styles.surface}>
-                    <Subheading style={styles.loginText}>Login</Subheading>
-                    <TextInput
-                        style={styles.textInput}
-                        mode="outlined"
-                        label="Email"
-                        /*right={<TextInput.Icon name="check" />}*/
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
+            <Title style={styles.title1}>Hello again!</Title>
+            <Title style={styles.title2}>Welcome back</Title>
+            <Surface style={styles.surface}>
+                <Subheading style={styles.loginText}>Login</Subheading>
+                <TextInput
+                    style={styles.textInput}
+                    mode="outlined"
+                    label="Email"
+                    /*right={<TextInput.Icon name="check" />}*/
 
-                        value={login}
-                        error={invalid}
-                        onChangeText={text => setLogin(text)}
-                    />
-                    <TextInput
-                        style={styles.textInput}
-                        mode="outlined"
-                        label="Password"
-                        right={<TextInput.Icon name={eyeCon} onPress={() => handlePasswordVisibility()}/>}
+                    value={login}
+                    error={invalid}
+                    onChangeText={text => setLogin(text)}
+                />
+                <TextInput
+                    style={styles.textInput}
+                    mode="outlined"
+                    label="Password"
+                    right={<TextInput.Icon name={eyeCon} onPress={() => handlePasswordVisibility()}/>}
 
-                        secureTextEntry={!passwordVisibility}
-                        value={password}
-                        error={invalid}
-                        onChangeText={text => setPassword(text)}
-                    />
-                    <HelperText
-                        type="error"
-                        style={styles.invalidText}
-                        visible={invalid}
-                    >
-                        Invalid Email/Password.
-                    </HelperText>
-                    <Button mode="contained" style={styles.submitButton} onPress={() => {
-                        handleLogin()
-                    }}>
-                        Submit
-                    </Button>
-                    <Text
-                        style={styles.forgotPasswordText}
-                        onPress={() => showPasswordModal()}
-                    >
-                        Forgot password?
-                    </Text>
-                    {/*<Text style={styles.signUpText}>
+                    secureTextEntry={!passwordVisibility}
+                    value={password}
+                    error={invalid}
+                    onChangeText={text => setPassword(text)}
+                />
+                <HelperText
+                    type="error"
+                    style={styles.invalidText}
+                    visible={invalid}
+                >
+                    Invalid Email/Password.
+                </HelperText>
+                <Button
+                    mode="contained"
+                    style={styles.submitButton}
+                    onPress={handleLogin}
+                >
+                    Submit
+                </Button>
+                <Text
+                    style={styles.forgotPasswordText}
+                    onPress={() => showPasswordModal()}
+                >
+                    Forgot password?
+                </Text>
+                {/*<Text style={styles.signUpText}>
                     Don't have an account? <Text
                         style={{color: theme.colors.color4}}
                         onPress={() => Linking.openURL('https://google.com')}>
                         Sign up
                     </Text>
                 </Text>*/}
-                </Surface>
-            </SafeAreaView>
+            </Surface>
         </ImageBackground>
     );
 }
@@ -214,11 +232,21 @@ const styles = StyleSheet.create({
             margin: 30,
             padding: 20,
         },
+        forgotPasswordPopUpActionsArea: {},
         forgotPasswordTitle: {
             marginBottom: 20
         },
         forgotPasswordPopUpText: {},
         bottom: {},
+        forgotCancelButton: {
+            borderRadius: 10,
+            backgroundColor: theme.colors.red,
+            marginHorizontal: 20,
+        },
+        forgotSubmitButton: {
+            borderRadius: 10,
+            backgroundColor: theme.colors.lightBlue,
+        },
         title1: {
             paddingTop: 100,
             marginLeft: 20,
@@ -257,11 +285,11 @@ const styles = StyleSheet.create({
         submitButton: {
             marginBottom: 10,
             borderRadius: 10,
-            backgroundColor: theme.colors.color4,
+            backgroundColor: theme.colors.lightBlue,
         },
         forgotPasswordText: {
             paddingTop: 10,
-            color: theme.colors.color4,
+            color: theme.colors.lightBlue,
             marginBottom: 10,
         },
         signUpText: {

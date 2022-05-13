@@ -1,23 +1,36 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ProfileScreen from "../screens/ProfileScreen";
-import CalendarScreen from "../screens/CalendarScreen";
+import DailyGoalsScreen from "../screens/DailyGoalsScreen";
 import WorkoutsScreen from "../screens/WorkoutsScreen";
 import HealthWellnessScreen from "../screens/HealthWellnessScreen";
 import theme from '../custom-properties/Themes';
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import {getAuth} from "firebase/auth";
+import {StyleSheet, View} from "react-native";
 
 const Tab = createMaterialBottomTabNavigator();
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+    const auth = getAuth();
+    /*const [email, setEmail] = useState("");
+
+    useEffect(() => {
+        let user = auth.currentUser;
+        /!*setEmail(user.email);*!/
+        setEmail("iloveprincessbubblegum@gmail.com");
+        /!*console.log("Setting email");*!/
+    }, [email])*/
+
     return (
         <Tab.Navigator
-            initialRouteName="Calendar"
-            barStyle={{backgroundColor: theme.colors.purple}}
+            initialRouteName="Daily Goals"
+            barStyle={styles.tab}
         >
             <Tab.Screen
                 name="Profile"
-                component={ProfileScreen}
+                /*component={ProfileScreen}*/
+                children={() => <ProfileScreen email={props.email} setEmail={props.setEmail}/>}
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({color}) => (
@@ -26,11 +39,12 @@ const Dashboard = () => {
                 }}
             />
             <Tab.Screen
-                name="Calendar"
-                component={CalendarScreen}
+                name="Daily Goals"
+                /*component={DailyGoalsScreen}*/
+                children={() => <DailyGoalsScreen email={props.email}/>}
                 options={{
-                    tabBarLabel: 'Calendar',
-                    title: 'Calendar',
+                    tabBarLabel: 'Daily Goals',
+                    title: 'Daily Goals',
                     tabBarIcon: ({color}) => (
                         <MaterialCommunityIcons name="calendar" color={color} size={26}/>
                     ),
@@ -38,7 +52,8 @@ const Dashboard = () => {
             />
             <Tab.Screen
                 name="Workouts"
-                component={WorkoutsScreen}
+                /*component={WorkoutsScreen}*/
+                children={() => <WorkoutsScreen email={props.email}/>}
                 options={{
                     tabBarLabel: 'Workouts',
                     tabBarIcon: ({color}) => (
@@ -46,18 +61,25 @@ const Dashboard = () => {
                     ),
                 }}
             />
-            <Tab.Screen
+            {/*<Tab.Screen
                 name="Health"
-                component={HealthWellnessScreen}
+                children={() => <HealthWellnessScreen email={props.email}/>}
                 options={{
-                    tabBarLabel: 'Health',
+                    tabBarLabel: 'H & W',
                     tabBarIcon: ({color}) => (
                         <MaterialCommunityIcons name="heart" color={color} size={26}/>
                     ),
                 }}
-            />
+            />*/}
         </Tab.Navigator>
     );
 }
+
+const styles = StyleSheet.create({
+    tab: {
+        backgroundColor: theme.colors.purple,
+        marginTop: 0,
+    },
+});
 
 export default Dashboard;

@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     topBarSurface: {
         backgroundColor: theme.colors.purple,
         paddingTop: 30,
-        marginBottom: 10,
     },
 });
 

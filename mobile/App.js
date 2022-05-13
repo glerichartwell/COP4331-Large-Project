@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {LogBox} from "react-native";
 import {Provider as PaperProvider} from "react-native-paper";
 import theme from "./custom-properties/Themes";
@@ -14,12 +14,25 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
     LogBox.ignoreAllLogs(true);
+
+    const [email, setEmail] = useState("");
+
     return (
         <NavigationContainer>
             <PaperProvider theme={theme}>
                 <Stack.Navigator initialRouteName="Login">
-                    <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen}/>
-                    <Stack.Screen name="Dashboard" options={{headerShown: false}} component={Dashboard}/>
+                    <Stack.Screen
+                        name="Login"
+                        options={{headerShown: false}}
+                        /*component={LoginScreen}*/
+                        children={() => <LoginScreen setEmail={setEmail}/>}
+                    />
+                    <Stack.Screen
+                        name="Dashboard"
+                        options={{headerShown: false}}
+                        /*component={Dashboard}*/
+                        children={() => <Dashboard email={email} setEmail={setEmail}/>}
+                    />
                 </Stack.Navigator>
             </PaperProvider>
         </NavigationContainer>
