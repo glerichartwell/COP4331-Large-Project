@@ -28,7 +28,6 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
   const [query, setQuery] = useState('');
   const [refresh, setRefresh] = useState(false);
   
-
   const openAddClient = () => {
     setShowAddClient(true);
   };
