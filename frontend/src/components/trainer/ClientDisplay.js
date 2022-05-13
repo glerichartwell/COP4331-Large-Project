@@ -65,6 +65,7 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
 
   const getClients = async (event) => {
     // console.log("Getting clients for: ", trainerID)
+    console.log("Trainer ID: " + trainerID)
     var obj1 = { trainerID: trainerID };
     var js = JSON.stringify(obj1);
 
@@ -123,7 +124,6 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
               deleteCard={deleteCard}
-              openClientDash={openClientDash}
               getClientInfo={getClientInfo}
             />
           </Grid>
@@ -132,7 +132,7 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
       // console.log(cardArray);
 
       if (res.error.length > 0) {
-        console.log("API Error: " + res.error);
+        console.log("API Error: " + res.error + " in getClients()");
       } else {
         // console.log("Clients returned");
       }
@@ -141,7 +141,12 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
     }
   };
 
+
+  var oldQuery;
+
   const searchClients = async event => {
+
+    oldQuery = query;
 
     var obj1 = { search: query };
     var js = JSON.stringify(obj1);
@@ -170,6 +175,7 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
         obj["firstName"] = clients.results[i].firstName;
         obj["middleName"] = clients.results[i].middleName;
         obj["lastName"] = clients.results[i].lastName;
+        obj["email"] = clients.results[i].email;
         obj["height"] = clients.results[i].height;
         obj["weight"] = clients.results[i].weight;
         obj["gender"] = clients.results[i].gender;
@@ -200,15 +206,16 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
               openClientDash={openClientDash}
               closeClientDash={closeClientDash}
               deleteCard={deleteCard}
-              openClientDash={openClientDash}
               getClientInfo={getClientInfo}
             />
           </Grid>
         );
       }
 
+      setRefresh(!refresh)
+
       if (res.error.length > 0) {
-        console.log("API Error: " + res.error);
+        console.log("API Error: " + res.error + "in searchClients()");
       } else {
         // console.log("Clients returned");
       }
@@ -258,6 +265,7 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
 
   const DisplayClients = () => {
 
+    
     // Either display all clients or display searched clients
     useEffect(() => {
       if (query)
@@ -267,15 +275,17 @@ const ClientDisplay = ({openClientDash, getClientInfo}) => {
         searchClients()
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
+        
 
       }
       else
       {
-        // console.log("No query: ", query)
+        console.log("trainerID: ", trainerID)
         getClients()
         .then((result) => setArrayChange(cardArray))
         .then((result) => setObjectArray(objects));
       }
+      
     }, [query, refresh])
 
   };
