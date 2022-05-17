@@ -63,9 +63,9 @@ const Charts = ({displayMacroEdit, macros}) => {
           />
     </Box>
     <Box sx={{display: 'flex', position: 'absolute', top: 5, right: 10, }}>
-      <Button className='edit-btn' variant='text' onClick={displayMacroEdit}>
+      {/* <Button className='edit-btn' variant='text' onClick={displayMacroEdit}>
         <EditIcon />
-      </Button>
+      </Button> */}
     </Box>
         
     </Paper>
