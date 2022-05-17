@@ -16,8 +16,8 @@ backend/.env
 mobile/custom-properties/firebase.js
 
 frontend/node_modules/
-
-
+frontend/.env
+./.env
 node_modules/
 # macOS
 mobile/.DS_Store

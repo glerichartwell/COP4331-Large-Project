@@ -67,9 +67,6 @@ const DashboardDrawer = (props) => {
   //   setOpen(false);
   // };
 
-  useEffect(() => {
-    
-  })
 
   const auth = getAuth();
   var trainerID = null;

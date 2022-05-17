@@ -177,7 +177,7 @@ const WorkoutEditBox = ({ closeEditBox, info, setRefresh, returningInfo }) => {
     }
   }
 
-  const [chosenExercises, setChosenExercises] = useState([])
+  const [chosenExercises, setChosenExercises] = useState(info.exercises)
   return (
     <div>
       <Dialog

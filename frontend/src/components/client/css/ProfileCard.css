@@ -1,0 +1,35 @@
+.profile-card {
+    width: 275px;
+    border-color: gray;
+    background-color: orange;
+}
+
+#avatar {
+    background-color: #c29bff;
+    width: 56px;
+    height: 56px;
+}
+
+.avatar-item {
+    padding: 20px 20px;
+}
+
+.edit-item {
+    display: flex;
+    align-items: center;
+    padding-left: 30%;
+}
+
+.edit-icon:hover {
+    cursor: pointer;
+    color: #c29bff;
+}
+
+.info {
+    padding: 20px 20px
+}
+
+.edit-name {
+    
+    width: 75px;
+}
