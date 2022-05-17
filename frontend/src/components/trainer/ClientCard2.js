@@ -89,7 +89,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard, get
   const openi = Boolean(anchorEl);
   const id = openi ? "simple-popover" : undefined;
   return (
-    <Card sx={{ overflow: 'inherit', maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
+    <Card sx={{overflow: 'inherit', maxWidth: 345, background: '#e9e3ee', '&:hover': {cursor: 'pointer', }}} onMouseOut={() => {setElevation(5)}} onMouseOver={() => {setElevation(24)}} elevation={elevation}>
       <CardHeader
         action={
           <IconButton aria-label="settings" onClick={handleClickii}>
@@ -110,7 +110,7 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard, get
           </div>
         }
         title={
-          <div onClick={openDashboard}>{concatname}</div>
+          <div onClick={openDashboard} style={{fontSize: '18px', fontWeight: '500'}}>{concatname}</div>
         }
       />
       <Popover
@@ -144,13 +144,15 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard, get
       </Popover>
       <CardContent onClick={openDashboard}>
 
-        <Typography variant="body2" color="text.secondary" sx={{overflow: 'hidden', textAlign: 'left'}}>
-          {concatdate}
-          <br />
-          {/* Last Logged In: {lastLoggedIn} */}
-          <br />
-          {/* <Divider /> */}
+        <Typography sx={{textAlign: 'left'}}>Contact</Typography>
+        <Typography variant="body2" color="text.secondary" sx={{overflow: 'hidden', textAlign: 'left', fontSize: '14px'}}>
           {email}
+          <br/>
+          {concatdate}
+          {/* Last Logged In: {lastLoggedIn} */}
+
+          {/* <Divider /> */}
+          
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -165,10 +167,11 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard, get
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography
+        <Typography sx={{textAlign: 'left'}}>Info</Typography>
+        <Typography
             variant="body2"
             color="text.secondary"
-            sx={{ textAlign: "left" }}
+            sx={{ textAlign: "left", fontSize: '14px' }}
           >
             Height: {height} in
             <br />
@@ -176,11 +179,11 @@ export default function RecipeReviewCard({ info, openClientDash, deleteCard, get
             <br />
             Gender: {gender}
             <br />
-            Age: {age}
+            {/* Age: {age}
+            <br /> */}
+            Phone: {phone}
             <br />
-            Ph. Num: {phone}
-            <br />
-            DOB: {birthday}
+            Birthday: {birthday}
             <br />
             City: {city}
           </Typography>

@@ -44,6 +44,9 @@ export default function BasicCard({info}) {
   const birthday = formatDate(info.birthday)
   const gender = info.gender
   const city = info.city
+  const height = info.height
+  const weight = info.weight
+  const age = info.age
 
 
 
@@ -57,42 +60,49 @@ export default function BasicCard({info}) {
       }}
       variant="outlined"
     >
-      <Grid container spacing={-4}>
-        <Grid item xs>
+      <Grid container>
+        <Grid item xs={12} sx={{paddingBottom: '1.5rem'}}>
           <Avatar
             sx={{ bgcolor: '#c29bff', width: 56, height: 56 }}
             aria-label="recipe"
           >
-            A
+            {concatname[0]}
           </Avatar>
         </Grid>
-        <Grid item xs={6} sm container sx={{marginTop: '60px', marginLeft: '-120px'}}>
-          <Grid item xs container direction="column" spacing={1}>
-            <Grid item xs>
-              <Typography
-                variant="header2"
-                gutterBottom
-                style={{ fontWeight: "bold" }}
-              >
-                {concatname}
-              </Typography>
-              <Typography variant="body2">{birthday}</Typography>
-              <Typography variant="body2">Gender: {gender}</Typography>
-              <br />
-              <Typography variant="header1" style={{ fontWeight: "bold" }}>
-                Contact
-              </Typography>
-              <Typography variant="body2">{email}</Typography>
-              <Typography variant="body2">Phone: {phone}</Typography>
-              <br />
-              <Typography variant="header1" style={{ fontWeight: "bold" }}>
-                City
-              </Typography>
-              <Typography variant="body2">
-                {city}
-              </Typography>
-            </Grid>
-          </Grid>
+        <Grid item xs={12} sm>
+          <Typography
+            variant="header2"
+            gutterBottom
+            style={{ fontWeight: "bold" }}
+          >
+            {concatname}
+          </Typography>
+          <Typography variant="body2">Birthday: {birthday}</Typography>
+          <Typography variant="body2" sx={{paddingBottom: '15px'}}>Gender: {gender}</Typography>
+          <Typography variant="header1" sx={{ fontWeight: "bold", paddingTop: '5px' }}>
+            Contact
+          </Typography>
+          <Typography variant="body2">{email}</Typography>
+          <Typography variant="body2" sx={{paddingBottom: '15px'}}>Phone: {phone} <br /> City: {city}</Typography>
+          <Typography variant="header1" style={{ fontWeight: "bold" }}>
+            Info
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ textAlign: "left", fontSize: '14px' }}
+          >
+            Height: {height} in
+            <br />
+            Weight: {weight} lb 
+            <br />
+            Gender: {gender}
+            <br />
+            {/* Age: {age}
+            <br /> */}
+            Phone: {phone}
+            <br />
+            Birthday: {birthday}
+          </Typography>
         </Grid>
       </Grid>
     </Paper>

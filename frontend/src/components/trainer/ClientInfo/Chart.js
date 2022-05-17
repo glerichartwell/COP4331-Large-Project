@@ -14,6 +14,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Box } from "@mui/system";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { Typography } from "@mui/material";
 import "./css/Chart.css"
 
 const Charts = ({displayMacroEdit, macros}) => {
@@ -45,6 +46,11 @@ const Charts = ({displayMacroEdit, macros}) => {
       }}
       variant="outlined"
     >
+      <Box sx={{display: 'flex', position: 'absolute', top: 20, left: 30, width: '50%', height: '100px' }}>
+        <Typography variant="header2" gutterBottom style={{ fontWeight: "bold", fontSize: 24 }}>
+          Macro Goals
+        </Typography>
+      </Box>
       <Box sx={{display: 'flex', position: 'absolute', bottom: 30, left: 50 }}>
       <Chart
             width={"300px"}
@@ -56,16 +62,13 @@ const Charts = ({displayMacroEdit, macros}) => {
               ["Fat", fats],
               ["Protein", proteins],
             ]}
-            options={{
-              title: "Macro Goals",
-            }}
             rootProps={{ "data-testid": "1" }}
           />
     </Box>
-    <Box sx={{display: 'flex', position: 'absolute', top: 5, right: 10, }}>
-      {/* <Button className='edit-btn' variant='text' onClick={displayMacroEdit}>
+    <Box sx={{display: 'flex', position: 'absolute', top: 18, right: 10 }}>
+      <Button className='edit-btn' variant='text' onClick={displayMacroEdit}>
         <EditIcon />
-      </Button> */}
+      </Button>
     </Box>
         
     </Paper>

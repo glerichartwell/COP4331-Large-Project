@@ -10,6 +10,7 @@ import { DialogContentText, Button } from "@mui/material";
 import { InputAdornment } from "@mui/material";
 import { LocalizationProvider, DesktopDatePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import formatDate from "../../../utils/formatDate";
 import "./css/MacroEditBox.css"
 
 const address = "https://courtneygenix.herokuapp.com"
@@ -63,23 +64,24 @@ const address = "https://courtneygenix.herokuapp.com"
 
 
     return (
-        <div>
-      <Dialog open={true} onBackdropClick={closeMacroEdit}>
-          <DialogTitle textAlign='center' marginBottom='10px'>Send Registration Invite</DialogTitle>
-          <DialogContent>
-            <DialogContentText textAlign='center'>
-            Enter macro goals
-            </DialogContentText>
-            <Grid container direction='row' justifyContent='center' alignItems='center' marginTop='25px'>
-              <TextField sx={{width: '30%', margin: '5px',}} type='number' label='Fat' onChange={e => {setFat(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>,}} size="large" variant='standard'/>
-              <TextField sx={{width: '30%', margin: '5px',}} type='number' label='Carbs' onChange={e => {setCarb(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>,}} size="large" variant='standard'/>
-              <TextField sx={{width: '30%', margin: '5px',}} type='number' label='Protein' onChange={e => {setProtein(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>,}} size="large" variant='standard'/>
-              {message}
-              <Button className="submit-btn" variant='outlined' onClick={handleClick}>Submit</Button>
-            </Grid>
-          </DialogContent>
-      </Dialog>
-    </div>
+      <div>
+        <Dialog open={true} onBackdropClick={closeMacroEdit}>
+          {console.log("RIGHT HERE: ", date)}
+            <DialogTitle textAlign='center' marginBottom='10px'>Edit Macro Goals for {info.firstName} on {formatDate(new Date(date).toISOString().slice(0,10))}</DialogTitle>
+            <DialogContent>
+              <DialogContentText textAlign='center'>
+              Enter macro goals
+              </DialogContentText>
+              <Grid container direction='row' justifyContent='center' alignItems='center' marginTop='25px'>
+                <TextField sx={{width: '30%', margin: '5px',}} type='number' label='Fat' onChange={e => {setFat(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>,}} size="large" variant='standard'/>
+                <TextField sx={{width: '30%', margin: '5px',}} type='number' label='Carbs' onChange={e => {setCarb(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>,}} size="large" variant='standard'/>
+                <TextField sx={{width: '30%', margin: '5px',}} type='number' label='Protein' onChange={e => {setProtein(e.target.value)}} InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>,}} size="large" variant='standard'/>
+                {message}
+                <Button className="submit-btn" variant='outlined' onClick={handleClick}>Submit</Button>
+              </Grid>
+            </DialogContent>
+        </Dialog>
+      </div>
     )
 }
 export default MacroEditBox
