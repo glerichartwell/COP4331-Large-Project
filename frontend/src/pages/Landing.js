@@ -123,7 +123,7 @@ const Landing = (props) => {
                     <span>
                       About Us
                       <br />
-                      Meet the team, our amazing trainers, leaders, diatitions,
+                      Meet the team, our amazing trainers, leaders, nutritionists,
                       and all accessible to you.
                     </span>
                   </div>
