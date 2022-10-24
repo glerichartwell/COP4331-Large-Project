@@ -36,7 +36,7 @@
     "fs": "^0.0.1-security",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-native": "0.64.3",
+    "react-native": "0.70.3",
     "react-native-chart-kit": "^6.11.0",
     "react-native-date-picker": "^4.1.2",
     "react-native-gesture-handler": "~1.10.2",
