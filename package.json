@@ -5,7 +5,7 @@
   "main": "db.js",
   "scripts": {
     "build-front": "cd frontend && npm run build",
-    "install-frontend": "cd frontend && npm install",
+    "install-frontend": "cd frontend && npm install --legacy-peer-deps",
     "heroku-postbuild": "npm run install-frontend && npm run build-front",
     "start": "node server.js"
   },
